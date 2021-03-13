@@ -1,0 +1,101 @@
+﻿@model MyHR_Web.ViewModel.TLeaveApplicationViewModel
+
+@{
+    ViewData["Title"] = "LeaveCreate";
+}
+    <style>
+        h2 {
+            background-color: #cbb2ae;
+            border-left: 5px solid #808080;
+            font-family: "微软雅黑", "宋体", "黑体", Arial;
+            font-size: 25px;
+            height: 80px;
+            line-height: 80px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px #222222;
+            color: #FFFFFF;
+            padding-left: 10px;
+        }
+    </style>
+
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            <h2>請假申請</h2>
+
+            <hr />
+            @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
+            @*<div class="card">*@
+            @*<div class="card-header p-2">
+        <div class="card-body">*@
+
+            <form asp-action="LeaveCreate">
+
+                @*<div class="table table-bordered table-hover" style="width:50%;margin:0px auto;padding:0px;">*@
+                <div class="card" style="width:50%;margin:0px auto;padding:0px;">
+                    @*寬度維持視窗一半，並且置中*@
+                    <div class="card-header" @*style="vertical-align:auto"*@>
+                        @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group" style="display:none">
+                            <label asp-for="CApplyNumber" class="control-label"></label>
+                            <input asp-for="CApplyNumber" class="form-control" />
+                            <span asp-validation-for="CApplyNumber" class="text-danger"></span>
+                        </div>
+                        @*<div class="form-group">
+                        <label asp-for="CDepartment" class="control-label"></label>
+                        <input asp-for="CDepartment" class="form-control" />
+                        <span asp-validation-for="CDepartment" class="text-danger"></span>
+                    </div>*@
+                        <div class="form-group">
+                            <label asp-for="CEmployeeId" class="control-label"></label>
+                            <input asp-for="CEmployeeId" class="form-control" />
+                            <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="CApplyDate" class="control-label"></label>
+                            <input asp-for="CApplyDate" class="form-control" />
+                            <span asp-validation-for="CApplyDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLeaveCategory" class="control-label"></label>
+                            <input asp-for="CLeaveCategory" class="form-control" />
+                            <span asp-validation-for="CLeaveCategory" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLeaveStartTime" class="control-label"></label>
+                            <input asp-for="CLeaveStartTime" class="form-control" />
+                            <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLeaveEndTime" class="control-label"></label>
+                            <input asp-for="CLeaveEndTime" class="form-control" />
+                            <span asp-validation-for="CLeaveEndTime" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CReason" class="control-label"></label>
+                            <input asp-for="CReason" class="form-control" />
+                            <span asp-validation-for="CReason" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CCheckStatus" class="control-label"></label>
+                            <input asp-for="CCheckStatus" class="form-control" />
+                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </section>
+</div>
+                
+ <br />
+            
+
+
+        
+   

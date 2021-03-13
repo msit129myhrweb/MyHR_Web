@@ -1,0 +1,195 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.TLeaveApplicationViewModel>
+
+@{
+    ViewData["Title"] = "LeaveList";
+}
+
+
+<div class="content-wrapper">
+    <section class="content-header">
+
+
+        <header>
+            <style>
+                button {
+                }
+
+                h2 {
+                    background-color: #cbb2ae;
+                    border-left: 5px solid #808080;
+                    font-family: "微软雅黑", "宋体", "黑体", Arial;
+                    font-size: 25px;
+                    height: 80px;
+                    line-height: 80px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px 3px #222222;
+                    color: #FFFFFF;
+                    padding-left: 10px;
+                    /* background: #eeaaaa;
+                    border-radius: 6px 6px 6px 6px;
+                    box-shadow: 0 0 0 1px #5F5A4B, 1px 1px 6px 1px rgba(10, 10, 0, 0.5);
+                    color: #FFFFFF;
+                    font-family: "微软雅黑", "宋体", "黑体", Arial;
+                    font-size: 25px;
+                    font-weight: bold;
+                    height: 35px;
+                    line-height: 25px;
+                    margin: 18px 0 !important;
+                    padding: 8px 0 5px 5px;
+                    text-shadow: 2px 2px 3px #222222;*/
+                }
+            </style>
+        </header>
+
+
+        <h2>請假系統</h2>
+
+        @*<button type="button" class="btn btn-block btn-info btn-lg">Info</button>*@
+
+        @Html.ActionLink("請假申請", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("請假查詢", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
+        <br /><br />
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    查詢條件<br />
+                    起 : <input type="date" />迄 : <input type="date" />     <input type="button" value="查詢" class="btn btn-outline-secondary" />
+
+                </h3>
+
+                <table table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        @*<tr >*@
+                        @*<th>
+                                @Html.DisplayNameFor(model => model.CApplyNumber)
+                            </th>*@
+                        <th>
+                                @Html.DisplayNameFor(model => model.CDepartmentId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CEmployeeId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CApplyDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CLeaveCategory)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CLeaveStartTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CLeaveEndTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CReason)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CCheckStatus)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+
+
+
+
+
+
+                        @*<div class=" table-responsive p-0" style="overflow:hidden">
+                            <table class="table table-hover text-nowrap">*@
+                    <!--<thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.CDepartmentId)</th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.CLeaveCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
+                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
+                            <th>修改</th>
+                        </tr>
+                    </thead>-->
+                    <tbody>
+                        <tr>
+                            <td>183</td>
+                            <td>John Doe</td>
+                            <td>11-7-2014</td>
+                            <td><span class="tag tag-success">Approved</span></td>
+                            <td>待審核</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-success" }) @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger", style = "filter: grayscale(50%)" })</td>
+                        </tr>
+                        <tr>
+                            <td>219</td>
+                            <td>Alexander Pierce</td>
+                            <td>11-7-2014</td>
+                            <td><span class="tag tag-warning">Pending</span></td>
+                            <td>待審核</td>
+                            <td>@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-success" }) @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger", style = "filter: grayscale(50%)" })</td>
+
+                        </tr>
+                        <tr>
+                            <td>657</td>
+                            <td>Bob Doe</td>
+                            <td>11-7-2014</td>
+                            <td><span class="tag tag-primary">Approved</span></td>
+                            <td>已通過</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>175</td>
+                            <td>Mike Doe</td>
+                            <td>11-7-2014</td>
+                            <td><span class="tag tag-danger">Denied</span></td>
+                            <td>已通過</td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+        @*@foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CApplyNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CDepartment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CEmployeeId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CApplyDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CLeaveCategory)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CLeaveStartTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CLeaveEndTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CReason)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CCheckStatus)
+                </td>*@
+        <td>
+            @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+        </td>
+        </tr>
+
+        </tbody>
+        </table>
+    </section>
+</div>

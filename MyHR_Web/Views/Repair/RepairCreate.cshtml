@@ -1,0 +1,100 @@
+﻿@model MyHR_Web.ViewModel.CReairViewModel
+
+@{
+    ViewData["Title"] = "RepairCreate";
+}
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+
+
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h2>新增報修</h2>
+
+    </section>
+    <hr />
+    <section class="content">
+        <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
+            <div class="card">
+                <div class="card-header p-2">
+                    <div class="card-body">
+
+                        <form asp-action="RepairCreate">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div>
+                                <label asp-for="CRepairNumber" class="control-label"></label>
+                                <input asp-for="CRepairNumber" class="form-control" />
+                                <span asp-validation-for="CRepairNumber" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CEmployeeId" class="control-label"></label>
+                                <input asp-for="CEmployeeId" class="form-control" />
+                                <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CAppleDate" class="control-label"></label>
+                                <input asp-for="CAppleDate" class="form-control" />
+                                <span asp-validation-for="CAppleDate" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CRepairCategory" class="control-label"></label>
+                                <input asp-for="CRepairCategory" class="form-control" />
+                                <span asp-validation-for="CRepairCategory" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CLocation" class="control-label"></label>
+                                <input asp-for="CLocation" class="form-control" />
+                                <span asp-validation-for="CLocation" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CContentofRepair" class="control-label"></label>
+                                <input asp-for="CContentofRepair" class="form-control" />
+                                <span asp-validation-for="CContentofRepair" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CPhone" class="control-label"></label>
+                                <input asp-for="CPhone" class="form-control" />
+                                <span asp-validation-for="CPhone" class="text-danger"></span>
+                            </div>
+                            <div>
+                                <label asp-for="CRepairStatus" class="control-label"></label>
+                                <input asp-for="CRepairStatus" class="form-control" />
+                                <span asp-validation-for="CRepairStatus" class="text-danger"></span>
+                            </div>
+                            <br />
+                            <div>
+
+                                <input type="submit" value="新增" class="btn btn-info" , style="filter: grayscale(50%)" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <br />
+        </div>
+
+
+    </section>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+

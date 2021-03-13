@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MyHR_Web.Models.TFound>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>拾取物一覽表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">佈告欄</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <p>
+        <a asp-action="Create">新增拾取物</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    編號
+                </th>
+                <th>
+                    員編
+                </th>
+                <th>
+                    部門
+                </th>
+                <th>
+                    手機
+                </th>
+                <th>
+                    主旨
+                </th>
+                <th>
+                    拾取物名稱
+                </th>
+                <th>
+                    拾取物照片
+                </th>
+                <th>
+                    拾取物類別
+                </th>
+                <th>
+                    拾取時間
+                </th>
+                <th>
+                    拾取地點
+                </th>
+                <th>
+                    拾取物描述
+                </th>
+                <th>
+                    狀態
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CEmployeeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDeparment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundSubject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundCategory)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundPropertyPhoto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundProperty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundSpace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundPropertyDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CFoundCheckStatusId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("修改", "Edit", "Found", new { id = item.CFoundId }, new { @class = "btn btn-success" }) |
+                        @Html.ActionLink("刪除", "Delete", "Found", new { id = item.CFoundId }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

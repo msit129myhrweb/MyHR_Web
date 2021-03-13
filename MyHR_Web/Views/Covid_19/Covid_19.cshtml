@@ -1,0 +1,118 @@
+﻿@{
+    ViewData["Title"] = "Covid-19";
+}
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h2>Covid-19</h2>
+    </section>
+    <!-- Main content -->
+    <section class="content" id="content">
+
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">資安公告</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
+                2.公司資訊請勿任意攜出或傳輸儲存設備或雲端服務。<br />
+                3.有任何資安疑慮或問題請洽 IT 人員。<br />
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                Footer
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">訊息公告</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                目前尚無訊息...<br />
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                Footer
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+
+    </section>
+    <table border='1' id="demo"></table>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+
+
+<script>
+    $.ajax({
+        url: "/Covid_19/ReadRss",
+        type: "GET",
+        success: function (data) {
+            var txt = "";
+            var titles = data.getElementsByTagName("title");
+            var descriptions = data.getElementsByTagName("description");
+            var updated = data.getElementsByTagName("a10:updated");
+            for (let i = 1; i < 10; i++) {
+                txt += "<div class='card-yellow'>";
+                txt += '<div class="card-header">';
+                txt += '<h3 class="card-title">' + titles[i].firstChild.nodeValue + '</h3>';
+                txt += '<div class="card-tools">';
+                txt += '<button type = "button" class="btn btn-tool" data-card-widget="collapse" title = "Collapse">';
+                txt += '<i class="fas fa-minus"></i>';
+                txt += '</button>';
+                txt += '<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">';
+                txt += '<i class="fas fa-times"></i>';
+                txt += '</button>';
+                txt += '</div>';
+                txt += '</div>';
+                txt += '<div class="card-body">' + descriptions[i].firstChild.nodeValue + '</div>';                
+                txt += '<div class="card-footer">' + updated[i].firstChild.nodeValue + '</div>';
+                txt += '</div>';    
+                //txt += "<tr><td>" + pubDates[i].firstChild.nodeValue;
+                //txt += "<td>" + titles[i].firstChild.nodeValue;
+                //txt += "<td><a href=" + links[i].firstChild.nodeValue + ">" + titles[i].firstChild.nodeValue + "</a>";
+            }
+            $("#content").html(txt);
+        }
+    });
+</script>

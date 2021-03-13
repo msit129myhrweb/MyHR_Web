@@ -1,0 +1,88 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@*<div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    </div>*@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>佈告欄</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">佈告欄</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+        <!-- Default box -->
+        <div class="card-red">
+            <div class="card-header">
+                <h3 class="card-title">資安公告</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
+                2.公司資訊請勿任意攜出或者傳輸至儲存設備、雲端服務。<br />
+                3.有任何資安疑慮或問題請洽 IT 人員。<br />
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                IT 部門
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+        <!-- Default box -->
+        <div class="card-blue">
+            <div class="card-header">
+                <h3 class="card-title">疫情公告</h3>
+
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                1.因應疫情升溫，上班期間請全程配戴口罩。<br />
+                2.如有疑似 Covid-19 症狀，請就醫診查並通知主管及HR，待狀況排除後再進公司上班。<br />
+                3.有任何疑慮或問題請洽 HR 人員。<br />
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                HR 部門
+            </div>
+            <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
+        <button type="button" class="btn btn-block btn-info btn-lg" ><a asp-controller="Home" asp-action="BulletInList">編輯</a></button>
+
+    </section>
+    <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->

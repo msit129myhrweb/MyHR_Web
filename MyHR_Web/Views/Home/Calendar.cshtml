@@ -1,0 +1,115 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<MyHR_Web.ViewModel.CalendarEvent>;
+@{
+    ViewData["Title"] = "Calendar";
+
+    var events = (IEnumerable<MyHR_Web.ViewModel.CalendarEvent>)ViewData["events"];
+    var length = events.Count();
+
+}
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.5.1/main.min.js"></script>
+
+    <style>
+        #h2 {
+            background-color: #cbb2ae;
+            border-left: 5px solid #808080;
+            font-family: "微软雅黑", "宋体", "黑体", Arial;
+            font-size: 25px;
+            height: 80px;
+            line-height: 80px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px #222222;
+            color: #FFFFFF;
+            padding-left: 10px;
+        }
+
+        #cal_div {
+            width: 100%;
+            margin: 0px auto;
+        }
+
+        #todo_div {
+            /*width: 28%;
+            float: left;
+            margin-left:10px;*/
+        }
+    </style>
+
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h2 id="h2">Calendar</h2>
+        </section>
+        <div class="card" id="todo_div" style="display:none">
+            <div class="card-header">
+                <h3 class="card-title">Todo List</h3>
+            </div>
+            <div class="card-body">
+                <table id="todoTable" class="table table-bordered table-hover">
+                    <tr>
+                        <td>序</td>
+                        <td>代辦事項</td>
+                        <td>時間</td>
+                    </tr>
+
+                    @for (int i = 0; i < length; i++)
+                    {
+                        <tr>
+                            <td>@Html.Encode(events.ElementAt(i).Id)</td>
+                            <td>@Html.Encode(events.ElementAt(i).Title)</td>
+                            <td>@Html.Encode(events.ElementAt(i).StartDate)</td>
+                        </tr>
+                    }
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-9" id="cal_div">
+            <div class="card card-primary">
+                <div class="card-body p-0">
+                    <div id="calendar"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        let eventsArr = loadData();
+        let calendar = initCalendar();
+        function loadData() {
+            let eventsArr = [];
+            let todoTable = document.getElementById("todoTable");
+            let trElem = todoTable.getElementsByTagName("tr");
+            console.log(trElem);
+            for (let tr of trElem) {
+                console.log(tr);
+                let tdElems = tr.getElementsByTagName("td");
+                let eventObj = {
+                    id: tdElems[0].innerText,
+                    title: tdElems[1].innerText,
+                    start: tdElems[2].innerText,
+                }
+                eventsArr.push(eventObj);
+            }
+            return eventsArr;
+        }
+        function initCalendar() {
+            var calendarEl = document.getElementById('calendar');
+            let calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                events: eventsArr,
+            });
+            calendar.render();
+            return calendar;
+        }
+    </script>
+</body>

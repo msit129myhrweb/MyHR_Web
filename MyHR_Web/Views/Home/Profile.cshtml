@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h2>個人資料</h2>
+
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="~/theme/dist/img/user4-128x128.jpg"
+                                     alt="User profile picture">
+                            </div>
+
+                            <h3 class="profile-username text-center">張庭庭</h3>
+
+                            <p class="text-muted text-center">經理</p>
+
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <!-- About Me Box -->
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">關於我</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <strong><i class="fas fa-book mr-1"></i> 部門</strong>
+
+                            <p class="text-muted">
+                                總務部門
+                            </p>
+
+                            <hr>
+
+                            <strong><i class="fas fa-map-marker-alt mr-1"></i>職位</strong>
+
+                            <p class="text-muted">經理</p>
+
+                            <hr>
+
+                            @*<strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
+
+                                <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>*@
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header p-2">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">settings</a></li>
+                            </ul>
+                        </div><!-- /.card-header -->
+                        <div class="card-body">
+                            <div class="tab-content">
+
+                                <div class="active tab-pane" id="settings">
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <label for="inputName" class="col-sm-2 col-form-label">姓名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputName" placeholder="姓名" value="張庭庭">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEnglish" class="col-sm-2 col-form-label">英文姓名</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputEnglish" placeholder="英文姓名" value="Tina">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputPassWord" class="col-sm-2 col-form-label">密碼</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputPassWord" placeholder="密碼" value="123456">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputOnBoardDay" class="col-sm-2 col-form-label">到職日</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputOnBoardDay" placeholder="到職日" value="2008/3/15">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputByeByeDay" class="col-sm-2 col-form-label">離職日</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputByeByeDay" placeholder="離職日" value="">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputGender" class="col-sm-2 col-form-label">性別</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputGender" placeholder="性別" value="女">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="Tina@gmail.com">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputAddress" class="col-sm-2 col-form-label">地址</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputAddress" placeholder="地址" value="高雄市">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputDepartmentID" class="col-sm-2 col-form-label">部門</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputDepartmentID" placeholder="部門" value="總務部門">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputJobTitleID" class="col-sm-2 col-form-label">職務</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputJobTitleID" placeholder="職務" value="經理">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputSupervisor" class="col-sm-2 col-form-label">主管</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputSupervisor" placeholder="主管" value="董事長">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputBirthday" class="col-sm-2 col-form-label">生日</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputBirthday" placeholder="生日" value="1991/12/12">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputPhone" class="col-sm-2 col-form-label">電話</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputPhone" placeholder="電話" value="09223456789">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmergencyPerson" class="col-sm-2 col-form-label">緊急聯絡人</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputEmergencyPerson" placeholder="緊急聯絡人" value="張爸爸">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputEmergencyContact" class="col-sm-2 col-form-label">緊急連絡電話</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputEmergencyContact" placeholder="緊急聯絡電話" value="09123456789">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputOnBoardStatusID" class="col-sm-2 col-form-label">到職狀態</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputOnBoardStatusID" placeholder="到職狀態" value="在職">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputAccountEnable" class="col-sm-2 col-form-label">帳號狀態</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" class="form-control" id="inputAccountEnable" placeholder="帳號狀態" value="啟用">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                @*<div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
+                                                        </label>
+                                                    </div>*@
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="offset-sm-2 col-sm-10">
+                                                <button type="button" class="btn btn-success" , style="filter: grayscale(50%)">修改</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                            <!-- /.tab-content -->
+                        </div><!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+</div>
+
+https://adminlte.io/
+https://www.youtube.com/watch?v=WyrdUGq9IJo

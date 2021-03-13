@@ -1,0 +1,53 @@
+﻿
+@{
+    ViewData["Title"] = "SalaryList";
+}
+
+@*<h1>SalaryList</h1>*@
+<div class="content-wrapper">
+    <section class="content-header">
+
+        <header>
+            <style>
+                h2 {
+                    background-color: #cbb2ae;
+                    border-left: 5px solid #808080;
+                    font-family: "微软雅黑", "宋体", "黑体", Arial;
+                    font-size: 25px;
+                    height: 80px;
+                    line-height: 80px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px 3px #222222;
+                    color: #FFFFFF;
+                    padding-left: 10px;
+                }
+            </style>
+        </header>
+
+
+        <h2>薪資系統</h2>
+
+        <fieldset>
+            <legend>給一般員工看</legend>
+
+            @Html.ActionLink("出缺勤查詢", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+            @Html.ActionLink("薪資查詢", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
+        </fieldset>
+
+
+        <fieldset>
+            <legend>人資權限使用者</legend>
+
+            @Html.ActionLink("發送線上薪資條", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+            @Html.ActionLink("匯出Excel", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
+        </fieldset>
+
+
+
+
+        <img src="~/theme/imgs/ForSalary.png" />
+
+
+        <br /><br />

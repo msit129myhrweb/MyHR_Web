@@ -1,0 +1,234 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.CReairViewModel>
+
+@{
+    ViewData["Title"] = "RepairList";
+}
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h2>報修清單</h2>
+
+    </section>
+    <section class="content">
+
+        <p>
+            <a asp-action="Create" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>
+        </p>
+
+        <div style="background-color:white ;padding:20px; border-radius:10px">
+            <h3>查詢條件</h3>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label class="col-lg-3 control-label">維修單號:</label>
+
+                    <input type="text" />
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="col-lg-3 control-label">報修申請日期(起) :</label>
+
+                    <input type="date" />
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label class="col-lg-3 control-label">報修申請日期(迄) :</label>
+
+                    <input type="date" />
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="col-lg-3 control-label">報修內容:</label>
+
+                    <input type="text" />
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <label class="col-lg-3 control-label"> 狀態 :</label>
+
+                    <select>
+                        <option>審核中</option>
+                        <option>通過</option>
+                        <option>退件</option>
+                    </select>
+
+                </div>
+                <div class="col-md-6 form-group">
+                    <input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-5">
+                    <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                    <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                </div>
+            </div>
+
+
+
+        </div>
+        <hr /><br />
+
+        <table table class="table table-bordered table-hover">
+            <thead @*class="table-primary"*@>
+                <tr style="text-align:center">
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CAppleDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairCategory)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CLocation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CContentofRepair)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CPhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairStatus)
+                    </th>
+                    <th style="text-align:center">
+                        編輯 |詳細 |刪除
+                    </th>
+                    <th style="text-align:center">
+                        審核
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @*@foreach (var item in Model) {*@
+                <tr style="text-align:center">
+                    @*<td>
+                            @Html.DisplayFor(modelItem => item.CRepairNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CAppleDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRepairCategory)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CContentofRepair)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CPhone)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRepairStatus)
+                        </td>*@
+                    @*<td>
+                            @Html.ActionLink("編輯", "Edit", new {   }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                            @Html.ActionLink("詳細", "Details", new {   }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+                            @Html.ActionLink("刪除", "Delete", "Customer", new { },
+                            new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
+                        </td>*@
+                    <td>
+                        20210101001
+                    </td>
+                    <td>
+                        F107008
+                    </td>
+                    <td>
+                        2021/01/01
+                    </td>
+                    <td>
+                        資訊
+                    </td>
+                    <td>
+                        研發二部
+                    </td>
+                    <td>
+                        辦公室機房冒黑煙
+                    </td>
+                    <td>
+                        0970123456
+                    </td>
+                    <td>
+                        審核中
+                    </td>
+                    <td style="text-align:center">
+                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
+                        new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
+                    </td>
+                    <th>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
+                            <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
+                        </div>
+                    </th>
+                </tr>
+                <tr style="text-align:center">
+                    <td>
+                        20210101002
+                    </td>
+                    <td>
+                        F107008
+                    </td>
+                    <td>
+                        2021/01/05
+                    </td>
+                    <td>
+                        總務
+                    </td>
+                    <td>
+                        3樓樓梯間
+                    </td>
+                    <td>
+                        燈泡一閃一閃
+                    </td>
+                    <td>
+                        0970123456
+                    </td>
+                    <td>
+                        審核中
+                    </td>
+                    <td style="text-align:center">
+                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
+                        new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
+                    </td>
+                    <th>
+                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
+                            <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
+                        </div>
+                    </th>
+                </tr>
+                @*}*@
+            </tbody>
+        </table>
+    </section>
+</div>

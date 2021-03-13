@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MyHR_Web.Models.TLost>
+
+@{
+    ViewData["Title"] = "List";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>遺失物一覽表</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="#">佈告欄</a></li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <p>
+        <a asp-action="Create">新增遺失物</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    遺失物編號
+                </th>
+                <th>
+                    員編
+                </th>
+                <th>
+                    部門
+                </th>
+                <th>
+                    手機
+                </th>
+                <th>
+                    主旨
+                </th>
+                <th>
+                    遺失物名稱
+                </th>
+                <th>
+                    遺失物照片
+                </th>
+                <th>
+                    遺失物類別
+                </th>
+                <th>
+                    遺失時間
+                </th>
+                <th>
+                    遺失地點
+                </th>
+                <th>
+                    遺失物描述
+                </th>
+                <th>
+                    狀態
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CEmployeeId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CDeparment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CPhone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostSubject)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostCategory)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostPropertyPhoto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostProperty)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostSpace)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostPropertyDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CLostCheckStatus)
+                    </td>
+                    <td>
+                        @Html.ActionLink("修改", "Edit", "Lost", new { id = item.CLostId }, new { @class = "btn btn-success" }) |
+                        @Html.ActionLink("刪除", "Delete", "Lost", new { id = item.CLostId }, new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

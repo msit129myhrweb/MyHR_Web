@@ -1,0 +1,74 @@
+﻿@model IEnumerable<MyHR_Web.Models.TBulletin>
+
+@{
+    ViewData["Title"] = "BulletInList";
+}
+<div class="content-wrapper">
+    <h1>編輯公告</h1>
+
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CNumber)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CDepartment)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CCategory)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CContentofBulletin)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CStarttime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CEndtime)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @for (int i = 0; i < 20; i++)
+            {
+                <tr>
+                    <td>
+                        公告編號 @i
+                    </td>
+                    <td>
+                        公告主旨 @i
+                    </td>
+                    <td>
+                        公告部門 @i
+                    </td>
+                    <td>
+                        公告類別 @i
+                    </td>
+                    <td>
+                        公告內容 @i
+                    </td>
+                    <td>
+                        公告起始 @i
+                    </td>
+                    <td>
+                        公告結束 @i
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
