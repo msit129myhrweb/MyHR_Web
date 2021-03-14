@@ -1,0 +1,93 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.CInterviewViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h2>面試資料</h2>
+
+        @Html.ActionLink("待聯絡", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("預約面試", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("面試完成", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("錄用", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("不錄用", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
+        <br /><br />
+
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    查詢條件<br />
+                    起 : <input type="date" />迄 : <input type="date" />     <input type="button" value="查詢" class="btn btn-outline-secondary" />
+
+                </h3>
+
+                <table table class="table table-bordered table-hover">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>姓名</th>
+                            <th>英文名</th>
+                            <th>性別</th>
+                            <th>部門</th>
+                            <th>職稱</th>
+                            <th>狀態</th>                            
+                        </tr>
+                    </thead>
+                    
+                      
+                    <tbody>
+                        <tr>
+                            <td>張一</td>
+                            <td>John Doe</td>
+                            <td>男</td>
+                            <td>HR</td>
+                            <td>職員</td>
+                            <td>待聯絡</td>
+                        </tr>
+                        <tr>
+                            <td>王二</td>
+                            <td>Tom</td>
+                            <td>男</td>
+                            <td>IT</td>
+                            <td>工程師</td>
+                            <td>預約面試</td>
+                        </tr>
+                        <tr>
+                            <td>李三</td>
+                            <td>Mary</td>
+                            <td>女</td>
+                            <td>GA</td>
+                            <td>職員</td>
+                            <td>面試完成</td>
+                        </tr>
+                        <tr>
+                            <td>陳四</td>
+                            <td>Jack</td>
+                            <td>男</td>
+                            <td>開發</td>
+                            <td>工程師</td>
+                            <td>錄用</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
