@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyHR_Web.Models.TAbsence>
+﻿@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -101,58 +101,8 @@
                 <button type="button" class="button" onclick="offClock()" style="filter: grayscale(50%)">下班</button><br /><br />
                 <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"></input><br /><br />
                 <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"></input>
-
             </div>
             <div class="content-wrapper">
-                @{
-                    #region table
-                    <!--<table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CApplyNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CEmployeeId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COn)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COff)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>-->
-
-
-                    @*@foreach (var item in Model) {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.COn)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.COff)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                    </td>
-                                </tr>
-                        }*@
-                    <!--</tbody>
-                    </table>-->
-
-                    #endregion
-                }
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-12">
@@ -173,32 +123,21 @@
                                     <table id="example2" class="table table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <th>上班</th>
-                                                <th>下班</th>
+                                                <th>@Html.DisplayNameFor(model => model.COn)</th>
+                                                <th>@Html.DisplayNameFor(model => model.COff)</th>
                                                 <th>狀態</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>2021-03-05 08:53:37</td>
-                                                <td>2021-03-05 18:10:07</td>
-                                                <td>準時</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-04 08:55:01</td>
-                                                <td>2021-03-04 18:13:03</td>
-                                                <td>準時</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-03 09:03:12</td>
-                                                <td>2021-03-03 18:13:00</td>
-                                                <td>遲到</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-02 08:55:01</td>
-                                                <td>2021-03-02 17:59:00</td>
-                                                <td>早退</td>
-                                            </tr>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td>@Html.DisplayFor(modelItem => item.COn)</td>
+                                                    <td>@Html.DisplayFor(modelItem => item.COff)</td>
+                                                    <td>狀態</td>
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
                                 </div>

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyHR_Web.Models.TTravelExpenseApplication>
+﻿@model IEnumerable<MyHR_Web.ViewModel.CTravelViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -24,84 +24,6 @@
     <section class="content-header">
         <h2>出差申請單審核</h2>
     </section>
-    @{
-        #region table
-        <!--<table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CDepartment)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CReason)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CTravelStartTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CTravelEndTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CAmont)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CCheckStatus)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>-->
-        @*@foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CDepartment)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CEmployeeId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CReason)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CApplyDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CTravelStartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CTravelEndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CAmont)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CCheckStatus)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
-            }*@
-        <!--</tbody>
-        </table>-->
-
-        #endregion
-    }
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -126,74 +48,42 @@
                                 <thead>
                                     <tr>
                                         <td><input type="checkbox" name="checkAll" /></td>
-                                        <th>申請編號</th>
-                                        <th>員工編號</th>
-                                        <th>員工姓名</th>
-                                        <th>申請日期</th>
-                                        <th>起始日</th>
-                                        <th>起迄日</th>
-                                        <th>費用</th>
-                                        <th>事由</th>
-                                        <th>狀態</th>
+                                        <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CDepartmentId)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CEmployeeId) 姓名</th>
+                                        <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CTravelStartTime)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CTravelEndTime)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CAmont)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CReason)</th>
+                                        <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
                                         <th>審核</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach (var item in Model)
+                                   {
                                     <tr>
                                         <td><input type="checkbox" name="checked" /></td>
-                                        <td>50016590</td>
-                                        <td>10</td>
-                                        <td>陳曉倩</td>
-                                        <td>2021-01-26</td>
-                                        <td>2021-03-29</td>
-                                        <td>2021-03-30</td>
-                                        <td>3000</td>
-                                        <th>參加高雄分公司第二季產品發表會</th>
-                                        <th>審核中</th>
-                                        <th>
+                                        <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /* id=item.PrimaryKey */ })</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CDepartmentId)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CApplyDate)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CTravelStartTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CTravelEndTime)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CCheckStatus)</td>
+                                        <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
                                                 <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
                                                 <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
                                             </div>
-                                        </th>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50016645</td>
-                                        <td>10</td>
-                                        <td>陳曉倩</td>
-                                        <td>2021-02-12</td>
-                                        <td>2021-07-05</td>
-                                        <td>2021-07-09</td>
-                                        <td>5000</td>
-                                        <th>參加經濟部行政法基礎班研習</th>
-                                        <th>審核中</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50010711</td>
-                                        <td>5</td>
-                                        <td>張停停</td>
-                                        <td>2021-03-02</td>
-                                        <td>2021-12-22</td>
-                                        <td>2021-12-24</td>
-                                        <td>3000</td>
-                                        <th>參加高雄分公司年末檢討會</th>
-                                        <th>審核中</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-                                    </tr>
+                                     }
                                 </tbody>
                             </table>
                         </div>

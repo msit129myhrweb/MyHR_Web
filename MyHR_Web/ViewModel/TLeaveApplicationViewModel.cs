@@ -19,13 +19,14 @@ namespace MyHR_Web.ViewModel
             iv_Leave = p;
         }
 
-        public TLeaveApplicationViewModel()
+        public TLeaveApplicationViewModel(TTravelExpenseApplication item)
         {
             iv_Leave = new TLeaveApplication();
         }
 
 
-        
+        [DisplayName("申請單號")]
+
         public int CApplyNumber { get {return iv_Leave.CApplyNumber; } set {iv_Leave.CApplyNumber=value; } }
     
         [DisplayName("部門名稱")]
