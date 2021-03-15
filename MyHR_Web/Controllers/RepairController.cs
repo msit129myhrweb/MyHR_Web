@@ -27,5 +27,58 @@ namespace MyHR_Web.Views.Home
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult RepairCreate(CReairViewModel cReair)
+        {
+            dbMyCompanyContext db = new dbMyCompanyContext();
+            db.TRepairs.Add(cReair.repair);
+            db.SaveChanges();
+            return RedirectToAction("RepairList");
+
+
+        }
+
+       
+
+        public IActionResult RepairEdit(int? id)
+        {
+            if (id != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == id);
+
+                if (repair != null)
+                {
+                    return View(repair);
+                }
+
+            }
+            return RedirectToAction("List");
+        }
+
+        [HttpPost]
+        public IActionResult RepairEdit(TRepair repair)
+        {
+            if (repair != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+
+                TRepair c = db.TRepairs.FirstOrDefault(p => p.CRepairNumber == repair.CRepairNumber);
+                if (c != null)
+                {  
+                    c.CContentofRepair = repair.CContentofRepair;
+                    c.CAppleDate = repair.CAppleDate;
+                    c.CLocation = repair.CLocation;
+                    c.CPhone = repair.CPhone;
+                    c.CRepairCategory = repair.CRepairCategory;
+                    c.CRepairStatus = repair.CRepairStatus;
+                    
+
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("List");
+        }
     }
 }

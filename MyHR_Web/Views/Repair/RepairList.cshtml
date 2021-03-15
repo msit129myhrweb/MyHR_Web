@@ -26,7 +26,8 @@
     <section class="content">
 
         <p>
-            <a asp-action="Create" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>
+            @*<a asp-action="RepairCreate" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>*@
+            @Html.ActionLink("新增報修", "RepairCreate", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
         </p>
 
         <div style="background-color:white ;padding:20px; border-radius:10px">
@@ -120,114 +121,47 @@
                 </tr>
             </thead>
             <tbody>
-                @*@foreach (var item in Model) {*@
-                <tr style="text-align:center">
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.CRepairNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CEmployeeId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CAppleDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CRepairCategory)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CLocation)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CContentofRepair)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPhone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CRepairStatus)
-                        </td>*@
-                    @*<td>
-                            @Html.ActionLink("編輯", "Edit", new {   }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                            @Html.ActionLink("詳細", "Details", new {   }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                            @Html.ActionLink("刪除", "Delete", "Customer", new { },
-                            new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
-                        </td>*@
-                    <td>
-                        20210101001
-                    </td>
-                    <td>
-                        F107008
-                    </td>
-                    <td>
-                        2021/01/01
-                    </td>
-                    <td>
-                        資訊
-                    </td>
-                    <td>
-                        研發二部
-                    </td>
-                    <td>
-                        辦公室機房冒黑煙
-                    </td>
-                    <td>
-                        0970123456
-                    </td>
-                    <td>
-                        審核中
-                    </td>
-                    <td style="text-align:center">
-                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
-                        new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
-                    </td>
-                    <th>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
-                            <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                        </div>
-                    </th>
-                </tr>
+                @foreach (var item in Model)
+                {
                 <tr style="text-align:center">
                     <td>
-                        20210101002
+                        @Html.DisplayFor(modelItem => item.CRepairNumber)
                     </td>
                     <td>
-                        F107008
+                        @Html.DisplayFor(modelItem => item.CEmployeeId)
                     </td>
                     <td>
-                        2021/01/05
+                        @Html.DisplayFor(modelItem => item.CAppleDate)
                     </td>
                     <td>
-                        總務
+                        @Html.DisplayFor(modelItem => item.CRepairCategory)
                     </td>
                     <td>
-                        3樓樓梯間
+                        @Html.DisplayFor(modelItem => item.CLocation)
                     </td>
                     <td>
-                        燈泡一閃一閃
+                        @Html.DisplayFor(modelItem => item.CContentofRepair)
                     </td>
                     <td>
-                        0970123456
+                        @Html.DisplayFor(modelItem => item.CPhone)
                     </td>
                     <td>
-                        審核中
+                        @Html.DisplayFor(modelItem => item.CRepairStatus)
                     </td>
-                    <td style="text-align:center">
-                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
+                    <td>
+                        @Html.ActionLink("編輯", "RepairEdit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("詳細", "Details", new { id = item.CRepairNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+                        @Html.ActionLink("刪除", "Delete", "Customer", new { id = item.CRepairNumber },
                         new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
                     </td>
-                    <th>
+                    <td>
                         <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
+                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
                             <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
                         </div>
-                    </th>
+                    </td>
                 </tr>
-                @*}*@
+                }
             </tbody>
         </table>
     </section>

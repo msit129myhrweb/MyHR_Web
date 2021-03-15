@@ -64,11 +64,11 @@ namespace MyHR_Web.Controllers
             //}
 
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
-
-
+            if(p.txtAccount!=null ||p.txtPassword!=null)
+            { 
             TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
             c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
-
+            
             if (user != null)
             {
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
@@ -76,6 +76,8 @@ namespace MyHR_Web.Controllers
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());                
                 return RedirectToAction("Index");
             }
+            }
+            
 
             return PartialView();
         }
@@ -102,5 +104,6 @@ namespace MyHR_Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+         
     }
 }

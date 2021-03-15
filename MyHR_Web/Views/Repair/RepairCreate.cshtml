@@ -32,9 +32,9 @@
                 <div class="card-header p-2">
                     <div class="card-body">
 
-                        <form asp-action="RepairCreate">
+                        <form asp-action="RepairCreate" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div>
+                            <div style="display:none">
                                 <label asp-for="CRepairNumber" class="control-label"></label>
                                 <input asp-for="CRepairNumber" class="form-control" />
                                 <span asp-validation-for="CRepairNumber" class="text-danger"></span>
@@ -93,7 +93,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="RepairList">Back to List</a>
 </div>
 
 

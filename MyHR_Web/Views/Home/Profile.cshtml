@@ -1,4 +1,4 @@
-﻿
+﻿@model MyHR_Web.Models.TUser
 @{
     ViewData["Title"] = "Profile";
 }
@@ -92,116 +92,143 @@
 
                                 <div class="active tab-pane" id="settings">
                                     <form class="form-horizontal">
+
                                         <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">姓名</label>
+                                            <label asp-for="CEmployeeId" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputName" placeholder="姓名" value="張庭庭">
+                                                <input asp-for="CEmployeeId" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputEnglish" class="col-sm-2 col-form-label">英文姓名</label>
+                                            <label asp-for="CEmployeeName" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputEnglish" placeholder="英文姓名" value="Tina">
+                                                <input asp-for="CEmployeeName" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputPassWord" class="col-sm-2 col-form-label">密碼</label>
+                                            <label asp-for="CEmployeeEnglishName" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputPassWord" placeholder="密碼" value="123456">
+                                                <input asp-for="CEmployeeEnglishName" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputOnBoardDay" class="col-sm-2 col-form-label">到職日</label>
+                                            <label asp-for="CPassWord" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputOnBoardDay" placeholder="到職日" value="2008/3/15">
+                                                <input asp-for="CPassWord" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputByeByeDay" class="col-sm-2 col-form-label">離職日</label>
+                                            <label asp-for="COnBoardDay" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputByeByeDay" placeholder="離職日" value="">
+                                                <input asp-for="COnBoardDay" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputGender" class="col-sm-2 col-form-label">性別</label>
+                                            <label asp-for="CByeByeDay" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputGender" placeholder="性別" value="女">
+                                                <input asp-for="CByeByeDay" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputEmail" class="col-sm-2 col-form-label">Email</label>
+                                            <label asp-for="CGender" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputEmail" placeholder="Email" value="Tina@gmail.com">
+                                                <input asp-for="CGender" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputAddress" class="col-sm-2 col-form-label">地址</label>
+                                            <label asp-for="CEmail" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputAddress" placeholder="地址" value="高雄市">
+                                                <input asp-for="CEmail" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputDepartmentID" class="col-sm-2 col-form-label">部門</label>
+                                            <label asp-for="CAddress" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputDepartmentID" placeholder="部門" value="總務部門">
+                                                <input asp-for="CAddress" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputJobTitleID" class="col-sm-2 col-form-label">職務</label>
+                                            <label asp-for="CDepartmentId" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputJobTitleID" placeholder="職務" value="經理">
+                                                <input asp-for="CDepartmentId" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputSupervisor" class="col-sm-2 col-form-label">主管</label>
+                                            <label asp-for="CJobTitleId" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputSupervisor" placeholder="主管" value="董事長">
+                                                <input asp-for="CJobTitleId" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputBirthday" class="col-sm-2 col-form-label">生日</label>
+                                            <label asp-for="CSupervisor" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputBirthday" placeholder="生日" value="1991/12/12">
+                                                <input asp-for="CSupervisor" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputPhone" class="col-sm-2 col-form-label">電話</label>
+                                            <label asp-for="CBirthday" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputPhone" placeholder="電話" value="09223456789">
+                                                <input asp-for="CBirthday" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputEmergencyPerson" class="col-sm-2 col-form-label">緊急聯絡人</label>
+                                            <label asp-for="CPhone" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputEmergencyPerson" placeholder="緊急聯絡人" value="張爸爸">
+                                                <input asp-for="CPhone" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputEmergencyContact" class="col-sm-2 col-form-label">緊急連絡電話</label>
+                                            <label asp-for="CPhoto" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputEmergencyContact" placeholder="緊急聯絡電話" value="09123456789">
+                                                <input asp-for="CPhoto" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputOnBoardStatusID" class="col-sm-2 col-form-label">到職狀態</label>
+                                            <label asp-for="CEmergencyPerson" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputOnBoardStatusID" placeholder="到職狀態" value="在職">
+                                                <input asp-for="CEmergencyPerson" class="form-control" />
                                             </div>
                                         </div>
+
                                         <div class="form-group row">
-                                            <label for="inputAccountEnable" class="col-sm-2 col-form-label">帳號狀態</label>
+                                            <label asp-for="CEmergencyContact" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input type="text" class="form-control" id="inputAccountEnable" placeholder="帳號狀態" value="啟用">
+                                                <input asp-for="CEmergencyContact" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label asp-for="COnBoardStatusId" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                                <input asp-for="COnBoardStatusId" class="form-control" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label asp-for="CAccountEnable" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                                <input asp-for="CAccountEnable" class="form-control" />
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
-                                                @*<div class="checkbox">
-                                                        <label>
-                                                            <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                        </label>
-                                                    </div>*@
+
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -210,8 +237,8 @@
                                             </div>
                                         </div>
                                     </form>
-                                </div>
 
+                                </div>
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
@@ -224,7 +251,5 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-</div>
 
-https://adminlte.io/
-https://www.youtube.com/watch?v=WyrdUGq9IJo
+</div>
