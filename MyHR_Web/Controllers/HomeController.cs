@@ -23,6 +23,7 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Index()
         {
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             return View();
         }
         public IActionResult BulletInList()
@@ -31,6 +32,10 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Profile()
         {
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
+            
             return View();
         }
         public IActionResult Login()
@@ -48,8 +53,7 @@ namespace MyHR_Web.Controllers
             return PartialView();
 
         }
-
-
+                
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
@@ -59,19 +63,21 @@ namespace MyHR_Web.Controllers
             //    return View();
             //}
 
-            ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
+            //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
 
 
             TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
-            c.CEmployeeId.Equals(p.txtAccount) && c.CPassWord.Equals(p.txtPassword));
+            c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
 
             if (user != null)
             {
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
+                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
+                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());                
                 return RedirectToAction("Index");
             }
 
-            return View();
+            return PartialView();
         }
         public IActionResult Calendar()
         {
