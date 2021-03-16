@@ -47,7 +47,7 @@
                             <table id="example2" class="table table-bordered table-hover">
                                 <thead>
                                     <tr>
-                                        <td><input type="checkbox" name="checkAll" /></td>
+                                        <td><input type="checkbox" name="checkAll" onselect="checkAll()"/></td>
                                         <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
                                         <th>@Html.DisplayNameFor(model => model.CDepartmentId)</th>
                                         <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
@@ -65,9 +65,9 @@
                                     @foreach (var item in Model)
                                    {
                                     <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
+                                        <td><input type="checkbox" name="checked" onclick="checked()"/></td>
                                         <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /* id=item.PrimaryKey */ })</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CDepartmentId)</td>
+                                        <td>@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
                                         <td>@Html.DisplayFor(modelItem => item.CReason)</td>

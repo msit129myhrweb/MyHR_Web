@@ -15,11 +15,32 @@ namespace MyHR_Web.ViewModel
         {
             iv_absence = a;
         }
-        public int CApplyNumber { get; set; }
-        public int CEmployeeID { get; set; }
+        public CAbsenceViewModel()
+        {
+            iv_absence = new TAbsence();
+        }
+        public int CApplyNumber 
+        {
+            get { return iv_absence.CApplyNumber; }
+            set { iv_absence.CApplyNumber = value; } 
+        }
+        [DisplayName("員工編號")]
+        public int CEmployeeId 
+        {
+            get { return iv_absence.CEmployeeId; }
+            set { iv_absence.CEmployeeId = value; }
+        }
         [DisplayName("上班")]
-        public DateTime COn { get; set; }
+        public DateTime COn 
+        {
+            get { return iv_absence.COn; }
+            set { iv_absence.COn = value; }
+        }
         [DisplayName("下班")]
-        public DateTime COff { get; set; }
+        public DateTime COff 
+        {
+            get { return iv_absence.COff; }
+            set { iv_absence.COff = value; } 
+        }
     }
 }

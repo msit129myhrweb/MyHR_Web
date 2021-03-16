@@ -26,7 +26,6 @@ namespace MyHR_Web.ViewModel
 
 
         [DisplayName("申請單號")]
-
         public int CApplyNumber { get {return iv_Leave.CApplyNumber; } set {iv_Leave.CApplyNumber=value; } }
     
         [DisplayName("部門名稱")]
@@ -49,6 +48,7 @@ namespace MyHR_Web.ViewModel
         public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+
     }
 
 

@@ -68,7 +68,7 @@
                                     <tr>
                                         <td><input type="checkbox" name="checked" /></td>
                                         <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /* id=item.PrimaryKey */ })</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CDepartmentId)</td>
+                                        <td>@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
                                         <td>@Html.DisplayFor(modelItem => item.CApplyDate)</td>
