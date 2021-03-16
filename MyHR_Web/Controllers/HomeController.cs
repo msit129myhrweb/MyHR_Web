@@ -11,7 +11,7 @@ using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
-{
+{  //現在版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -91,6 +91,15 @@ namespace MyHR_Web.Controllers
 
             return PartialView();
         }
+
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+
+            return RedirectToAction("Login", "Home");
+        }
+
         public IActionResult Calendar()
         {
             ViewData["events"] = new[]

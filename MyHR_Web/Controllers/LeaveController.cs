@@ -17,63 +17,90 @@ namespace MyHR_Web.Controllers
 
         public IActionResult LeaveList()  //請假清單查詢
         {
-            //string keyword_StartDay = Request.Form["Leave_Startday"];
+           
+
             //string keyword_EndDay = Request.Form["Leave_Endday"];
 
-            //if(string.IsNullOrEmpty(keyword_StartDay) && string.IsNullOrEmpty(keyword_EndDay))
-            // {
+            int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
-            // } 
-            // else
-            // {
+            IEnumerable<TLeaveApplication> table = null;
 
-            // }
+            if (!string.IsNullOrEmpty(Request.ContentType))
+            {
+                string keyword_StartDay = Request.Form["Leave_Startday"];
+                string keyword_EndDay = Request.Form["Leave_Endday"];
 
-            //var table = from i in MyHr.TLeaveApplications
-            //            orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-            //            select i;
-            //List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
-
-            //foreach (TLeaveApplication T in table)
-            //    list.Add(new TLeaveApplicationViewModel(T));
-            //return View(list);
-
-
-            int useraccount = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+                if (!string.IsNullOrEmpty(keyword_StartDay) && !string.IsNullOrEmpty(keyword_EndDay))
+                {
+                    table = from i in MyHr.TLeaveApplications
+                            where i.CEmployeeId == UserID && i.CApplyDate >= DateTime.Parse(keyword_StartDay) && i.CApplyDate <= DateTime.Parse(keyword_EndDay)
+                            orderby i.CApplyDate descending /*依照申請日期降冪排序*/
+                            select i;
+                }
 
 
+            }
+            else
+    {           //全選
+                table = from i in MyHr.TLeaveApplications
+                where i.CEmployeeId == UserID
+                orderby i.CApplyDate descending /*依照申請日期降冪排序*/
+                select i;
+            }
 
+            
+
+           
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
 
-            list = //from i in 
-                       MyHr.TLeaveApplications
-                        .Include(c => c.CDepartment)
-                        .Include(c => c.CLeaveCategoryNavigation)
-                        .Include(c => c.CCheckStatusNavigation)
-                        .Select(c => new TLeaveApplicationViewModel
-                        {
-                            CApplyNumber = c.CApplyNumber,
-                            CDepartmentId = c.CDepartment.CDepartmentId,
-                            CDepartmentName = c.CDepartment.CDepartment,
-                            CEmployeeId = c.CEmployeeId,
-                            CApplyDate = c.CApplyDate,
-                            CLeaveCategoryId = c.CLeaveCategoryNavigation.CLeaveId,
-                            CLeaveCategory = c.CLeaveCategoryNavigation.CLeaveCategory,
-                            CLeaveStartTime = c.CLeaveStartTime,
-                            CLeaveEndTime = c.CLeaveEndTime,
-                            CReason = c.CReason,
-                            CCheckStatusId = c.CCheckStatusNavigation.CCheckStatusId,
-                            CCheckStatus = c.CCheckStatusNavigation.CCheckStatus
-                        })
-                        .Where(c => c.CEmployeeId == useraccount)
-                        .OrderByDescending(c => c.CApplyDate).ToList();
-            //orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-            //select i;
-
-            //foreach (TLeaveApplication T in table)
-            //    list.Add(new TLeaveApplicationViewModel(T));
+            foreach (TLeaveApplication T in table)
+                list.Add(new TLeaveApplicationViewModel(T));
             return View(list);
-            int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
+
+
+
+
+            //string keyword_Start = Request.Form["Leave_Startday"].ToString();
+            //string keyword_End = Request.Form["Leave_Endday"].ToString();
+
+            //    if(!string.IsNullOrEmpty(keyword_Start) && !string.IsNullOrEmpty(keyword_End))
+            //{
+            //    var list = MyHr.TLeaveApplications.Select(c => c.CApplyDate.ToShortTimeString() <= 'keyword_End' AND c.CApplyDate.ToShortTimeString() > keyword_Start);
+
+            //}
+
+
+            //******************************************************************************************************
+            //int useraccount = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            //List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+
+            //list = //from i in 
+            //           MyHr.TLeaveApplications
+            //            .Include(c => c.CDepartment)
+            //            .Include(c => c.CLeaveCategoryNavigation)
+            //            .Include(c => c.CCheckStatusNavigation)
+            //            .Select(c => new TLeaveApplicationViewModel
+            //            {
+            //                CApplyNumber = c.CApplyNumber,
+            //                CDepartmentId = c.CDepartment.CDepartmentId,
+            //                CDepartmentName = c.CDepartment.CDepartment,
+            //                CEmployeeId = c.CEmployeeId,
+            //                CApplyDate = c.CApplyDate,
+            //                CLeaveCategoryId = c.CLeaveCategoryNavigation.CLeaveId,
+            //                CLeaveCategory = c.CLeaveCategoryNavigation.CLeaveCategory,
+            //                CLeaveStartTime = c.CLeaveStartTime,
+            //                CLeaveEndTime = c.CLeaveEndTime,
+            //                CReason = c.CReason,
+            //                CCheckStatusId = c.CCheckStatusNavigation.CCheckStatusId,
+            //                CCheckStatus = c.CCheckStatusNavigation.CCheckStatus
+            //            })
+            //            .Where(c => c.CEmployeeId == useraccount)
+            //            .OrderByDescending(c => c.CApplyDate).ToList();
+           
+            //return View(list);
+            //int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            //******************************************************************************************************
 
         }
 
@@ -85,6 +112,9 @@ namespace MyHR_Web.Controllers
         [HttpPost] /*我有修改TLeaveApplicationViewModel裡面的全域變數名稱*/
         public IActionResult LeaveCreate(TLeaveApplicationViewModel T)
         {
+           
+            
+            
             MyHr.TLeaveApplications.Add(T.Leave);
             MyHr.SaveChanges();
             return RedirectToAction("LeaveList");
@@ -134,7 +164,7 @@ namespace MyHR_Web.Controllers
                 if (_revised != null)
                 {
                     _revised.CApplyDate = T.CApplyDate;
-                    _revised.CLeaveCategory = T.CLeaveCategoryNavigation.CLeaveId;
+                    _revised.CLeaveCategory = T.CLeaveCategory;
                     _revised.CLeaveStartTime = T.CLeaveStartTime;
                     _revised.CLeaveEndTime = T.CLeaveEndTime;
                     _revised.CReason = T.CReason;

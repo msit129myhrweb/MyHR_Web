@@ -88,7 +88,7 @@
 
                         <div class="col">
 
-                            <input type="submit" value="查詢" class="btn btn-success float-right" style="filter: grayscale(50%)" />
+                            <input type="submit" value="查詢" onclick="btn_LeaveSearsh" class="btn btn-success float-right" style="filter: grayscale(50%)" />
                         </div>
 
 
@@ -145,7 +145,7 @@
                                         @Html.DisplayFor(modelItem => item.CApplyNumber)
                                     </td>*@
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CDepartmentId)
+                                    @Enum.GetName(typeof(eDepartment),item.CDepartmentId)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CEmployeeId)
@@ -154,7 +154,7 @@
                                     @Html.DisplayFor(modelItem => item.CApplyDate)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveCategory)
+                                    @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CLeaveStartTime)
@@ -166,7 +166,8 @@
                                     @Html.DisplayFor(modelItem => item.CReason)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CCheckStatus)
+                                    @Enum.GetName(typeof(eStatus),item.CCheckStatus)
+                                    @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
                                 </td>
                                 <td>
 

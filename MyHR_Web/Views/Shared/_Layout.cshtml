@@ -267,7 +267,7 @@
                                 <p>面試資料</p>
                             </a>
                         </li>
-                            @*薪資*@
+                        @*薪資*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                 <i class="fas fa-money-bill-alt"></i>
@@ -350,6 +350,15 @@
                                 <p>行事曆</p>
                             </a>
                         </li>
+                        
+                        @*登出*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <p>登出</p>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
             </div>
