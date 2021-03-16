@@ -14,9 +14,23 @@ namespace MyHR_Web.Views.Home
 
         public IActionResult RepairList()
         {
-            var table = from r in (new dbMyCompanyContext()).TRepairs
-                        select r;
+            IEnumerable<TRepair> table = null;
 
+            if (!string.IsNullOrEmpty(Request.ContentType))
+            {
+                string keyword = Request.Form["repairnumber"];
+                table = from r in (new dbMyCompanyContext()).TRepairs
+                        where r.CRepairNumber==(int.Parse(keyword))
+                        select r;
+            }
+            else
+            { 
+            table = from r in (new dbMyCompanyContext()).TRepairs
+                        select r;
+            }
+
+                 
+            
             List<CReairViewModel> list = new List<CReairViewModel>();
             foreach (TRepair i in table)
                 list.Add(new CReairViewModel(i));
@@ -54,7 +68,7 @@ namespace MyHR_Web.Views.Home
                 }
 
             }
-            return RedirectToAction("List");
+            return RedirectToAction("RepairList");
         }
 
         [HttpPost]
@@ -78,7 +92,24 @@ namespace MyHR_Web.Views.Home
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction("List");
+            return RedirectToAction("RepairList");
+        }
+
+        public IActionResult RepairDelete(int? id)
+        {
+            if (id != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == id);
+
+                if (repair != null)
+                {
+                    db.TRepairs.Remove(repair);
+                    db.SaveChanges();
+                }
+
+            }
+            return RedirectToAction("RepairList");
         }
     }
 }

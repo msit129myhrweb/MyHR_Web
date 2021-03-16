@@ -16,3 +16,10 @@ public enum eJobTitle
     經理,
     專員
 }
+public enum eCheck
+{
+    
+    審核中,
+    通過,
+    退件
+}
