@@ -23,3 +23,14 @@ public enum eCheck
     通過,
     退件
 }
+public enum eAccount
+{
+    不啟用,
+    啟用
+}
+public enum eOnBoard
+{
+    NONE,
+    在職中,
+    離職
+}

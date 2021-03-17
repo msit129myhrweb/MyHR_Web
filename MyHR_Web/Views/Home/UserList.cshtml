@@ -1,0 +1,137 @@
+﻿@model IEnumerable<MyHR_Web.Models.TUser>
+
+@{
+    ViewData["Title"] = "UserList";
+}
+
+<h2>UserList</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.CEmployeeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPassWord)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.COnBoardDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CByeByeDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CGender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CDepartmentId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CJobTitleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CSupervisor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CBirthday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPhone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CPhoto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CEmergencyPerson)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CEmergencyContact)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CAccountEnable)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.COnBoardStatus)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEmployeeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEmployeeEnglishName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPassWord)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COnBoardDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CByeByeDay)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CGender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CDepartmentId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CJobTitleId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CSupervisor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CBirthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPhone)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CPhoto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEmergencyPerson)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CEmergencyContact)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CAccountEnable)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.COnBoardStatus.COnBoardStatus)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.CEmployeeId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.CEmployeeId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.CEmployeeId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
