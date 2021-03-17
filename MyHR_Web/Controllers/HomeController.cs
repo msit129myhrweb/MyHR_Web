@@ -86,7 +86,6 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
                     return RedirectToAction("Index");
                 }
-
             }
 
             return PartialView();

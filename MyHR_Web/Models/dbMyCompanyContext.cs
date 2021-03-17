@@ -347,23 +347,17 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CLeaveCategory).HasColumnName("cLeaveCategory");
 
                 entity.Property(e => e.CLeaveEndTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cLeaveEndTime");
 
                 entity.Property(e => e.CLeaveStartTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cLeaveStartTime");
 
                 entity.Property(e => e.CReason)
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("cReason");
-
-                entity.HasOne(d => d.CCheckStatusNavigation)
-                    .WithMany(p => p.TLeaveApplications)
-                    .HasForeignKey(d => d.CCheckStatus)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_LeaveApplication_CheckStatus");
 
                 entity.HasOne(d => d.CDepartment)
                     .WithMany(p => p.TLeaveApplications)

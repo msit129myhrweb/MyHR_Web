@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@{ 
+    string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -158,7 +164,7 @@
             <!-- Brand Logo -->
             <a href="/Home/Index" class="brand-link">
                 <img src="~/theme/imgs/Piggg.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-7" style="opacity: .8">
-                <span class="brand-text font-weight-light">MSIT129</span>
+                <span class="brand-text font-weight-light">Hello@WORK</span>
             </a>
 
             <!-- Sidebar -->
@@ -169,7 +175,7 @@
                     <img src="~/theme/dist/img/user4-128x128.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a class="d-block" asp-controller="Home" asp-action="Profile">@ViewData["CURRENT_LOGINED_USERNAME"]</a> 
+                        <a class="d-block" asp-controller="Home" asp-action="Profile">@Name</a> 
                     </div>
                 </div>
 

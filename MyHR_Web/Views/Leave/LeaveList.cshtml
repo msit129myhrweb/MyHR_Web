@@ -54,11 +54,11 @@
                     <i>子分類查詢</i>
                     <div class="row">
                         <div class="col">
-                            <label class="col-lg-12 control-label">報修申請日期(起) :  <input type="date" name="Leave_Startday" /></label>
+                            <label class="col-lg-12 control-label">請假申請日期(起) :  <input type="date" name="Leave_Startday" /></label>
                         </div>
 
                         <div class="col">
-                            <label class="col-lg-12 control-label">報修申請日期(迄) :  <input type="date" name="Leave_Endday" /></label>
+                            <label class="col-lg-12 control-label">請假申請日期(迄) :  <input type="date" name="Leave_Endday" /></label>
                         </div>
 
                     </div>
@@ -140,7 +140,7 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
+                            <tr style="text-align:center">
                                 @*<td>
                                         @Html.DisplayFor(modelItem => item.CApplyNumber)
                                     </td>*@
@@ -170,8 +170,10 @@
                                     @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
                                 </td>
                                 <td>
-
-                                    @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" })     @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", })
+                                    @{ if (@item.CCheckStatus == 1)
+                                        {
+                                @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
+                                @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
                                 </td>
                             </tr>
                         }

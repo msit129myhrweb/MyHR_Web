@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
@@ -30,7 +31,9 @@ namespace MyHR_Web.Controllers
                 string keyword_StartDay = Request.Form["Leave_Startday"];
                 string keyword_EndDay = Request.Form["Leave_Endday"];
 
-                if (!string.IsNullOrEmpty(keyword_StartDay) && !string.IsNullOrEmpty(keyword_EndDay))
+                string whereCommond;
+
+                if (!string.IsNullOrEmpty(keyword_StartDay) && !string.IsNullOrEmpty(keyword_EndDay))//2個日期不得為空
                 {
                     table = from i in MyHr.TLeaveApplications
                             where i.CEmployeeId == UserID && i.CApplyDate >= DateTime.Parse(keyword_StartDay) && i.CApplyDate <= DateTime.Parse(keyword_EndDay)
@@ -38,6 +41,29 @@ namespace MyHR_Web.Controllers
                             select i;
                 }
 
+                else if (!string.IsNullOrEmpty(keyword_StartDay))//起始日期不得為空
+                {
+                    table = from i in MyHr.TLeaveApplications
+                            where i.CEmployeeId == UserID && i.CApplyDate >= DateTime.Parse(keyword_StartDay)
+                            orderby i.CApplyDate descending 
+                            select i;
+
+                }
+                else if (!string.IsNullOrEmpty(keyword_EndDay))//終止日期不得為空
+                {
+                    table = from i in MyHr.TLeaveApplications
+                            where i.CEmployeeId == UserID && i.CApplyDate <= DateTime.Parse(keyword_EndDay)
+                            orderby i.CApplyDate descending 
+                            select i;
+                }
+
+                else
+                {
+                    table = from i in MyHr.TLeaveApplications
+                            where i.CEmployeeId == UserID
+                            orderby i.CApplyDate descending /*依照申請日期降冪排序*/
+                            select i;
+                }
 
             }
             else
@@ -48,17 +74,11 @@ namespace MyHR_Web.Controllers
                 select i;
             }
 
-            
-
-           
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
 
             foreach (TLeaveApplication T in table)
                 list.Add(new TLeaveApplicationViewModel(T));
             return View(list);
-
-
-
 
 
             //string keyword_Start = Request.Form["Leave_Startday"].ToString();
@@ -97,7 +117,7 @@ namespace MyHR_Web.Controllers
             //            })
             //            .Where(c => c.CEmployeeId == useraccount)
             //            .OrderByDescending(c => c.CApplyDate).ToList();
-           
+
             //return View(list);
             //int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             //******************************************************************************************************
@@ -106,24 +126,46 @@ namespace MyHR_Web.Controllers
 
         public IActionResult LeaveCreate()
         {
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData["Today"] = DateTime.Now.ToString("yyyy/MM/dd");
+
+
+            var departmentsQuery = from d in MyHr.TUserDepartments
+                                   orderby d.CDepartmentId // Sort by name.
+                                   select d;
+
+            //DepartmentNameSL = new SelectList(departmentsQuery.AsNoTracking(),
+            //            "DepartmentID", "Name", selectedDepartment);
+
+
+
+
+
             return View();
         }
 
         [HttpPost] /*我有修改TLeaveApplicationViewModel裡面的全域變數名稱*/
         public IActionResult LeaveCreate(TLeaveApplicationViewModel T)
         {
-           
-            
-            
+            //using (var context = new dbMyCompanyContext())
+            //{
+            //    var item = new item { };
+            //    context.Blogs.Add(blog);
+            //    context.SaveChanges();
+            //}
+
+
+            //List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+            //list = MyHr.TLeaveApplications
+
+
             MyHr.TLeaveApplications.Add(T.Leave);
             MyHr.SaveChanges();
             return RedirectToAction("LeaveList");
         }
 
-        public IActionResult LeaveEdit()
-        {
-            return View();
-        }
+      
 
         public IActionResult Delete(int? Id) //刪除
         {
@@ -143,6 +185,12 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Edit(int? Id)
         {
+
+            ViewData["Today"] = DateTime.Now.ToString("yyyy/MM/dd");
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+
+
             if (Id != null)
             {
                 TLeaveApplication T = MyHr.TLeaveApplications.FirstOrDefault(i => i.CApplyNumber == Id);
