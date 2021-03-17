@@ -12,17 +12,6 @@ namespace MyHR_Web.Controllers
 {
     public class TravelController : Controller
     {
-        //public JsonResult loadtravelcbb()
-        //{
-        //    var check = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
-
-        //                join c in (new dbMyCompanyContext()).TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
-        //                select new
-        //                {
-        //                    checktest = c.CCheckStatus
-        //                };
-        //    return Json(check);           
-        //}
         public IActionResult List()
         {
             var table = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
