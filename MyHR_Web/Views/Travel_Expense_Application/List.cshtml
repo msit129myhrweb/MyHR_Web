@@ -17,6 +17,10 @@
             color: #FFFFFF;
             padding-left: 10px;
         }
+        #keyword{
+            float:right;
+            display:block;
+        }
     </style>
 </head>
 
@@ -30,18 +34,23 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">
-                                查詢條件<br />
-                                起 :&nbsp<input type="date" />&nbsp迄 :&nbsp<input type="date" />&nbsp<input type="button" value="查詢" width="10" class="btn btn-success" style="filter: grayscale(50%)" />
-                                狀態 :
-                                <select>
-                                    <option>審核中</option>
-                                    <option>通過</option>
-                                    <option>退件</option>
-                                </select>
-                                <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                                <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                            </h3>
+                            <div class="container">
+                                <h3 class="card-title">
+                                    <span style="float:left ; display:block">
+                                        查詢條件<br />
+                                        起 :&nbsp<input type="date" />&nbsp迄 :&nbsp<input type="date" />&nbsp<input type="button" value="查詢" width="10" class="btn btn-success" style="filter: grayscale(50%)" />
+                                        狀態 :
+                                        <select>
+                                            <option>審核中</option>
+                                            <option>通過</option>
+                                            <option>退件</option>
+                                        </select>&nbsp
+                                        <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                                        <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                                    </span>
+                                    <div id="keyword">關鍵字搜尋&nbsp:&nbsp<input type="text" name="txtKeyword" placeholder="請輸入關鍵字 ex:研討會" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /></div><br />
+                                </h3>
+                            </div>
                         </div>
                         <div class="card-body">
                             <table id="example2" class="table table-bordered table-hover">
@@ -66,16 +75,16 @@
                                    {
                                     <tr>
                                         <td><input type="checkbox" name="checked" onclick="checked()"/></td>
-                                        <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /* id=item.PrimaryKey */ })</td>
+                                        <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /*id=item.PrimaryKey*/ })</td>
                                         <td>@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CApplyDate)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CTravelStartTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CTravelEndTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CCheckStatus)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                                        <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                         <td>
                                             <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
                                                 <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>

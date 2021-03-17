@@ -1,0 +1,61 @@
+﻿h2 {
+    background-color: #cbb2ae;
+    border-left: 5px solid #808080;
+    font-family: "微软雅黑", "宋体", "黑体", Arial;
+    font-size: 25px;
+    height: 80px;
+    line-height: 80px;
+    font-weight: bold;
+    text-shadow: 2px 2px 3px #222222;
+    color: #FFFFFF;
+    padding-left: 10px;
+}
+
+.button {
+    width: 250px;
+    height: 100px;
+    display: inline-block;
+    padding: 15px 25px;
+    font-size: 24px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 9px #999;
+}
+
+    .button:hover {
+        background-color: #3e8e41
+    }
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+.clock {
+    float: left;
+}
+
+.container-fluid {
+    float: right;
+}
+
+.nowTime {
+    font-size: 25px;
+}
+
+#setFace, #setQR {
+    width: 250px;
+}
+
+#register {
+    /*            float: right;
+            display: inline;
+            margin-right:5px;*/
+}
