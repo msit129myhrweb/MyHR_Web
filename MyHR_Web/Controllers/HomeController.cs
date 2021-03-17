@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -145,10 +146,24 @@ namespace MyHR_Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public IActionResult UserList()
+     
+        //todo wz
+        public JsonResult UploadOneFile(IFormFile photo)
         {
-            return View();
+            //if (photo.Length > 0)
+            //{
+            //    using (var photo1 = new FileStream(
+            //    iv_host.WebRootPath + @"\Upload\" + photo.FileName,
+            //   FileMode.Create))
+            //    {
+            //        photo.CopyTo(photo1);
+            //    }
+
+            //    return Json(new { result = true, msg = "上傳成功" });
+            //}
+            return Json(new { result = false, msg = "上傳失敗" });
         }
+      
 
     }
 }

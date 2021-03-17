@@ -37,10 +37,17 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img class="profile-user-img img-fluid img-circle"
+                            <!-- todo wz -->
+                                <img id="imgid"
+                                     class="profile-user-img img-fluid img-circle"
                                      src="~/theme/dist/img/user4-128x128.jpg"
                                      alt="User profile picture">
                             </div>
+
+                            <!-- todo wz -->
+                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()" />
+                            @*<img id="imgid" />*@
+                            <!-- todo wz -->
 
                             <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
                             <p class="text-muted text-center">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
@@ -57,25 +64,12 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <strong><i class="fas fa-book mr-1"></i> 部門</strong>
-
-                            <p class="text-muted">
-                                @ViewData["CURRENT_LOGINED_USERDEPARTMENT"]
-                            </p>
-
+                            <p class="text-muted">@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]</p>
                             <hr>
-
                             <strong><i class="fas fa-map-marker-alt mr-1"></i>職位</strong>
                             <p class="text-muted">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
-                            <p class="text-muted">  @ViewData["CURRENT_LOGINED_BRD"]</p>
-                            <p class="text-muted">  @ViewData["CURRENT_LOGINED_OBD"]</p>
-                            <p class="text-muted">  @ViewData["CURRENT_LOGINED_BBD"]</p>
-
                             <hr>
-
-                            @*<strong><i class="far fa-file-alt mr-1"></i> Notes</strong>
-
-        <p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>*@
-                        </div>
+                         </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
@@ -85,7 +79,7 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">settings</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">個人基本資料</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
@@ -125,14 +119,14 @@
                                         <div class="form-group row">
                                             <label asp-for="COnBoardDay" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OBD"]" />
+                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OBD"]" />
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label asp-for="CByeByeDay" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_BBD"]" />
+                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_BBD"]" />
                                             </div>
                                         </div>
 
@@ -167,7 +161,7 @@
                                         <div class="form-group row">
                                             <label asp-for="CJobTitleId" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERJOBTITLE"]" />
+                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERJOBTITLE"]" />
                                             </div>
                                         </div>
 
@@ -181,7 +175,7 @@
                                         <div class="form-group row">
                                             <label asp-for="CBirthday" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" value="@ViewData["CURRENT_LOGINED_BRD"]" />
+                                                <input class="form-control" value="@ViewData["CURRENT_LOGINED_BRD"]" />
                                             </div>
                                         </div>
 
@@ -189,13 +183,6 @@
                                             <label asp-for="CPhone" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
                                                 <input asp-for="CPhone" class="form-control" value="@ViewData["CURRENT_LOGINED_PHONE"]" />
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row">
-                                            <label asp-for="CPhoto" class="col-sm-2 col-form-label"></label>
-                                            <div class="col-sm-10">
-                                                <input asp-for="CPhoto" class="form-control" />
                                             </div>
                                         </div>
 
@@ -216,144 +203,144 @@
                                         <div class="form-group row">
                                             <label asp-for="COnBoardStatusId" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OB_STATUS"]" />
+                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OB_STATUS"]" />
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label asp-for="CAccountEnable" class="col-sm-2 col-form-label"></label>
                                             <div class="col-sm-10">
-                                                <input  class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_ACC_ENABLE"]" />
+                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_ACC_ENABLE"]" />
                                             </div>
                                         </div>
 
                                         @*<table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmployeeName)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CPassWord)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.COnBoardDay)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CByeByeDay)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CGender)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmail)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CAddress)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CDepartmentId)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CJobTitleId)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CSupervisor)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CBirthday)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CPhone)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CPhoto)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmergencyPerson)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmergencyContact)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CAccountEnable)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.COnBoardStatus)
-                                                    </th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach (var item in Model)
-                                                {
+                                                <thead>
                                                     <tr>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CEmployeeEnglishName)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CPassWord)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.COnBoardDay)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CByeByeDay)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CGender)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CEmail)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CAddress)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CDepartmentId)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CJobTitleId)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CSupervisor)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CBirthday)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CPhone)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CPhoto)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CEmergencyPerson)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CEmergencyContact)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CAccountEnable)
-                                                        </td>
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.COnBoardStatus.COnBoardStatus)
-                                                        </td>
-                                                        <td>
-                                                            <a asp-action="Edit" asp-route-id="@item.CEmployeeId">Edit</a> |
-                                                            <a asp-action="Details" asp-route-id="@item.CEmployeeId">Details</a> |
-                                                            <a asp-action="Delete" asp-route-id="@item.CEmployeeId">Delete</a>
-                                                        </td>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CEmployeeName)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CPassWord)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.COnBoardDay)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CByeByeDay)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CGender)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CEmail)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CAddress)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CDepartmentId)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CJobTitleId)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CSupervisor)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CBirthday)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CPhone)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CPhoto)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CEmergencyPerson)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CEmergencyContact)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.CAccountEnable)
+                                                        </th>
+                                                        <th>
+                                                            @Html.DisplayNameFor(model => model.COnBoardStatus)
+                                                        </th>
+                                                        <th></th>
                                                     </tr>
-                                                }
-                                            </tbody>
-                                        </table>*@
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model)
+                                                    {
+                                                        <tr>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CEmployeeEnglishName)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CPassWord)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.COnBoardDay)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CByeByeDay)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CGender)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CEmail)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CAddress)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CDepartmentId)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CJobTitleId)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CSupervisor)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CBirthday)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CPhone)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CPhoto)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CEmergencyPerson)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CEmergencyContact)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.CAccountEnable)
+                                                            </td>
+                                                            <td>
+                                                                @Html.DisplayFor(modelItem => item.COnBoardStatus.COnBoardStatus)
+                                                            </td>
+                                                            <td>
+                                                                <a asp-action="Edit" asp-route-id="@item.CEmployeeId">Edit</a> |
+                                                                <a asp-action="Details" asp-route-id="@item.CEmployeeId">Details</a> |
+                                                                <a asp-action="Delete" asp-route-id="@item.CEmployeeId">Delete</a>
+                                                            </td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>*@
 
                                         <div class="form-group row">
                                             <div class="offset-sm-2 col-sm-10">
@@ -381,6 +368,36 @@
     </section>
     <!-- /.content -->
 
+
+    <!-- todo wz -->
+    <script>
+        function doUpload() {
+
+            const formdata = new FormData();
+            formdata.append('photo', event.target.files[0]);
+            fetch('/M05/UploadOneFile', {
+                method: 'POST',
+                body: formdata
+            }).then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                document.write(data.msg);
+            });
+
+        }
+
+        function load(img) {
+
+            var r = new FileReader();
+            r.onload = function () {
+                var output = document.getElementById('imgid');
+                output.src = r.result;
+            }
+            r.readAsDataURL(event.target.files[0])
+        };
+
+
+    </script>
 
 
 
