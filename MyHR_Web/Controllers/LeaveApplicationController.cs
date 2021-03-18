@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
@@ -13,7 +15,9 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {
             // keyword searching
+            int DepId=int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                        where leave.CDepartmentId==DepId
                         select leave;
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
             foreach (TLeaveApplication item in table)
@@ -21,12 +25,15 @@ namespace MyHR_Web.Controllers
 
             return View(list) ;
         }
-        public IActionResult Edit(int? cappyNum)
+
+        #region Edit
+        //通過或退件
+        public IActionResult Edit(int? capplyNum)
         {
-            if (cappyNum!=null)
+            if (capplyNum != null)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l=>l.CApplyNumber == cappyNum);
+                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l=>l.CApplyNumber == capplyNum);
                 if (leave!=null)
                 {
                     return View(new TLeaveApplicationViewModel(leave));
@@ -49,5 +56,6 @@ namespace MyHR_Web.Controllers
             }
             return RedirectToAction("List");
         }
+        #endregion
     }
 }

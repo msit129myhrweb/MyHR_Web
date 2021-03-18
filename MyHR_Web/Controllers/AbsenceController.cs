@@ -12,32 +12,6 @@ namespace MyHR_Web.Controllers
 {
     public class AbsenceController : Controller
     {       
-        DateTime now = DateTime.Now; //現在時間
-        DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
-        DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
-
-        
-        public string Clock()//打卡
-        {
-            var t = from clock in (new dbMyCompanyContext()).TAbsences
-                    let x = DateTime.Today.ToString("yyyy-MM-dd")
-                    where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
-                    select clock;
-
-            if (t.ToList().Count==0)
-            {
-
-            }
-            return "";
-        }
-        public string showClockStatus()
-        {
-            if (now>on)
-            {
-
-            }
-            return "";
-        }
         public IActionResult List()
         {
             string status = "";
@@ -45,8 +19,13 @@ namespace MyHR_Web.Controllers
             {
 
             }
+
             ViewData["clockStatus"]=status;
+
+            int UserId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
             var table = from absence in (new dbMyCompanyContext()).TAbsences
+                        where absence.CEmployeeId==UserId
                         select absence;
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (TAbsence item in table)
@@ -54,6 +33,7 @@ namespace MyHR_Web.Controllers
 
             return View(list);
         }
+        #region Create
         public IActionResult Create()//上下班皆未打卡
         {
             ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
@@ -81,7 +61,10 @@ namespace MyHR_Web.Controllers
                 return RedirectToAction("List");
             }
         }
-        public IActionResult Edit(int? userId)//上班未下班未打卡
+        #endregion
+
+        #region Edit
+        public IActionResult Edit(int? userId)//上班或下班未打卡
         {
             return View();
         }
@@ -89,6 +72,34 @@ namespace MyHR_Web.Controllers
         public IActionResult Edit()
         {
             return View();
+        }
+        #endregion
+
+        DateTime now = DateTime.Now; //現在時間
+        DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
+        DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
+
+
+        public string Clock()//打卡
+        {
+            var t = from clock in (new dbMyCompanyContext()).TAbsences
+                    let x = DateTime.Today.ToString("yyyy-MM-dd")
+                    where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
+                    select clock;
+
+            if (t.ToList().Count == 0)
+            {
+
+            }
+            return "";
+        }
+        public string showClockStatus()
+        {
+            if (now > on)
+            {
+
+            }
+            return "";
         }
     }
 }

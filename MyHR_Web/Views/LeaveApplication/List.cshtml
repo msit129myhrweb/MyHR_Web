@@ -72,7 +72,7 @@
                                         <td>@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
-                                        <td>@Html.DisplayFor(modelItem => item.CApplyDate)</td>
+                                        <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
                                         <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
                                         <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
                                         <td>@Enum.GetName(typeof(eLeave), item.CLeaveCategory)</td>
