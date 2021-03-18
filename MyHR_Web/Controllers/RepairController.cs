@@ -136,7 +136,7 @@ namespace MyHR_Web.Views.Home
 
                 if (repair != null)
                 {
-                    return View(repair);
+                    return View(new CReairViewModel(repair));
                 }
 
             }
@@ -144,21 +144,20 @@ namespace MyHR_Web.Views.Home
         }
 
         [HttpPost]
-        public IActionResult RepairEdit(TRepair repair)
-        {
+        public IActionResult RepairEdit(CReairViewModel repair)
+        { dbMyCompanyContext db = new dbMyCompanyContext();
             if (repair != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
 
-                TRepair c = db.TRepairs.FirstOrDefault(p => p.CRepairNumber == repair.CRepairNumber);
+                TRepair c = db.TRepairs.FirstOrDefault(p => p.CRepairNumber == repair.CRepairNumber); 
                 if (c != null)
                 {  
                     c.CContentofRepair = repair.CContentofRepair;
-                    c.CAppleDate = repair.CAppleDate;
+                    c.CAppleDate =(DateTime)repair.CAppleDate;
                     c.CLocation = repair.CLocation;
                     c.CPhone = repair.CPhone;
                     c.CRepairCategory = repair.CRepairCategory;
-                    c.CRepairStatus = repair.CRepairStatus;
+                    c.CRepairStatus = (byte)repair.CRepairStatus;
                     
 
                     db.SaveChanges();
