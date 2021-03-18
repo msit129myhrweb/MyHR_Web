@@ -1,4 +1,6 @@
-﻿@model MyHR_Web.ViewModel.TLeaveApplicationViewModel
+﻿@model MyHR_Web.ViewModel.TLeaveApplicationCreateViewModel
+
+@Html.ValidationMessage("CReason")
 
 @{ ViewData["Title"] = "LeaveCreate"; }
 <style>
@@ -28,42 +30,71 @@
         @*<div class="card-header p-2">
             <div class="card-body">*@
 
+
         <form asp-action="LeaveCreate">
 
             @*<div class="table table-bordered table-hover" style="width:50%;margin:0px auto;padding:0px;">*@
+
+            @*寬度維持視窗一半，並且置中*@
+            @*style="vertical-align:auto">*@
+            @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+
             <div class="card" style="width:60%;margin:0px auto;padding:0px;">
-                @*寬度維持視窗一半，並且置中*@
-                <div class="card-header" @*style="vertical-align:auto"*@>
-                    @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+                <div class="card-header">
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group" style="display:none">
-                        <label asp-for="CApplyNumber" class="control-label"></label>
-                        <input asp-for="CApplyNumber" class="form-control" />
-                        <span asp-validation-for="CApplyNumber" class="text-danger"></span>
-                    </div>
+                   
+
                     <div class="form-group">
+                        <label asp-for="CDepartmentName" class="control-label"></label>
+                        <input asp-for="CDepartmentName" value="研發部" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CDepartmentName" class="text-danger"></span>
+                    </div>
+
+
+                    @*<div class="form-group">
                         <label asp-for="CDepartmentId" class="control-label"></label>
-                        <input asp-for="CDepartmentId" class="form-control" />
+                        <input asp-for="CDepartmentId" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENTDEPARTMENT"]" class="form-control" />
                         <span asp-validation-for="CDepartmentId" class="text-danger"></span>
-                    </div>
+                         </div>*@
+
+
+
+
                     <div class="form-group">
-                        <label asp-for="CEmployeeId" class="control-label"></label>
-                        <input asp-for="CEmployeeId" class="form-control" />
-                        <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                        <label asp-for="CUserName" class="control-label"></label>
+                        <input asp-for="CUserName" value="@ViewData["CURRENT_LOGINED_USERID"]" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CUserName" class="text-danger"></span>
                     </div>
+
+                    @*<div class="form-group">
+                            <label asp-for="CEmployeeId" class="control-label"></label>
+                            <input asp-for="CEmployeeId" value="@ViewData["CURRENT_LOGINED_USERID"]" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                        </div>*@
 
 
                     <div class="form-group">
                         <label asp-for="CApplyDate" class="control-label"></label>
-                        <input asp-for="@ViewData["Today"]" class="form-control" readonly="readonly" />
+                        <input asp-for="CApplyDate" value="@ViewData["Today"]+" T01:00" class="form-control" id="Leave-ApplyDate" />
                         <span asp-validation-for="CApplyDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="CLeaveCategory" class="control-label"></label>
-                        <input asp-for="CLeaveCategory" class="form-control" id="Leave-Category" />
-                        <span asp-validation-for="CLeaveCategory" class="text-danger"></span>
+                        <label asp-for="CLeaveCategoryName" class="control-label"></label>
+                        @*<input asp-for="CLeaveCategory" class="form-control" id="Leave-Category" />*@
+                        <select asp-for="CLeaveCategoryName" class="form-control" id="Leave-Category">
+
+                            <option value="" disabled selected>請選擇要申請的假別</option>
+                            <option>病假</option>
+                            <option>事假</option>
+                            <option>生理假</option>
+                            <option>喪假</option>
+                            <option>特休</option>
+
+                        </select>
+                        <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group ">
                         <label asp-for="CLeaveStartTime" class="control-label"></label>
                         <input asp-for="CLeaveStartTime" class="form-control" id="Leave_Start" max="2021-03-15" />
                         <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
@@ -78,9 +109,9 @@
                         <input asp-for="CReason" class="form-control" />
                         <span asp-validation-for="CReason" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="display:none">
                         <label asp-for="CCheckStatus" class="control-label"></label>
-                        <input asp-for="CCheckStatus" class="form-control" />
+                        <input asp-for="CCheckStatus" value="1" class="form-control" />
                         <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -105,24 +136,23 @@
     </section>
 </div>
 
-<script>
-    $(function () {
-        //得到当前时间
-        var date_now = new Date();
-        //得到当前年份
-        var year = date_now.getFullYear();
-        //得到当前月份
-        //注：
-        //  1：js中获取Date中的month时，会比当前月份少一个月，所以这里需要先加一
-        //  2: 判断当前月份是否小于10，如果小于，那么就在月份的前面加一个 '0' ， 如果大于，就显示当前月份
-        var month = date_now.getMonth() + 1 < 10 ? "0" + (date_now.getMonth() + 1) : (date_now.getMonth() + 1);
-        //得到当前日子（多少号）
-        var date = date_now.getDate() < 10 ? "0" + date_now.getDate() : date_now.getDate();
-        //设置input标签的max属性
-        $("#Leave_Start").attr("max", year + "-" + month + "-" + date);
-    })
+<script type="text/javascript">
 
-   
+
+    var d = new Date();
+    var month = d.getMonth() + 1;
+    var day = d.getDate();
+
+    var output = d.getFullYear() + '-' +
+        (month < 10 ? '0' : '') + month + '-' +
+        (day < 10 ? '0' : '') + day;
+
+    var Apply_date = document.getElementById("Leave-ApplyDate");
+    Apply_date.innerHTML = '';
+
+    console.log(output);
+    console.log(Apply_date.innerHTML);
+
 </script>
 
 

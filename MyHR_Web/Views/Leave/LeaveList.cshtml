@@ -65,20 +65,17 @@
 
                     <div class="row">
                         <div class="col">
-                            請假類別:
-                            <select>
-                                <option>資料庫做事囉!</option>
-                                <option>用ajax動態產生資料庫有的類別</option>
-                                <option>想的太美的話，最後一步硬key吧</option>
+
+                            <p>請假類別:</p>
+                            <select id="Leave_Cate">
+                               
                             </select>
                         </div>
                         <div class="col">
-                            審核狀態:
-                            <select>
-                                <option>資料庫做事囉!</option>
-                                <option>審核中</option>
-                                <option>通過</option>
-                                <option>退件</option>
+
+                            <p>審核狀態:</p>
+                            <select id="Status">
+                                
                             </select>
                         </div>
 
@@ -144,11 +141,13 @@
                                 @*<td>
                                         @Html.DisplayFor(modelItem => item.CApplyNumber)
                                     </td>*@
-                                <td>
-                                    @Enum.GetName(typeof(eDepartment),item.CDepartmentId)
+                                <td id="Leave_DepId">
+                                    @*@Html.DisplayFor(modelItem => item.CDepartmentId)*@
+                                    @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CEmployeeId)
+                                    @*@Html.DisplayFor(modelItem => item.CEmployeeId)*@
+                                    @ViewData["CURRENT_LOGINED_USERNAME"]
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CApplyDate)
@@ -183,3 +182,36 @@
         </div>
     </section>
 </div>
+
+<script type="text/javascript">
+     
+    var categorys = ['請選擇','病假', '事假', '生理假', '喪假', '特休'];   /*顯示請假類別下拉是選單*/
+    var categorySelect = document.getElementById("Leave_Cate");
+    var cat_inner = "";
+    for (var i = 0; i < categorys.length; i++) {
+        cat_inner = cat_inner + '<option value='+i+'>' + categorys[i] + '</option>';
+    }
+    categorySelect.innerHTML = cat_inner;
+
+    var Leave_ststus = ['請選擇','審核中', '通過', '退件'];/*顯示檢核類別下拉是選單*/
+    var statusSelect = document.getElementById("Status");
+    var sta_inner = "";
+    for (var i = 0; i < Leave_ststus.length; i++) {
+        sta_inner = sta_inner + '<option value=' + i + '>' + Leave_ststus[i] + '</option>';
+    }
+   
+    statusSelect.innerHTML = sta_inner;
+
+
+   /* var Deps = ['管理部', '企劃部', '研發部', '資訊部', '總務部','財會部'];*/
+    
+    
+    
+    
+    
+    
+    
+
+
+
+</script>

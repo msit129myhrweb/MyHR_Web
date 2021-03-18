@@ -18,8 +18,8 @@ namespace MyHR_Web.Controllers
 
         public IActionResult LeaveList()  //請假清單查詢
         {
-           
 
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             //string keyword_EndDay = Request.Form["Leave_Endday"];
 
             int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
@@ -31,7 +31,7 @@ namespace MyHR_Web.Controllers
                 string keyword_StartDay = Request.Form["Leave_Startday"];
                 string keyword_EndDay = Request.Form["Leave_Endday"];
 
-                string whereCommond;
+             
 
                 if (!string.IsNullOrEmpty(keyword_StartDay) && !string.IsNullOrEmpty(keyword_EndDay))//2個日期不得為空
                 {
@@ -126,9 +126,13 @@ namespace MyHR_Web.Controllers
 
         public IActionResult LeaveCreate()
         {
+
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);            
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
-            ViewData["Today"] = DateTime.Now.ToString("yyyy/MM/dd");
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData["Today"] = DateTime.Now.ToString("yyyy-MM-dd");
 
 
             var departmentsQuery = from d in MyHr.TUserDepartments
@@ -146,7 +150,8 @@ namespace MyHR_Web.Controllers
         }
 
         [HttpPost] /*我有修改TLeaveApplicationViewModel裡面的全域變數名稱*/
-        public IActionResult LeaveCreate(TLeaveApplicationViewModel T)
+        [ValidateAntiForgeryToken]
+        public IActionResult LeaveCreate(TLeaveApplicationCreateViewModel T )
         {
             //using (var context = new dbMyCompanyContext())
             //{
@@ -158,14 +163,21 @@ namespace MyHR_Web.Controllers
 
             //List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
             //list = MyHr.TLeaveApplications
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
 
-
-            MyHr.TLeaveApplications.Add(T.Leave);
-            MyHr.SaveChanges();
-            return RedirectToAction("LeaveList");
+            if (ModelState.IsValid) //[Reurired]在CORE可以成功使用
+            {
+                MyHr.TLeaveApplications.Add(T.Leave);
+                //await MyHr.SaveChangesAsync();
+                MyHr.SaveChanges();
+                return RedirectToAction("LeaveList");
+            }
+            
+            ModelState.AddModelError("CReason", "此欄位不得為空");
+            return RedirectToAction("LeaveCreate");
         }
 
-      
+
 
         public IActionResult Delete(int? Id) //刪除
         {
