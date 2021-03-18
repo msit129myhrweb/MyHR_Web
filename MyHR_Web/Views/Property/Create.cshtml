@@ -33,62 +33,66 @@
 
             <div class="card" style="width:50%;margin:0px auto;padding:0px;">
                 <div class="card-header" @*style="vertical-align:auto"*@>
-                            <form asp-action="Create" enctype="multipart/form-data">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group">
-                                    <label asp-for="CEmployeeId" class="control-label"></label>
-                                     <input asp-for="CEmployeeId" class="form-control" asp-items="ViewBag.CEmployeeId"/>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CDeparmentId" class="control-label"></label>
-                                    <input asp-for="CDeparmentId" class="form-control" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]">
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPhone" class="control-label"></label>
-                                    <input asp-for="CPhone" class="form-control" />
-                                    <span asp-validation-for="CPhone" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPropertySubjectId" class="control-label"></label>
-                                    <select asp-for="CPropertySubjectId" class="form-control" ></select>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPropertyCategoryId" class="control-label"></label>
-                                    <select asp-for="CPropertyCategoryId" class="form-control" ></select>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPropertyPhoto" class="control-label"></label>
-                                    <input asp-for="CPropertyPhoto" class="form-control" />
-                                    <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CProperty" class="control-label"></label>
-                                    <input asp-for="CProperty" class="form-control" />
-                                    <span asp-validation-for="CProperty" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CLostAndFoundDate" class="control-label"></label>
-                                    <input asp-for="CLostAndFoundDate" class="form-control" />
-                                    <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CLostAndFoundSpace" class="control-label"></label>
-                                    <input asp-for="CLostAndFoundSpace" class="form-control" />
-                                    <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CtPropertyDescription" class="control-label"></label>
-                                    <input asp-for="CtPropertyDescription" class="form-control" />
-                                    <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                                    <select asp-for="CPropertyCheckStatusId" class="form-control"></select>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="新增" class="btn btn-primary" />
-                                </div>
-                            </form>
+                    <form asp-action="Create" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group">
+                            <label asp-for="CEmployeeId" class="control-label"></label>
+                            <input asp-for="CEmployeeId" class="form-control" asp-items="ViewBag.CEmployeeId" />
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CDepartmentName" class="control-label"></label>
+                            <input asp-for="CDepartmentName" class="form-control" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CDeparmentId" class="control-label"></label>
+                            <input asp-for="CDeparmentId" class="form-control" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]">
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPhone" class="control-label"></label>
+                            <input asp-for="CPhone" class="form-control" />
+                            <span asp-validation-for="CPhone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertySubjectId" class="control-label"></label>
+                            <select asp-for="CPropertySubjectId" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertyCategoryId" class="control-label"></label>
+                            <select asp-for="CPropertyCategoryId" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertyPhoto" class="control-label"></label>
+                            <input asp-for="CPropertyPhoto" class="form-control" />
+                            <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CProperty" class="control-label"></label>
+                            <input asp-for="CProperty" class="form-control" />
+                            <span asp-validation-for="CProperty" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLostAndFoundDate" class="control-label"></label>
+                            <input asp-for="CLostAndFoundDate" class="form-control" />
+                            <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLostAndFoundSpace" class="control-label"></label>
+                            <input asp-for="CLostAndFoundSpace" class="form-control" />
+                            <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CtPropertyDescription" class="control-label"></label>
+                            <input asp-for="CtPropertyDescription" class="form-control" />
+                            <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
+                            <select asp-for="CPropertyCheckStatusId" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="新增" class="btn btn-primary" />
+                        </div>
+                    </form>
                         </div>
                     </div>
 </div>

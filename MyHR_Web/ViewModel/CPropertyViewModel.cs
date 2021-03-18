@@ -27,11 +27,16 @@ namespace MyHR_Web.ViewModel
             get { return iv_property.CPropertyId; }
             set { iv_property.CPropertyId = value; }
         }
+
+        public string CDepartmentName { get; set; }
+
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
         public int CDeparmentId
         {
-            get { return iv_property.CDeparmentId; }
+            get {
+                iv_property.CDeparmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
+                return iv_property.CDeparmentId; }
             set { iv_property.CDeparmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
