@@ -87,16 +87,16 @@
                                 @Html.DisplayFor(modelItem => item.CEmployeeId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CDeparmentId)
+                                @Enum.GetName(typeof(eDepartment),item.CDeparmentId)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CPhone)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CPropertySubjectId)
+                                @Enum.GetName(typeof(eLostAndFoundSubject),item.CPropertySubjectId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CPropertyCategoryId)
+                                @Enum.GetName(typeof(eLostAndFoundCategory),item.CPropertyCategoryId)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CPropertyPhoto)
@@ -105,7 +105,7 @@
                                 @Html.DisplayFor(modelItem => item.CProperty)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CLostAndFoundDate)
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}",item.CLostAndFoundDate))
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CLostAndFoundSpace)
@@ -114,7 +114,7 @@
                                 @Html.DisplayFor(modelItem => item.CtPropertyDescription)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CPropertyCheckStatusId)
+                                @Enum.GetName(typeof(eCheckStatus), item.CPropertyCheckStatusId)
                             </td>
                             <td>
                                 @Html.ActionLink("修改", "Edit", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |

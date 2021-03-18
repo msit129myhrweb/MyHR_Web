@@ -1,15 +1,16 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-
 using MyHR_Web.ViewModel;
 using MyHR_Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
+    
     public class PropertyController : Controller
     {
         private IHostingEnvironment iv_host;
@@ -21,6 +22,7 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {
             var propertytable = from p in (new dbMyCompanyContext()).TLostAndFounds
+                                //where p.CEmployeeId == 
                                 select p;
             List<CPropertyViewModel> list = new List<CPropertyViewModel>();
             foreach (TLostAndFound t in propertytable)

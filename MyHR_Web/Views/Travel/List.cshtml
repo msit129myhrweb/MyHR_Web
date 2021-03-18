@@ -74,7 +74,7 @@
                             @Html.DisplayFor(modelItem => item.CApplyNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CDepartmentId)
+                            @Enum.GetName(typeof(eDepartment),item.CDepartmentId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CEmployeeId)
@@ -83,19 +83,19 @@
                             @Html.DisplayFor(modelItem => item.CReason)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CApplyDate)
+                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CTravelStartTime)
+                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CTravelEndTime)
+                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CAmont)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CCheckStatus)
+                            @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
                         </td>
                         <td>
                             @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
