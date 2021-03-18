@@ -23,6 +23,7 @@
             </style>
         </header>
         <h2>失物招領系統</h2>
+        @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
 
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="col-md-4">
@@ -46,17 +47,17 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CPropertySubjectId" class="control-label"></label>
-                        <input asp-for="CPropertySubjectId" class="form-control" />
+                        <select asp-for="CPropertySubjectId" id="t失物主旨下拉選單" class="form-control" />
                         <span asp-validation-for="CPropertySubjectId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CPropertyCategoryId" class="control-label"></label>
-                        <input asp-for="CPropertyCategoryId" class="form-control" />
+                        <select asp-for="CPropertyCategoryId" id="t失物類別下拉選單" class="form-control" />
                         <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CPropertyPhoto" class="control-label"></label>
-                        <input type="file" name="image" />
+                        <input type="file" name="Propertyimage" />
                         <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -81,7 +82,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                        <input asp-for="CPropertyCheckStatusId" class="form-control" />
+                        <select asp-for="CPropertyCheckStatusId" id="t失物狀態下拉選單" class="form-control" />
                         <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -91,10 +92,7 @@
             </div>
         </div>
 
-        <div>
-            @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        </div>
-
+</div>     
         @section Scripts {
             @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
         }

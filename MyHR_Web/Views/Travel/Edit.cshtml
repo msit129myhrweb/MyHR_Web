@@ -1,4 +1,4 @@
-﻿@model MyHR_Web.Models.TTravelExpenseApplication
+﻿@model MyHR_Web.ViewModel.CTravelViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,15 +23,13 @@
             </style>
         </header>
         <h2>差旅費系統</h2>
+        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="col-md-4">
-                <form asp-action="Edit">
+                <form asp-action="Edit" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="CApplyNumber" class="control-label"></label>
-                        <input asp-for="CApplyNumber" class="form-control" />
-                        <span asp-validation-for="CApplyNumber" class="text-danger"></span>
-                    </div>
+                   
                     <div class="form-group">
                         <label asp-for="CDepartmentId" class="control-label"></label>
                         <input asp-for="CDepartmentId" class="form-control" />
@@ -69,20 +67,17 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CCheckStatus" class="control-label"></label>
-                        <input asp-for="CCheckStatus" class="form-control" />
+                        <select asp-for="CCheckStatus" id="t差旅費下拉選單" class="form-control" />
                         <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="submit" value="修改" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
 </div>
-<div>
-    @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
 
-</div>
 
         @section Scripts {
             @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

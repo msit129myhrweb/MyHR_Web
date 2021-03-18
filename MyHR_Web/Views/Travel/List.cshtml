@@ -24,11 +24,15 @@
         <h2>差旅費系統</h2>
 
         @Html.ActionLink("差旅費申請", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-        <p>
-            <form method="post">
-                關鍵字<input type="text" name="txtQuery"  /><input type="submit" value="查詢" />
-            </form>
-        </p>
+    
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">
+                    查詢條件<br />
+                    起 : <input type="date" />迄 : <input type="date" />     <input type="button" value="查詢" class="btn btn-outline-secondary" />
+
+                </h3>
+    
         <table class="table table-bordered table-hover">
             <thead>
                 <tr>
@@ -95,10 +99,11 @@
                         </td>
                         <td>
                             @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
-                            @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')"})
+                            @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+     </div>
 </div>

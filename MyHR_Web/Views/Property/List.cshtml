@@ -26,100 +26,104 @@
         <h2>失物招領系統</h2>
 
         @Html.ActionLink("新增失物", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-        <p>
-            <form method="post">
-                關鍵字<input type="text" name="txtQuery" id="txtQuery" /><input type="submit" value="查詢" />
-            </form>
-        </p>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPropertyId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CDeparmentId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPhone)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPropertySubjectId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPropertyCategoryId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPropertyPhoto)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CProperty)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CLostAndFoundDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CLostAndFoundSpace)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CtPropertyDescription)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CPropertyCheckStatusId)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">
+                查詢條件<br />
+                起 : <input type="date" />迄 : <input type="date" />     <input type="button" value="查詢" class="btn btn-outline-secondary" />
+
+            </h3>
+
+            <table class="table">
+                <thead>
                     <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPropertyId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CEmployeeId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CDeparmentId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPhone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPropertySubjectId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPropertyCategoryId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPropertyPhoto)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CProperty)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CLostAndFoundDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CLostAndFoundSpace)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CtPropertyDescription)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPropertyCheckStatusId)
-                        </td>
-                        <td>
-                            @Html.ActionLink("修改", "Edit", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
-                            @Html.ActionLink("刪除", "Delete", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPropertyId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CEmployeeId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CDeparmentId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPhone)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPropertySubjectId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPropertyCategoryId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPropertyPhoto)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CProperty)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CLostAndFoundDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CLostAndFoundSpace)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CtPropertyDescription)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CPropertyCheckStatusId)
+                        </th>
+                        <th></th>
                     </tr>
-                }
-            </tbody>
-        </table>
-    </section>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertyId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CEmployeeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CDeparmentId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPhone)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertySubjectId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertyCategoryId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertyPhoto)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CProperty)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CLostAndFoundDate)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CLostAndFoundSpace)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CtPropertyDescription)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertyCheckStatusId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("修改", "Edit", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
+                                @Html.ActionLink("刪除", "Delete", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+</section>
 </div>

@@ -48,15 +48,15 @@ namespace MyHR_Web.ViewModel
             get { return iv_property.CPhone; }
             set { iv_property.CPhone = value; }
         }
-        [Required(ErrorMessage = "失物類別是必填欄位")]
-        [DisplayName("失物類別")]
+        [Required(ErrorMessage = "失物主旨是必填欄位")]
+        [DisplayName("失物主旨")]
         public int CPropertySubjectId
         {
             get { return iv_property.CPropertySubjectId; }
             set { iv_property.CPropertySubjectId = value; }
         }
-        [Required(ErrorMessage = "是必填欄位")]
-        [DisplayName("出差開始時間")]
+        [Required(ErrorMessage = "類別是必填欄位")]
+        [DisplayName("類別")]
         public int CPropertyCategoryId
         {
             get { return iv_property.CPropertyCategoryId; }
