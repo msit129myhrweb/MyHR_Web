@@ -24,87 +24,75 @@
     <section class="content-header">
         <h2>失物招領系統</h2>
         @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-
-
         <hr />
         @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
         @*<div class="card">*@
         @*<div class="card-header p-2">
-        <div class="card-body">*@
-        <form asp-action="Create" enctype="multipart/form-data">
+            <div class="card-body">*@
+       
 
             <div class="card" style="width:50%;margin:0px auto;padding:0px;">
                 <div class="card-header" @*style="vertical-align:auto"*@>
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="CEmployeeId" class="control-label"></label>
-                        <input asp-for="CEmployeeId" class="form-control" />
-                        <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                            <form asp-action="Create" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="CEmployeeId" class="control-label"></label>
+                                     <input asp-for="CEmployeeId" class="form-control" asp-items="ViewBag.CEmployeeId"/>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CDeparmentId" class="control-label"></label>
+                                    <input asp-for="CDeparmentId" class="form-control" asp-items="ViewBag.CDeparmentId">
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPhone" class="control-label"></label>
+                                    <input asp-for="CPhone" class="form-control" />
+                                    <span asp-validation-for="CPhone" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPropertySubjectId" class="control-label"></label>
+                                    <select asp-for="CPropertySubjectId" class="form-control" ></select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPropertyCategoryId" class="control-label"></label>
+                                    <select asp-for="CPropertyCategoryId" class="form-control" ></select>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPropertyPhoto" class="control-label"></label>
+                                    <input asp-for="CPropertyPhoto" class="form-control" />
+                                    <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CProperty" class="control-label"></label>
+                                    <input asp-for="CProperty" class="form-control" />
+                                    <span asp-validation-for="CProperty" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CLostAndFoundDate" class="control-label"></label>
+                                    <input asp-for="CLostAndFoundDate" class="form-control" />
+                                    <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CLostAndFoundSpace" class="control-label"></label>
+                                    <input asp-for="CLostAndFoundSpace" class="form-control" />
+                                    <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CtPropertyDescription" class="control-label"></label>
+                                    <input asp-for="CtPropertyDescription" class="form-control" />
+                                    <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
+                                    <select asp-for="CPropertyCheckStatusId" class="form-control"></select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" value="新增" class="btn btn-primary" />
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="CDeparmentId" class="control-label"></label>
-                        <input asp-for="CDeparmentId" class="form-control" />
-                        <span asp-validation-for="CDeparmentId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CPhone" class="control-label"></label>
-                        <input asp-for="CPhone" class="form-control" />
-                        <span asp-validation-for="CPhone" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CPropertySubjectId" class="control-label"></label>
-                        <select asp-for="CPropertySubjectId" id="t失物主旨下拉選單" class="form-control" />
-                        <span asp-validation-for="CPropertySubjectId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CPropertyCategoryId" class="control-label"></label>
-                        <select asp-for="CPropertyCategoryId" id="t失物類別下拉選單" class="form-control" />
-                        <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CPropertyPhoto" class="control-label"></label>
-                        <input type="file" name="Propertyimage" />
-                        <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CProperty" class="control-label"></label>
-                        <input asp-for="CProperty" class="form-control" />
-                        <span asp-validation-for="CProperty" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CLostAndFoundDate" class="control-label"></label>
-                        <input asp-for="CLostAndFoundDate" class="form-control" />
-                        <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CLostAndFoundSpace" class="control-label"></label>
-                        <input asp-for="CLostAndFoundSpace" class="form-control" />
-                        <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CtPropertyDescription" class="control-label"></label>
-                        <input asp-for="CtPropertyDescription" class="form-control" />
-                        <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                        <select asp-for="CPropertyCheckStatusId" id="t失物狀態下拉選單" class="form-control" />
-                        <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="新增" class="btn btn-primary" />
-                    </div>
-                </div>
-            </div>
-        </form>
-
-    </section>
 </div>
-
-
-
-
-
-@*@section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    }*@
+                   
+                    @section Scripts {
+                        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+                    }
