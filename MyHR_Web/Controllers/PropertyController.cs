@@ -35,6 +35,10 @@ namespace MyHR_Web.Controllers
         {
             string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
             return View();
         }
 

@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
@@ -24,6 +26,12 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
+            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
             return View();
         }
         [HttpPost]

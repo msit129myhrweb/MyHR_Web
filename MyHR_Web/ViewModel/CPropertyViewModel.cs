@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using MyHR_Web.Models;
+using prjCoreDemo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -28,29 +29,34 @@ namespace MyHR_Web.ViewModel
             set { iv_property.CPropertyId = value; }
         }
 
-        public string CDepartmentName { get; set; }
-
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
+        public string CDepartmentName { get; set; }
         public int CDeparmentId
         {
-            get {
+            get 
+            {
                 iv_property.CDeparmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
-                return iv_property.CDeparmentId; }
+                return iv_property.CDeparmentId; 
+            }
             set { iv_property.CDeparmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
         [DisplayName("員編")]
         public int CEmployeeId
         {
-            get { return iv_property.CEmployeeId; }
+            get { return iv_property.CEmployeeId;}
             set { iv_property.CEmployeeId = value; }
         }
         [Required(ErrorMessage = "手機是必填欄位")]
         [DisplayName("手機")]
         public string CPhone
         {
-            get { return iv_property.CPhone; }
+            get 
+            {
+                iv_property.CPhone = CDictionary.LOGIN_USERPHONE;
+                return iv_property.CPhone; 
+            }
             set { iv_property.CPhone = value; }
         }
         [Required(ErrorMessage = "失物主旨是必填欄位")]

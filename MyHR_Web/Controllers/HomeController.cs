@@ -35,7 +35,6 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
-            
             return View();
         }
         public IActionResult Login()
@@ -74,7 +73,8 @@ namespace MyHR_Web.Controllers
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
-                
+                HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
+                HttpContext.Session.SetString(CDictionary.LOGIN_USERID, user.CEmployeeId.ToString());
                 return RedirectToAction("Index");
             }
 
