@@ -14,11 +14,40 @@ namespace MyHR_Web.Controllers
     {
         public IActionResult List()
         {
+            int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
+            IEnumerable<TLeaveApplication> table = null;
+
             // keyword searching
-            int DepId=int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                        where leave.CDepartmentId==DepId
+            if (!string.IsNullOrEmpty(Request.ContentType))
+            {
+                string Keyword = Request.Form["txtKeyword"];
+
+                //事由跟申請單號為空
+                if (string.IsNullOrEmpty(Keyword))
+                {
+                    table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                            where leave.CDepartmentId == DepId
+                            select leave;
+                }
+                //事由、申請單號都(或其一)有值
+                else
+                {
+                    table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                            //join category in (new dbMyCompanyContext()).TLeaves on leave.CLeaveCategory equals category.CLeaveId
+                            where leave.CDepartmentId == DepId &&
+                                  leave.CReason.Contains(Keyword) ||
+                                  leave.CApplyNumber.ToString().Contains(Keyword)/* ||*/
+                                  //category.CLeaveCategory.Contains(Keyword)
+                            select leave;
+                }
+            }
+            //事由跟申請單號為空白
+            else
+            {
+                table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                        where leave.CDepartmentId == DepId
                         select leave;
+            }
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
             foreach (TLeaveApplication item in table)
                 list.Add(new TLeaveApplicationViewModel(item));

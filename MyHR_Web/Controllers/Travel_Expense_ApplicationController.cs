@@ -18,41 +18,40 @@ namespace MyHR_Web.Controllers
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             IEnumerable<TTravelExpenseApplication> table = null;
 
+            //searching
             if (!string.IsNullOrEmpty(Request.ContentType))
             {
                 string Keyword = Request.Form["txtKeyword"];
-                string ApplyNum = Request.Form["txtApplyNum"];
 
-                if (!string.IsNullOrEmpty(Keyword))
-                {
-                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications
-                            where travel.CDepartmentId == DepId && travel.CReason.Contains(Keyword)
-                            select travel;
-                }
-
-                else if(!string.IsNullOrEmpty(ApplyNum))
-                {
-                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications
-                            where travel.CDepartmentId == DepId && travel.CApplyNumber.ToString().Contains(Keyword)
-                            select travel;
-                }
-                else if (string.IsNullOrEmpty(Keyword)&&string.IsNullOrEmpty(ApplyNum))
+                //事由跟申請單號為空白
+                if (string.IsNullOrEmpty(Keyword))
                 {
                     table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
                             where travel.CDepartmentId == DepId
                             select travel;
                 }
-
-                List<CTravelViewModel> list = new List<CTravelViewModel>();
-                foreach (TTravelExpenseApplication item in table)
-                    list.Add(new CTravelViewModel(item));
-
-                return View(list);
-
+                //事由跟申請單號都(或其一)有值
+                else
+                {
+                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                            where travel.CDepartmentId == DepId && 
+                                  travel.CReason.Contains(Keyword) || 
+                                  travel.CApplyNumber.ToString().Contains(Keyword)
+                            select travel;
+                }
             }
+            //事由跟申請單號為空白
+            else
+            {
+                table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                        where travel.CDepartmentId == DepId
+                        select travel;
+            }
+            List<CTravelViewModel> list = new List<CTravelViewModel>();
+            foreach (TTravelExpenseApplication item in table)
+                list.Add(new CTravelViewModel(item));
 
-            return RedirectToAction("List");
-
+            return View(list);
         }
 
         #region Edit
