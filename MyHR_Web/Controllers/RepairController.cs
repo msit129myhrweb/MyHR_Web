@@ -19,15 +19,82 @@ namespace MyHR_Web.Views.Home
 
             if (!string.IsNullOrEmpty(Request.ContentType))
             {
-                string keyword = Request.Form["repairnumber"];
-                table = from r in (new dbMyCompanyContext()).TRepairs
-                        where r.CRepairNumber==(int.Parse(keyword))
-                        select r;
+                string Srepairnumber = Request.Form["repairnumber"];
+                string SrepairdateStart = Request.Form["repairdateStart"];
+                string SrepairdateEnd = Request.Form["repairdateEnd"];
+                string Srepaircontent = Request.Form["repaircontent"];
+
+                //單號不為空
+                if (!string.IsNullOrEmpty(Srepairnumber))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CRepairNumber == (int.Parse(Srepairnumber))
+                            orderby r.CAppleDate descending
+                            select r;
+                }//開始日期 結束日期 內容不為空
+                else if (!string.IsNullOrEmpty(SrepairdateStart) && !string.IsNullOrEmpty(SrepairdateEnd) && !string.IsNullOrEmpty(Srepaircontent))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CContentofRepair.Contains(Srepaircontent) && r.CAppleDate <= DateTime.Parse(SrepairdateEnd) && r.CAppleDate >= DateTime.Parse(SrepairdateStart)
+                            orderby r.CAppleDate descending
+                            select r;
+                }//開始日期 結束日期不為空
+                else if (!string.IsNullOrEmpty(SrepairdateStart) && !string.IsNullOrEmpty(SrepairdateStart))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CAppleDate <= DateTime.Parse(SrepairdateEnd) && r.CAppleDate >= DateTime.Parse(SrepairdateStart)
+                            orderby r.CAppleDate descending
+                            select r;
+                }//開始日期  內容不為空
+                else if (!string.IsNullOrEmpty(SrepairdateStart) && !string.IsNullOrEmpty(Srepaircontent))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CAppleDate >= DateTime.Parse(SrepairdateStart) && r.CContentofRepair.Contains(Srepaircontent)
+                            orderby r.CAppleDate descending
+                            select r;
+                }
+                // 結束日期 內容不為空
+                else if ( !string.IsNullOrEmpty(SrepairdateEnd) && !string.IsNullOrEmpty(Srepaircontent))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CAppleDate <= DateTime.Parse(SrepairdateEnd) && r.CContentofRepair.Contains(Srepaircontent)
+                            orderby r.CAppleDate descending
+                            select r;
+                }//開始日期不為空
+                else if (!string.IsNullOrEmpty(SrepairdateStart))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CAppleDate >= DateTime.Parse(SrepairdateStart)
+                            orderby r.CAppleDate descending
+                            select r;
+                }//結束日期不為空
+                else if (!string.IsNullOrEmpty(SrepairdateEnd))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CAppleDate <= DateTime.Parse(SrepairdateEnd)
+                            orderby r.CAppleDate descending
+                            select r;
+                }//內容不為空
+                else
+                if (!string.IsNullOrEmpty(Srepaircontent))
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            where r.CContentofRepair.Contains(Srepaircontent)
+                            orderby r.CAppleDate descending
+                            select r;
+                }
+                else
+                {
+                    table = from r in (new dbMyCompanyContext()).TRepairs
+                            orderby r.CAppleDate descending
+                            select r;
+                }
             }
             else
             { 
             table = from r in (new dbMyCompanyContext()).TRepairs
-                        select r;
+                    orderby r.CAppleDate descending
+                    select r;
             }
 
                  

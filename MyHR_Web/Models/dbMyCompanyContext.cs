@@ -513,7 +513,7 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CContentofRepair)
                     .IsRequired()
-                    .HasColumnType("text")
+                    .HasMaxLength(50)
                     .HasColumnName("cContentofRepair");
 
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
