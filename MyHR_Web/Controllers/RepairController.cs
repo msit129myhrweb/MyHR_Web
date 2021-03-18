@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Views.Home
 {
@@ -39,12 +40,16 @@ namespace MyHR_Web.Views.Home
         }
         public IActionResult RepairCreate()
         {
+           
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData[CDictionary.CURRENT_LOGINED_PHONE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_PHONE);
             return View();
         }
 
         [HttpPost]
         public IActionResult RepairCreate(CReairViewModel cReair)
         {
+           
             dbMyCompanyContext db = new dbMyCompanyContext();
             db.TRepairs.Add(cReair.repair);
             db.SaveChanges();

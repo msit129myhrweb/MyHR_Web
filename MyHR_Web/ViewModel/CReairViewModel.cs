@@ -24,14 +24,14 @@ namespace MyHR_Web.ViewModel
         }
 
 
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("維修單號")]
         public int CRepairNumber
         {
             get { return iv_repair.CRepairNumber; }
             set { iv_repair.CRepairNumber = value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("員工編號")]
         public int? CEmployeeId
         {
@@ -39,42 +39,42 @@ namespace MyHR_Web.ViewModel
             get { return iv_repair.CEmployeeId; }
             set { iv_repair.CEmployeeId = (int)value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("報修申請日期")]
         public DateTime? CAppleDate
         {
             get { return iv_repair.CAppleDate; }
             set { iv_repair.CAppleDate = (DateTime)value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("報修類別")]
         public string CRepairCategory
         {
             get { return iv_repair.CRepairCategory; }
             set { iv_repair.CRepairCategory = value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("報修地點")]
         public string CLocation
         {
             get { return iv_repair.CLocation; }
             set { iv_repair.CLocation = value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("報修內容")]
         public string CContentofRepair
         {
             get { return iv_repair.CContentofRepair; }
             set { iv_repair.CContentofRepair = value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("連絡電話")]
         public string CPhone
         {
             get { return iv_repair.CPhone; }
             set { iv_repair.CPhone = value; }
         }
-
+        [Required(ErrorMessage = "必填欄位")]
         [DisplayName("維修狀態")]
         public byte? CRepairStatus
         {

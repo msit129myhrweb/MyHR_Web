@@ -132,7 +132,8 @@
                                 @Html.DisplayFor(modelItem => item.CEmployeeId)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.CAppleDate)
+                                @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CAppleDate))
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CRepairCategory)

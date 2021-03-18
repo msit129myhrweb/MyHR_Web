@@ -16,6 +16,9 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_GENDER = "CURRENT_LOGINED_GENDER";
         public static readonly string CURRENT_LOGINED_EMAIL = "CURRENT_LOGINED_EMAIL";
         public static readonly string CURRENT_LOGINED_ADDRESS = "CURRENT_LOGINED_ADDRESS";
+
+        public static readonly string CURRENT_LOGINED_USERDEPARTMENTID = "CURRENT_LOGINED_USERDEPARTMENTID";
+
         public static readonly string CURRENT_LOGINED_USERDEPARTMENT = "CURRENT_LOGINED_USERDEPARTMENT";
         public static readonly string CURRENT_LOGINED_USERJOBTITLE = "CURRENT_LOGINED_USERJOBTITLE";
         public static readonly string CURRENT_LOGINED_SUPERVISOR = "CURRENT_LOGINED_SUPERVISOR";

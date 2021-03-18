@@ -37,12 +37,14 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
-            
+
             //int  userid = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             //var table = from u in (new dbMyCompanyContext()).TUsers
             //            where u.CEmployeeId == userid
             //            select u;
             //return View(table);
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
 
             ViewData[CDictionary.CURRENT_LOGINED_USERID]= HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
             ViewData[CDictionary.CURRENT_LOGINED_USERENNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERENNAME);
@@ -96,10 +98,13 @@ namespace MyHR_Web.Controllers
             if (user != null)
             {
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
-                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
+
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
+
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
-                   
-                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID,(user.CEmployeeId).ToString());
+
+        HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID,(user.CEmployeeId).ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME,user.CEmployeeEnglishName);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD , user.CPassWord);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString("yyyy/MM/dd"));

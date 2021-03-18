@@ -41,11 +41,12 @@
                                 <img id="imgid"
                                      class="profile-user-img img-fluid img-circle"
                                      src="~/theme/dist/img/user4-128x128.jpg"
-                                     alt="User profile picture">
+                                     alt="User profile picture"
+                                     onclick="changeImg()">
                             </div>
 
                             <!-- todo wz -->
-                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()" />
+                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()"/>
                             @*<img id="imgid" />*@
                             <!-- todo wz -->
 
@@ -385,7 +386,10 @@
             });
 
         }
+        function changeImg() {
 
+
+        }
         function load(img) {
 
             var r = new FileReader();
