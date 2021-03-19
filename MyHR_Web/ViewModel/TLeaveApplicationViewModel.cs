@@ -12,16 +12,24 @@ namespace MyHR_Web.ViewModel
 
 
         private TLeaveApplication iv_Leave = null;
+        private TUser iv_User = null;
+
         public TLeaveApplication product { get { return iv_Leave; } }
+        public TUser user { get { return iv_User; } }
 
         public TLeaveApplicationViewModel(TLeaveApplication p)
         {
             iv_Leave = p;
         }
+        public TLeaveApplicationViewModel(TUser u)
+        {
+            iv_User = u;
+        }
 
-        public TLeaveApplicationViewModel(TTravelExpenseApplication item)
+        public TLeaveApplicationViewModel()
         {
             iv_Leave = new TLeaveApplication();
+            iv_User = new TUser();
         }
 
 
@@ -48,6 +56,8 @@ namespace MyHR_Web.ViewModel
         public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+
+        public string employeeName { get; /*{return iv_User.CEmployeeName ; }*/ set;/*{iv_User.CEmployeeName=value ; }*/ }
 
     }
 

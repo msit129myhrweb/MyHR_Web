@@ -13,7 +13,28 @@ namespace MyHR_Web.Controllers
     public class LeaveApplicationController : Controller
     {
         public IActionResult List()
-        {
+        {        
+            //IEnumerable<TLeaveApplicationViewModel> UserName=
+            //(
+            //    from leave in (new dbMyCompanyContext()).TLeaveApplications
+            //    join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
+            //    where leave.CDepartmentId == 5
+            //    select new TLeaveApplicationViewModel(leave)
+            //    {
+            //        employeeName = user.CEmployeeName,
+            //        CApplyNumber = leave.CApplyNumber,
+            //        CDepartmentId = leave.CDepartmentId,
+            //        CEmployeeId = leave.CEmployeeId,
+            //        CApplyDate = leave.CApplyDate,
+            //        CLeaveCategory = leave.CLeaveCategory,
+            //        CLeaveStartTime = leave.CLeaveStartTime,
+            //        CLeaveEndTime = leave.CLeaveEndTime,
+            //        CReason = leave.CReason,
+            //        CCheckStatus = leave.CCheckStatus
+            //    }
+            //); 
+            //return View(UserName);
+
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             IEnumerable<TLeaveApplication> table = null;
 
@@ -26,6 +47,7 @@ namespace MyHR_Web.Controllers
                 if (string.IsNullOrEmpty(Keyword))
                 {
                     table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                            //join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId
                             select leave;
                 }
@@ -33,11 +55,10 @@ namespace MyHR_Web.Controllers
                 else
                 {
                     table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                            //join category in (new dbMyCompanyContext()).TLeaves on leave.CLeaveCategory equals category.CLeaveId
+                            join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId &&
                                   leave.CReason.Contains(Keyword) ||
-                                  leave.CApplyNumber.ToString().Contains(Keyword)/* ||*/
-                                  //category.CLeaveCategory.Contains(Keyword)
+                                  leave.CApplyNumber.ToString().Contains(Keyword)
                             select leave;
                 }
             }
@@ -45,6 +66,7 @@ namespace MyHR_Web.Controllers
             else
             {
                 table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                        //join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
                         where leave.CDepartmentId == DepId
                         select leave;
             }
@@ -86,5 +108,10 @@ namespace MyHR_Web.Controllers
             return RedirectToAction("List");
         }
         #endregion
+
+        public IActionResult ChangeStatus()
+        {
+            return View("List");
+        }
     }
 }

@@ -333,7 +333,7 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CApplyNumber).HasColumnName("cApplyNumber");
 
                 entity.Property(e => e.CApplyDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -347,11 +347,11 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CLeaveCategory).HasColumnName("cLeaveCategory");
 
                 entity.Property(e => e.CLeaveEndTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cLeaveEndTime");
 
                 entity.Property(e => e.CLeaveStartTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cLeaveStartTime");
 
                 entity.Property(e => e.CReason)
@@ -513,7 +513,7 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CContentofRepair)
                     .IsRequired()
-                    .HasColumnType("text")
+                    .HasMaxLength(50)
                     .HasColumnName("cContentofRepair");
 
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
@@ -556,7 +556,7 @@ namespace MyHR_Web.Models
                     .HasColumnName("cAmont");
 
                 entity.Property(e => e.CApplyDate)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -573,11 +573,11 @@ namespace MyHR_Web.Models
                     .HasColumnName("cReason");
 
                 entity.Property(e => e.CTravelEndTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cTravelEndTime");
 
                 entity.Property(e => e.CTravelStartTime)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("cTravelStartTime");
 
                 entity.HasOne(d => d.CCheckStatusNavigation)

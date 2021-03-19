@@ -6,6 +6,19 @@
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
     <script type="text/javascript" src="~/js/Absence.js"></script>
+    <script>
+
+
+        $.ajax({
+            url: "@Url.Action("Create", "Absence")",
+            type: "POST",
+            data: dataObject,
+            datatype: "json",
+            success: 
+
+        })
+
+    </script>
 </head>
 <body>
     <div class="content-wrapper">

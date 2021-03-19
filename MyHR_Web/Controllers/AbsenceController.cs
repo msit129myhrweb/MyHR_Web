@@ -11,7 +11,8 @@ using prjCoreDemo.ViewModel;
 namespace MyHR_Web.Controllers
 {
     public class AbsenceController : Controller
-    {       
+    {
+        #region List
         public IActionResult List()
         {
             string status = "";
@@ -22,10 +23,10 @@ namespace MyHR_Web.Controllers
 
             ViewData["clockStatus"]=status;
 
-            int UserId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
             var table = from absence in (new dbMyCompanyContext()).TAbsences
-                        where absence.CEmployeeId==UserId
+                        where absence.CEmployeeId== userId
                         select absence;
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (TAbsence item in table)
@@ -33,6 +34,8 @@ namespace MyHR_Web.Controllers
 
             return View(list);
         }
+        #endregion
+
         #region Create
         public IActionResult Create()//上下班皆未打卡
         {
@@ -45,9 +48,8 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public IActionResult Create(CAbsenceViewModel a)
         {
-            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
-            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
 
             if (string.IsNullOrEmpty(a.COn.ToString("yyyy-MM-dd")) || string.IsNullOrEmpty(a.COff.ToString("yyyy-MM-dd")))
             {
@@ -60,18 +62,43 @@ namespace MyHR_Web.Controllers
                 db.SaveChanges();
                 return RedirectToAction("List");
             }
+
+           // ModelState.IsValid;
+
         }
         #endregion
 
         #region Edit
         public IActionResult Edit(int? userId)//上班或下班未打卡
         {
-            return View();
+            if (userId!=null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TAbsence absence = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId);
+                if (absence!=null)
+                {
+                    return View(new CAbsenceViewModel(absence));
+                }
+            }
+            return RedirectToAction("List");
         }
         [HttpPost]
-        public IActionResult Edit()
+        public IActionResult Edit(CAbsenceViewModel absenceEdit)
         {
-            return View();
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            if (absenceEdit!=null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TAbsence absenceEdited = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == absenceEdit.CEmployeeId);
+
+                if (absenceEdited!=null)
+                {
+                    absenceEdited.COn = absenceEdit.COn;
+                    absenceEdited.COff = absenceEdit.COff;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("List");
         }
         #endregion
 

@@ -21,26 +21,72 @@ namespace MyHR_Web.Controllers
             //searching
             if (!string.IsNullOrEmpty(Request.ContentType))
             {
-                string Keyword = Request.Form["txtKeyword"];
+                string AppNum = Request.Form["txtAppNum"];
+                string Id = Request.Form["txtId"]; 
+                string Name= Request.Form["txtName"];
+                string Reason = Request.Form["txtReason"]; 
 
-                //事由跟申請單號為空白
-                if (string.IsNullOrEmpty(Keyword))
+                //全部條件為空白
+                if (string.IsNullOrEmpty(AppNum)&&string.IsNullOrEmpty(Id)&&string.IsNullOrEmpty(Name)&&string.IsNullOrEmpty(Reason))
                 {
                     table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId
                             select travel;
+                                
+                    //todo inner join TUser Name
+
                 }
-                //事由跟申請單號都(或其一)有值
-                else
+                //其一有值
+                else if (!string.IsNullOrEmpty(AppNum) || !string.IsNullOrEmpty(Id) || !string.IsNullOrEmpty(Name) ||!string.IsNullOrEmpty(Reason))
                 {
                     table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                            where travel.CDepartmentId == DepId &&
+                                  travel.CReason.Contains(Reason) ||
+                                  travel.CApplyNumber.ToString().Contains(AppNum) ||
+                                  travel.CEmployeeId.ToString().Contains(Id) ||
+                                  user.CEmployeeName.Contains(Name)
+                            select travel;
+                }
+                ////其二有值
+                //else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                //{
+                //    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                //            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                //            where travel.CDepartmentId == DepId &&
+                //                  travel.CReason.Contains(Reason) &&
+                //                  travel.CApplyNumber.ToString().Contains(AppNum) &&
+                //                  travel.CEmployeeId.ToString().Contains(Id) &&
+                //                  user.CEmployeeName.Contains(Name)
+                //            select travel;
+                //}
+                ////其三有值
+                //else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                //{
+                //    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                //            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                //            where travel.CDepartmentId == DepId &&
+                //                  travel.CReason.Contains(Reason) &&
+                //                  travel.CApplyNumber.ToString().Contains(AppNum) &&
+                //                  travel.CEmployeeId.ToString().Contains(Id) &&
+                //                  user.CEmployeeName.Contains(Name)
+                //            select travel;
+                //}
+                //全部有值
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                {
+                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId && 
-                                  travel.CReason.Contains(Keyword) || 
-                                  travel.CApplyNumber.ToString().Contains(Keyword)
+                                  travel.CReason.Contains(Reason)&&
+                                  travel.CApplyNumber.ToString().Contains(AppNum)&&
+                                  travel.CEmployeeId.ToString().Contains(Id)&&
+                                  user.CEmployeeName.Contains(Name)
                             select travel;
                 }
             }
-            //事由跟申請單號為空白
+            //全部條件為空白
             else
             {
                 table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
@@ -54,6 +100,13 @@ namespace MyHR_Web.Controllers
             return View(list);
         }
 
+        //public static IEnumerable<CTravelViewModel> cTravel(this IEnumerable<CTravelViewModel> source,string reason,int applyNumber,int employeeId, decimal amont)
+        //{
+        //    return source.Where((x) => (string.IsNullOrEmpty(reason) || x.CReason.Contains(reason)) &&
+        //                            (applyNumber.ToString().Contains(applyNumber.ToString()) || x.CApplyNumber.ToString().Contains(applyNumber.ToString())) &&
+        //                            //(employeeId.ToString().Contains(employeeId.ToString())) || x.CEmployeeId.ToString().Contains(employeeId.ToString())) &&
+        //                            (amont == null || amont.ToString().Contains(amont.ToString())  ));
+        //}
         #region Edit
         //通過或退件
         public IActionResult Edit(int? capplyNum)
@@ -85,5 +138,10 @@ namespace MyHR_Web.Controllers
             return RedirectToAction("List");
         }
         #endregion
+        public IActionResult Detail(int? capplyNum)
+        {
+            return View();
+        }
     }
+    
 }

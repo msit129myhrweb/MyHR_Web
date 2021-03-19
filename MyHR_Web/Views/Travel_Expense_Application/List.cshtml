@@ -19,6 +19,7 @@
         }
 
     </style>
+
 </head>
 <form method="post" >
     <div class="content-wrapper">
@@ -33,23 +34,26 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     查詢條件<br />
-                                    起 :&nbsp<input type="date" />&nbsp迄 :&nbsp<input type="date" />&nbsp<input type="button" value="查詢" width="10" class="btn btn-success" style="filter: grayscale(50%)" />
+                                    起 :&nbsp<input type="date" />&nbsp迄 :&nbsp<input type="date" />
                                     狀態 :
                                     <select>
                                         <option>審核中</option>
                                         <option>通過</option>
                                         <option>退件</option>
-                                    </select>&nbsp&nbsp
-                                    關鍵字搜尋&nbsp:&nbsp<input type="text" name="txtKeyword" placeholder="事由、單號" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /><br />
-                                    <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                                    <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                                    </select>&nbsp&nbsp<br />
+                                    單號搜尋&nbsp:&nbsp<input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />&nbsp&nbsp
+                                    員編搜尋&nbsp:&nbsp<input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />&nbsp&nbsp
+                                    姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
+                                    事由搜尋&nbsp:&nbsp<input type="text" name="txtReason" placeholder="輸入事由" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /><br />
+                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                                    <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
                                 </h3>
                             </div>
                             <div class="card-body">
                                 <table id="example2" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
-                                            <td><input type="checkbox" name="checkAll" onselect="checkAll()" /></td>
+                                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
                                             <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
                                             <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
                                             <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
@@ -67,11 +71,11 @@
                                         @foreach (var item in Model)
                                         {
                                             <tr>
-                                                <td><input type="checkbox" name="checked" onclick="checked()" /></td>
-                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { /*id=item.PrimaryKey*/ })</td>
+                                                <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0"/></td>
+                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
                                                 <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId) 姓名</td>
+                                                <td>@Html.DisplayFor(modelItem => item.CApplyNumber) 姓名</td>
                                                 <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CTravelStartTime)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CTravelEndTime)</td>
@@ -80,8 +84,8 @@
                                                 <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                                 <td>
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                        <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
+                                                        <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Edit", new { id=item.CApplyNumber })</label>
+                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Edit", new { id = item.CApplyNumber })</label>
                                                     </div>
                                                 </td>
                                             </tr>
