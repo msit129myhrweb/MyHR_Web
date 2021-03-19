@@ -24,148 +24,186 @@
 
     </section>
     <section class="content">
-       
-            <p>
-                @*<a asp-action="RepairCreate" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>*@
-                @Html.ActionLink("新增報修", "RepairCreate", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-            </p>
 
-            <div style="background-color:white ;padding:20px; border-radius:10px">
-                <h3>查詢條件</h3>
-                <form method="post">
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label class="col-lg-3 control-label">維修單號:</label>
+        <p>
+            @*<a asp-action="RepairCreate" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>*@
+            @Html.ActionLink("新增報修", "RepairCreate", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
+        </p>
 
-                            <input type="text" name="repairnumber" />
+        <div style="background-color:white ;padding:20px; border-radius:10px">
+            <h3>查詢條件</h3>
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">維修單號:</label>
 
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="col-lg-3 control-label">報修申請日期(起) :</label>
+                        <input type="text" name="repairnumber" />
 
-                            <input type="date" name="repairdateStart" />
-
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 form-group">
-                            <label class="col-lg-3 control-label">報修申請日期(迄) :</label>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修申請日期(起) :</label>
 
-                            <input type="date" name="repairdateEnd" />
+                        <input type="date" name="repairdateStart" />
 
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="col-lg-3 control-label">報修內容:</label>
-
-                            <input type="text" name="repaircontent" />
-
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <label class="col-lg-3 control-label"> 狀態 :</label>
-
-                            <select>
-                                <option name="repairstatus1">審核中</option>
-                                <option name="repairstatus2">通過</option>
-                                <option name="repairstatus3">退件</option>
-                            </select>
-
-                        </div>
-                        <div class="col-md-6 form-group">
-                            <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-offset-5">
-                            <input type="submit" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                            <input type="submit" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修申請日期(迄) :</label>
+
+                        <input type="date" name="repairdateEnd" />
+
                     </div>
-                    </form>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修內容:</label>
+
+                        <input type="text" name="repaircontent" />
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label"> 狀態 :</label>
+
+                        <select>
+                            <option name="repairstatus1">審核中</option>
+                            <option name="repairstatus2">通過</option>
+                            <option name="repairstatus3">退件</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-5">
+                        <input type="submit" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                        <input type="submit" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                    </div>
+                </div>
+            </form>
 
 
-            </div>
-            <hr /><br />
+        </div>
+        <hr /><br />
 
-            <table table class="table table-bordered table-hover">
-                <thead @*class="table-primary"*@>
-                    <tr style="text-align:center">
-                        <th>
-                            @Html.DisplayNameFor(model => model.CRepairNumber)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CEmployeeId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CAppleDate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CRepairCategory)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CLocation)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CContentofRepair)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CPhone)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.CRepairStatus)
-                        </th>
-                        <th style="text-align:center">
-                            編輯 @*|詳細*@ |刪除
-                        </th>
+        <table table class="table table-bordered table-hover">
+            <thead @*class="table-primary"*@>
+                <tr style="text-align:center">
+                    <th>
+                        <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" />
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CAppleDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairCategory)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CLocation)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CContentofRepair)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CPhone)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CRepairStatus)
+                    </th>
+                    <th style="text-align:center">
+                        編輯 @*|詳細*@ |刪除
+                    </th>
+                    @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                    {
                         <th style="text-align:center">
                             審核
                         </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr style="text-align:center">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CRepairNumber)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CEmployeeId)
-                            </td>
-                            <td>
-                                @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
-                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CAppleDate))
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CRepairCategory)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CLocation)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CContentofRepair)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CPhone)
-                            </td>
-                            <td>
-                                @Enum.GetName(typeof(eCheck), item.CRepairStatus)
-                            </td>
-                            <td>
-                                @Html.ActionLink("編輯", "RepairEdit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                                @*@Html.ActionLink("詳細", "Details", new { id = item.CRepairNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })*@
-                                @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber },
-                                new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
-                            </td>
-                            <td>
+                     }
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    @if (item.CEmployeeId == ViewBag.Session_USERIDSERID)
+                     {
+                    <tr style="text-align:center">
+                        <td>
+                            <input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRepairNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                        </td>
+                        <td>
+                            @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
+                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CAppleDate))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRepairCategory)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CContentofRepair)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CPhone)
+                        </td>
+                        <td>
+                            @Enum.GetName(typeof(eCheck), item.CRepairStatus)
+                        </td>
+                        <td>
+                            @{ if (item.CRepairStatus == 0)
+                                {
+                                    @Html.ActionLink("修改", "Edit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                    @Html.ActionLink("刪除", "Delete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
+                            }
+                        </td>
+                        
+
+                            @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                            {
+                                <td>
                                 <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                    <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                    <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
+                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
+                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
                                 </div>
-                            </td>
-                        </tr>
-                    }
-                    
-                </tbody>
-            </table>
+                                </td>
+                                }
+
+
+                        
+                    </tr>
+                }
+                }
+            </tbody>
+        </table>
     </section>
 </div>
+
+@*參考網址：https://pjchender.blogspot.com/2015/04/jquery_29.html?m=1*@
+<script>
+    $(document).ready(function () {
+        $("#CheckAll").click(function () {
+            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                })
+            } else {
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                })
+            }
+        })
+    })
+</script>

@@ -12,9 +12,20 @@ namespace MyHR_Web.Views.Home
 {
     public class RepairController : Controller
     {
+        //public IActionResult DropDownList()
+        //{
+       
+        //    return View();
+        //}
 
-        public IActionResult RepairList()
+            public IActionResult RepairList()
         {
+
+            ViewBag.Session_USERID_USERDEPARTMENTID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
+            ViewBag.Session_USERIDSERID = int.Parse( HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            
+            
+
             IEnumerable<TRepair> table = null;
 
             if (!string.IsNullOrEmpty(Request.ContentType))
@@ -39,7 +50,7 @@ namespace MyHR_Web.Views.Home
                             orderby r.CAppleDate descending
                             select r;
                 }//開始日期 結束日期不為空
-                else if (!string.IsNullOrEmpty(SrepairdateStart) && !string.IsNullOrEmpty(SrepairdateStart))
+                else if (!string.IsNullOrEmpty(SrepairdateStart) && !string.IsNullOrEmpty(SrepairdateEnd))
                 {
                     table = from r in (new dbMyCompanyContext()).TRepairs
                             where r.CAppleDate <= DateTime.Parse(SrepairdateEnd) && r.CAppleDate >= DateTime.Parse(SrepairdateStart)
@@ -145,7 +156,8 @@ namespace MyHR_Web.Views.Home
 
         [HttpPost]
         public IActionResult RepairEdit(CReairViewModel repair)
-        { dbMyCompanyContext db = new dbMyCompanyContext();
+        { 
+            dbMyCompanyContext db = new dbMyCompanyContext();
             if (repair != null)
             {
 
