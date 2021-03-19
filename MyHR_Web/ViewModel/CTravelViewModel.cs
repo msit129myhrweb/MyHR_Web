@@ -30,9 +30,14 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
+        public string CDepartmentName { get; set; }
         public int CDepartmentId
         {
-            get { return iv_travel.CDepartmentId; }
+            get 
+            {
+                iv_travel.CDepartmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
+                return iv_travel.CDepartmentId; 
+            }
             set { iv_travel.CDepartmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
