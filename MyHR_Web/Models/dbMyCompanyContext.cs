@@ -472,15 +472,15 @@ namespace MyHR_Web.Models
 
             modelBuilder.Entity<TLostAndFoundCheckStatus>(entity =>
             {
-                entity.HasKey(e => e.CcPropertyCheckStatusId);
+                entity.HasKey(e => e.CPropertyCheckStatusId);
 
                 entity.ToTable("tLostAndFoundCheckStatus");
 
-                entity.Property(e => e.CcPropertyCheckStatusId).HasColumnName("ccPropertyCheckStatusID");
+                entity.Property(e => e.CPropertyCheckStatusId).HasColumnName("cPropertyCheckStatusID");
 
-                entity.Property(e => e.CcPropertyCheckStatus)
+                entity.Property(e => e.CPropertyCheckStatus)
                     .HasMaxLength(15)
-                    .HasColumnName("ccPropertyCheckStatus");
+                    .HasColumnName("cPropertyCheckStatus");
             });
 
             modelBuilder.Entity<TLostAndFoundSubject>(entity =>

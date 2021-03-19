@@ -20,11 +20,23 @@ namespace MyHR_Web.Controllers
         {
             iv_host = p;
         }
-        public JsonResult pcheckStatus()
+        public JsonResult pSubject()
         {
-            var pdata = from pcheck in (new dbMyCompanyContext()).TLostAndFoundCheckStatuses
-                        select pcheck;
-            return Json(pdata);
+            var psubject = from l in (new dbMyCompanyContext()).TLostAndFoundSubjects
+                        select l;
+            return Json(psubject);
+        }
+        public JsonResult pCategory()
+        {
+            var pcategory = from c in (new dbMyCompanyContext()).TLostAndFoundCategories
+                        select c;
+            return Json(pcategory);
+        }
+        public JsonResult pCheckStatus()
+        {
+            var pcheck = from s in (new dbMyCompanyContext()).TLostAndFoundCheckStatuses
+                        select s;
+            return Json(pcheck);
         }
         public IActionResult List()
         {
