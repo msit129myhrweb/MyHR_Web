@@ -96,7 +96,7 @@
                         @Html.DisplayNameFor(model => model.CRepairNumber)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                        申請者
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CAppleDate)
@@ -141,7 +141,7 @@
                             @Html.DisplayFor(modelItem => item.CRepairNumber)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                            @ViewData["CURRENT_LOGINED_USERNAME"]
                         </td>
                         <td>
                             @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
@@ -165,8 +165,8 @@
                         <td>
                             @{ if (item.CRepairStatus == 0)
                                 {
-                                    @Html.ActionLink("修改", "Edit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                                    @Html.ActionLink("刪除", "Delete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
+                                    @Html.ActionLink("修改", "RepairEdit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                    @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
                             }
                         </td>
                         

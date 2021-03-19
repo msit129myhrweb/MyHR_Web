@@ -20,7 +20,7 @@ namespace MyHR_Web.Views.Home
 
             public IActionResult RepairList()
         {
-
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewBag.Session_USERID_USERDEPARTMENTID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             ViewBag.Session_USERIDSERID = int.Parse( HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             
