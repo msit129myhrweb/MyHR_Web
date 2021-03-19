@@ -31,7 +31,7 @@ namespace MyHR_Web.ViewModel
 
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName {  get; set; }
+        public string CDepartmentName { get; set; }
         public int CDeparmentId
         {
             get 
@@ -113,15 +113,15 @@ namespace MyHR_Web.ViewModel
 
 
         public string CPropertyCheckStatusName {
-            get { return CPropertyCheckStatusName; }
-            set { CPropertyCheckStatusName = value; }
+            get ;
+            set ; 
         }
 
         [DisplayName("失物狀態")]
         public int CPropertyCheckStatusId
         {
             get {
-                //iv_property.CPropertyCheckStatusId = (int)Enum.Parse(typeof(eLostAndFoundCheckStatus),CPropertyCheckStatusName);
+                iv_property.CPropertyCheckStatusId = (int)Enum.Parse(typeof(eLostAndFoundCheckStatus),CPropertyCheckStatusName);
                 return iv_property.CPropertyCheckStatusId; }
             set { iv_property.CPropertyCheckStatusId = value; }
         }
