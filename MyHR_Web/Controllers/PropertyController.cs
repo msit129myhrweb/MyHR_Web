@@ -20,6 +20,12 @@ namespace MyHR_Web.Controllers
         {
             iv_host = p;
         }
+        public JsonResult pcheckStatus()
+        {
+            var pdata = from pcheck in (new dbMyCompanyContext()).TLostAndFoundCheckStatuses
+                        select pcheck;
+            return Json(pdata);
+        }
         public IActionResult List()
         {
             var propertytable = from p in (new dbMyCompanyContext()).TLostAndFounds

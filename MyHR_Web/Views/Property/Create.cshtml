@@ -24,15 +24,8 @@
     <section class="content-header">
         <h2>失物招領系統</h2>
         @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        <hr />
-        @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
-        @*<div class="card">*@
-        @*<div class="card-header p-2">
-            <div class="card-body">*@
-       
-
             <div class="card" style="width:50%;margin:0px auto;padding:0px;">
-                <div class="card-header" @*style="vertical-align:auto"*@>
+                <div class="card-header">
                     <form asp-action="Create" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group">
@@ -43,7 +36,10 @@
                             <label asp-for="CDepartmentName" class="control-label"></label>
                             <input asp-for="CDepartmentName" class="form-control" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]">
                         </div>
-                       
+                        @*<div class="form-group">
+                            <label asp-for="CDepartmentId" class="control-label"></label>
+                            <input asp-for="CDepartmentId" class="form-control" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]">
+                        </div>*@
                         <div class="form-group">
                             <label asp-for="CPhone" class="control-label"></label>
                             <input asp-for="CPhone" class="form-control" value="@ViewData["LOGIN_USERPHONE"]" />
@@ -84,15 +80,31 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                            <select asp-for="CPropertyCheckStatusId" class="form-control"></select>
+                            <select asp-for="CPropertyCheckStatusId" id="t狀態下拉選單" class="form-control"></select>
+                            <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="新增" class="btn btn-primary" />
                         </div>
                     </form>
-                        </div>
-                    </div>
+                 </div>
+             </div>
 </div>
+<script>
+    var propertycheck;
+    $.ajax({
+        url: "/Property/pcheckStatus",
+        type: "Get",
+        success: function (pdata) {
+            txt = "";
+            console.log(pdata);
+            for (let f = 0; f < pdata.length; f++) {
+                txt += "<option value='" + pdata[f].cPropertyCheckStatusID + "'>" + pdata[f].cPropertyCheckStatus + "</option>";
+            }
+            document.getElementById("t狀態下拉選單").innerHTML = txt;
+        }
+    });
+</script>
                    
                     @section Scripts {
                         @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

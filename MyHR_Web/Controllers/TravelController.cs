@@ -14,6 +14,12 @@ namespace MyHR_Web.Controllers
 {
     public class TravelController : Controller
     {
+        public JsonResult tcheckStatus()
+        {
+            var data = from t in (new dbMyCompanyContext()).TCheckStatuses
+                       select t;
+            return Json(data);
+        }
         public IActionResult List()
         {
             var table = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
