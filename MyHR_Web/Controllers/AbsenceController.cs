@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
+
     public class AbsenceController : Controller
     {
         #region List
         public IActionResult List()
         {
+            
             string status = "";
             
             {
@@ -59,7 +62,7 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 db.TAbsences.Add(a.absence);
-                db.SaveChanges();
+               // db.SaveChanges();
                 return RedirectToAction("List");
             }
 

@@ -84,8 +84,10 @@
                                                 <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                                 <td>
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                        <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "ChangeStatus", new { id = item.CApplyNumber })</label>
-                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "ChangeStatus", new { id = item.CApplyNumber })</label>
+                                                        @*<label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
+                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>*@
+                                                        <label class="btn btn-outline-success"><input type="button" name="options" id="btnPass" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
+                                                        <label class="btn btn-outline-secondary"><input type="button" name="options" id="btnFail" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -114,4 +116,10 @@
             }
         })
     })
+    $(document).ready(function () {
+        $("#btnPass").click(function () {
+            var 
+        })
+    })
+    
 </script>  

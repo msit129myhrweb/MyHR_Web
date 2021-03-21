@@ -46,11 +46,11 @@
     float: right;
 }
 
-.nowTime {
-    font-size: 25px;
+#form1 {
+    font-size: 40px;
 }
 
-#setFace, #setQR {
+#setFace, #setQR, #history {
     width: 250px;
 }
 

@@ -109,9 +109,54 @@ namespace MyHR_Web.Controllers
         }
         #endregion
 
-        public IActionResult ChangeStatus()
+
+        public IActionResult Pass(int? applyNum)
         {
-            return View("List");
+            if (applyNum != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == applyNum);
+                if (leave != null)
+                {
+                    if (leave.CCheckStatus==1)
+                    {
+                        leave.CCheckStatus = 2;
+                        db.SaveChanges();
+                    }
+                }
+            }
+            return RedirectToAction("List");
         }
+        //[HttpPost]
+        //public IActionResult Pass(TLeaveApplication leaveEdit)
+        //{
+        //    if (leaveEdit != null)
+        //    {
+        //        dbMyCompanyContext db = new dbMyCompanyContext();
+        //        TLeaveApplication leaveEdited = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == leaveEdit.CApplyNumber);
+        //        if (leaveEdited.CCheckStatus ==1)
+        //        {
+        //            leaveEdited.CCheckStatus = 2;
+        //            db.SaveChanges();
+        //        }
+        //    }
+        //    return RedirectToAction("List");
+        //}
+        [HttpPost]
+        public IActionResult Fail(TLeaveApplication leaveEdit)
+        {
+            if (leaveEdit != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TLeaveApplication leaveEdited = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == leaveEdit.CApplyNumber);
+                if (leaveEdited.CCheckStatus == 1)
+                {
+                    leaveEdited.CCheckStatus = 3;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("List");
+        }
+
     }
 }
