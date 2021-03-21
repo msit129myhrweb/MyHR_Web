@@ -194,5 +194,21 @@ namespace MyHR_Web.Views.Home
             }
             return RedirectToAction("RepairList");
         }
+        public IActionResult update(int? id)
+        {
+            if (id != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == id);
+                
+                if (repair != null)
+                {
+                    repair.CRepairStatus = 1;
+                    db.SaveChanges();
+                }
+              
+            }
+            return RedirectToAction("RepairList");
+        }
     }
 }
