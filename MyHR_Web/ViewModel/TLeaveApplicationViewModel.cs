@@ -17,15 +17,15 @@ namespace MyHR_Web.ViewModel
         public TLeaveApplication product { get { return iv_Leave; } }
         public TUser user { get { return iv_User; } }
 
+        public TLeaveApplicationViewModel(TLeaveApplication p, TUser u)
+        {
+            iv_Leave = p;
+            iv_User = u;
+        }
         public TLeaveApplicationViewModel(TLeaveApplication p)
         {
             iv_Leave = p;
         }
-        public TLeaveApplicationViewModel(TUser u)
-        {
-            iv_User = u;
-        }
-
         public TLeaveApplicationViewModel()
         {
             iv_Leave = new TLeaveApplication();
@@ -57,7 +57,7 @@ namespace MyHR_Web.ViewModel
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
 
-        public string employeeName { get; /*{return iv_User.CEmployeeName ; }*/ set;/*{iv_User.CEmployeeName=value ; }*/ }
+        public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
 
     }
 
