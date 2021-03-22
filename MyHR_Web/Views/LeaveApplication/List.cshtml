@@ -18,7 +18,21 @@
             padding-left: 10px;
         }
     </style>
-
+    <script>
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+        })
+    </script>
 </head>
 <form method="post">
     <div class="content-wrapper">
@@ -33,7 +47,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     查詢條件<br />
-                                    起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />
+                                    申請日查詢&nbsp&nbsp起&nbsp:&nbsp <input type="date" />&nbsp迄&nbsp:&nbsp<input type="date" />
                                     狀態 :
                                     <select>
                                         <option>審核中</option>
@@ -54,7 +68,7 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
-                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                                            <th>序</th>
                                             <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
                                             <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
                                             <th>@Html.DisplayNameFor(model => model.employeeName)</th>
@@ -68,29 +82,30 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @{int count = 0; } 
                                         @foreach (var item in Model)
                                         {
-                                            <tr>
-                                                <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0" /></td>
-                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
-                                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
-                                                <td>@Enum.GetName(typeof(eLeave), item.CLeaveCategory)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
-                                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
-                                                <td>
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                        @*<label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
-                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>*@
-                                                        <label class="btn btn-outline-success"><input type="button" name="options" id="btnPass" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
-                                                        <label class="btn btn-outline-secondary"><input type="button" name="options" id="btnFail" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                            count++;
+                                        <tr>
+                                            <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0" /></td>
+                                            @*<td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>*@
+                                            <td >@count</td>
+                                            <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
+                                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
+                                            <td>@Enum.GetName(typeof(eLeave), item.CLeaveCategory)</td>
+                                            <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                                            <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
+                                            <td>
+                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                                    <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
+                                                    <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         }
                                     </tbody>
                                 </table>
@@ -102,24 +117,3 @@
         </section>
     </div>
 </form>
-<script>
-    $(document).ready(function () {
-        $("#CheckAll").click(function () {
-            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-                $("input[name='Checkbox[]']").each(function () {
-                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
-                })
-            } else {
-                $("input[name='Checkbox[]']").each(function () {
-                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-                })
-            }
-        })
-    })
-    $(document).ready(function () {
-        $("#btnPass").click(function () {
-            var 
-        })
-    })
-    
-</script>  

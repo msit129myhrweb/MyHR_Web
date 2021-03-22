@@ -12,11 +12,12 @@ namespace MyHR_Web.Controllers
 {
     public class Travel_Expense_ApplicationController : Controller
     {
-
         public IActionResult List()
         {
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            IEnumerable<TTravelExpenseApplication> table = null;
+            //IEnumerable<TTravelExpenseApplication> table = null;
+            List<CTravelViewModel> list = new List<CTravelViewModel>();
+            dbMyCompanyContext DB = new dbMyCompanyContext();
 
             //searching
             if (!string.IsNullOrEmpty(Request.ContentType))
@@ -29,7 +30,7 @@ namespace MyHR_Web.Controllers
                 //全部條件為空白
                 if (string.IsNullOrEmpty(AppNum)&&string.IsNullOrEmpty(Id)&&string.IsNullOrEmpty(Name)&&string.IsNullOrEmpty(Reason))
                 {
-                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
                             join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId
                             select travel;
@@ -40,7 +41,7 @@ namespace MyHR_Web.Controllers
                 //其一有值
                 else if (!string.IsNullOrEmpty(AppNum) || !string.IsNullOrEmpty(Id) || !string.IsNullOrEmpty(Name) ||!string.IsNullOrEmpty(Reason))
                 {
-                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
                             join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId &&
                                   travel.CReason.Contains(Reason) ||
@@ -50,33 +51,33 @@ namespace MyHR_Web.Controllers
                             select travel;
                 }
                 ////其二有值
-                //else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
-                //{
-                //    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                //            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                //            where travel.CDepartmentId == DepId &&
-                //                  travel.CReason.Contains(Reason) &&
-                //                  travel.CApplyNumber.ToString().Contains(AppNum) &&
-                //                  travel.CEmployeeId.ToString().Contains(Id) &&
-                //                  user.CEmployeeName.Contains(Name)
-                //            select travel;
-                //}
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                {
+                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
+                                      travel.CReason.Contains(Reason) &&
+                                      travel.CApplyNumber.ToString().Contains(AppNum) &&
+                                      travel.CEmployeeId.ToString().Contains(Id) &&
+                                      user.CEmployeeName.Contains(Name)
+                                select travel;
+                }
                 ////其三有值
-                //else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
-                //{
-                //    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                //            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                //            where travel.CDepartmentId == DepId &&
-                //                  travel.CReason.Contains(Reason) &&
-                //                  travel.CApplyNumber.ToString().Contains(AppNum) &&
-                //                  travel.CEmployeeId.ToString().Contains(Id) &&
-                //                  user.CEmployeeName.Contains(Name)
-                //            select travel;
-                //}
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                {
+                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
+                                      travel.CReason.Contains(Reason) &&
+                                      travel.CApplyNumber.ToString().Contains(AppNum) &&
+                                      travel.CEmployeeId.ToString().Contains(Id) &&
+                                      user.CEmployeeName.Contains(Name)
+                                select travel;
+                }
                 //全部有值
                 else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
                 {
-                    table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
+                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
                             join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId && 
                                   travel.CReason.Contains(Reason)&&
@@ -89,24 +90,43 @@ namespace MyHR_Web.Controllers
             //全部條件為空白
             else
             {
-                table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                        where travel.CDepartmentId == DepId
-                        select travel;
-            }
-            List<CTravelViewModel> list = new List<CTravelViewModel>();
-            foreach (TTravelExpenseApplication item in table)
-                list.Add(new CTravelViewModel(item));
+                var table = from travel in DB.TTravelExpenseApplications
+                            join user in DB.TUsers
+                            on travel.CEmployeeId equals user.CEmployeeId
+                            where travel.CDepartmentId == DepId
+                            select new
+                            {
+                                user.CEmployeeName,
+                                travel.CApplyDate,
+                                travel.CEmployeeId,
+                                travel.CAmont,
+                                travel.CCheckStatus,
+                                travel.CTravelStartTime,
+                                travel.CTravelEndTime,
+                                travel.CReason,
+                                travel.CApplyNumber
+                            };
 
+                foreach (var item in table)
+                {
+                    CTravelViewModel traObj = new CTravelViewModel()
+                    {
+                        employeeName = item.CEmployeeName,
+                        CApplyNumber = item.CApplyNumber,
+                        CApplyDate = item.CApplyDate,
+                        CTravelStartTime = item.CTravelStartTime,
+                        CTravelEndTime = item.CTravelEndTime,
+                        CAmont = item.CAmont,
+                        CReason = item.CReason,
+                        CEmployeeId = item.CEmployeeId,
+                        CCheckStatus = item.CCheckStatus
+                    };
+                    list.Add(traObj);
+                }
+            }
             return View(list);
         }
 
-        //public static IEnumerable<CTravelViewModel> cTravel(this IEnumerable<CTravelViewModel> source,string reason,int applyNumber,int employeeId, decimal amont)
-        //{
-        //    return source.Where((x) => (string.IsNullOrEmpty(reason) || x.CReason.Contains(reason)) &&
-        //                            (applyNumber.ToString().Contains(applyNumber.ToString()) || x.CApplyNumber.ToString().Contains(applyNumber.ToString())) &&
-        //                            //(employeeId.ToString().Contains(employeeId.ToString())) || x.CEmployeeId.ToString().Contains(employeeId.ToString())) &&
-        //                            (amont == null || amont.ToString().Contains(amont.ToString())  ));
-        //}
         #region Edit
         //通過或退件
         public IActionResult Edit(int? capplyNum)

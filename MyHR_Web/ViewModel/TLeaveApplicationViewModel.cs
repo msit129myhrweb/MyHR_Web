@@ -9,8 +9,6 @@ namespace MyHR_Web.ViewModel
 {
     public class TLeaveApplicationViewModel
     {
-
-
         private TLeaveApplication iv_Leave = null;
         private TUser iv_User = null;
 
@@ -22,10 +20,14 @@ namespace MyHR_Web.ViewModel
             iv_Leave = p;
             iv_User = u;
         }
+
+        //其實不需要---------------------------------------------------
         public TLeaveApplicationViewModel(TLeaveApplication p)
         {
             iv_Leave = p;
         }
+        //------------------------------------------------------------
+
         public TLeaveApplicationViewModel()
         {
             iv_Leave = new TLeaveApplication();
@@ -56,6 +58,7 @@ namespace MyHR_Web.ViewModel
         public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+        [DisplayName("員工姓名")]
 
         public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
 

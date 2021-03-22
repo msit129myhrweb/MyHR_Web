@@ -15,7 +15,9 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {        
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            IEnumerable<TLeaveApplication> table = null;
+            //IEnumerable<TLeaveApplication> table = null;
+            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+            dbMyCompanyContext DB = new dbMyCompanyContext();
 
             // keyword searching
             if (!string.IsNullOrEmpty(Request.ContentType))
@@ -25,7 +27,7 @@ namespace MyHR_Web.Controllers
                 //事由跟申請單號為空
                 if (string.IsNullOrEmpty(Keyword))
                 {
-                    table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                    var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
                             join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId
                             select leave;
@@ -33,8 +35,9 @@ namespace MyHR_Web.Controllers
                 //事由、申請單號都(或其一)有值
                 else
                 {
-                    table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                            join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
+                    var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
+                            join user in (new dbMyCompanyContext()).TUsers 
+                            on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId &&
                                   leave.CReason.Contains(Keyword) ||
                                   leave.CApplyNumber.ToString().Contains(Keyword)
@@ -44,15 +47,40 @@ namespace MyHR_Web.Controllers
             //事由跟申請單號為空白
             else
             {
-                table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                        join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
+                var table =from leave in DB.TLeaveApplications
+                        join user in DB.TUsers
+                        on leave.CEmployeeId equals user.CEmployeeId
                         where leave.CDepartmentId == DepId
-                        select leave;
-            }
-            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
-            foreach (TLeaveApplication item in table)
-                list.Add(new TLeaveApplicationViewModel(item));
+                        select new {
+                            user.CEmployeeName,
+                            leave.CApplyDate,
+                            leave.CApplyNumber,
+                            leave.CCheckStatus,
+                            leave.CLeaveCategory,
+                            leave.CLeaveStartTime,
+                            leave.CLeaveEndTime,
+                            leave.CEmployeeId,
+                            leave.CReason
+                        };
 
+                foreach (var item in table)
+                {
+                    TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CApplyDate = item.CApplyDate,
+                        employeeName = item.CEmployeeName,
+                        CEmployeeId=item.CEmployeeId,
+                        CReason=item.CReason,
+                        CLeaveStartTime=item.CLeaveStartTime,
+                        CLeaveEndTime=item.CLeaveEndTime,
+                        CLeaveCategory=item.CLeaveCategory,
+                        CCheckStatus=item.CCheckStatus
+
+                    };
+                    list.Add(newObj);
+                }
+            }
             return View(list) ;
         }
 
@@ -66,7 +94,7 @@ namespace MyHR_Web.Controllers
                 TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l=>l.CApplyNumber == capplyNum);
                 if (leave!=null)
                 {
-                    return View(new TLeaveApplicationViewModel(leave));
+                    //return View(new TLeaveApplicationViewModel(leave));
                 }
             }
             return RedirectToAction("List");

@@ -11,16 +11,28 @@ namespace MyHR_Web.ViewModel
     public class CTravelViewModel
     {
         private TTravelExpenseApplication iv_travel = null;
+        private TUser iv_User = null;
 
         public TTravelExpenseApplication travel { get { return iv_travel; } }
+        public TUser User{ get { return iv_User; } }
 
+
+        public CTravelViewModel(TTravelExpenseApplication t,TUser u)
+        {
+            iv_travel = t;
+            iv_User = u;
+        }
+
+        //其實不需要---------------------------------------------------
         public CTravelViewModel(TTravelExpenseApplication t)
         {
             iv_travel = t;
         }
+        //------------------------------------------------------------
         public CTravelViewModel()
         {
             iv_travel = new TTravelExpenseApplication();
+            iv_User = new TUser();
         }
         [DisplayName("差旅費編號")]
         public int CApplyNumber
@@ -42,8 +54,8 @@ namespace MyHR_Web.ViewModel
             get { return iv_travel.CEmployeeId; }
             set { iv_travel.CEmployeeId = value; }
         }
-        [Required(ErrorMessage = "原因是必填欄位")]
-        [DisplayName("原因")]
+        [Required(ErrorMessage = "事由是必填欄位")]
+        [DisplayName("事由")]
         public string CReason
         {
             get { return iv_travel.CReason; }
@@ -84,6 +96,9 @@ namespace MyHR_Web.ViewModel
             get { return iv_travel.CCheckStatus; }
             set { iv_travel.CCheckStatus = value; }
         }
+
+        [DisplayName("員工姓名")]
+        public string employeeName { get { return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
 
 
     }

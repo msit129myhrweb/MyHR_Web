@@ -36,7 +36,7 @@ function onClock() {
         var now = new Date();
         var nowtime = now.toLocaleString();
         var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\您已打卡成功!\下班別忘記打卡!";
+        content.innerHTML = nowtime + "\n您已打卡成功!\n下班別忘記打卡!";
     };
     req.send();
 }
@@ -48,7 +48,7 @@ function offClock() {
         var now = new Date();
         var nowtime = now.toLocaleString();
         var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\您已打卡成功!\今天辛苦你了,趕快回家休息吧~";
+        content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
     };
     req.send();
 }
