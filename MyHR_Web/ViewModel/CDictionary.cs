@@ -11,5 +11,8 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_USERDEPARTMENT = "CURRENT_LOGINED_USERDEPARTMENT";
         public static readonly string CURRENT_LOGINED_USERJOBTITLE = "CURRENT_LOGINED_USERJOBTITLE";
         public static readonly string LOGIN_AUTHTICATION_CODE = "LOGIN_AUTHTICATION_CODE";
+        public static readonly string CURRENT_LOGINED_USERID = "CURRENT_LOGINED_USERID";
+        public static readonly string CURRENT_LOGINED_USERDEPARTMENTID = "CURRENT_LOGINED_USERDEPARTMENTID";
+
     }
 }

@@ -12,20 +12,28 @@ namespace MyHR_Web.ViewModel
 
 
         private TLeaveApplication iv_Leave = null;
-        public TLeaveApplication product { get { return iv_Leave; } }
+        private TUser iv_User = null;
 
+        public TLeaveApplication product { get { return iv_Leave; } }
+        public TUser user { get { return iv_User; } }
+
+        public TLeaveApplicationViewModel(TLeaveApplication p, TUser u)
+        {
+            iv_Leave = p;
+            iv_User = u;
+        }
         public TLeaveApplicationViewModel(TLeaveApplication p)
         {
             iv_Leave = p;
         }
-
         public TLeaveApplicationViewModel()
         {
             iv_Leave = new TLeaveApplication();
+            iv_User = new TUser();
         }
 
 
-        
+        [DisplayName("申請單號")]
         public int CApplyNumber { get {return iv_Leave.CApplyNumber; } set {iv_Leave.CApplyNumber=value; } }
     
         [DisplayName("部門名稱")]
@@ -48,6 +56,9 @@ namespace MyHR_Web.ViewModel
         public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+
+        public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
+
     }
 
 
