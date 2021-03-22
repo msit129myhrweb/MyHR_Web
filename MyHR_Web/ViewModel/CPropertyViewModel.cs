@@ -13,14 +13,23 @@ namespace MyHR_Web.ViewModel
     public class CPropertyViewModel
     {
         private TLostAndFound iv_property = null;
+        private TLostAndFoundSubject iv_subject = null;
+        private TLostAndFoundCategory iv_category = null;
+        private TLostAndFoundCheckStatus iv_status = null;
         public TLostAndFound property { get { return iv_property; } }
-        public CPropertyViewModel(TLostAndFound l)
+        public CPropertyViewModel(TLostAndFound l, TLostAndFoundSubject s, TLostAndFoundCategory c, TLostAndFoundCheckStatus e)
         {
             iv_property = l;
+            iv_subject = s;
+            iv_category = c;
+            iv_status = e;
         }
         public CPropertyViewModel()
         {
             iv_property = new TLostAndFound();
+            iv_subject = new TLostAndFoundSubject();
+            iv_category = new TLostAndFoundCategory();
+            iv_status = new TLostAndFoundCheckStatus();
         }
         [DisplayName("失物編號")]
         public int CPropertyId
