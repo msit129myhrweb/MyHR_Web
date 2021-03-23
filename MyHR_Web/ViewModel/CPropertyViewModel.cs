@@ -24,6 +24,7 @@ namespace MyHR_Web.ViewModel
             iv_category = c;
             iv_status = e;
         }
+
         public CPropertyViewModel()
         {
             iv_property = new TLostAndFound();
@@ -63,7 +64,7 @@ namespace MyHR_Web.ViewModel
         {
             get 
             {
-                iv_property.CPhone = CDictionary.LOGIN_USERPHONE;
+                
                 return iv_property.CPhone; 
             }
             set { iv_property.CPhone = value; }

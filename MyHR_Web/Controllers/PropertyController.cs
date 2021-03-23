@@ -15,36 +15,37 @@ namespace MyHR_Web.Controllers
     public class PropertyController : Controller
     {
         private IHostingEnvironment iv_host;
+        dbMyCompanyContext db = new dbMyCompanyContext();
 
         public PropertyController(IHostingEnvironment p)
         {
             iv_host = p;
         }
-        //public JsonResult pSubject()
-        //{
-        //    var psubject = from l in (new dbMyCompanyContext()).TLostAndFoundSubjects
-        //                select l;
-        //    return Json(psubject);
-        //}
-        //public JsonResult pCategory()
-        //{
-        //    var pcategory = from c in (new dbMyCompanyContext()).TLostAndFoundCategories
-        //                select c;
-        //    return Json(pcategory);
-        //}
-        //public JsonResult pCheckStatus()
-        //{
-        //    var pcheck = from s in (new dbMyCompanyContext()).TLostAndFoundCheckStatuses
-        //                select s;
-        //    return Json(pcheck);
-        //}
+        public JsonResult pSubject()
+        {
+            var psubject = from l in db.TLostAndFoundSubjects
+                           select l;
+            return Json(psubject);
+        }
+        public JsonResult pCategory()
+        {
+            var pcategory = from c in db.TLostAndFoundCategories
+                            select c;
+            return Json(pcategory);
+        }
+        public JsonResult pCheckStatus()
+        {
+            var pcheck = from s in db.TLostAndFoundCheckStatuses
+                         select s;
+            return Json(pcheck);
+        }
         public IActionResult List()
         {
-            var propertytable = from p in (new dbMyCompanyContext()).TLostAndFounds
-                                join d in (new dbMyCompanyContext()).TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
-                                join e in (new dbMyCompanyContext()).TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
-                                join f in (new dbMyCompanyContext()).TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
-                                select new CPropertyViewModel
+            var propertytable = from p in db.TLostAndFounds
+                                join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
+                                join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
+                                join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                select new
                                 {
                                     CPropertyId = p.CPropertyId,
                                     CDeparmentId = p.CDeparmentId,
@@ -59,27 +60,51 @@ namespace MyHR_Web.Controllers
                                     CtPropertyDescription=p.CtPropertyDescription,
                                     CPropertyCheckStatusId=f.CPropertyCheckStatusId
                                 };
-            //List<CPropertyViewModel> list = new List<CPropertyViewModel>();
-            //foreach (TLostAndFound t in propertytable)
-            //    list.Add(new CPropertyViewModel(t));
-            return View(propertytable);
+            List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
+            foreach (var item in propertytable)
+            {
+                CPropertyListViewModel cvm = new CPropertyListViewModel()
+                {
+                    CPropertyId = item.CPropertyId,
+                    CDeparmentId = item.CDeparmentId,
+                    CEmployeeId = item.CEmployeeId,
+                    CPhone = item.CPhone,
+                    CPropertySubjectId = item.CPropertySubjectId,
+                    CPropertyCategoryId = item.CPropertyCategoryId,
+                    CPropertyPhoto = item.CPropertyPhoto,
+                    CProperty = item.CProperty,
+                    CLostAndFoundDate = item.CLostAndFoundDate,
+                    CLostAndFoundSpace = item.CLostAndFoundSpace,
+                    CtPropertyDescription = item.CtPropertyDescription,
+                    CPropertyCheckStatusId = item.CPropertyCheckStatusId
+                };
+                plist.Add(cvm);
+            }
+            return View(plist);
         }
 
         public IActionResult Create()
         {
-            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            return View();
+            //string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            //ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            //string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            //string cPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            //ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            //ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            
+            CPropertyViewModel viewModel = new CPropertyViewModel 
+            {
+                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
+                CPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE),
+                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
+            };
+
+            return View(viewModel);
         }
 
         [HttpPost]
         public IActionResult Create(CPropertyViewModel p)
         {
-            dbMyCompanyContext db = new dbMyCompanyContext();
             db.TLostAndFounds.Add(p.property);
             db.SaveChanges();
             return RedirectToAction("List");
@@ -88,7 +113,6 @@ namespace MyHR_Web.Controllers
         {
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TLostAndFound d = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == id);
 
                 if (d != null)
@@ -103,12 +127,16 @@ namespace MyHR_Web.Controllers
         {
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TLostAndFound d = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == id);
+                TLostAndFoundSubject s = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == d.CPropertySubjectId);
+                TLostAndFoundCategory c = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == d.CPropertyCategoryId);
+                TLostAndFoundCheckStatus e = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == d.CPropertyCheckStatusId);
+
 
                 if (d != null)
                 {
-                    return View(new CPropertyViewModel(d));
+                    return View(new CPropertyViewModel(d, s, c, e));
+                    db.SaveChanges();
                 }
             }
             return RedirectToAction("List");
@@ -118,21 +146,24 @@ namespace MyHR_Web.Controllers
         {
             if (t_propertyEdit != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TLostAndFound l_product被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
+                TLostAndFoundSubject l_Subject被修改 = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == t_propertyEdit.CPropertySubjectId);
+                TLostAndFoundCategory l_Category被修改 = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == t_propertyEdit.CPropertyCategoryId);
+                TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == t_propertyEdit.CPropertyCheckStatusId);
 
                 if (l_product被修改 != null)
                 {
                     l_product被修改.CEmployeeId = t_propertyEdit.CEmployeeId;
                     l_product被修改.CDeparmentId = t_propertyEdit.CDeparmentId;
                     l_product被修改.CPhone = t_propertyEdit.CPhone;
-                    l_product被修改.CPropertySubjectId = t_propertyEdit.CPropertySubjectId;
+                    l_Subject被修改.CPropertySubjectId = t_propertyEdit.CPropertySubjectId;
+                    l_Category被修改.CPropertyCategoryId = t_propertyEdit.CPropertyCategoryId;
                     l_product被修改.CPropertyPhoto = t_propertyEdit.CPropertyPhoto;
                     l_product被修改.CProperty = t_propertyEdit.CProperty;
                     l_product被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
                     l_product被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
                     l_product被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
-                    l_product被修改.CPropertyCheckStatusId = t_propertyEdit.CPropertyCheckStatusId;
+                    l_CheckStatus被修改.CPropertyCheckStatusId = t_propertyEdit.CPropertyCheckStatusId;
                     db.SaveChanges();
                 }
             }
