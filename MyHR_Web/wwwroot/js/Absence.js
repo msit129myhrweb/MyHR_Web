@@ -47,8 +47,19 @@ function offClock() {
     req.onload = function () {
         var now = new Date();
         var nowtime = now.toLocaleString();
-        var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
+        //判斷是否為下班時間
+        if (nowtime > 18) {
+            var content = document.getElementById("showClock");
+            content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
+        }
+        else {
+            window.alert("現在並非下班時間，仍要打卡?");
+            if () {
+                var content = document.getElementById("showClock");
+                content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
+            }
+        }
+
     };
     req.send();
 }
