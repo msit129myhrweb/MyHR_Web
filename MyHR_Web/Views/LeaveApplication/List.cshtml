@@ -32,6 +32,23 @@
                 }
             })
         })
+        /*勾選通過*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllPass").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                window.alert(result.toString());
+            }, false);
+        }, false);
+
     </script>
 </head>
 <form method="post">
@@ -59,7 +76,7 @@
                                     姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
                                     假別搜尋&nbsp:&nbsp<input type="text" name="txtCategory" placeholder="輸入假別" autocomplete="off" />&nbsp&nbsp
                                     事由搜尋&nbsp:&nbsp<input type="text" name="txtReason" placeholder="輸入事由" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)"  @*value="@Html.ActionLink("勾選通過", "pass", new { id = @Html.DisplayNameFor(model => model.CApplyNumber) })"*@/>
                                     <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
                                 </h3>
                             </div>
@@ -68,7 +85,7 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
-                                            <th>序</th>
+                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
                                             <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
                                             <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
                                             <th>@Html.DisplayNameFor(model => model.employeeName)</th>
@@ -87,9 +104,9 @@
                                         {
                                             count++;
                                         <tr>
-                                            <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0" /></td>
-                                            @*<td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>*@
-                                            <td >@count</td>
+                                            <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
+                                            <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
+                                            @*<td >@count</td>*@
                                             <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
@@ -100,10 +117,8 @@
                                             <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                             <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                             <td>
-                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                    <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
-                                                    <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>
-                                                </div>
+                                                <input type="button" name="options" id="option1" autocomplete="off" />@Html.ActionLink("通過", "pass", new { id = item.CApplyNumber })
+                                                <input type="button" name="options" id="option2" autocomplete="off" />@Html.ActionLink("退件", "fail", new { id = item.CApplyNumber })
                                             </td>
                                         </tr>
                                         }

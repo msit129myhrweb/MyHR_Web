@@ -32,6 +32,23 @@
                 }
             })
         })
+
+        /*勾選通過*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllPass").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                window.alert(result.toString());
+            }, false);
+        }, false);
     </script>
 </head>
 <form method="post" >
@@ -86,9 +103,9 @@
                                         {
                                             count++;
                                         <tr>
-                                            <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0" /></td>
-                                            @*<td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>*@
-                                            <td>@count</td>
+                                            <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
+                                            <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
+                                            @*<td>@count</td>*@
                                             <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
@@ -99,10 +116,8 @@
                                             <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                             <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                             <td>
-                                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                    <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Edit", new { id = item.CApplyNumber })</label>
-                                                    <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Edit", new { id = item.CApplyNumber })</label>
-                                                </div>
+                                                <input type="button" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "pass", new { id = item.CApplyNumber })
+                                                <input type="button" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "fail", new { id = item.CApplyNumber })
                                             </td>
                                         </tr>
                                         }

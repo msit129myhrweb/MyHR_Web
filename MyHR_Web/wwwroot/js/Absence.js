@@ -30,15 +30,19 @@ function ShowTime() {
 //    })
 //})
 function onClock() {
-    var req = new XMLHttpRequest();
-    req.open("get", "/Absence/List");
-    req.onload = function () {
-        var now = new Date();
-        var nowtime = now.toLocaleString();
-        var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\n您已打卡成功!\n下班別忘記打卡!";
-    };
-    req.send();
+    $.ajax({
+        url: "/Absence/Create",
+        data: "{'CEmployeeId'=id,COn=d}",
+        type: "GET",
+        success: function () {
+            var now = new Date();
+            var nowtime = now.toLocaleString();
+            var content = document.getElementById("showClock");
+            content.innerHTML = nowtime + "\n您已打卡成功!\n下班別忘記打卡!";
+
+        }
+    })
+
 }
 
 function offClock() {
@@ -59,9 +63,17 @@ function offClock() {
                 content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
             }
         }
-
     };
     req.send();
+
+    $.ajax({
+        url: "",
+        data: "",
+        type: "",
+        success: function () {
+
+        }
+    })
 }
 
 function showHistory() {

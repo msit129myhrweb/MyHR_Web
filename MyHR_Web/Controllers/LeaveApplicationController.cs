@@ -86,43 +86,12 @@ namespace MyHR_Web.Controllers
 
         #region Edit
         //通過或退件
-        public IActionResult Edit(int? capplyNum)
+        public IActionResult pass(int? id)
         {
-            if (capplyNum != null)
+            if (id != null)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l=>l.CApplyNumber == capplyNum);
-                if (leave!=null)
-                {
-                    //return View(new TLeaveApplicationViewModel(leave));
-                }
-            }
-            return RedirectToAction("List");
-        }
-        [HttpPost]
-        public IActionResult Edit(TLeaveApplicationViewModel leaveEdit)
-        {
-            if (leaveEdit!=null)
-            {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave_Edited = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == leaveEdit.CApplyNumber);
-                if (leave_Edited!=null)
-                {
-                    leave_Edited.CCheckStatus = leaveEdit.CCheckStatus;
-                    db.SaveChanges();
-                }
-            }
-            return RedirectToAction("List");
-        }
-        #endregion
-
-
-        public IActionResult Pass(int? applyNum)
-        {
-            if (applyNum != null)
-            {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == applyNum);
+                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == id);
                 if (leave != null)
                 {
                     if (leave.CCheckStatus==1)
@@ -134,36 +103,23 @@ namespace MyHR_Web.Controllers
             }
             return RedirectToAction("List");
         }
-        //[HttpPost]
-        //public IActionResult Pass(TLeaveApplication leaveEdit)
-        //{
-        //    if (leaveEdit != null)
-        //    {
-        //        dbMyCompanyContext db = new dbMyCompanyContext();
-        //        TLeaveApplication leaveEdited = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == leaveEdit.CApplyNumber);
-        //        if (leaveEdited.CCheckStatus ==1)
-        //        {
-        //            leaveEdited.CCheckStatus = 2;
-        //            db.SaveChanges();
-        //        }
-        //    }
-        //    return RedirectToAction("List");
-        //}
-        [HttpPost]
-        public IActionResult Fail(TLeaveApplication leaveEdit)
+        public IActionResult Fail(int? id)
         {
-            if (leaveEdit != null)
+            if (id != null)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leaveEdited = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == leaveEdit.CApplyNumber);
-                if (leaveEdited.CCheckStatus == 1)
+                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == id);
+                if (leave != null)
                 {
-                    leaveEdited.CCheckStatus = 3;
-                    db.SaveChanges();
+                    if (leave.CCheckStatus == 1)
+                    {
+                        leave.CCheckStatus = 3;
+                        db.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("List");
         }
-
     }
+    #endregion
 }

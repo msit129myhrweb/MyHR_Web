@@ -17,9 +17,7 @@ namespace MyHR_Web.Controllers
         #region List
         public IActionResult List()
         {
-            
             string status = "";
-            
             {
 
             }
@@ -108,6 +106,8 @@ namespace MyHR_Web.Controllers
         DateTime now = DateTime.Now; //現在時間
         DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
         DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
+
+
 
 
         public string Clock()//打卡

@@ -23,32 +23,32 @@ namespace MyHR_Web.Controllers
             if (!string.IsNullOrEmpty(Request.ContentType))
             {
                 string AppNum = Request.Form["txtAppNum"];
-                string Id = Request.Form["txtId"]; 
-                string Name= Request.Form["txtName"];
-                string Reason = Request.Form["txtReason"]; 
+                string Id = Request.Form["txtId"];
+                string Name = Request.Form["txtName"];
+                string Reason = Request.Form["txtReason"];
 
                 //全部條件為空白
-                if (string.IsNullOrEmpty(AppNum)&&string.IsNullOrEmpty(Id)&&string.IsNullOrEmpty(Name)&&string.IsNullOrEmpty(Reason))
+                if (string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Reason))
                 {
                     var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                            where travel.CDepartmentId == DepId
-                            select travel;
-                                
+                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId
+                                select travel;
+
                     //todo inner join TUser Name
 
                 }
                 //其一有值
-                else if (!string.IsNullOrEmpty(AppNum) || !string.IsNullOrEmpty(Id) || !string.IsNullOrEmpty(Name) ||!string.IsNullOrEmpty(Reason))
+                else if (!string.IsNullOrEmpty(AppNum) || !string.IsNullOrEmpty(Id) || !string.IsNullOrEmpty(Name) || !string.IsNullOrEmpty(Reason))
                 {
                     var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                            where travel.CDepartmentId == DepId &&
-                                  travel.CReason.Contains(Reason) ||
-                                  travel.CApplyNumber.ToString().Contains(AppNum) ||
-                                  travel.CEmployeeId.ToString().Contains(Id) ||
-                                  user.CEmployeeName.Contains(Name)
-                            select travel;
+                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
+                                      travel.CReason.Contains(Reason) ||
+                                      travel.CApplyNumber.ToString().Contains(AppNum) ||
+                                      travel.CEmployeeId.ToString().Contains(Id) ||
+                                      user.CEmployeeName.Contains(Name)
+                                select travel;
                 }
                 ////其二有值
                 else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
@@ -78,13 +78,13 @@ namespace MyHR_Web.Controllers
                 else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
                 {
                     var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                            join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                            where travel.CDepartmentId == DepId && 
-                                  travel.CReason.Contains(Reason)&&
-                                  travel.CApplyNumber.ToString().Contains(AppNum)&&
-                                  travel.CEmployeeId.ToString().Contains(Id)&&
-                                  user.CEmployeeName.Contains(Name)
-                            select travel;
+                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
+                                      travel.CReason.Contains(Reason) &&
+                                      travel.CApplyNumber.ToString().Contains(AppNum) &&
+                                      travel.CEmployeeId.ToString().Contains(Id) &&
+                                      user.CEmployeeName.Contains(Name)
+                                select travel;
                 }
             }
             //全部條件為空白
@@ -129,39 +129,37 @@ namespace MyHR_Web.Controllers
 
         #region Edit
         //通過或退件
-        public IActionResult Edit(int? capplyNum)
+        public IActionResult pass(int? id)
         {
-            if (capplyNum != null)
+            if (id != null)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == capplyNum);
+                TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 if (travel != null)
                 {
-                    return View(new CTravelViewModel(travel));
+                    travel.CCheckStatus = 2;
+                    db.SaveChanges();
                 }
             }
             return RedirectToAction("List");
         }
-        [HttpPost]
-        public IActionResult Edit(CTravelViewModel travelEdit)
+        public IActionResult fail(int? id)
         {
-            if (travelEdit != null)
+            if (id != null)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication travel_Edited = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == travelEdit.CApplyNumber);
-                if (travel_Edited != null)
+                TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
+                if (travel != null)
                 {
-                    travel_Edited.CCheckStatus = travelEdit.CCheckStatus;
+                    travel.CCheckStatus = 3;
                     db.SaveChanges();
                 }
             }
             return RedirectToAction("List");
         }
         #endregion
-        public IActionResult Detail(int? capplyNum)
-        {
-            return View();
-        }
     }
-    
 }
+
+  
+
