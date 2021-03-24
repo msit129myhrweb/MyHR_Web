@@ -41,13 +41,21 @@ namespace MyHR_Web.ViewModel
 
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName { get; set; }
+        public string CDepartmentName 
+        {
+            get 
+            { //todo
+                CDepartmentName = (string)Enum.Parse(typeof(eDepartment), Convert.ToString( CDeparmentId));
+                return CDepartmentName;
+            }
+            set { CDepartmentName = value; }
+        }
         public int CDeparmentId
         {
             get 
             {
-                iv_property.CDeparmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
-                return iv_property.CDeparmentId; 
+                //iv_property.CDeparmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
+                return iv_property.CDeparmentId;
             }
             set { iv_property.CDeparmentId = value; }
         }
@@ -62,11 +70,7 @@ namespace MyHR_Web.ViewModel
         [DisplayName("手機")]
         public string CPhone
         {
-            get 
-            {
-                
-                return iv_property.CPhone; 
-            }
+            get {return iv_property.CPhone; }
             set { iv_property.CPhone = value; }
         }
         [Required(ErrorMessage = "失物主旨是必填欄位")]
@@ -121,18 +125,20 @@ namespace MyHR_Web.ViewModel
             set { iv_property.CtPropertyDescription = value; }
         }
 
-
-        public string CPropertyCheckStatusName {
+        [DisplayName("失物狀態")]
+        public string CPropertyCheckStatusName 
+        {
             get ;
             set ; 
         }
 
-        [DisplayName("失物狀態")]
         public int CPropertyCheckStatusId
         {
-            get {
+            get
+            {
                 iv_property.CPropertyCheckStatusId = (int)Enum.Parse(typeof(eLostAndFoundCheckStatus),CPropertyCheckStatusName);
-                return iv_property.CPropertyCheckStatusId; }
+                return iv_property.CPropertyCheckStatusId; 
+            }
             set { iv_property.CPropertyCheckStatusId = value; }
         }
 

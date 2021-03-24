@@ -30,32 +30,28 @@
                 <input type="hidden" asp-for="CPropertyId" />
                 <div class="form-group">
                     <label asp-for="CEmployeeId" class="control-label"></label>
-                    <input asp-for="CEmployeeId" class="form-control" ></input>
-                    <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                    <input asp-for="CEmployeeId" class="form-control" value="@Model.CEmployeeId" />
                 </div>
                 <div class="form-group">
-                    <label asp-for="CDeparmentId" class="control-label"></label>
-                    <input asp-for="CDeparmentId" class="form-control" />
-                    <span asp-validation-for="CDeparmentId" class="text-danger"></span>
+                    <label asp-for="CDepartmentName" class="control-label"></label>
+                    <input asp-for="CDepartmentName" class="form-control" value="@Model.CDepartmentName">
                 </div>
                 <div class="form-group">
                     <label asp-for="CPhone" class="control-label"></label>
-                    <input asp-for="CPhone" class="form-control" />
+                    <input asp-for="CPhone" class="form-control" value="@Model.CPhone" />
                     <span asp-validation-for="CPhone" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CPropertySubjectId" class="control-label"></label>
-                    <select asp-for="CPropertySubjectId" class="form-control" ></select>
-                    <span asp-validation-for="CPropertySubjectId" class="text-danger"></span>
+                    <select asp-for="CPropertySubjectId" id="t主旨下拉式" class="form-control"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CPropertyCategoryId" class="control-label"></label>
-                    <select asp-for="CPropertyCategoryId" class="form-control"></select>
-                    <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
+                    <select asp-for="CPropertyCategoryId" id="t類別下拉式" class="form-control"></select>
                 </div>
                 <div class="form-group">
                     <label asp-for="CPropertyPhoto" class="control-label"></label>
-                    <input asp-for="CPropertyPhoto" class="form-control" />
+                    <input type="file" name="pimage" />
                     <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -79,9 +75,9 @@
                     <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                    <select asp-for="CPropertyCheckStatusId" class="form-control" asp-items="ViewBag.CPropertyCheckStatusId"></select>
-                    <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+                    <label asp-for="CPropertyCheckStatusName" class="control-label"></label>
+                    <select asp-for="CPropertyCheckStatusName" id="t狀態下拉選單" class="form-control"></select>
+                    <span asp-validation-for="CPropertyCheckStatusName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <input type="submit" value="修改" class="btn btn-primary" />
@@ -90,6 +86,53 @@
         </div>
 </div>
 
+<script>
+    var propertysubject;
+    $.ajax({
+        url: "/Property/pSubject",
+        type: "Get",
+        success: function (psubject) {
+            txt = "";
+            console.log(psubject);
+            for (let s = 0; s < psubject.length; s++) {
+                txt += "<option value='" + psubject[s].cPropertySubjectId + "'>" + psubject[s].cPropertySubject + "</option>";
+            }
+            document.getElementById("t主旨下拉式").innerHTML = txt;
+        }
+    });
+</script>
+
+<script>
+    var propertycategory;
+    $.ajax({
+        url: "/Property/pCategory",
+        type: "Get",
+        success: function (pcategory) {
+            txt = "";
+            console.log(pcategory);
+            for (let c = 0; c < pcategory.length; c++) {
+                txt += "<option value='" + pcategory[c].cPropertyCategoryId + "'>" + pcategory[c].cPropertyCategory + "</option>";
+            }
+            document.getElementById("t類別下拉式").innerHTML = txt;
+        }
+    });
+</script>
+
+<script>
+    var propertycheck;
+    $.ajax({
+        url: "/Property/pCheckStatus",
+        type: "Get",
+        success: function (pcheck) {
+            txt = "";
+            console.log(pcheck);
+            for (let f = 0; f < pcheck.length; f++) {
+                txt += "<option value=" + pcheck[f].cPropertyCheckStatusId + ">" + pcheck[f].cPropertyCheckStatus + "</option>";
+            }
+            document.getElementById("t狀態下拉選單").innerHTML = txt;
+        }
+    });
+</script>
 
 
 @section Scripts {

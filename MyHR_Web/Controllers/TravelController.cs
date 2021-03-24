@@ -22,6 +22,7 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult List()
         {
+            
             var table = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
                         select t;
             List<CTravelViewModel> list = new List<CTravelViewModel>();

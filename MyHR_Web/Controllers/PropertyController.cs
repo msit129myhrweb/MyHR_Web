@@ -21,6 +21,7 @@ namespace MyHR_Web.Controllers
         {
             iv_host = p;
         }
+
         public JsonResult pSubject()
         {
             var psubject = from l in db.TLostAndFoundSubjects
@@ -92,14 +93,14 @@ namespace MyHR_Web.Controllers
             //ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
             //ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
             
-            CPropertyViewModel viewModel = new CPropertyViewModel 
+            CPropertyViewModel pViewModel = new CPropertyViewModel 
             {
                 CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
                 CPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE),
                 CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
             };
 
-            return View(viewModel);
+            return View(pViewModel);
         }
 
         [HttpPost]
