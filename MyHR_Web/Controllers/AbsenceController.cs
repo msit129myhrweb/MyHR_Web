@@ -67,6 +67,13 @@ namespace MyHR_Web.Controllers
            // ModelState.IsValid;
 
         }
+
+        public JsonResult getClockString(string c)
+        {
+
+            return Json(c);
+        }
+
         #endregion
 
         #region Edit

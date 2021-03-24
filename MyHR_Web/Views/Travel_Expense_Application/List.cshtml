@@ -4,20 +4,7 @@
     ViewData["Title"] = "List";
 }
 <head>
-    <style>
-        h2 {
-            background-color: #cbb2ae;
-            border-left: 5px solid #808080;
-            font-family: "微软雅黑", "宋体", "黑体", Arial;
-            font-size: 25px;
-            height: 80px;
-            line-height: 80px;
-            font-weight: bold;
-            text-shadow: 2px 2px 3px #222222;
-            color: #FFFFFF;
-            padding-left: 10px;
-        }
-    </style>
+    <link href="~/css/Absence.css" rel="stylesheet" />
     <script>
         $(document).ready(function () {
             $("#CheckAll").click(function () {
@@ -46,9 +33,44 @@
                         result.push(check.value);
                     }
                 }
-                window.alert(result.toString());
+                $.post(
+                    "@Url.Action("getPassString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 300)
             }, false);
         }, false);
+
+        /*勾選退件*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllFail").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                $.post(
+                    "@Url.Action("getFailString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                    window.location.assign(window.location.href)
+                 }, 300)
+            }, false);
+        }, false);
+
+
+
     </script>
 </head>
 <form method="post" >
@@ -98,14 +120,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{int count = 0; }
                                         @foreach (var item in Model)
                                         {
-                                            count++;
                                         <tr>
                                             <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
                                             <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                            @*<td>@count</td>*@
                                             <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
@@ -116,8 +135,8 @@
                                             <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                             <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                             <td>
-                                                <input type="button" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "pass", new { id = item.CApplyNumber })
-                                                <input type="button" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "fail", new { id = item.CApplyNumber })
+                                                <input type="button" name="options" id="option1" autocomplete="off" />@Html.ActionLink("通過", "pass", new { id = item.CApplyNumber })
+                                                <input type="button" name="options" id="option2" autocomplete="off" />@Html.ActionLink("退件", "fail", new { id = item.CApplyNumber })
                                             </td>
                                         </tr>
                                         }

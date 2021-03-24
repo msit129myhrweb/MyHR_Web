@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using Newtonsoft.Json;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
@@ -126,8 +127,59 @@ namespace MyHR_Web.Controllers
             }
             return View(list);
         }
-
         #region Edit
+        //勾選通過
+        public JsonResult getPassString(string d)
+        {
+            string[] ids = d.Split('\\', '"', '[', ',', ']');
+            List<int> list = new List<int>();
+            foreach (var item in ids)
+            {
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+            }
+            foreach (var i in list)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
+
+                if (travel != null)
+                {
+                    travel.CCheckStatus = 2;
+                    db.SaveChanges();
+                }
+            }
+            return Json(d);
+        }
+        //勾選退件
+        public JsonResult getFailString(string d)
+        {
+            string[] ids = d.Split('\\', '"', '[', ',', ']');
+            List<int> list = new List<int>();
+            foreach (var item in ids)
+            {
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+            }
+            foreach (var i in list)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
+
+                if (travel != null)
+                {
+                    travel.CCheckStatus = 3;
+                    db.SaveChanges();
+                }
+            }
+            return Json(d);
+        }
+
+        
         //通過或退件
         public IActionResult pass(int? id)
         {

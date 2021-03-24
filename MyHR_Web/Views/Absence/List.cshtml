@@ -5,18 +5,25 @@
 <html>
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
-    <script type="text/javascript" src="~/js/Absence.js"></script>
+    <script src="~/js/Absence.js"></script>
     <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("on").addEventListener("click", function () {
+                var id =@ViewData["CURRENT_LOGINED_USERID"];
+                var now = new Date();
+                var nowtime = now.toLocaleString();
+                var data = { "id": id, "COn": nowtime };
 
+            $.post(
+                "@Url.Action("getClockString")",
+                { "c": JSON.stringify(data) },
+                function (data) {
+                }, "json"
+            )
 
-        @*$.ajax({
-            url: "@Url.Action("Create", "Absence")",
-            type: "POST",
-            data: dataObject,
-            datatype: "json",
-            success: 
+            }, false)
+        }, false);
 
-        })*@
     </script>
 </head>
 <body>
@@ -26,8 +33,8 @@
         </section>
         <section class="content">
             <div class="clock">
-                <button type="button" class="button" onclick="onClock()" style="filter: grayscale(50%)">上班</button><br /><br />
-                <button type="button" class="button" onclick="offClock()" style="filter: grayscale(50%)">下班</button><br /><br />
+                <button type="button" class="button" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
+                <button type="button" class="button" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
                 <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"></input><br /><br />
                 <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"></input>
             </div>

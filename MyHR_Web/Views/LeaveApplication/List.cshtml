@@ -4,52 +4,72 @@
     ViewData["Title"] = "List";
 }
 <head>
-    <style>
-        h2 {
-            background-color: #cbb2ae;
-            border-left: 5px solid #808080;
-            font-family: "微软雅黑", "宋体", "黑体", Arial;
-            font-size: 25px;
-            height: 80px;
-            line-height: 80px;
-            font-weight: bold;
-            text-shadow: 2px 2px 3px #222222;
-            color: #FFFFFF;
-            padding-left: 10px;
-        }
-    </style>
-    <script>
-        $(document).ready(function () {
-            $("#CheckAll").click(function () {
-                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
-                    $("input[name='Checkbox[]']").each(function () {
-                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
-                    })
-                } else {
-                    $("input[name='Checkbox[]']").each(function () {
-                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
-                    })
-                }
-            })
+    <link href="~/css/Absence.css" rel="stylesheet" />
+
+<script>
+    $(document).ready(function () {
+        $("#CheckAll").click(function () {
+            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                })
+            } else {
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                })
+            }
         })
+    })
         /*勾選通過*/
         document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("AllPass").addEventListener("click", function () {
-                var result = [];
-                var checks = document.getElementsByName("Checkbox[]");
+        document.getElementById("AllPass").addEventListener("click", function () {
+            var result = [];
+            var checks = document.getElementsByName("Checkbox[]");
 
-                for (var i = 0; i < checks.length; i++) {
-                    var check = checks.item(i);
+            for (var i = 0; i < checks.length; i++) {
+                var check = checks.item(i);
 
-                    if (check.checked) {
-                        result.push(check.value);
-                    }
+                if (check.checked) {
+                    result.push(check.value);
                 }
-                window.alert(result.toString());
-            }, false);
+            }
+            $.post(
+                "@Url.Action("getPassString")",
+                { "d": JSON.stringify(result) },
+                function (result) {
+                }, "json"
+            )
+            setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 300)
+        }, false);
         }, false);
 
-    </script>
+        /*勾選退件*/
+        document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("AllFail").addEventListener("click", function () {
+            var result = [];
+            var checks = document.getElementsByName("Checkbox[]");
+
+            for (var i = 0; i < checks.length; i++) {
+                var check = checks.item(i);
+                if (check.checked) {
+                    result.push(check.value);
+                }
+            }
+            $.post(
+                "@Url.Action("getFailString")",
+                { "d": JSON.stringify(result) },
+                function (result) {
+                }, "json"
+            )
+            setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 300)
+        }, false);
+    }, false);
+
+</script>
 </head>
 <form method="post">
     <div class="content-wrapper">
@@ -76,7 +96,7 @@
                                     姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
                                     假別搜尋&nbsp:&nbsp<input type="text" name="txtCategory" placeholder="輸入假別" autocomplete="off" />&nbsp&nbsp
                                     事由搜尋&nbsp:&nbsp<input type="text" name="txtReason" placeholder="輸入事由" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)"  @*value="@Html.ActionLink("勾選通過", "pass", new { id = @Html.DisplayNameFor(model => model.CApplyNumber) })"*@/>
+                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
                                     <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
                                 </h3>
                             </div>
@@ -99,14 +119,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @{int count = 0; } 
                                         @foreach (var item in Model)
                                         {
-                                            count++;
                                         <tr>
                                             <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
                                             <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                            @*<td >@count</td>*@
                                             <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                             <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
