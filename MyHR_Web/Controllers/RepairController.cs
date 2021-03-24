@@ -210,5 +210,43 @@ namespace MyHR_Web.Views.Home
             }
             return RedirectToAction("RepairList");
         }
+
+
+        public JsonResult updateall(string x)
+        {
+            string a = x;
+            string[] ids =a.Split('\\','"','[',',',']');
+
+            List<int> list = new List<int>();
+            foreach (var item in ids)
+            {
+
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+
+            }
+            foreach (var i in list)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == i);
+
+                if (repair != null)
+                {
+                    repair.CRepairStatus = 1;
+                    db.SaveChanges();
+                }
+
+                 
+            }
+
+            return Json(new { result = true, msg = "成功" });
+
+
+
+        }
+            
+    
     }
 }
