@@ -76,8 +76,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-offset-5">
-                        <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />
-                        @Html.ActionLink("勾選通過", "update", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                        <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />                       
                     </div>
                 </div>
             </form>
@@ -118,17 +117,15 @@
                         @Html.DisplayNameFor(model => model.CRepairStatus)
                     </th>
                     <th style="text-align:center">
-                        編輯 @*|詳細*@ |刪除
+                        編輯|刪除
                     </th>
                     @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
                     {
                         <th style="text-align:center">
                             審核
-                        </th>
+                        </th>                       
                     }
-                    <th style="text-align:center">
-                        審核
-                    </th>
+                    
 
                 </tr>
             </thead>
@@ -140,7 +137,7 @@
                         <tr style="text-align:center">
                             <td>
                                 <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CRepairNumber)" id="CheckboxGroup" />
-                                @*@Html.CheckBox("update", new { id = item.CRepairNumber })*@
+                               
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CRepairNumber)
@@ -174,19 +171,20 @@
                                         @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
                                 }
                             </td>
-                            <td>
-                                @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                            </td>
+                            
 
 
                             @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
                             {
                                 <td>
+                                    @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                </td>
+                                @*<td>
                                     <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
                                         <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
                                         <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
                                     </div>
-                                </td>
+                                </td>*@
                             }
 
 
@@ -215,17 +213,7 @@
         })
     })
 
-    //function send() {
-    //    var tests = document.getElementsByName('Checkbox[]');
-    //    var value = new Array();
-    //    for (var i = 0; i < tests.length; i++) {
-    //        if (test[i].checked)
-    //            value.push(test[i].value);
-    //    }
-    //    window.location = '*****.do?value=' + value.toString();  //把value转化为字符串作为参数传到后台
-
-    //}
-
+ 
     var result = "";
     document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("AllPass").addEventListener("click", function () {
@@ -250,7 +238,7 @@
             ) 
             setTimeout(() => {
                 window.location.assign(window.location.href)
-            }, 1000)
+            }, 500)
         }, false);
     } , false);
      

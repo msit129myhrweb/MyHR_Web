@@ -2,17 +2,22 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.Web.Helpers;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -125,6 +130,27 @@ namespace MyHR_Web.Controllers
 
             return PartialView();
         }
+
+       
+
+        [HttpPost]
+        public IActionResult register(TUserViewModel _user)
+        {
+
+            dbMyCompanyContext db = new dbMyCompanyContext();
+            db.TUsers.Add(_user.tuserVM);
+            db.SaveChanges();
+            return RedirectToAction("Login");
+
+
+        }
+
+
+
+
+
+
+
         public IActionResult Calendar()
         {
             ViewData["events"] = new[]
@@ -166,6 +192,10 @@ namespace MyHR_Web.Controllers
             return Json(new { result = false, msg = "上傳失敗" });
         }
         //todo wz
+
+
+
+       
 
     }
 }

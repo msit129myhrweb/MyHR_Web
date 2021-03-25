@@ -37,7 +37,7 @@
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                            <!-- todo wz -->
+                                <!-- todo wz -->
                                 <img id="imgid"
                                      class="profile-user-img img-fluid img-circle"
                                      src="~/theme/dist/img/user4-128x128.jpg"
@@ -46,15 +46,27 @@
                             </div>
 
                             <!-- todo wz -->
-                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()"/>
+                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()" />
                             @*<img id="imgid" />*@
                             <!-- todo wz -->
 
                             <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
                             <p class="text-muted text-center">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
 
+
+                            <!-- todo wz 照片上傳 -->
+                            @*<form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
+                                <input type="file" accept=".png, .jpg, .jpeg" name="File" id="File" />
+                                <input type="submit" value="上傳" />
+                            </form>*@
+                            <!-- todo wz 照片上傳 -->
+
+
+
                         </div>
                         <!-- /.card-body -->
+                    </div>
+                    <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                     <!-- About Me Box -->
@@ -70,7 +82,7 @@
                             <strong><i class="fas fa-map-marker-alt mr-1"></i>職位</strong>
                             <p class="text-muted">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
                             <hr>
-                         </div>
+                        </div>
                         <!-- /.card-body -->
                     </div>
                     <!-- /.card -->

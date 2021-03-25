@@ -611,7 +611,6 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CAccountEnable).HasColumnName("cAccountEnable");
 
                 entity.Property(e => e.CAddress)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("cAddress");
 
@@ -635,12 +634,10 @@ namespace MyHR_Web.Models
                     .HasColumnName("cEmergencyContact");
 
                 entity.Property(e => e.CEmergencyPerson)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmergencyPerson");
 
                 entity.Property(e => e.CEmployeeEnglishName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmployeeEnglishName");
 
@@ -650,7 +647,6 @@ namespace MyHR_Web.Models
                     .HasColumnName("cEmployeeName");
 
                 entity.Property(e => e.CGender)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("cGender");
 
@@ -668,7 +664,6 @@ namespace MyHR_Web.Models
                     .HasColumnName("cPassWord");
 
                 entity.Property(e => e.CPhone)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cPhone");
 
