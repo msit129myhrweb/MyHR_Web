@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using prjCoreDemo.ViewModel;
 using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace MyHR_Web.Controllers
 {
@@ -39,6 +40,28 @@ namespace MyHR_Web.Controllers
             var pcheck = from s in db.TLostAndFoundCheckStatuses
                          select s;
             return Json(pcheck);
+        }
+        public JsonResult propertyfound(CPropertyListViewModel model)
+        {
+
+            var pfound = from pf in db.TLostAndFounds
+                         where pf.CLostAndFoundDate <=model.CLostAndFoundDate
+                         select new
+                         {
+                                 CPropertyId = pf.CPropertyId,
+                                 CDeparmentId = pf.CDeparmentId,
+                                 CEmployeeId = pf.CEmployeeId,
+                                 CPhone = pf.CPhone,
+                                 CPropertySubjectId = pf.CPropertySubjectId,
+                                 CPropertyCategoryId = pf.CPropertyCategoryId,
+                                 CPropertyPhoto = pf.CPropertyPhoto,
+                                 CProperty = pf.CProperty,
+                                 CLostAndFoundDate = pf.CLostAndFoundDate,
+                                 CLostAndFoundSpace = pf.CLostAndFoundSpace,
+                                 CtPropertyDescription = pf.CtPropertyDescription,
+                                 CPropertyCheckStatusId = pf.CPropertyCheckStatusId
+                             };
+            return Json(pfound);
         }
         public IActionResult List()
         {
@@ -86,26 +109,32 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Create()
         {
-            //string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            //ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            //string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            //string cPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            //ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            //ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            
-            CPropertyViewModel pViewModel = new CPropertyViewModel 
-            {
-                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
-                CPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE),
-                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
-            };
+            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
 
-            return View(pViewModel);
+            //CPropertyViewModel pViewModel = new CPropertyViewModel
+            //{
+            //    CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
+            //    CPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE),
+            //    //CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
+            //};
+
+            return View();
         }
 
         [HttpPost]
         public IActionResult Create(CPropertyViewModel p)
         {
+            string photoName = Guid.NewGuid().ToString() + ".jpg";
+            using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,FileMode.Create))
+            {
+                p.image.CopyTo(photo);
+            }
+            p.CPropertyPhoto = "../images/" + photoName;
             db.TLostAndFounds.Add(p.property);
             db.SaveChanges();
             return RedirectToAction("List");

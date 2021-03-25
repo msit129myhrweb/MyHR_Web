@@ -49,7 +49,7 @@ namespace MyHR_Web.ViewModel
             {
                 var a = Enum.Parse(typeof(eDepartment), Convert.ToString(CDeparmentId));
                 _CDepartmentName = a.ToString();
-                return _CDepartmentName;
+                return CDepartmentName;
             }
             set { CDepartmentName = value; }
         }
@@ -88,7 +88,7 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "失物照片是必填欄位")]
         [DisplayName("失物照片")]
-        public byte[] CPropertyPhoto
+        public string CPropertyPhoto
         {
             get { return iv_property.CPropertyPhoto; }
             set { iv_property.CPropertyPhoto = value; }

@@ -13,7 +13,7 @@ namespace MyHR_Web.Models
         public string CPhone { get; set; }
         public int CPropertySubjectId { get; set; }
         public int CPropertyCategoryId { get; set; }
-        public byte[] CPropertyPhoto { get; set; }
+        public string CPropertyPhoto { get; set; }
         public string CProperty { get; set; }
         public DateTime? CLostAndFoundDate { get; set; }
         public string CLostAndFoundSpace { get; set; }

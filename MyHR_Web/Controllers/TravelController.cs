@@ -58,12 +58,11 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-            CTravelViewModel tViewModel = new CTravelViewModel
-            {
-                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
-                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
-            };
-            return View(tViewModel);
+            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            return View();
         }
         [HttpPost]
         public IActionResult Create(CTravelViewModel t)
