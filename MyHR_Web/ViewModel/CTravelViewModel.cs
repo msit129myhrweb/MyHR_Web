@@ -11,16 +11,18 @@ namespace MyHR_Web.ViewModel
     public class CTravelViewModel
     {
         private TTravelExpenseApplication iv_travel = null;
-
+        private TCheckStatus iv_check = null;
         public TTravelExpenseApplication travel { get { return iv_travel; } }
 
-        public CTravelViewModel(TTravelExpenseApplication t)
+        public CTravelViewModel(TTravelExpenseApplication t,TCheckStatus ch)
         {
             iv_travel = t;
+            iv_check = ch;
         }
         public CTravelViewModel()
         {
             iv_travel = new TTravelExpenseApplication();
+            iv_check = new TCheckStatus();
         }
         [DisplayName("差旅費編號")]
         public int CApplyNumber
@@ -28,16 +30,23 @@ namespace MyHR_Web.ViewModel
             get { return iv_travel.CApplyNumber; }
             set { iv_travel.CApplyNumber = value; }
         }
+
+        public string _CDepartmentName { get; set; }
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName { get; set; }
+        public string CDepartmentName
+        {
+            get
+            {
+                var a = Enum.Parse(typeof(eDepartment), Convert.ToString(CDepartmentId));
+                _CDepartmentName = a.ToString();
+                return _CDepartmentName;
+            }
+            set { CDepartmentName = value; } 
+        }
         public int CDepartmentId
         {
-            get 
-            {
-                iv_travel.CDepartmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
-                return iv_travel.CDepartmentId; 
-            }
+            get {return iv_travel.CDepartmentId; }
             set { iv_travel.CDepartmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
@@ -56,21 +65,21 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "申請日期是必填欄位")]
         [DisplayName("申請日期")]
-        public DateTime CApplyDate
+        public DateTime? CApplyDate
         {
             get { return iv_travel.CApplyDate; }
             set { iv_travel.CApplyDate = value; }
         }
         [Required(ErrorMessage = "出差開始時間是必填欄位")]
         [DisplayName("出差開始時間")]
-        public DateTime CTravelStartTime
+        public DateTime? CTravelStartTime
         {
             get { return iv_travel.CTravelStartTime; }
             set { iv_travel.CTravelStartTime = value; }
         }
         [Required(ErrorMessage = "出差結束時間是必填欄位")]
         [DisplayName("出差結束時間")]
-        public DateTime CTravelEndTime
+        public DateTime? CTravelEndTime
         {
             get { return iv_travel.CTravelEndTime; }
             set { iv_travel.CTravelEndTime = value; }
@@ -84,9 +93,14 @@ namespace MyHR_Web.ViewModel
         }
 
         [DisplayName("審核狀態")]
+        public string CCheckStatusName { get; set; }
         public int CCheckStatus
         {
-            get { return iv_travel.CCheckStatus; }
+            get 
+            {
+                iv_travel.CCheckStatus = (int)Enum.Parse(typeof(eCheckStatus), CCheckStatusName);
+                return iv_travel.CCheckStatus; 
+            }
             set { iv_travel.CCheckStatus = value; }
         }
 

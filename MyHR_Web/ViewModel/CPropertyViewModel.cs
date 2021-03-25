@@ -39,24 +39,23 @@ namespace MyHR_Web.ViewModel
             set { iv_property.CPropertyId = value; }
         }
 
+       
+        public string _CDepartmentName { get; set; } 
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName 
+        public string CDepartmentName
         {
-            get 
-            { //todo
-                CDepartmentName = (string)Enum.Parse(typeof(eDepartment), Convert.ToString( CDeparmentId));
-                return CDepartmentName;
+            get
+            {
+                var a = Enum.Parse(typeof(eDepartment), Convert.ToString(CDeparmentId));
+                _CDepartmentName = a.ToString();
+                return _CDepartmentName;
             }
             set { CDepartmentName = value; }
         }
         public int CDeparmentId
         {
-            get 
-            {
-                //iv_property.CDeparmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
-                return iv_property.CDeparmentId;
-            }
+            get {return iv_property.CDeparmentId;}
             set { iv_property.CDeparmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
@@ -126,11 +125,7 @@ namespace MyHR_Web.ViewModel
         }
 
         [DisplayName("失物狀態")]
-        public string CPropertyCheckStatusName 
-        {
-            get ;
-            set ; 
-        }
+        public string CPropertyCheckStatusName {get ;set ; }
 
         public int CPropertyCheckStatusId
         {

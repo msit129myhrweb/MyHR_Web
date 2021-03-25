@@ -62,22 +62,22 @@ namespace MyHR_Web.Controllers
                                     CPropertyCheckStatusId=f.CPropertyCheckStatusId
                                 };
             List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
-            foreach (var item in propertytable)
+            foreach (var pitem in propertytable)
             {
                 CPropertyListViewModel cvm = new CPropertyListViewModel()
                 {
-                    CPropertyId = item.CPropertyId,
-                    CDeparmentId = item.CDeparmentId,
-                    CEmployeeId = item.CEmployeeId,
-                    CPhone = item.CPhone,
-                    CPropertySubjectId = item.CPropertySubjectId,
-                    CPropertyCategoryId = item.CPropertyCategoryId,
-                    CPropertyPhoto = item.CPropertyPhoto,
-                    CProperty = item.CProperty,
-                    CLostAndFoundDate = item.CLostAndFoundDate,
-                    CLostAndFoundSpace = item.CLostAndFoundSpace,
-                    CtPropertyDescription = item.CtPropertyDescription,
-                    CPropertyCheckStatusId = item.CPropertyCheckStatusId
+                    CPropertyId = pitem.CPropertyId,
+                    CDeparmentId = pitem.CDeparmentId,
+                    CEmployeeId = pitem.CEmployeeId,
+                    CPhone = pitem.CPhone,
+                    CPropertySubjectId = pitem.CPropertySubjectId,
+                    CPropertyCategoryId = pitem.CPropertyCategoryId,
+                    CPropertyPhoto = pitem.CPropertyPhoto,
+                    CProperty = pitem.CProperty,
+                    CLostAndFoundDate = pitem.CLostAndFoundDate,
+                    CLostAndFoundSpace = pitem.CLostAndFoundSpace,
+                    CtPropertyDescription = pitem.CtPropertyDescription,
+                    CPropertyCheckStatusId = pitem.CPropertyCheckStatusId
                 };
                 plist.Add(cvm);
             }
@@ -129,9 +129,9 @@ namespace MyHR_Web.Controllers
             if (id != null)
             {
                 TLostAndFound d = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == id);
-                TLostAndFoundSubject s = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == d.CPropertySubjectId);
-                TLostAndFoundCategory c = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == d.CPropertyCategoryId);
-                TLostAndFoundCheckStatus e = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == d.CPropertyCheckStatusId);
+                TLostAndFoundSubject s = db.TLostAndFoundSubjects.FirstOrDefault(s => s.CPropertySubjectId == d.CPropertySubjectId);
+                TLostAndFoundCategory c = db.TLostAndFoundCategories.FirstOrDefault(c => c.CPropertyCategoryId == d.CPropertyCategoryId);
+                TLostAndFoundCheckStatus e = db.TLostAndFoundCheckStatuses.FirstOrDefault(e => e.CPropertyCheckStatusId == d.CPropertyCheckStatusId);
 
 
                 if (d != null)
@@ -147,23 +147,23 @@ namespace MyHR_Web.Controllers
         {
             if (t_propertyEdit != null)
             {
-                TLostAndFound l_product被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
+                TLostAndFound l_laf被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
                 TLostAndFoundSubject l_Subject被修改 = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == t_propertyEdit.CPropertySubjectId);
                 TLostAndFoundCategory l_Category被修改 = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == t_propertyEdit.CPropertyCategoryId);
                 TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == t_propertyEdit.CPropertyCheckStatusId);
 
-                if (l_product被修改 != null)
+                if (l_laf被修改 != null)
                 {
-                    l_product被修改.CEmployeeId = t_propertyEdit.CEmployeeId;
-                    l_product被修改.CDeparmentId = t_propertyEdit.CDeparmentId;
-                    l_product被修改.CPhone = t_propertyEdit.CPhone;
+                    l_laf被修改.CEmployeeId = t_propertyEdit.CEmployeeId;
+                    l_laf被修改.CDeparmentId = t_propertyEdit.CDeparmentId;
+                    l_laf被修改.CPhone = t_propertyEdit.CPhone;
                     l_Subject被修改.CPropertySubjectId = t_propertyEdit.CPropertySubjectId;
                     l_Category被修改.CPropertyCategoryId = t_propertyEdit.CPropertyCategoryId;
-                    l_product被修改.CPropertyPhoto = t_propertyEdit.CPropertyPhoto;
-                    l_product被修改.CProperty = t_propertyEdit.CProperty;
-                    l_product被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
-                    l_product被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
-                    l_product被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
+                    l_laf被修改.CPropertyPhoto = t_propertyEdit.CPropertyPhoto;
+                    l_laf被修改.CProperty = t_propertyEdit.CProperty;
+                    l_laf被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
+                    l_laf被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
+                    l_laf被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
                     l_CheckStatus被修改.CPropertyCheckStatusId = t_propertyEdit.CPropertyCheckStatusId;
                     db.SaveChanges();
                 }

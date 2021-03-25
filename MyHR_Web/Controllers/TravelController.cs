@@ -14,37 +14,60 @@ namespace MyHR_Web.Controllers
 {
     public class TravelController : Controller
     {
+        dbMyCompanyContext db = new dbMyCompanyContext();
         public JsonResult tcheckStatus()
         {
-            var data = from t in (new dbMyCompanyContext()).TCheckStatuses
+            var tchecks = from t in db.TCheckStatuses
                        select t;
-            return Json(data);
+            return Json(tchecks);
         }
         public IActionResult List()
         {
-            
-            var table = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
-                        select t;
-            List<CTravelViewModel> list = new List<CTravelViewModel>();
-            foreach (TTravelExpenseApplication p in table)
-                list.Add(new CTravelViewModel(p));
-            return View(list);
-            
+            var traveltable = from t in db.TTravelExpenseApplications
+                              join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
+                              select new
+                              {
+                                  CApplyNumber = t.CApplyNumber,
+                                  CDepartmentId = t.CDepartmentId,
+                                  CEmployeeId = t.CEmployeeId,
+                                  CReason = t.CReason,
+                                  CApplyDate = t.CApplyDate,
+                                  CTravelStartTime = t.CTravelStartTime,
+                                  CTravelEndTime = t.CTravelEndTime,
+                                  CAmont = t.CAmont,
+                                  CCheckStatus = c.CCheckStatusId
+                              };
+            List<CTravelListViewModel> tlist = new List<CTravelListViewModel>();
+           foreach(var titem in traveltable)
+            {
+                CTravelListViewModel ctlvm = new CTravelListViewModel()
+                {
+                    CApplyNumber = titem.CApplyNumber,
+                    CDepartmentId = titem.CDepartmentId,
+                    CEmployeeId = titem.CEmployeeId,
+                    CReason = titem.CReason,
+                    CApplyDate = titem.CApplyDate,
+                    CTravelStartTime = titem.CTravelStartTime,
+                    CTravelEndTime = titem.CTravelEndTime,
+                    CAmont = titem.CAmont,
+                    CCheckStatus = titem.CCheckStatus
+                };
+                tlist.Add(ctlvm);
+            }
+            return View(tlist);  
         }
         public IActionResult Create()
         {
-            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            return View();
+            CTravelViewModel tViewModel = new CTravelViewModel
+            {
+                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
+                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
+            };
+            return View(tViewModel);
         }
         [HttpPost]
         public IActionResult Create(CTravelViewModel t)
         {
-            dbMyCompanyContext db = new dbMyCompanyContext();
             db.TTravelExpenseApplications.Add(t.travel);
             db.SaveChanges();
             return RedirectToAction("List");
@@ -53,7 +76,6 @@ namespace MyHR_Web.Controllers
         {
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication d = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
 
                 if (d != null)
@@ -67,13 +89,12 @@ namespace MyHR_Web.Controllers
         public IActionResult Edit(int? id)
         {
             if (id != null)
-            {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication d = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
-
-                if (d != null)
+            { 
+                TTravelExpenseApplication t = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
+                TCheckStatus ch = db.TCheckStatuses.FirstOrDefault(ch => ch.CCheckStatusId == t.CCheckStatus);
+                if (t != null)
                 {
-                    return View(new CTravelViewModel(d));
+                    return View(new CTravelViewModel(t,ch));
                 }
             }
             return RedirectToAction("List");
@@ -83,19 +104,18 @@ namespace MyHR_Web.Controllers
         {
             if (t_travelEdit != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication l_product被修改 = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == t_travelEdit.CApplyNumber);
-
-                if (l_product被修改 != null)
+                TTravelExpenseApplication l_tea被修改 = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == t_travelEdit.CApplyNumber);
+                TCheckStatus l_tcs被修改=db.TCheckStatuses.FirstOrDefault(t => t.CCheckStatusId == t_travelEdit.CCheckStatus);
+                if (l_tea被修改 != null)
                 {
-                    l_product被修改.CEmployeeId = t_travelEdit.CEmployeeId;
-                    l_product被修改.CDepartmentId = t_travelEdit.CDepartmentId;
-                    l_product被修改.CReason = t_travelEdit.CReason;
-                    l_product被修改.CApplyDate = t_travelEdit.CApplyDate;
-                    l_product被修改.CTravelStartTime = t_travelEdit.CTravelStartTime;
-                    l_product被修改.CTravelEndTime = t_travelEdit.CTravelEndTime;
-                    l_product被修改.CAmont = t_travelEdit.CAmont;
-                    l_product被修改.CCheckStatus = t_travelEdit.CCheckStatus;
+                    l_tea被修改.CEmployeeId = t_travelEdit.CEmployeeId;
+                    l_tea被修改.CDepartmentId = t_travelEdit.CDepartmentId;
+                    l_tea被修改.CReason = t_travelEdit.CReason;
+                    l_tea被修改.CApplyDate = t_travelEdit.CApplyDate;
+                    l_tea被修改.CTravelStartTime = t_travelEdit.CTravelStartTime;
+                    l_tea被修改.CTravelEndTime = t_travelEdit.CTravelEndTime;
+                    l_tea被修改.CAmont = t_travelEdit.CAmont;
+                    l_tcs被修改.CCheckStatusId = t_travelEdit.CCheckStatus;
                     db.SaveChanges();
                 }
             }
