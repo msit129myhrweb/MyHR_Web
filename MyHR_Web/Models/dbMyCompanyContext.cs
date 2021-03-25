@@ -611,7 +611,6 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CAccountEnable).HasColumnName("cAccountEnable");
 
                 entity.Property(e => e.CAddress)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("cAddress");
 
@@ -626,7 +625,6 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CDepartmentId).HasColumnName("cDepartmentID");
 
                 entity.Property(e => e.CEmail)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("cEmail");
 
@@ -635,22 +633,18 @@ namespace MyHR_Web.Models
                     .HasColumnName("cEmergencyContact");
 
                 entity.Property(e => e.CEmergencyPerson)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmergencyPerson");
 
                 entity.Property(e => e.CEmployeeEnglishName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmployeeEnglishName");
 
                 entity.Property(e => e.CEmployeeName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmployeeName");
 
                 entity.Property(e => e.CGender)
-                    .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("cGender");
 
@@ -663,12 +657,10 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.COnBoardStatusId).HasColumnName("cOnBoardStatusID");
 
                 entity.Property(e => e.CPassWord)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cPassWord");
 
                 entity.Property(e => e.CPhone)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cPhone");
 
@@ -679,7 +671,6 @@ namespace MyHR_Web.Models
                 entity.HasOne(d => d.COnBoardStatus)
                     .WithMany(p => p.TUsers)
                     .HasForeignKey(d => d.COnBoardStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tUser_tUserOnBoardStatus");
             });
 

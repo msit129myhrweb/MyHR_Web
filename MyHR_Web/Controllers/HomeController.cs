@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
+using System.IO;
 
 namespace MyHR_Web.Controllers
 {
@@ -30,6 +31,13 @@ namespace MyHR_Web.Controllers
         {
             return View();
         }
+
+        private dbMyCompanyContext db;
+        //public HomeController(dbMyCompanyContext dbContext)
+        //{
+        //    db = dbContext;
+        //}
+        [HttpGet]
         public IActionResult Profile()
         {
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
@@ -38,6 +46,56 @@ namespace MyHR_Web.Controllers
             
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> Profile(TUser user,List<IFormFile> CPhoto,int id)
+        {
+            foreach (var item in CPhoto)
+            {
+                if (item.Length>0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        user.CPhoto = stream.ToArray();
+                    }
+                }
+
+            }
+            id = 8;
+            if (id != null)
+            {
+                TUser userEdit=db.TUsers.FirstOrDefault(a=>a.CEmployeeId==id);
+                if (userEdit != null)
+                {
+
+                    userEdit.CPhoto = user.CPhoto;
+                    db.SaveChanges();
+                }
+            }
+            //db.TUsers.Add(user);
+            //db.SaveChanges();
+
+            return View();
+
+        }
+        public JsonResult getId(int id)
+        {
+            //if (id!=null)
+            //{
+            //    TUser userE = db.TUsers.FirstOrDefault(u=>u.CEmployeeId==id);
+            //    if (userE!=null)
+            //    {
+            //        byte[] intBytes = BitConverter.GetBytes(id);
+            //        byte[] newPhoto = intBytes.CPhoto;
+            //        userE.CPhoto = BitConverter.GetBytes(id);
+            //        db.SaveChanges();
+            //    }
+            //}
+            return Json(id);
+        }
+
+
+
         public IActionResult Login()
         {
             //if (string.IsNullOrEmpty(HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE)))

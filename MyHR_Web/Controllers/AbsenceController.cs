@@ -70,7 +70,19 @@ namespace MyHR_Web.Controllers
 
         public JsonResult getClockString(string c)
         {
-
+            string[] ids = c.Split('\"', '"', ',',' ');
+            var id=ids[1];
+            var date = ids[2];
+            var time = ids[4];
+            var on = date + " " + time;
+            dbMyCompanyContext db = new dbMyCompanyContext();
+            TAbsence a = new TAbsence() {
+                CEmployeeId = int.Parse(id),
+                COn = DateTime.Parse(on),
+                COff=DateTime.Parse(on)
+            };
+            db.TAbsences.Add(a);
+            db.SaveChanges();
             return Json(c);
         }
 
