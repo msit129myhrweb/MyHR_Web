@@ -40,19 +40,9 @@ namespace MyHR_Web.ViewModel
         }
 
        
-        public string _CDepartmentName { get; set; } 
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName
-        {
-            get
-            {
-                var a = Enum.Parse(typeof(eDepartment), Convert.ToString(CDeparmentId));
-                _CDepartmentName = a.ToString();
-                return CDepartmentName;
-            }
-            set { CDepartmentName = value; }
-        }
+        public string CDepartmentName { get; set; }
         public int CDeparmentId
         {
             get {return iv_property.CDeparmentId;}

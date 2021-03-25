@@ -87,7 +87,7 @@
                                     @Html.DisplayFor(modelItem => item.CEmployeeId)
                                 </td>
                                 <td>
-                                    @Enum.GetName(typeof(eDepartment), item.CDeparmentId)
+                                    @Enum.GetName(typeof(eDepartmentEnum), item.CDeparmentId)
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CPhone)
@@ -114,7 +114,7 @@
                                     @Html.DisplayFor(modelItem => item.CtPropertyDescription)
                                 </td>
                                 <td>
-                                    @Enum.GetName(typeof(eCheckStatus), item.CPropertyCheckStatusId)
+                                    @Enum.GetName(typeof(eCheckStatusEnum), item.CPropertyCheckStatusId)
                                 </td>
                                 <td>
                                     @Html.ActionLink("修改", "Edit", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |

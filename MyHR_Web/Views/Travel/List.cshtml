@@ -74,7 +74,7 @@
                             @Html.DisplayFor(modelItem => item.CApplyNumber)
                         </td>
                         <td>
-                            @Enum.GetName(typeof(eDepartment),item.CDepartmentId)
+                            @Enum.GetName(typeof(eDepartmentEnum),item.CDepartmentId)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CEmployeeId)
@@ -95,7 +95,7 @@
                             @Html.DisplayFor(modelItem => item.CAmont)
                         </td>
                         <td>
-                            @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
+                            @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
                         </td>
                         <td>
                             @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |

@@ -58,15 +58,30 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            return View();
+            //string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            //ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            //string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            //ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            return View(new CTravelViewModel 
+            {
+                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT),
+                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID))
+            });
         }
         [HttpPost]
         public IActionResult Create(CTravelViewModel t)
         {
+            if(ModelState.IsValid == false)
+            {
+                return View(t);
+            }
+            var depart = db.TUserDepartments.FirstOrDefault(e => e.CDepartment == t.CDepartmentName);
+            //TODO 部門不存在
+            if(depart == null)
+            {
+                throw new NotImplementedException();
+            }
+            t.CDepartmentId = depart.CDepartmentId;
             db.TTravelExpenseApplications.Add(t.travel);
             db.SaveChanges();
             return RedirectToAction("List");
@@ -104,7 +119,7 @@ namespace MyHR_Web.Controllers
             if (t_travelEdit != null)
             {
                 TTravelExpenseApplication l_tea被修改 = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == t_travelEdit.CApplyNumber);
-                TCheckStatus l_tcs被修改=db.TCheckStatuses.FirstOrDefault(t => t.CCheckStatusId == t_travelEdit.CCheckStatus);
+                TCheckStatus l_tcs被修改=db.TCheckStatuses.FirstOrDefault(t => t.CCheckStatusId == (int)t_travelEdit.CCheckStatus);
                 if (l_tea被修改 != null)
                 {
                     l_tea被修改.CEmployeeId = t_travelEdit.CEmployeeId;
@@ -114,7 +129,7 @@ namespace MyHR_Web.Controllers
                     l_tea被修改.CTravelStartTime = t_travelEdit.CTravelStartTime;
                     l_tea被修改.CTravelEndTime = t_travelEdit.CTravelEndTime;
                     l_tea被修改.CAmont = t_travelEdit.CAmont;
-                    l_tcs被修改.CCheckStatusId = t_travelEdit.CCheckStatus;
+                    l_tcs被修改.CCheckStatusId = (int)t_travelEdit.CCheckStatus;
                     db.SaveChanges();
                 }
             }

@@ -129,12 +129,24 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public IActionResult Create(CPropertyViewModel p)
         {
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
-            using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,FileMode.Create))
+            //如果有上傳照片
+            if(p.image != null)
             {
-                p.image.CopyTo(photo);
+                string photoName = Guid.NewGuid().ToString() + ".jpg";
+                using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName, FileMode.Create))
+                {
+                    p.image.CopyTo(photo);
+                }
+                p.CPropertyPhoto = "../images/" + photoName;
             }
-            p.CPropertyPhoto = "../images/" + photoName;
+            var depart = db.TUserDepartments.FirstOrDefault(e => e.CDepartment == p.CDepartmentName);
+
+            if(depart == null)
+            {
+                //TODO 找不到部門
+                throw new NotImplementedException();
+            }
+            p.CDeparmentId = depart.CDepartmentId;
             db.TLostAndFounds.Add(p.property);
             db.SaveChanges();
             return RedirectToAction("List");
@@ -162,11 +174,12 @@ namespace MyHR_Web.Controllers
                 TLostAndFoundCategory c = db.TLostAndFoundCategories.FirstOrDefault(c => c.CPropertyCategoryId == d.CPropertyCategoryId);
                 TLostAndFoundCheckStatus e = db.TLostAndFoundCheckStatuses.FirstOrDefault(e => e.CPropertyCheckStatusId == d.CPropertyCheckStatusId);
 
-
+                
                 if (d != null)
                 {
-                    return View(new CPropertyViewModel(d, s, c, e));
-                    db.SaveChanges();
+                    var result = new CPropertyViewModel(d, s, c, e);
+                    result.CDepartmentName = db.TUserDepartments.FirstOrDefault(e => e.CDepartmentId == result.CDeparmentId)?.CDepartment;
+                    return View(result);
                 }
             }
             return RedirectToAction("List");
@@ -184,6 +197,7 @@ namespace MyHR_Web.Controllers
                 if (l_laf被修改 != null)
                 {
                     l_laf被修改.CEmployeeId = t_propertyEdit.CEmployeeId;
+                    
                     l_laf被修改.CDeparmentId = t_propertyEdit.CDeparmentId;
                     l_laf被修改.CPhone = t_propertyEdit.CPhone;
                     l_Subject被修改.CPropertySubjectId = t_propertyEdit.CPropertySubjectId;

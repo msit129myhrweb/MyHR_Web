@@ -1,4 +1,4 @@
-﻿public enum eDepartment
+﻿public enum eDepartmentEnum
 {
     NONE,
     管理部,
@@ -39,7 +39,7 @@ public enum eLostAndFoundSubject
     遺失物,
     拾取物
 }
-public enum eCheckStatus
+public enum eCheckStatusEnum
 {
     NONE,
     審核中,

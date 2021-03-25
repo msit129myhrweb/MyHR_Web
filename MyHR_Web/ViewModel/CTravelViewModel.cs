@@ -31,19 +31,9 @@ namespace MyHR_Web.ViewModel
             set { iv_travel.CApplyNumber = value; }
         }
 
-        public string _CDepartmentName { get; set; }
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName
-        {
-            get
-            {
-                var a = Enum.Parse(typeof(eDepartment), Convert.ToString(CDepartmentId));
-                _CDepartmentName = a.ToString();
-                return _CDepartmentName;
-            }
-            set { CDepartmentName = value; } 
-        }
+        public string CDepartmentName { get; set; }
         public int CDepartmentId
         {
             get {return iv_travel.CDepartmentId; }
@@ -94,14 +84,16 @@ namespace MyHR_Web.ViewModel
 
         [DisplayName("審核狀態")]
         public string CCheckStatusName { get; set; }
-        public int CCheckStatus
-        {
+        public eCheckStatusEnum CCheckStatus
+        { 
             get 
+            { 
+                return (eCheckStatusEnum)iv_travel.CCheckStatus; 
+            } 
+            set 
             {
-                iv_travel.CCheckStatus = (int)Enum.Parse(typeof(eCheckStatus), CCheckStatusName);
-                return iv_travel.CCheckStatus; 
-            }
-            set { iv_travel.CCheckStatus = value; }
+                iv_travel.CCheckStatus = (int)value;
+            } 
         }
 
 
