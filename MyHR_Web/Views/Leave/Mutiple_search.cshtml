@@ -1,0 +1,96 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.TLeaveApplicationViewModel>
+
+@{ ViewData["Title"] = "LeaveList";
+    var Leave_Cate = ViewBag.LeaveCate;
+    var Leave_Status = ViewBag.LeaveStatus;}
+
+<div class="card">
+    <div class="card-header">
+        <table table class="table table-bordered table-hover">
+            <thead>
+                <tr style="text-align:center">
+                    @*<th>
+                            @Html.DisplayNameFor(model => model.CApplyNumber)
+                        </th>*@
+                    <th>
+                        @Html.DisplayNameFor(model => model.CDepartmentId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CEmployeeName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CApplyDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CLeaveCategory)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CLeaveStartTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CLeaveEndTime)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CReason)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CCheckStatus)
+                    </th>
+                    <th>
+                        修改/刪除
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+    @if (item.CEmployeeId == ViewBag.UserId)
+    {
+<tr style="text-align:center">
+    @*<td>
+            @Html.DisplayFor(modelItem => item.CApplyNumber)
+        </td>*@
+    <td id="Leave_DepId">
+        @*@Html.DisplayFor(modelItem => item.CDepartmentId)*@
+        @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
+    </td>
+    <td style="display:none">
+        @Html.DisplayFor(modelItem => item.CEmployeeId)
+        @*@ViewData["CURRENT_LOGINED_USERNAME"]*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CEmployeeName)
+
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CApplyDate)
+    </td>
+    <td>
+        @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CLeaveStartTime)
+        @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CLeaveEndTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CReason)
+    </td>
+    <td>
+        @Enum.GetName(typeof(eStatus), item.CCheckStatus)
+        @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
+    </td>
+    <td>
+        @{ if (@item.CCheckStatus == 1)
+            {
+@Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
+@Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
+    </td>
+</tr>}}
+            </tbody>
+        </table>
+    </div>
+</div>
+

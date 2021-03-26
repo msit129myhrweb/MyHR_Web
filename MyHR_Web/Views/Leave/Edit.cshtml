@@ -1,8 +1,13 @@
-﻿@model MyHR_Web.ViewModel.TLeaveApplicationViewModel
+﻿@model MyHR_Web.ViewModel.TLeaveApplicationEditViewModel
+@using Microsoft.AspNetCore.Http;
 
-@{
-    ViewData["Title"] = "Edit";
-}
+@{ ViewData["Title"] = "Edit";
+    string Session_name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+    string Session_department = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENT");
+    string Session_Today = Context.Session.GetString("Today");
+    string Session_DepId = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENTID");
+    var Leave_Cate = ViewBag.LeaveCate;
+    }
 
 <style>
     h2 {
@@ -26,9 +31,9 @@
         <h2>請假單修改</h2>
         <hr />
         <div class="row">
-            
-                <div class="card" style="width:60%;margin:0px auto;padding:0px;">
-                    <div class="card-header">
+
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                <div class="card-header">
                     <form asp-action="Edit">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group" style="display:none">
@@ -36,43 +41,60 @@
                             <input asp-for="CApplyNumber" class="form-control" />
                             <span asp-validation-for="CApplyNumber" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
+                            <label asp-for="CDepartmentName" class="control-label"></label>
+                            <input asp-for="CDepartmentName" value="@Session_department" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CDepartmentName" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="display:none"> @*隱藏*@
                             <label asp-for="CDepartmentId" class="control-label"></label>
-                            <input asp-for="CDepartmentId" class="form-control" readonly="readonly" />
+                            <input asp-for="CDepartmentId" value="@Session_DepId" class="form-control" readonly="readonly" />
                             <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                         </div>
+
+
                         <div class="form-group">
+                            <label asp-for="CUserName" class="control-label"></label>
+                            <input asp-for="CUserName" value="@Session_name" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CUserName" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group" style="display:none">
                             <label asp-for="CEmployeeId" class="control-label"></label>
                             <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
                             <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="CApplyDate" class="control-label"></label>
-                            <input asp-for="@ViewData["Today"]" class="form-control" readonly="readonly" />
+                            <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" readonly="readonly" />
                             <span asp-validation-for="CApplyDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="CLeaveCategory" class="control-label"></label>
-                            <input asp-for="CLeaveCategory" class="form-control" readonly="readonly" />
-                            @*<select class="form-control select2 select2-hidden-accessible" style="width: 100%;" data-select2-id="1" tabindex="-1" aria-hidden="true">
-            <option>病假</option>
-            <option>事假</option>
-            <option>生理假</option>
-            <option>喪假</option>
-            <option>特休</option>
+                            <label asp-for="CLeaveCategoryName" class="control-label"></label>
+                            <select asp-for="CLeaveCategoryName" class="form-control" id="Leave-Category">
 
-        </select>*@
+                                <option value="" disabled="disabled">請選擇要申請的假別</option>
+                                @for (int i = 0; i < Leave_Cate.Count; i++)
+                                {
+                            <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+}
 
-                            <span asp-validation-for="CLeaveCategory" class="text-danger"></span>
+                            </select>
+
+                            <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="CLeaveStartTime" class="control-label"></label>
-                            <input asp-for="CLeaveStartTime" class="form-control" />
+                            <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control" />
                             <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="CLeaveEndTime" class="control-label"></label>
-                            <input asp-for="CLeaveEndTime" class="form-control" />
+                            <input type="datetime-local" asp-for="CLeaveEndTime" class="form-control" />
                             <span asp-validation-for="CLeaveEndTime" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -80,30 +102,22 @@
                             <input asp-for="CReason" class="form-control" />
                             <span asp-validation-for="CReason" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
-                            <label asp-for="CCheckStatus" class="control-label"></label>
-                            <input asp-for="CCheckStatus" class="form-control" />
-                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+
+                        <div class="card-footer">
+
+
+
+                            <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="LeaveList" />
+                            <i>@*nothing*@</i><i>@*nothing*@</i>
+                            <input type="submit" value="確認修改" class="btn btn-info btn-lg float-right" onclick="return(confirm('之後想用跳出視窗的方式，阿你確定要修改此病單?'))" , style="filter: grayscale(50%)" />
+
                         </div>
-                        @*<div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-default" />
-                        </div>*@
-
-                    <div class="card-footer">
-                      
-
-
-                        <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="LeaveList" />
-                        <i>@*nothing*@</i><i>@*nothing*@</i>
-                        <input type="submit" value="確認修改" class="btn btn-info btn-lg float-right" onclick="return(confirm('之後想用跳出視窗的方式，阿你確定要修改此病單?'))" , style="filter: grayscale(50%)" />
-
-                    </div>
                     </form>
+                </div>
+            </div>
+            <div>
+
             </div>
         </div>
-                    <div>
- 
-        </div>
-</div>
     </section>
 </div>

@@ -10,36 +10,36 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.ViewModel
 {
-    public class TLeaveApplicationCreateViewModel
+    public class TLeaveApplicationEditViewModel
     {
 
 
         private TLeaveApplication iv_Leave = null;
         public TLeaveApplication Leave { get { return iv_Leave; } }
 
-        public TLeaveApplicationCreateViewModel(TLeaveApplication p)
+        public TLeaveApplicationEditViewModel(TLeaveApplication p)
         {
             iv_Leave = p;
         }
 
-        public TLeaveApplicationCreateViewModel()
+        public TLeaveApplicationEditViewModel()
         {
             iv_Leave = new TLeaveApplication();
         }
 
 
+        public string cDepartmentName = null;
         [DisplayName("部門名稱")] //自己新增
-        public string CDepartmentName { get; set; }
-
-        //public string CDepartmentName
-        //{
-        //    get
-        //    {
-        //        cDepartmentName = ((eDepartment)iv_Leave.CDepartmentId).ToString();
-        //        return cDepartmentName;
-        //    }
-        //    set { CDepartmentName = value; }
-        //}
+                
+        public string CDepartmentName
+        {
+            get
+            {
+                cDepartmentName = ((eDepartment)iv_Leave.CDepartmentId).ToString();
+                return cDepartmentName;
+            }
+            set { CDepartmentName = value; }
+        }
 
         public int CApplyNumber { get { return iv_Leave.CApplyNumber; } set { iv_Leave.CApplyNumber = value; } }
         
@@ -72,7 +72,6 @@ namespace MyHR_Web.ViewModel
         [DisplayName("申請日")]
        
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
-     
 
         public string CApplyDate { get { return iv_Leave.CApplyDate; } set { iv_Leave.CApplyDate = value; } }
 
@@ -85,7 +84,6 @@ namespace MyHR_Web.ViewModel
                 return iv_Leave.CLeaveCategory;
             }set { iv_Leave.CLeaveCategory = value; } }
 
-        [Required]
         [DisplayName("申請類別")]
         public string CLeaveCategoryName { get; set; }   //自己新增
 
@@ -93,20 +91,19 @@ namespace MyHR_Web.ViewModel
 
 
 
-        [Required(ErrorMessage ="請填寫請假起始日")]
         [DisplayName("請假起始日")]
         
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public string CLeaveStartTime { get { return iv_Leave.CLeaveStartTime; } set { iv_Leave.CLeaveStartTime = value; } }
-
-        [Required(ErrorMessage = "請填寫請假結束日")]
         [DisplayName("請假結束日")]
         
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
         public string CLeaveEndTime { get { return iv_Leave.CLeaveEndTime; } set { iv_Leave.CLeaveEndTime = value; } }
-
-        [Required(ErrorMessage = "請填寫請假原由")]
+        
+        [Required]
         [DisplayName("請假原由")]
+        
+
         public string CReason { get { return iv_Leave.CReason; } set { iv_Leave.CReason = value; } }
         [DisplayName("狀態")]
         public int CCheckStatus { get { return iv_Leave.CCheckStatus; } set { iv_Leave.CCheckStatus = value; } }

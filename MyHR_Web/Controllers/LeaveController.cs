@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using Newtonsoft.Json;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
@@ -19,77 +20,44 @@ namespace MyHR_Web.Controllers
         public IActionResult LeaveList()  //請假清單查詢
         {
 
+            List<TLeave> listLeave = GetLeaveList();  //從資料庫得下拉是選單
+            ViewBag.LeaveCate = listLeave;
+
+            List<TCheckStatus> listStatus = GetStatus();
+            ViewBag.LeaveStatus = listStatus;
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
-            //string keyword_EndDay = Request.Form["Leave_Endday"];
+            ViewBag.Name = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+         
 
             int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
-            IEnumerable<TLeaveApplication> table = null;
+            var table = from i in MyHr.TLeaveApplications
+                        join d in MyHr.TUserDepartments on i.CDepartmentId equals d.CDepartmentId
+                        join u in MyHr.TUsers on i.CEmployeeId equals u.CEmployeeId
+                        orderby i.CApplyDate descending /*依照申請日期降冪排序*/
+                        select new TLeaveApplicationViewModel
+                        {
+                            CApplyNumber = i.CApplyNumber,
+                            CEmployeeId = i.CEmployeeId,
+                            CEmployeeName = u.CEmployeeName,
+                            CDepartmentId = i.CDepartmentId,
+                            CDepartmentName = d.CDepartment,
+                            CApplyDate = i.CApplyDate,
+                            CLeaveCategory = i.CLeaveCategory,
+                            CLeaveStartTime = i.CLeaveStartTime,
+                            CLeaveEndTime = i.CLeaveEndTime,
+                            CReason = i.CReason,
+                            CCheckStatus = i.CCheckStatus
+                        };
 
-            if (!string.IsNullOrEmpty(Request.ContentType))
-            {
-                string keyword_StartDay = Request.Form["Leave_Startday"];
-                string keyword_EndDay = Request.Form["Leave_Endday"];
+            return View(table);
 
-             
+            
 
-                if (!string.IsNullOrEmpty(keyword_StartDay) && !string.IsNullOrEmpty(keyword_EndDay))//2個日期不得為空
-                {
-                    table = from i in MyHr.TLeaveApplications
-                            where i.CEmployeeId == UserID && i.CApplyDate >= DateTime.Parse(keyword_StartDay) && i.CApplyDate <= DateTime.Parse(keyword_EndDay)
-                            orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-                            select i;
-                }
-
-                else if (!string.IsNullOrEmpty(keyword_StartDay))//起始日期不得為空
-                {
-                    table = from i in MyHr.TLeaveApplications
-                            where i.CEmployeeId == UserID && i.CApplyDate >= DateTime.Parse(keyword_StartDay)
-                            orderby i.CApplyDate descending 
-                            select i;
-
-                }
-                else if (!string.IsNullOrEmpty(keyword_EndDay))//終止日期不得為空
-                {
-                    table = from i in MyHr.TLeaveApplications
-                            where i.CEmployeeId == UserID && i.CApplyDate <= DateTime.Parse(keyword_EndDay)
-                            orderby i.CApplyDate descending 
-                            select i;
-                }
-
-                else
-                {
-                    table = from i in MyHr.TLeaveApplications
-                            where i.CEmployeeId == UserID
-                            orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-                            select i;
-                }
-
-            }
-            else
-    {           //全選
-                table = from i in MyHr.TLeaveApplications
-                where i.CEmployeeId == UserID
-                orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-                select i;
-            }
-
-            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
-
-            foreach (TLeaveApplication T in table)
-                list.Add(new TLeaveApplicationViewModel(T));
-            return View(list);
-
-
-            //string keyword_Start = Request.Form["Leave_Startday"].ToString();
-            //string keyword_End = Request.Form["Leave_Endday"].ToString();
-
-            //    if(!string.IsNullOrEmpty(keyword_Start) && !string.IsNullOrEmpty(keyword_End))
-            //{
-            //    var list = MyHr.TLeaveApplications.Select(c => c.CApplyDate.ToShortTimeString() <= 'keyword_End' AND c.CApplyDate.ToShortTimeString() > keyword_Start);
-
-            //}
-
+          
 
             //******************************************************************************************************
             //int useraccount = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
@@ -128,7 +96,12 @@ namespace MyHR_Web.Controllers
         {
 
 
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);            
+            List<TLeave> listLeave = GetLeaveList();  //從資料庫得下拉是選單
+            ViewBag.LeaveCate = listLeave;
+            //TempData.Keep["leave_cate"] = "listLeave";
+
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
@@ -143,15 +116,12 @@ namespace MyHR_Web.Controllers
             //            "DepartmentID", "Name", selectedDepartment);
 
 
-
-
-
             return View();
         }
 
         [HttpPost] /*我有修改TLeaveApplicationViewModel裡面的全域變數名稱*/
         [ValidateAntiForgeryToken]
-        public IActionResult LeaveCreate(TLeaveApplicationCreateViewModel T )
+        public IActionResult LeaveCreate(TLeaveApplicationCreateViewModel T)
         {
             //using (var context = new dbMyCompanyContext())
             //{
@@ -172,9 +142,18 @@ namespace MyHR_Web.Controllers
                 MyHr.SaveChanges();
                 return RedirectToAction("LeaveList");
             }
-            
-            ModelState.AddModelError("CReason", "此欄位不得為空");
-            return RedirectToAction("LeaveCreate");
+            else
+            {
+
+                //ModelState.AddModelError("CReason", "幹這個錯誤訊息跳出來，就算輸入資料了，也不會驗證過，不懂存在的意義");
+                
+                List<TLeave> listLeave = GetLeaveList();  //★我怎麼這抹巧!!!★
+                ViewBag.LeaveCate = listLeave;
+                return View();
+            }
+
+
+            //return RedirectToAction("LeaveCreate");
         }
 
 
@@ -198,46 +177,168 @@ namespace MyHR_Web.Controllers
         public IActionResult Edit(int? Id)
         {
 
-            ViewData["Today"] = DateTime.Now.ToString("yyyy/MM/dd");
-            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
 
+            List<TLeave> listLeave = GetLeaveList();  //從資料庫取假別下拉是選單
+            ViewBag.LeaveCate = listLeave;
+
+         
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData["Today"] = DateTime.Now.ToString("yyyy-MM-dd");
 
             if (Id != null)
             {
                 TLeaveApplication T = MyHr.TLeaveApplications.FirstOrDefault(i => i.CApplyNumber == Id);
                 if (T != null)
                 {
-                    return View(new TLeaveApplicationViewModel(T));
+                    return View(new TLeaveApplicationEditViewModel(T));
                 }
             }
             return RedirectToAction("LeaveList");
         }
 
         [HttpPost]
-        public IActionResult Edit(TLeaveApplicationViewModel T)
+        public IActionResult Edit(TLeaveApplicationCreateViewModel T)
         {
-            if (T != null)
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+            if (ModelState.IsValid)
             {
-                TLeaveApplication _revised = MyHr.TLeaveApplications.FirstOrDefault(i => i.CApplyNumber == T.CApplyNumber);
-
-                if (_revised != null)
+                if (T != null)
                 {
-                    _revised.CApplyDate = T.CApplyDate;
-                    _revised.CLeaveCategory = T.CLeaveCategory;
-                    _revised.CLeaveStartTime = T.CLeaveStartTime;
-                    _revised.CLeaveEndTime = T.CLeaveEndTime;
-                    _revised.CReason = T.CReason;
+                    TLeaveApplication _revised = MyHr.TLeaveApplications.FirstOrDefault(i => i.CApplyNumber == T.CApplyNumber);
 
-                    MyHr.SaveChanges();
+                    if (_revised != null)
+                    {
+                        _revised.CApplyDate = T.CApplyDate;
+                        _revised.CLeaveCategory = T.CLeaveCategory;
+                        _revised.CLeaveStartTime = T.CLeaveStartTime;
+                        _revised.CLeaveEndTime = T.CLeaveEndTime;
+                        _revised.CReason = T.CReason;
+
+                        MyHr.SaveChanges();
+                    }
                 }
-            }
 
-            return RedirectToAction("LeaveList");
+                return RedirectToAction("LeaveList");
+            }
+            else
+            {
+                List<TLeave> listLeave = GetLeaveList();
+                ViewBag.LeaveCate = listLeave;
+                return View();
+            }
+            
+           
+        }
+
+        private List<TLeave> GetLeaveList() //獲取類別種類(使用在下拉是選單)
+         {
+            try
+            {
+                List<TLeave> list = new List<TLeave>();
+                list = (from i in MyHr.TLeaves
+                             select i).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+         }
+
+        private List<TCheckStatus> GetStatus() //獲取審核狀態(使用在下拉是選單)
+        {
+            try
+            {
+                List<TCheckStatus> list = new List<TCheckStatus>();
+                list = MyHr.TCheckStatuses.ToList();
+                return list;
+
+            }
+            catch(Exception ex)
+            {
+                string erroe = ex.ToString();
+                return null;
+            }
         }
 
 
+        public IActionResult Mutiple_search(int? cate, int? status, string? start, string? end)
+        {
+            //List<TLeaveApplication> table = MyHr.TLeaveApplications.Where(n => n.CLeaveCategory == cate).ToList();
 
 
+            //string str_json = JsonConvert.SerializeObject(table, Formatting.Indented);
+            //return str_json;
+            //顯示JSON字串
+            //li_showData.Text = str_json;
+            ViewBag.UserId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            ViewBag.UserName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+
+
+            var table = MyHr.TLeaveApplications
+                .Join(MyHr.TUserDepartments, d => d.CDepartmentId, u => u.CDepartmentId, (d, u) => new
+                {
+
+                    CApplyNumber = d.CApplyNumber,
+                    CEmployeeId = d.CEmployeeId,
+                    //CEmployeeName = u.CEmployeeName,
+                    CDepartmentId = d.CDepartmentId,
+                    CDepartmentName = u.CDepartment,
+                    CApplyDate = d.CApplyDate,
+                    CLeaveCategory = d.CLeaveCategory,
+                    CLeaveStartTime = d.CLeaveStartTime,
+                    CLeaveEndTime = d.CLeaveEndTime,
+                    CReason = d.CReason,
+                    CCheckStatus = d.CCheckStatus
+                }).OrderBy(du => du.CApplyDate).AsEnumerable().Where(du =>
+                (cate != null ? du.CLeaveCategory == cate:true) &&
+                (status != null ? du.CCheckStatus == status : true) &&
+                (start != null ? DateTime.Parse(du.CLeaveEndTime) >= DateTime.Parse(start) : true) &&
+                (end !=null? DateTime.Parse(du.CLeaveStartTime) <= DateTime.Parse(end):true) &&
+                ((end !=null && start!=null)? DateTime.Parse(du.CLeaveEndTime) >= DateTime.Parse(start) && DateTime.Parse(du.CLeaveStartTime) <= DateTime.Parse(end) : true)
+                ).ToList();
+
+            //int abc = table.Count;   ■ 這邊搜尋的資料並未針對USER，當沒有資料想要在前端做變化時，應當加入此條件。
+            List<TLeaveApplicationViewModel> T = new List<TLeaveApplicationViewModel>();
+           
+            foreach (var item in table)
+            {
+                TLeaveApplicationViewModel obj = new TLeaveApplicationViewModel()
+                {
+                    CApplyNumber = item.CApplyNumber,
+                    CEmployeeId = item.CEmployeeId,
+                    CDepartmentId = item.CDepartmentId,
+                    CDepartmentName = item.CDepartmentName,
+                    CApplyDate = item.CApplyDate,
+                    CLeaveCategory = item.CLeaveCategory,
+                    CLeaveStartTime = item.CLeaveStartTime,
+                    CLeaveEndTime = item.CLeaveEndTime,
+                    CReason = item.CReason,
+                    CCheckStatus = item.CCheckStatus
+
+                };
+                T.Add(obj);
+               
+            }
+
+
+            //foreach (TLeaveApplication C in table)                
+            //    T.Add(new TLeaveApplicationViewModel(C,null));
+
+
+           
+            return PartialView("Mutiple_search", T);
+
+
+        }
+
+      
     }
 }

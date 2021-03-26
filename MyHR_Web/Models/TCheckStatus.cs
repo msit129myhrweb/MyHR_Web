@@ -9,12 +9,14 @@ namespace MyHR_Web.Models
     {
         public TCheckStatus()
         {
+            TLeaveApplications = new HashSet<TLeaveApplication>();
             TTravelExpenseApplications = new HashSet<TTravelExpenseApplication>();
         }
 
         public int CCheckStatusId { get; set; }
         public string CCheckStatus { get; set; }
 
+        public virtual ICollection<TLeaveApplication> TLeaveApplications { get; set; }
         public virtual ICollection<TTravelExpenseApplication> TTravelExpenseApplications { get; set; }
     }
 }

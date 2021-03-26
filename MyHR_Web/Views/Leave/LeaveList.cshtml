@@ -1,8 +1,8 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.TLeaveApplicationViewModel>
 
-@{
-    ViewData["Title"] = "LeaveList";
-}
+@{ ViewData["Title"] = "LeaveList";
+    var Leave_Cate = ViewBag.LeaveCate;
+    var Leave_Status = ViewBag.LeaveStatus; }
 <div class="content-wrapper">
     <section class="content-header">
 
@@ -54,38 +54,52 @@
                     <i>子分類查詢</i>
                     <div class="row">
                         <div class="col">
-                            <label class="col-lg-12 control-label">請假申請日期(起) :  <input type="date" name="Leave_Startday" /></label>
+                            <label class=" col-lg-12 control-label">請假日期(起) :  <input type="date" class="Leave_Distinguish" id="Leave_Startday" /></label>
                         </div>
 
                         <div class="col">
-                            <label class="col-lg-12 control-label">請假申請日期(迄) :  <input type="date" name="Leave_Endday" /></label>
-                        </div>
-
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-
-                            <p>請假類別:</p>
-                            <select id="Leave_Cate">
-                               
-                            </select>
-                        </div>
-                        <div class="col">
-
-                            <p>審核狀態:</p>
-                            <select id="Status">
-                                
-                            </select>
+                            <label class=" col-lg-12 control-label">請假日期(迄) :  <input type="date" class="Leave_Distinguish" id="Leave_Endday" /></label>
                         </div>
 
                     </div>
 
                     <div class="row">
+                        <div class="col">
+
+                            <p class="font-weight-bold">
+                                請假類別:
+                                <select class="Leave_Distinguish" id="Leave_Cate">
+                                    <option value="" disabled selected>請選擇</option>
+                                    @for (int i = 0; i < Leave_Cate.Count; i++)
+                                    {
+                        <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+}
+                                </select>
+                            </p>
+                        </div>
+                        <div class="col">
+
+                            <p class="font-weight-bold">
+                                審核狀態:
+                                <select class="Leave_Distinguish" id="Leave_Statues">
+                                    <option value="" disabled selected>請選擇</option>
+                                    @for (int i = 0; i < Leave_Status.Count; i++)
+                                    {
+                                        <option value="@Leave_Status[i].CCheckStatusId">@Leave_Status[i].CCheckStatus</option>
+                                    }
+
+
+                                </select>
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
 
                         <div class="col">
 
-                            <input type="submit" value="查詢" onclick="btn_LeaveSearsh" class="btn btn-success float-right" style="filter: grayscale(50%)" />
+                            <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success float-right" style="filter: grayscale(50%)" />
                         </div>
 
 
@@ -97,121 +111,196 @@
             <br />
         </form>
 
-        <div class="card">
-            <div class="card-header">
-                <table table class="table table-bordered table-hover">
-                    <thead>
-                        <tr style="text-align:center">
-                            @*<th>
-                                    @Html.DisplayNameFor(model => model.CApplyNumber)
-                                </th>*@
-                            <th>
-                                @Html.DisplayNameFor(model => model.CDepartmentId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CEmployeeId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CApplyDate)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CLeaveCategory)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CLeaveStartTime)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CLeaveEndTime)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CReason)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CCheckStatus)
-                            </th>
-                            <th>
-                                修改/刪除
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
+        <div id="Leave_table">
+            <div class="card">
+                <div class="card-header">
+                    <table table class="table table-bordered table-hover">
+                        <thead>
                             <tr style="text-align:center">
-                                @*<td>
-                                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                    </td>*@
-                                <td id="Leave_DepId">
-                                    @*@Html.DisplayFor(modelItem => item.CDepartmentId)*@
-                                    @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
-                                </td>
-                                <td>
-                                    @*@Html.DisplayFor(modelItem => item.CEmployeeId)*@
-                                    @ViewData["CURRENT_LOGINED_USERNAME"]
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CApplyDate)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveStartTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveEndTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CReason)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eStatus),item.CCheckStatus)
-                                    @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
-                                </td>
-                                <td>
-                                    @{ if (@item.CCheckStatus == 1)
-                                        {
-                                @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
-                                @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
-                                </td>
+                                @*<th>
+                                        @Html.DisplayNameFor(model => model.CApplyNumber)
+                                    </th>*@
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CDepartmentId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CEmployeeName)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CApplyDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CLeaveCategory)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CLeaveStartTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CLeaveEndTime)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CReason)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.CCheckStatus)
+                                </th>
+                                <th>
+                                    修改/刪除
+                                </th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                @if (item.CEmployeeId == ViewBag.Name)
+                {
+<tr style="text-align:center">
+    @*<td>
+            @Html.DisplayFor(modelItem => item.CApplyNumber)
+        </td>*@
+    
+    
+    <td>
+        @Html.DisplayFor(modelItem => item.CDepartmentName)
+    </td>
+    <td style="display:none">
+        @Html.DisplayFor(modelItem => item.CDepartmentId)
+        @*@Enum.GetName(typeof(eDepartment), item.CDepartmentId)*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CEmployeeName)
+    </td>
+
+    <td style="display:none">
+        @Html.DisplayFor(modelItem => item.CEmployeeId)
+    </td>
+
+    <td>
+        @Html.DisplayFor(modelItem => item.CApplyDate)
+    </td>
+    <td>
+        @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CLeaveStartTime)
+        @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CLeaveEndTime)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.CReason)
+    </td>
+    <td>
+        @Enum.GetName(typeof(eStatus), item.CCheckStatus)
+        @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
+    </td>
+    <td>
+        @{ if (@item.CCheckStatus == 1)
+            {
+@Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
+@Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
+    </td>
+</tr>
+}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </section>
 </div>
+@*<script src="~/js/jquery-2.2.3.min.js"></script>*@
+<!--<script type="text/javascript">  
 
-<script type="text/javascript">
-     
-    var categorys = ['請選擇','病假', '事假', '生理假', '喪假', '特休'];   /*顯示請假類別下拉是選單*/
-    var categorySelect = document.getElementById("Leave_Cate");
-    var cat_inner = "";
-    for (var i = 0; i < categorys.length; i++) {
-        cat_inner = cat_inner + '<option value='+i+'>' + categorys[i] + '</option>';
-    }
-    categorySelect.innerHTML = cat_inner;
+        $("#Leave_Cate").change(function (event) {
+            $.ajax({
+                url: "/Leave/Mutiple_search?cate=" + $("#Leave_Cate").val(),
+                type: "GET",
+                context: this,
+                success: function (data) {
+                    var text = "";
+                    var JLeave = JSON.parse(data);
+                    console.log(JLeave);
+                    var count = JLeave.length;
+                    console.log(count);
+                    text += '<div class="card"><div class="card-header"><table table class="table table-bordered table-hover">\
+                            <thead>\
+                                <tr style="text-align:center">\
+                                    <th>部門名稱</th>\
+                                    <th>員工名稱</th>\
+                                    <th>申請日</th>\
+                                    <th>申請類別</th>\
+                                    <th>請假起始日</th>\
+                                    <th>請假結束日</th>\
+                                    <th>請假原由</th>\
+                                    <th>狀態</th>\
+                                    <th>修改/刪除</th>\
+                                </tr></thead><tbody>';
 
-    var Leave_ststus = ['請選擇','審核中', '通過', '退件'];/*顯示檢核類別下拉是選單*/
-    var statusSelect = document.getElementById("Status");
-    var sta_inner = "";
-    for (var i = 0; i < Leave_ststus.length; i++) {
-        sta_inner = sta_inner + '<option value=' + i + '>' + Leave_ststus[i] + '</option>';
-    }
+                    for (let i = 0; i < JLeave.length; i++) {
+
+                        text += '<tr style="text-align:center">';
+                        text += '<td>' + '@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]'; /*寫死的不會轉換 可悲*/
+                        //text += '<td>' + JLeave[i].CDepartmentId;  /*上行已呈現*/
+                        text += '<td>' + '@ViewData["CURRENT_LOGINED_USERNAME"]';
+                        //text += '<td>' + JLeave[i].CEmployeeId;
+
+                        text += '<td>' + JLeave[i].CApplyDate;
+                        //text += '<td>' + JLeave[i].CLeaveCategory;
+                        console.log(@ViewBag.Leave_Catename)
+                       text += '<td>' + '@(Url.Action("Enum_LeaveCate", "Leave", new { @cate = 4 }))';
+
+
+                        text += '<td>' + JLeave[i].CLeaveStartTime;
+                        text += '<td>' + JLeave[i].CLeaveEndTime;
+                        text += '<td>' + JLeave[i].CReason;
+                        text += '<td>' + JLeave[i].CCheckStatus;
+
+                        @*text += '<td>' +@{  幹
+                            if(@:JLeave.CCheckStatus)
+                       };*@
+                    <!--}
+                    console.log(text);
+
+                    $("#Leave_table").html(text)
+                }
+            });
+            $(this).css("background-color", "#FFFFCC");
+        });
+
+
    
-    statusSelect.innerHTML = sta_inner;
+</script>-->   @*直接key 上版面 (不推薦)*@
 
 
-   /* var Deps = ['管理部', '企劃部', '研發部', '資訊部', '總務部','財會部'];*/
-    
-    
-    
-    
-    
-    
-    
+<script>
+    var x = "";
+    $(".Leave_Distinguish").change(function () {
 
+        x = $("#Leave_Cate").val()//★透過Name屬性取得輸入值
+        y = $("#Leave_Statues").val()
+        a = $("#Leave_Startday").val()
+        b = $("#Leave_Endday").val()
+        console.log(x); //傳入型態:stirng
+        console.log(y);
+        console.log(a);
+        console.log(b);
+       
 
-
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Leave/Mutiple_search",
+            data: { cate: x, status:y, start:a,end:b},
+            success: function (data) {
+                console.log("有進去");
+                $("#Leave_table").html(data);
+            },
+            error: function (msg) {
+            alert("error:" + msg);
+            }
+        })
+    });
 </script>
+
