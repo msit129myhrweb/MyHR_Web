@@ -43,13 +43,13 @@ namespace MyHR_Web.ViewModel
         [DisplayName("員工編號")]
         public int CEmployeeId { get { return iv_Leave.CEmployeeId; } set { iv_Leave.CEmployeeId = value; } }
         [DisplayName("申請日")]
-        public DateTime CApplyDate { get { return iv_Leave.CApplyDate; } set { iv_Leave.CApplyDate = value; } }
+        public string CApplyDate { get { return iv_Leave.CApplyDate; } set { iv_Leave.CApplyDate = value; } }
         [DisplayName("申請類別")]
         public int CLeaveCategory { get { return iv_Leave.CLeaveCategory; } set { iv_Leave.CLeaveCategory = value; } }
         [DisplayName("請假起始日")]
-        public DateTime CLeaveStartTime { get { return iv_Leave.CLeaveStartTime; } set { iv_Leave.CLeaveStartTime = value; } }
+        public string CLeaveStartTime { get { return iv_Leave.CLeaveStartTime; } set { iv_Leave.CLeaveStartTime = value; } }
         [DisplayName("請假結束日")]
-        public DateTime CLeaveEndTime { get { return iv_Leave.CLeaveEndTime; } set { iv_Leave.CLeaveEndTime = value; } }
+        public string CLeaveEndTime { get { return iv_Leave.CLeaveEndTime; } set { iv_Leave.CLeaveEndTime = value; } }
         [DisplayName("請假原由")]
         public string CReason { get { return iv_Leave.CReason; } set { iv_Leave.CReason = value; } }
         [DisplayName("狀態")]

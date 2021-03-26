@@ -10,7 +10,54 @@
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
     <script src="~/js/Absence.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+
+    <style>
+        .red a {
+            background-color: red !important;
+            border-radius: 20px;
+        }
+
+        .yellow a {
+            background-color: yellow !important;
+            border-radius: 20px;
+        }
+
+        .green a {
+            background-color: green !important;
+            border-radius: 20px;
+        }
+    </style>
     <script>
+
+        $(document).ready(function () {
+            var red = ["2017-08-02", "2017-08-04", "2017-08-06"];
+            var yellow = ["2017-08-09"];
+            var green = ["2017-08-10", "2017-08-11"];
+
+            $("#calendar").datepicker({
+                defaultDate: '08/07/2017',      // Just for this demo longevity on SO ;)
+
+                beforeShowDay: function (date) {
+                    var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
+                    //console.log(dateISO);
+
+                    if (red.indexOf(dateISO) > -1) {
+                        return [true, "red"]        // Enabled, class
+                    }
+                    if (yellow.indexOf(dateISO) > -1) {
+                        return [true, "yellow"]
+                    }
+                    if (green.indexOf(dateISO) > -1) {
+                        return [true, "green"]
+                    }
+                    return [true]  // If not found, must at least return the enabled boolean.
+                }
+            });
+        });
+
         @*document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("on").addEventListener("click", function () {
                 var id =@ViewData["CURRENT_LOGINED_USERID"];
@@ -29,7 +76,6 @@
         }, false);*@
 
         function clockOn() {
-            //var session = '<%= Session["TEST_SESSION"].ToString() %>';
             var id = @a;
             var now = new Date();
             var date = now.toISOString().substr(0,10);
@@ -37,13 +83,30 @@
             var data = id + "," + date+","+ nowtime ;
 
             $.post(
-                "@Url.Action("getClockString")",
+                "@Url.Action("getClockString_on")",
                 { "c": JSON.stringify(data) },
                 function (data) {
                 }, "json"
             )
             var content = document.getElementById("showClock");
-            content.innerHTML = nowtime + "\n您已打卡成功!\n下班別忘記打卡!";
+            content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+        };
+
+        function clockOff() {
+            var id = @a;
+            var now = new Date();
+            var date = now.toISOString().substr(0,10);
+            var nowtime = now.toLocaleString('chinese', { hour12: false });
+            var data = id + "," + date+","+ nowtime ;
+
+            $.post(
+                "@Url.Action("getClockString_off")",
+                { "c": JSON.stringify(data) },
+                function (data) {
+                }, "json"
+            )
+            var content = document.getElementById("showClock");
+            content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
         };
 
     </script>
@@ -57,9 +120,9 @@
         <section class="content">
             <div class="clock">
                 <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
-                <button type="button" class="button" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
-                <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"></input><br /><br />
-                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"></input>
+                <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+                <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"/><br /><br />
+                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"/>
             </div>
             <div class="content-wrapper">
                 <body onload="ShowTime()">
@@ -106,6 +169,9 @@
                                             }
                                         </tbody>
                                     </table>
+
+                                    <div id="calendar"></div>
+
                                 </div>
                             </div>
                         </div>

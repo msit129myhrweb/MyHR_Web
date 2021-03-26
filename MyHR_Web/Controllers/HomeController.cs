@@ -10,6 +10,7 @@ using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 using System.IO;
+using MyHR_Web.MyClass;
 
 namespace MyHR_Web.Controllers
 {
@@ -32,7 +33,13 @@ namespace MyHR_Web.Controllers
             return View();
         }
 
-        private dbMyCompanyContext db;
+        //private dbMyCompanyContext db;
+        //public HomeController(dbMyCompanyContext dbContext)
+        //{
+        //    db = dbContext;
+        //}
+        [HttpGet]
+        //private dbMyCompanyContext db;
         //public HomeController(dbMyCompanyContext dbContext)
         //{
         //    db = dbContext;
@@ -43,15 +50,17 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
-            
+
             return View();
         }
         [HttpPost]
-        public async Task<IActionResult> Profile(TUser user,List<IFormFile> CPhoto,int id)
+        public async Task<IActionResult> Profile(TUser user, List<IFormFile> CPhoto)
         {
+            user = HttpContext.Session.GetObject<TUser>("8");
+
             foreach (var item in CPhoto)
             {
-                if (item.Length>0)
+                if (item.Length > 0)
                 {
                     using (var stream = new MemoryStream())
                     {
@@ -59,16 +68,13 @@ namespace MyHR_Web.Controllers
                         user.CPhoto = stream.ToArray();
                     }
                 }
-
-            }
-            id = 8;
-            if (id != null)
-            {
-                TUser userEdit=db.TUsers.FirstOrDefault(a=>a.CEmployeeId==id);
-                if (userEdit != null)
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                //TUser userEdit = new TUser() { CEmployeeId = id };
+                if (user != null)
                 {
+                    user.CEmployeeId = 8;
+                    user.CPhoto = user.CPhoto;
 
-                    userEdit.CPhoto = user.CPhoto;
                     db.SaveChanges();
                 }
             }
@@ -78,23 +84,6 @@ namespace MyHR_Web.Controllers
             return View();
 
         }
-        public JsonResult getId(int id)
-        {
-            //if (id!=null)
-            //{
-            //    TUser userE = db.TUsers.FirstOrDefault(u=>u.CEmployeeId==id);
-            //    if (userE!=null)
-            //    {
-            //        byte[] intBytes = BitConverter.GetBytes(id);
-            //        byte[] newPhoto = intBytes.CPhoto;
-            //        userE.CPhoto = BitConverter.GetBytes(id);
-            //        db.SaveChanges();
-            //    }
-            //}
-            return Json(id);
-        }
-
-
 
         public IActionResult Login()
         {
@@ -129,6 +118,7 @@ namespace MyHR_Web.Controllers
 
             if (user != null)
             {
+                HttpContext.Session.SetObject(user.CEmployeeId.ToString(), user);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
