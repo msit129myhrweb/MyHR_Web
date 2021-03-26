@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyHR_Web.Models.TLeaveApplication>
+﻿@model IEnumerable<MyHR_Web.ViewModel.TLeaveApplicationViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -20,203 +20,106 @@
     </style>
 
 </head>
-
-<div class="content-wrapper">
-    <section class="content-header">
-        <h2>請假申請單審核</h2>
-    </section>
-    @{ #region table
-        <!--<table class="table">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CDepartment)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CLeaveCategory)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CLeaveStartTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CLeaveEndTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CReason)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CCheckStatus)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>-->
-        @*@foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CDepartment)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CEmployeeId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CApplyDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CLeaveCategory)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CLeaveStartTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CLeaveEndTime)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CReason)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CCheckStatus)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>
-                </tr>
-            }*@
-        <!--</tbody>
-        </table>-->
-
-        #endregion
-    }
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                查詢條件<br />
-                                起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                狀態 :
-                                <select>
-                                    <option>審核中</option>
-                                    <option>通過</option>
-                                    <option>退件</option>
-                                </select>
-                                <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                                <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th><input type="checkbox" name="checkAll" /></th>
-                                        <th>申請編號</th>
-                                        <th>員工編號</th>
-                                        <th>員工姓名</th>
-                                        <th>申請日期</th>
-                                        <th>起始日</th>
-                                        <th>起迄日</th>
-                                        <th>假別</th>
-                                        <th>事由</th>
-                                        <th>狀態</th>
-                                        <th>審核</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50029003</td>
-                                        <td>10</td>
-                                        <td>陳曉倩</td>
-                                        <td>2021-01-15</td>
-                                        <td>2021-01-14</td>
-                                        <td>2021-01-14</td>
-                                        <td>事假</td>
-                                        <th>車禍(小擦撞)</th>
-                                        <th>通過</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50026648</td>
-                                        <td>5</td>
-                                        <td>張停停</td>
-                                        <td>2021-01-26</td>
-                                        <td>2021-04-12</td>
-                                        <td>2021-04-13</td>
-                                        <td>特休</td>
-                                        <th>無</th>
-                                        <th>審核中</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50029953</td>
-                                        <td>5</td>
-                                        <td>張停停</td>
-                                        <td>2021-01-26</td>
-                                        <td>2021-07-09</td>
-                                        <td>2021-07-09</td>
-                                        <td>特休</td>
-                                        <th>無</th>
-                                        <th>審核中</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <td><input type="checkbox" name="checked" /></td>
-                                        <td>50029966</td>
-                                        <td>5</td>
-                                        <td>張停停</td>
-                                        <td>2021-03-02</td>
-                                        <td>2021-11-22</td>
-                                        <td>2021-11-22</td>
-                                        <td>特休</td>
-                                        <th>無</th>
-                                        <th>審核中</th>
-                                        <th>
-                                            <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
-                                                <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                                            </div>
-                                        </th>
-                                    </tr>
-                                </tbody>
-                            </table>
+<form method="post">
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h2>請假申請單審核</h2>
+        </section>
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">
+                                    查詢條件<br />
+                                    起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />
+                                    狀態 :
+                                    <select>
+                                        <option>審核中</option>
+                                        <option>通過</option>
+                                        <option>退件</option>
+                                    </select>&nbsp&nbsp<br />
+                                    單號搜尋&nbsp:&nbsp<input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />&nbsp&nbsp
+                                    員編搜尋&nbsp:&nbsp<input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />&nbsp&nbsp
+                                    姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
+                                    假別搜尋&nbsp:&nbsp<input type="text" name="txtCategory" placeholder="輸入假別" autocomplete="off" />&nbsp&nbsp
+                                    事由搜尋&nbsp:&nbsp<input type="text" name="txtReason" placeholder="輸入事由" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
+                                    <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                                </h3>
+                            </div>
+                            <div class="card-body">
+                                <table id="example2" class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
+                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                                            <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
+                                            <th>@Html.DisplayNameFor(model => model.employeeName)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CLeaveStartTime)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CLeaveEndTime)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CLeaveCategory)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
+                                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
+                                            <th>審核</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            <tr>
+                                                <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0" /></td>
+                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
+                                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
+                                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
+                                                <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
+                                                <td>@Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)</td>
+                                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
+                                                <td>
+                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                                        @*<label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
+                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>*@
+                                                        <label class="btn btn-outline-success"><input type="button" name="options" id="btnPass" autocomplete="off">@Html.ActionLink("通過", "Pass", new { id = item.CApplyNumber })</label>
+                                                        <label class="btn btn-outline-secondary"><input type="button" name="options" id="btnFail" autocomplete="off">@Html.ActionLink("退件", "Fail", new { id = item.CApplyNumber })</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
+</form>
+<script>
+    $(document).ready(function () {
+        $("#CheckAll").click(function () {
+            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                })
+            } else {
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                })
+            }
+        })
+    })
+    $(document).ready(function () {
+        $("#btnPass").click(function () {
+            var 
+        })
+    })
+    
+</script>  

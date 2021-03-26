@@ -16,8 +16,7 @@ public enum eJobTitle
     經理,
     專員
 }
-
-public enum eStatus
+public enum eCheckStatus
 {
     NONE,
     審核中,
@@ -34,18 +33,3 @@ public enum eLeaveCategory
     喪假,
     特休
 }
-
-//public enum eUserName
-//{
-//    NONE,
-//    王曉明,
-//    李小花,
-//    尤智智,
-//    張停停,
-//    宋針針,
-//    陳曉倩,
-//    孫美鎂,
-//    劉阿華,
-//    蕭淑美,
-//    陳燕君
-//}

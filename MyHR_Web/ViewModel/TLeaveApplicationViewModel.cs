@@ -15,21 +15,24 @@ namespace MyHR_Web.ViewModel
         private TLeaveApplication iv_Leave = null;
         private TUserDepartment iv_Department = null;
         private TUser iv_User = null;
+        public TUser user { get { return iv_User; } }
 
-        public TLeaveApplication Leave { get { return iv_Leave; } }
-
+        public TLeaveApplicationViewModel(TLeaveApplication p, TUser u)
+        {
+            iv_Leave = p;
+            iv_User = u;
+        } 
         public TLeaveApplicationViewModel(TLeaveApplication p,TUserDepartment d, TUser u)
         {
             iv_Leave = p;
             iv_Department = d;
             iv_User = u;
         }
-
         public TLeaveApplicationViewModel()
         {
             iv_Leave = new TLeaveApplication();
-            iv_Department = new TUserDepartment();
-            iv_User = new TUser();
+ 			iv_User = new TUser();
+			iv_Department = new TUserDepartment();
         }
        
         [DisplayName("部門名稱")]
@@ -46,7 +49,6 @@ namespace MyHR_Web.ViewModel
         public int CEmployeeId { get { return iv_Leave.CEmployeeId; } set { iv_Leave.CEmployeeId = value; } }
         
 
-
         [Required(ErrorMessage = "必填欄位")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
 
@@ -56,10 +58,7 @@ namespace MyHR_Web.ViewModel
                 iv_Leave.CDepartmentId = MyHR.TUserDepartments.Where(n => n.CDepartment == CDepartmentName).Select(n => n.CDepartmentId).FirstOrDefault();
                 return iv_Leave.CDepartmentId; } set { iv_Leave.CDepartmentId = value; } }
         [Required(ErrorMessage = "必填欄位")]
-      
-
-       
-        [DisplayName("申請日")]
+              [DisplayName("申請日")]
         public string CApplyDate { get { return DateTime.Parse(iv_Leave.CApplyDate).ToString("yyyy/MM/dd"); } set { iv_Leave.CApplyDate = value; } }
         [DisplayName("申請類別")]
         [Required(ErrorMessage = "必填欄位")]
@@ -82,6 +81,9 @@ namespace MyHR_Web.ViewModel
         //public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         //public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         //public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+
+        public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
+
     }
 
 

@@ -71,7 +71,6 @@ namespace MyHR_Web.Controllers
 
             if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
             {
-                return RedirectToAction("Login", "Home");
             }
             else
             {

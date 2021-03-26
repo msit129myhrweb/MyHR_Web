@@ -1,87 +1,39 @@
-﻿@model IEnumerable<MyHR_Web.Models.TAbsence>
-
+﻿@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
 @{
     ViewData["Title"] = "List";
 }
 <html>
 <head>
-    <style>
-        h2 {
-            background-color: #cbb2ae;
-            border-left: 5px solid #808080;
-            font-family: "微软雅黑", "宋体", "黑体", Arial;
-            font-size: 25px;
-            height: 80px;
-            line-height: 80px;
-            font-weight: bold;
-            text-shadow: 2px 2px 3px #222222;
-            color: #FFFFFF;
-            padding-left: 10px;
-        }
+    <link href="~/css/Absence.css" rel="stylesheet" />
+    <script type="text/javascript" src="~/js/Absence.js"></script>
+    <script>
 
-        .button {
-            width: 250px;
-            height: 100px;
-            display: inline-block;
-            padding: 15px 25px;
-            font-size: 24px;
-            cursor: pointer;
-            text-align: center;
-            text-decoration: none;
-            outline: none;
-            color: #fff;
-            background-color: #4CAF50;
-            border: none;
-            border-radius: 10px;
-            box-shadow: 0 9px #999;
-        }
 
-            .button:hover {
-                background-color: #3e8e41
-            }
+        @*$.ajax({
+            url: "@Url.Action("Create", "Absence")",
+            type: "POST",
+            data: dataObject,
+            datatype: "json",
+            success: 
 
-            .button:active {
-                background-color: #3e8e41;
-                box-shadow: 0 5px #666;
-                transform: translateY(4px);
-            }
-
-        .clock {
-            float: left;
-        }
-
-        .container-fluid {
-            float: right;
-        }
-
-        .nowTime {
-            font-size: 25px;
-        }
-        #setFace, #setQR {
-            width: 250px;
-        }
-        #register {
-/*            float: right;
-            display: inline;
-            margin-right:5px;*/
-        }
-    </style>
-    <script type="text/javascript" language="JavaScript">
-
-        function ShowTime() {
-            var NowDate = new Date();
-            var d = NowDate.getDay();
-            var dayNames = new Array("星期⽇", "星期⼀", "星期⼆", "星期三", "星期四", "星期五", "星期六");
-            document.getElementById('showbox').innerHTML = '⽬前時間：' + NowDate.toLocaleString() + '（' +
-                dayNames[d] + '）';
-            setTimeout('ShowTime()', 1000);
-        }
-
-        function onClock() {
-            window.alert("您已打卡成功!");
-        }
-        function offClock() {
-            window.alert("您已打卡成功!");
+        })*@
+        function showHistory() {
+            $.ajax({
+                url: "/Absence/List",
+                type: "GET",
+                success: function (data) {
+                    var txt = "<table  id='example2' class='table table - bordered table - hover'><tr><th>上班<th>下班<th>狀態";
+                    var ons = data.getElementById("#on");
+                    var offs = data.getElementById("#off");
+                    var status = data.getElementById("#status");
+                    for (var i = 0; i < ons.length; i++) {
+                        txt += "<tr><td>" + ons[i].firstChild.nodeValue;
+                        txt += "<td>" + offs[i].firstChild.nodeValue;
+                        txt += "<td>" + status[i].firstChild.nodeValue;
+                    }
+                    $("#showClock").html(txt);
+                }
+            });
         }
     </script>
 </head>
@@ -91,124 +43,67 @@
             <h2>打卡</h2>
         </section>
         <section class="content">
-            <body onload="ShowTime()">
-                <form id="form1" runat="server" class="nowTime">
-                    <div id="showbox"></div>
-                </form>
-            </body>
             <div class="clock">
                 <button type="button" class="button" onclick="onClock()" style="filter: grayscale(50%)">上班</button><br /><br />
                 <button type="button" class="button" onclick="offClock()" style="filter: grayscale(50%)">下班</button><br /><br />
+                <input type="button" class="btn btn-info" id="history" style="filter: grayscale(50%)" onclick="showHistory()" value="打卡記錄查詢"></input><br /><br />
                 <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"></input><br /><br />
                 <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"></input>
-
             </div>
             <div class="content-wrapper">
-                @{
-                    #region table
-                    <!--<table class="table">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CApplyNumber)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CEmployeeId)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COn)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.COff)
-                            </th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>-->
+                <body onload="ShowTime()">
+                    <form id="form1" runat="server" class="nowTime">
+                        <div id="showbox"></div>
+                        <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
+                    </form>
+                </body>
 
-
-                    @*@foreach (var item in Model) {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.COn)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.COff)
-                                    </td>
-                                    <td>
-                                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                                    </td>
-                                </tr>
-                        }*@
-                    <!--</tbody>
-                    </table>-->
-
-                    #endregion
-                }
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        查詢條件<br />
-                                        起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                            <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off">當天</label>
-                                            <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
-                                            <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
-                                        </div>
-                                        &nbsp<input type="button" value="補登打卡紀錄" class="btn btn-warning" id="register" style="filter: grayscale(50%)" />
-                                    </h3>
+                <div style="display:none" class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                查詢條件<br />
+                                起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                    <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off">當天</label>
+                                    <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
+                                    <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
                                 </div>
-                                <div class="card-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>上班</th>
-                                                <th>下班</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>2021-03-05 08:53:37</td>
-                                                <td>2021-03-05 18:10:07</td>
-                                                <td>準時</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-04 08:55:01</td>
-                                                <td>2021-03-04 18:13:03</td>
-                                                <td>準時</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-03 09:03:12</td>
-                                                <td>2021-03-03 18:13:00</td>
-                                                <td>遲到</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2021-03-02 08:55:01</td>
-                                                <td>2021-03-02 17:59:00</td>
-                                                <td>早退</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                    <a asp-action="Create" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>@Html.DisplayNameFor(model => model.COn)</th>
+                                        <th>@Html.DisplayNameFor(model => model.COff)</th>
+                                        <th>狀態</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td id="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                            <td id="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                                            <td id="status">@ViewData["clockStatus"]</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
             </div>
         </section>
     </div>
 </body>
 </html>
+
 
