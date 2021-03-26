@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
@@ -32,6 +33,9 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Profile()
         {
+            var c = HttpContext.Session.GetObject<TUser>(user.CEmployeeId.ToString());
+            
+            
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
@@ -53,7 +57,7 @@ namespace MyHR_Web.Controllers
             return PartialView();
 
         }
-                
+        public TUser user = null;
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
@@ -66,11 +70,12 @@ namespace MyHR_Web.Controllers
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
 
 
-            TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
+            user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
             c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
 
             if (user != null)
             {
+                HttpContext.Session.SetObject(user.CEmployeeId.ToString(), user);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
