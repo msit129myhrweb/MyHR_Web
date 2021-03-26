@@ -79,7 +79,7 @@
                                                 <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
-                                                <td>@Enum.GetName(typeof(eLeave), item.CLeaveCategory)</td>
+                                                <td>@Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)</td>
                                                 <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                                 <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
                                                 <td>

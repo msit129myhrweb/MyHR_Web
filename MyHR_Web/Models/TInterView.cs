@@ -14,7 +14,7 @@ namespace MyHR_Web.Models
         public string CPhone { get; set; }
         public string CEmail { get; set; }
         public string CAddress { get; set; }
-        public DateTime CBirthday { get; set; }
+        public string CBirthday { get; set; }
         public int CAge { get; set; }
         public byte[] CPhoto { get; set; }
         public string CEducation { get; set; }
@@ -22,7 +22,7 @@ namespace MyHR_Web.Models
         public int CJobTitle { get; set; }
         public int CDepartment { get; set; }
         public int CInterViewerEmployeeId { get; set; }
-        public DateTime CInterViewDate { get; set; }
+        public string CInterViewDate { get; set; }
         public int CInterViewStatusId { get; set; }
         public int? CInterViewProcessId { get; set; }
 

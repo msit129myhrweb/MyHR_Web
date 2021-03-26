@@ -12,8 +12,8 @@ namespace MyHR_Web.Models
             TLostAndFounds = new HashSet<TLostAndFound>();
         }
 
-        public int CcPropertyCheckStatusId { get; set; }
-        public string CcPropertyCheckStatus { get; set; }
+        public int CPropertyCheckStatusId { get; set; }
+        public string CPropertyCheckStatus { get; set; }
 
         public virtual ICollection<TLostAndFound> TLostAndFounds { get; set; }
     }

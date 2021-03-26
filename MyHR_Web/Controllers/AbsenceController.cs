@@ -54,7 +54,7 @@ namespace MyHR_Web.Controllers
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
 
-            if (string.IsNullOrEmpty(a.COn.ToString("yyyy-MM-dd")) || string.IsNullOrEmpty(a.COff.ToString("yyyy-MM-dd")))
+            if (string.IsNullOrEmpty(a.COn.ToString()) || string.IsNullOrEmpty(a.COff.ToString()))
             {
                 return View();
             }

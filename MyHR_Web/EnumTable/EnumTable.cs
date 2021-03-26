@@ -16,7 +16,6 @@ public enum eJobTitle
     經理,
     專員
 }
-
 public enum eCheckStatus
 {
     NONE,
@@ -24,7 +23,8 @@ public enum eCheckStatus
     通過,
     退件
 }
-public enum eLeave
+
+public enum eLeaveCategory
 {
     NONE,
     病假,
@@ -33,4 +33,3 @@ public enum eLeave
     喪假,
     特休
 }
-  

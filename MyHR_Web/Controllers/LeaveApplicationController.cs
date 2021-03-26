@@ -51,7 +51,7 @@ namespace MyHR_Web.Controllers
             }
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
             foreach (TLeaveApplication item in table)
-                list.Add(new TLeaveApplicationViewModel(item));
+                list.Add(new TLeaveApplicationViewModel(item,null));
 
             return View(list) ;
         }
@@ -66,7 +66,7 @@ namespace MyHR_Web.Controllers
                 TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l=>l.CApplyNumber == capplyNum);
                 if (leave!=null)
                 {
-                    return View(new TLeaveApplicationViewModel(leave));
+                    return View(new TLeaveApplicationViewModel(leave,null));
                 }
             }
             return RedirectToAction("List");
