@@ -117,10 +117,10 @@ namespace MyHR_Web.ViewModel
         [DisplayName("失物狀態")]
         public string CPropertyCheckStatusName {get ;set ; }
 
-        public int CPropertyCheckStatusId
+        public eLostAndFoundCheckStatus CPropertyCheckStatusId
         {
-            get { return iv_property.CPropertyCheckStatusId; }
-            set { iv_property.CPropertyCheckStatusId = value; }
+            get { return (eLostAndFoundCheckStatus)iv_property.CPropertyCheckStatusId; }
+            set { iv_property.CPropertyCheckStatusId = (int)value; }
         }
 
     }

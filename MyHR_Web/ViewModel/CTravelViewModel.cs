@@ -82,8 +82,9 @@ namespace MyHR_Web.ViewModel
             set { iv_travel.CAmont = value; }
         }
 
-        [DisplayName("審核狀態")]
+        
         public string CCheckStatusName { get; set; }
+        [DisplayName("審核狀態")]
         public eCheckStatusEnum CCheckStatus
         { 
             get { return (eCheckStatusEnum)iv_travel.CCheckStatus; } 

@@ -61,7 +61,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CLostAndFoundDate" class="control-label"></label>
-                    <input asp-for="CLostAndFoundDate" class="form-control" type="date"/>
+                    <input asp-for="CLostAndFoundDate" class="form-control" type="date" />
                     <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -89,7 +89,7 @@
 <script>
     var propertysubject;
     $.ajax({
-        url: "/Property/pSubject",
+        url: "@Url.Action("pSubject", "Property")",
         type: "Get",
         success: function (psubject) {
             txt = "";
@@ -97,6 +97,7 @@
             for (let s = 0; s < psubject.length; s++) {
                 txt += "<option value='" + psubject[s].cPropertySubjectId + "'>" + psubject[s].cPropertySubject + "</option>";
             }
+        
             document.getElementById("t主旨下拉式").innerHTML = txt;
         }
     });
@@ -105,7 +106,7 @@
 <script>
     var propertycategory;
     $.ajax({
-        url: "/Property/pCategory",
+        url: "@Url.Action("pCategory", "Property")",
         type: "Get",
         success: function (pcategory) {
             txt = "";
@@ -113,6 +114,7 @@
             for (let c = 0; c < pcategory.length; c++) {
                 txt += "<option value='" + pcategory[c].cPropertyCategoryId + "'>" + pcategory[c].cPropertyCategory + "</option>";
             }
+         
             document.getElementById("t類別下拉式").innerHTML = txt;
         }
     });
@@ -121,7 +123,7 @@
 <script>
     var propertycheck;
     $.ajax({
-        url: "/Property/pCheckStatus",
+        url: "@Url.Action("pCheckStatus", "Property"),
         type: "Get",
         success: function (pcheck) {
             txt = "";
@@ -129,11 +131,11 @@
             for (let f = 0; f < pcheck.length; f++) {
                 txt += "<option value=" + pcheck[f].cPropertyCheckStatusId + ">" + pcheck[f].cPropertyCheckStatus + "</option>";
             }
+       
             document.getElementById("t狀態下拉選單").innerHTML = txt;
         }
     });
 </script>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

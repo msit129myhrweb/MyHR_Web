@@ -192,7 +192,7 @@ namespace MyHR_Web.Controllers
                 TLostAndFound l_laf被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
                 TLostAndFoundSubject l_Subject被修改 = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == t_propertyEdit.CPropertySubjectId);
                 TLostAndFoundCategory l_Category被修改 = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == t_propertyEdit.CPropertyCategoryId);
-                TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId== t_propertyEdit.CPropertyCheckStatusId);
+                TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId==(int) t_propertyEdit.CPropertyCheckStatusId);
 
                 if (l_laf被修改 != null)
                 {
@@ -206,7 +206,7 @@ namespace MyHR_Web.Controllers
                     l_laf被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
                     l_laf被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
                     l_laf被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
-                    l_laf被修改.CPropertyCheckStatusId = t_propertyEdit.CPropertyCheckStatusId;
+                    l_laf被修改.CPropertyCheckStatusId =(int) t_propertyEdit.CPropertyCheckStatusId;
                     db.SaveChanges();
                 }
             }

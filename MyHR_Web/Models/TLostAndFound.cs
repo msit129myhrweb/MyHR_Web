@@ -20,6 +20,7 @@ namespace MyHR_Web.Models
         public string CtPropertyDescription { get; set; }
         public int CPropertyCheckStatusId { get; set; }
 
+      
         public virtual TUserDepartment CDeparment { get; set; }
         public virtual TUser CEmployee { get; set; }
         public virtual TLostAndFoundCategory CPropertyCategory { get; set; }

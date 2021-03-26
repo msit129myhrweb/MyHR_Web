@@ -79,15 +79,15 @@
 <script>
     var travelcheck;
     $.ajax({
-        url: "/Travel/tcheckStatus",
+        url: "@Url.Action("tcheckStatus", "Travel")",
         type: "Get",
         success: function (tchecks) {
             txt = "";
             console.log(tchecks);
             for (let i = 0; i < tchecks.length; i++) {
-                txt += "<option value='" + tchecks[i].cCheckStatusId + "'>" + tchecks[i].cCheckStatus + "</option>";
-                console.log(tchecks[i].cCheckStatusId);
+                txt += "<option value='" + tchecks[i].cCheckStatusID + "'>" + tchecks[i].cCheckStatus + "</option>";
             }
+      
             document.getElementById("t差旅費下拉選單").innerHTML = txt;
         }
     });
