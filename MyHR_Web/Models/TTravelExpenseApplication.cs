@@ -11,9 +11,9 @@ namespace MyHR_Web.Models
         public int CDepartmentId { get; set; }
         public int CEmployeeId { get; set; }
         public string CReason { get; set; }
-        public DateTime? CApplyDate { get; set; }
-        public DateTime? CTravelStartTime { get; set; }
-        public DateTime? CTravelEndTime { get; set; }
+        public string CApplyDate { get; set; }
+        public string CTravelStartTime { get; set; }
+        public string CTravelEndTime { get; set; }
         public decimal CAmont { get; set; }
         public int CCheckStatus { get; set; }
 

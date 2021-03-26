@@ -45,7 +45,7 @@ namespace MyHR_Web.Controllers
         {
 
             var pfound = from pf in db.TLostAndFounds
-                         where pf.CLostAndFoundDate <=model.CLostAndFoundDate
+                         //where pf.CLostAndFoundDate <=model.CLostAndFoundDate
                          select new
                          {
                                  CPropertyId = pf.CPropertyId,
