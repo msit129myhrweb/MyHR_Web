@@ -679,12 +679,17 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CSupervisor).HasColumnName("cSupervisor");
 
+                entity.HasOne(d => d.CDepartment)
+                    .WithMany(p => p.TUsers)
+                    .HasForeignKey(d => d.CDepartmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tUser_tUserDepartment");
+
                 entity.HasOne(d => d.CJobTitle)
                     .WithMany(p => p.TUsers)
                     .HasForeignKey(d => d.CJobTitleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tUser_tUserJobTitle");
-
                 entity.HasOne(d => d.COnBoardStatus)
                     .WithMany(p => p.TUsers)
                     .HasForeignKey(d => d.COnBoardStatusId)

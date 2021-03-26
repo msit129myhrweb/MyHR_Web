@@ -81,7 +81,7 @@ namespace MyHR_Web.Controllers
                     list.Add(newObj);
                 }
             }
-            return View(list) ;
+           return View(list) ;
         }
         #region Edit
         //勾選通過
@@ -104,8 +104,7 @@ namespace MyHR_Web.Controllers
                 if (leave != null)
                 {
                     leave.CCheckStatus = 2;
-                    db.SaveChanges();
-                }
+                    db.SaveChanges();                }
             }
             return Json(d);
         }

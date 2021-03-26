@@ -73,8 +73,7 @@ namespace MyHR_Web.Controllers
                 {
                     a.COff = DateTime.Parse(on);
                     db.SaveChanges();
-                }
-            }
+                }            }
             else
             {
                 string ON = a.COn.Value.Year.ToString() + "-" + a.COn.Value.Month.ToString() + "-" + a.COn.Value.Day.ToString();
