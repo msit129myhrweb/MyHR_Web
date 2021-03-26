@@ -15,7 +15,7 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {        
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            IEnumerable<TLeaveApplication> table = null;
+            IEnumerable<TLeaveApplication> table = null; 
 
             // keyword searching
             if (!string.IsNullOrEmpty(Request.ContentType))

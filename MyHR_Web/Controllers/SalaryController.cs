@@ -19,8 +19,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
         {
 
             int UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
-
-
              var table = MyHR.TUsers
               .Include(c => c.CDepartment)
               .Include(c => c.CJobTitle)
@@ -34,8 +32,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 CJobTitleSalary = c.CJobTitle.CJobTitleSalary
 
             });
-
-
             List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
             foreach (var item in table)
@@ -50,7 +46,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
                 };
                 T.Add(obj);
-
             }
 
             return View(table.ToList());
@@ -89,5 +84,11 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 }
             }
         }
+
+        
+
+
+
+
     }
 }
