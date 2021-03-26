@@ -10,22 +10,21 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.ViewModel
 {
-    public class CPropertyViewModel
+    public class CPropertyListViewModel
     {
         private TLostAndFound iv_property = null;
         private TLostAndFoundSubject iv_subject = null;
         private TLostAndFoundCategory iv_category = null;
         private TLostAndFoundCheckStatus iv_status = null;
         public TLostAndFound property { get { return iv_property; } }
-        public CPropertyViewModel(TLostAndFound l, TLostAndFoundSubject s, TLostAndFoundCategory c, TLostAndFoundCheckStatus e)
+        public CPropertyListViewModel(TLostAndFound l, TLostAndFoundSubject s, TLostAndFoundCategory c, TLostAndFoundCheckStatus e)
         {
             iv_property = l;
             iv_subject = s;
             iv_category = c;
             iv_status = e;
         }
-
-        public CPropertyViewModel()
+        public CPropertyListViewModel()
         {
             iv_property = new TLostAndFound();
             iv_subject = new TLostAndFoundSubject();
@@ -39,20 +38,18 @@ namespace MyHR_Web.ViewModel
             set { iv_property.CPropertyId = value; }
         }
 
-       
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName { get; set; }
         public int CDeparmentId
         {
-            get {return iv_property.CDeparmentId;}
+            get { return iv_property.CDeparmentId;}
             set { iv_property.CDeparmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
         [DisplayName("員編")]
         public int CEmployeeId
         {
-            get { return iv_property.CEmployeeId;}
+            get { return iv_property.CEmployeeId; }
             set { iv_property.CEmployeeId = value; }
         }
         [Required(ErrorMessage = "手機是必填欄位")]
@@ -115,12 +112,10 @@ namespace MyHR_Web.ViewModel
         }
 
         [DisplayName("失物狀態")]
-        public string CPropertyCheckStatusName {get ;set ; }
-
-        public eLostAndFoundCheckStatus CPropertyCheckStatusId
+        public int CPropertyCheckStatusId
         {
-            get { return (eLostAndFoundCheckStatus)iv_property.CPropertyCheckStatusId; }
-            set { iv_property.CPropertyCheckStatusId = (int)value; }
+            get {return iv_property.CPropertyCheckStatusId;}
+            set { iv_property.CPropertyCheckStatusId = value; }
         }
 
     }

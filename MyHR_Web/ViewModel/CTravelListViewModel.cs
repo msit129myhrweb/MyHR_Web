@@ -8,18 +8,19 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.ViewModel
 {
-    public class CTravelViewModel
+    public class CTravelListViewModel
     {
         private TTravelExpenseApplication iv_travel = null;
         private TCheckStatus iv_check = null;
+
         public TTravelExpenseApplication travel { get { return iv_travel; } }
 
-        public CTravelViewModel(TTravelExpenseApplication t,TCheckStatus ch)
+        public CTravelListViewModel(TTravelExpenseApplication t,TCheckStatus ch)
         {
             iv_travel = t;
-            iv_check = ch;
-        }
-        public CTravelViewModel()
+            iv_check=ch;
+        }   
+        public CTravelListViewModel()
         {
             iv_travel = new TTravelExpenseApplication();
             iv_check = new TCheckStatus();
@@ -30,13 +31,11 @@ namespace MyHR_Web.ViewModel
             get { return iv_travel.CApplyNumber; }
             set { iv_travel.CApplyNumber = value; }
         }
-
         [Required(ErrorMessage = "部門是必填欄位")]
         [DisplayName("部門")]
-        public string CDepartmentName { get; set; }
         public int CDepartmentId
         {
-            get {return iv_travel.CDepartmentId; }
+            get {return iv_travel.CDepartmentId;}
             set { iv_travel.CDepartmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
@@ -83,13 +82,13 @@ namespace MyHR_Web.ViewModel
         }
 
         [DisplayName("審核狀態")]
-        public string CCheckStatusName { get; set; }
-        public eCheckStatusEnum CCheckStatus
-        { 
-            get { return (eCheckStatusEnum)iv_travel.CCheckStatus; } 
-            set { iv_travel.CCheckStatus = (int)value; } 
+        public int CCheckStatus
+        {
+            get { return iv_travel.CCheckStatus; }
+            set { iv_travel.CCheckStatus = value; }
         }
 
 
     }
 }
+

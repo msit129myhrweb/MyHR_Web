@@ -32,12 +32,11 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="CDepartmentName" class="control-label"></label>
-                        <input asp-for="CDepartmentName" class="form-control"/>
-                        <span asp-validation-for="CDepartmentName" class="text-danger"></span>
+                        <input asp-for="CDepartmentName" class="form-control" value="@ViewData["LOGINED_USERDEPARTMENT"]" />
                     </div>
                     <div class="form-group">
                         <label asp-for="CEmployeeId" class="control-label"></label>
-                        <input asp-for="CEmployeeId" class="form-control" />
+                        <input asp-for="CEmployeeId" class="form-control" value="@ViewData["LOGIN_USERID"]" />
                         <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                     </div>
                     <div class="form-group">

@@ -17,7 +17,7 @@ namespace MyHR_Web.Controllers
     {
         private IHostingEnvironment iv_host;
         dbMyCompanyContext db = new dbMyCompanyContext();
-
+       
         public PropertyController(IHostingEnvironment p)
         {
             iv_host = p;
@@ -109,19 +109,12 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Create()
         {
-            string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            string c = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            string uSERPHONE = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
             ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
             ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-
-            //CPropertyViewModel pViewModel = new CPropertyViewModel
-            //{
-            //    CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID)),
-            //    CPhone = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE),
-            //    //CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT)
-            //};
 
             return View();
         }
@@ -167,6 +160,13 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Edit(int? id)
         {
+            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            string uSERPHONE = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
+            
             if (id != null)
             {
                 TLostAndFound d = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == id);
@@ -192,7 +192,7 @@ namespace MyHR_Web.Controllers
                 TLostAndFound l_laf被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
                 TLostAndFoundSubject l_Subject被修改 = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == t_propertyEdit.CPropertySubjectId);
                 TLostAndFoundCategory l_Category被修改 = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == t_propertyEdit.CPropertyCategoryId);
-                TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == t_propertyEdit.CPropertyCheckStatusId);
+               // TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId == t_propertyEdit.CPropertyCheckStatusId);
 
                 if (l_laf被修改 != null)
                 {
@@ -207,7 +207,7 @@ namespace MyHR_Web.Controllers
                     l_laf被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
                     l_laf被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
                     l_laf被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
-                    l_CheckStatus被修改.CPropertyCheckStatusId = t_propertyEdit.CPropertyCheckStatusId;
+                    l_laf被修改.CPropertyCheckStatusId = (int)t_propertyEdit.CPropertyCheckStatusId;
                     db.SaveChanges();
                 }
             }

@@ -58,15 +58,16 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-            //string a = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            //ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            //string b = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            //ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            return View(new CTravelViewModel 
-            {
-                CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT),
-                CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID))
-            });
+            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            //return View(new CTravelViewModel 
+            //{
+            //    CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT),
+            //    CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID))
+            //});
+            return View();
         }
         [HttpPost]
         public IActionResult Create(CTravelViewModel t)
@@ -102,8 +103,13 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Edit(int? id)
         {
+            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
+
             if (id != null)
-            { 
+            {
                 TTravelExpenseApplication t = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 TCheckStatus ch = db.TCheckStatuses.FirstOrDefault(ch => ch.CCheckStatusId == t.CCheckStatus);
                 if (t != null)
