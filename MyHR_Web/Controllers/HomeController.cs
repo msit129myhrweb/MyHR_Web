@@ -36,22 +36,36 @@ namespace MyHR_Web.Controllers
         {
             return View();
         }
+
+
         public IActionResult Profile()
         {
+            int userid = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            var table = from u in (new dbMyCompanyContext()).TUsers
+                        where u.CEmployeeId == userid
+                        select u;
+            //return View(table);
 
+
+
+
+            List<TUserViewModel> list = new List<TUserViewModel>();
+            foreach (TUser i in table)
+                list.Add(new TUserViewModel(i));
+            return View(list);
+            //return View(table);
+        }
+        public IActionResult ProfileEdit(int? id)
+        {
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
 
-            //int  userid = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-            //var table = from u in (new dbMyCompanyContext()).TUsers
-            //            where u.CEmployeeId == userid
-            //            select u;
-            //return View(table);
+
 
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
 
-            ViewData[CDictionary.CURRENT_LOGINED_USERID]= HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
             ViewData[CDictionary.CURRENT_LOGINED_USERENNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERENNAME);
             ViewData[CDictionary.CURRENT_LOGINED_PASSWORD] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_PASSWORD);
             ViewData[CDictionary.CURRENT_LOGINED_OBD] = (HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_OBD));
@@ -66,9 +80,50 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_EMERGENCY_CONT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT);
             ViewData[CDictionary.CURRENT_LOGINED_OB_STATUS] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_OB_STATUS);
             ViewData[CDictionary.CURRENT_LOGINED_ACC_ENABLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE);
-          
-            return View();
+            if (id != null)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext(); 
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == id);
+
+                if (u != null)
+                {
+                    return View(new TUserViewModel(u));
+                }
+
+            }
+            return RedirectToAction("Profile");
         }
+
+
+        [HttpPost]
+        public IActionResult ProfileEdit(TUserViewModel Tuser_vm)
+        {
+            dbMyCompanyContext db = new dbMyCompanyContext();
+            if (Tuser_vm != null)
+            {
+
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == Tuser_vm.CEmployeeId);
+                if (u != null)
+                { u.CEmployeeEnglishName = Tuser_vm.CEmployeeEnglishName;
+                    u.CPassWord =Tuser_vm.CPassWord; 
+                    u.CGender = Tuser_vm.CGender;   
+                    u.CEmail = Tuser_vm.CEmail;
+                    u.CAddress = Tuser_vm.CAddress;
+                    u.CBirthday = (DateTime)Tuser_vm.CBirthday;
+                    u.CPhone = Tuser_vm.CPhone;
+                    u.CEmergencyPerson = Tuser_vm.CEmergencyPerson;
+                    u.CEmergencyContact = Tuser_vm.CEmergencyContact;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Profile");
+        }
+
+
+
+
+
+
         public IActionResult Login()
         {
             //if (string.IsNullOrEmpty(HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE)))

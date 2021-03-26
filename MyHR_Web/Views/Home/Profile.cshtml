@@ -1,8 +1,8 @@
-﻿@model MyHR_Web.Models.TUser
-@*@model IEnumerable<MyHR_Web.Models.TUser>*@
-@{
-    ViewData["Title"] = "Profile";
-}
+﻿@*@model MyHR_Web.Models.TUser*@
+@*@model MyHR_Web.ViewModel.TUserViewModel*@
+@model IEnumerable<MyHR_Web.ViewModel.TUserViewModel>
+
+@{ ViewData["Title"] = "Profile"; }
 
 <style>
     h2 {
@@ -32,41 +32,30 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-
+                    <!-- todo wz -->
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <!-- todo wz -->
                                 <img id="imgid"
                                      class="profile-user-img img-fluid img-circle"
                                      src="~/theme/dist/img/user4-128x128.jpg"
                                      alt="User profile picture"
                                      onclick="changeImg()">
+
+
+                                @*<img id="imgid" />*@
+                                <!-- todo wz -->
+
                             </div>
 
-                            <!-- todo wz -->
-                            <input type="file" value="更換大頭貼" onChange="doUpload(),load()" />
-                            @*<img id="imgid" />*@
-                            <!-- todo wz -->
-
                             <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
+
                             <p class="text-muted text-center">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
-
-
-                            <!-- todo wz 照片上傳 -->
-                            @*<form action="@Url.Action("Upload")" method="post" enctype="multipart/form-data">
-                                <input type="file" accept=".png, .jpg, .jpeg" name="File" id="File" />
-                                <input type="submit" value="上傳" />
-                            </form>*@
-                            <!-- todo wz 照片上傳 -->
-
 
 
                         </div>
                         <!-- /.card-body -->
-                    </div>
-                    <!-- /.card-body -->
                     </div>
                     <!-- /.card -->
                     <!-- About Me Box -->
@@ -77,11 +66,20 @@
                         <!-- /.card-header -->
                         <div class="card-body">
                             <strong><i class="fas fa-book mr-1"></i> 部門</strong>
-                            <p class="text-muted">@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]</p>
+
+                            <p class="text-muted">
+                                @ViewData["CURRENT_LOGINED_USERDEPARTMENT"]
+                            </p>
+
                             <hr>
+
                             <strong><i class="fas fa-map-marker-alt mr-1"></i>職位</strong>
+
                             <p class="text-muted">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
+
                             <hr>
+
+
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -92,282 +90,138 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">個人基本資料</a></li>
+                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">settings</a></li>
                             </ul>
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
-
                                 <div class="active tab-pane" id="settings">
-                                    <form class="form-horizontal">
-
+                                    <form asp-action="RepairEdit">
+                                    @foreach (var item in Model)
+                                    { 
+                                            
                                         <div class="form-group row">
-                                            <label asp-for="CEmployeeId" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeName)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmployeeId" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERID"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmployeeName)>
                                             </div>
                                         </div>
-
                                         <div class="form-group row">
-                                            <label asp-for="CEmployeeName" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeEnglishName)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmployeeName" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERNAME"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmployeeEnglishName)>
                                             </div>
                                         </div>
-
                                         <div class="form-group row">
-                                            <label asp-for="CEmployeeEnglishName" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CPassWord)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmployeeEnglishName" class="form-control" value=" @ViewData["CURRENT_LOGINED_USERENNAME"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPassWord)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CPassWord" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.COnBoardDay)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CPassWord" class="form-control" value="@ViewData["CURRENT_LOGINED_PASSWORD"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.COnBoardDay)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="COnBoardDay" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CByeByeDay)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OBD"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CByeByeDay)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CByeByeDay" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CGender)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_BBD"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CGender)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CGender" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmail)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CGender" class="form-control" value="@ViewData["CURRENT_LOGINED_GENDER"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmail)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CEmail" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAddress)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmail" class="form-control" value="@ViewData["CURRENT_LOGINED_EMAIL"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CAddress)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CAddress" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CDepartmentId)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CAddress" class="form-control" value="@ViewData["CURRENT_LOGINED_ADDRESS"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CDepartmentId)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CDepartmentId" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CJobTitleId)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERDEPARTMENT"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CJobTitleId)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CJobTitleId" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CSupervisor)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERJOBTITLE"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CSupervisor)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CSupervisor" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.CBirthday)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CSupervisor" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_SUPERVISOR"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CBirthday)>
                                             </div>
                                         </div>
-
                                         <div class="form-group row">
-                                            <label asp-for="CBirthday" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CPhone)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" value="@ViewData["CURRENT_LOGINED_BRD"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPhone)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CPhone" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyPerson)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CPhone" class="form-control" value="@ViewData["CURRENT_LOGINED_PHONE"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyPerson)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="CEmergencyPerson" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyContact)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmergencyPerson" class="form-control" value="@ViewData["CURRENT_LOGINED_EMERGENCY_PER"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyContact)>
                                             </div>
                                         </div>
-
                                         <div class="form-group row">
-                                            <label asp-for="CEmergencyContact" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAccountEnable)</label>
                                             <div class="col-sm-10">
-                                                <input asp-for="CEmergencyContact" class="form-control" value="@ViewData["CURRENT_LOGINED_EMERGENCY_CONT"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CAccountEnable)>
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label asp-for="COnBoardStatusId" class="col-sm-2 col-form-label"></label>
+                                            <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.COnBoardStatusId)</label>
                                             <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_OB_STATUS"]" />
+                                                <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.COnBoardStatusId)>
                                             </div>
                                         </div>
+                                        @Html.ActionLink("編輯", "ProfileEdit", new { id = item.CEmployeeId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
 
-                                        <div class="form-group row">
-                                            <label asp-for="CAccountEnable" class="col-sm-2 col-form-label"></label>
-                                            <div class="col-sm-10">
-                                                <input class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_ACC_ENABLE"]" />
-                                            </div>
-                                        </div>
+                                        }
+                                </form>
 
-                                        @*<table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CEmployeeName)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CPassWord)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.COnBoardDay)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CByeByeDay)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CGender)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CEmail)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CAddress)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CDepartmentId)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CJobTitleId)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CSupervisor)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CBirthday)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CPhone)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CPhoto)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CEmergencyPerson)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CEmergencyContact)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.CAccountEnable)
-                                                        </th>
-                                                        <th>
-                                                            @Html.DisplayNameFor(model => model.COnBoardStatus)
-                                                        </th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach (var item in Model)
-                                                    {
-                                                        <tr>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CEmployeeEnglishName)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CPassWord)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.COnBoardDay)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CByeByeDay)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CGender)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CEmail)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CAddress)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CDepartmentId)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CJobTitleId)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CSupervisor)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CBirthday)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CPhone)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CPhoto)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CEmergencyPerson)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CEmergencyContact)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.CAccountEnable)
-                                                            </td>
-                                                            <td>
-                                                                @Html.DisplayFor(modelItem => item.COnBoardStatus.COnBoardStatus)
-                                                            </td>
-                                                            <td>
-                                                                <a asp-action="Edit" asp-route-id="@item.CEmployeeId">Edit</a> |
-                                                                <a asp-action="Details" asp-route-id="@item.CEmployeeId">Details</a> |
-                                                                <a asp-action="Delete" asp-route-id="@item.CEmployeeId">Delete</a>
-                                                            </td>
-                                                        </tr>
-                                                    }
-                                                </tbody>
-                                            </table>*@
-
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <button type="button" class="btn btn-success" , style="filter: grayscale(50%)">修改</button>
-                                            </div>
-                                        </div>
-                                    </form>
 
                                 </div>
+
                             </div>
                             <!-- /.tab-content -->
                         </div><!-- /.card-body -->
@@ -380,45 +234,35 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-
-
-    <!-- todo wz -->
-    <script>
-        function doUpload() {
-
-            const formdata = new FormData();
-            formdata.append('photo', event.target.files[0]);
-            fetch('/M05/UploadOneFile', {
-                method: 'POST',
-                body: formdata
-            }).then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                document.write(data.msg);
-            });
-
-        }
-        function changeImg() {
-
-
-        }
-        function load(img) {
-
-            var r = new FileReader();
-            r.onload = function () {
-                var output = document.getElementById('imgid');
-                output.src = r.result;
-            }
-            r.readAsDataURL(event.target.files[0])
-        };
-
-
-    </script>
-
-
-
-
-
-
-
 </div>
+<script>
+    function doUpload() {
+
+        const formdata = new FormData();
+        formdata.append('photo', event.target.files[0]);
+        fetch('/M05/UploadOneFile', {
+            method: 'POST',
+            body: formdata
+        }).then(function (response) {
+            return response.json();
+        }).then(function (data) {
+            document.write(data.msg);
+        });
+
+    }
+    function changeImg() {
+
+
+    }
+    function load(img) {
+
+        var r = new FileReader();
+        r.onload = function () {
+            var output = document.getElementById('imgid');
+            output.src = r.result;
+        }
+        r.readAsDataURL(event.target.files[0])
+    };
+
+
+</script>
