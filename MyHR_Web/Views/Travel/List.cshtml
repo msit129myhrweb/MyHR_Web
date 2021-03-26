@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "List";
+    DateTime? startDate = ViewBag.StartDate;
+    DateTime? endDate = ViewBag.EndDate;
 }
 <div class="content-wrapper">
     <section class="content-header">
@@ -27,11 +29,14 @@
     
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
-                    查詢條件<br />
-                    起 : <input type="date" />迄 : <input type="date" />     <input type="button" value="查詢" class="btn btn-outline-secondary" />
-
-                </h3>
+                <form asp-action="List">
+                    <h3 class="card-title">
+                        查詢條件<br />
+                        起 : <input name="startDate" type="date"value="@startDate?.ToString("yyyy-MM-dd")" />迄 : <input name="endDate" type="date"value="@endDate?.ToString("yyyy-MM-dd")" />
+                        <input type="submit" value="查詢" class="btn btn-outline-secondary" />
+                    </h3>
+                </form>
+             
     
         <table class="table table-bordered table-hover">
             <thead>

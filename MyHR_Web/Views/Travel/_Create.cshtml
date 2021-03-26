@@ -1,9 +1,8 @@
 ﻿@model MyHR_Web.ViewModel.CTravelViewModel
 
+
 @{
-    ViewData["Title"] = "Edit";
-    List<TUserDepartment> departs = ViewBag.Departments;
-    List<TCheckStatus> status = ViewBag.Status;
+    ViewData["Title"] = "Create";
 }
 
 <div class="content-wrapper">
@@ -23,36 +22,22 @@
                     padding-left: 10px;
                 }
             </style>
+
         </header>
         <h2>差旅費系統</h2>
-        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-
+        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })  
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
-            <div class="col-md-4">
-                <form asp-action="Edit">
+            <div class="card-header">
+                <form asp-action="Create" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" name="CApplyNumber" value="@Model.CApplyNumber" />
-                    
                     <div class="form-group">
-                        <label asp-for="CDepartmentId" class="control-label"></label>
-                        <select name="CDepartmentId" class="form-control" disabled>
-                            @foreach (var d in departs)
-                            {
-                                if (d.CDepartmentId == Model.CDepartmentId)
-                                {
-                                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
-                                else
-                                {
-                                    <option value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
-                            }
-                        </select>
-                        <span asp-validation-for="CDepartmentId" class="text-danger"></span>
+                        <label asp-for="CDepartmentName" class="control-label"></label>
+                        <input asp-for="CDepartmentName" class="form-control" />
+                        <span asp-validation-for="CDepartmentName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CEmployeeId" class="control-label"></label>
-                        <input asp-for="CEmployeeId" class="form-control" readonly="readonly"/>
+                        <input asp-for="CEmployeeId" class="form-control"  />
                         <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -62,17 +47,17 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="CApplyDate" class="control-label"></label>
-                        <input asp-for="CApplyDate"type="datetime-local" class="form-control" />
+                        <input asp-for="CApplyDate" class="form-control" type="date" />
                         <span asp-validation-for="CApplyDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CTravelStartTime" class="control-label"></label>
-                        <input asp-for="CTravelStartTime"type="datetime-local" class="form-control" />
+                        <input asp-for="CTravelStartTime" class="form-control" type="date" />
                         <span asp-validation-for="CTravelStartTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CTravelEndTime" class="control-label"></label>
-                        <input asp-for="CTravelEndTime"type="datetime-local" class="form-control" />
+                        <input asp-for="CTravelEndTime" class="form-control" type="date" />
                         <span asp-validation-for="CTravelEndTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -80,32 +65,37 @@
                         <input asp-for="CAmont" class="form-control" />
                         <span asp-validation-for="CAmont" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" typeof="text">
                         <label asp-for="CCheckStatus" class="control-label"></label>
-                        <select name="CCheckStatus" class="form-control">
-                            @foreach (var d in status)
-                            {
-                                if (d.CCheckStatusId == Model.CCheckStatus)
-                                {
-                                    <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                }
-                                else
-                                {
-                                    <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                }
-                                
-                            }
-                        </select>
+                        <select asp-for="CCheckStatus" id="t差旅費下拉選單" class="form-control" />
                         <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-default" />
+                        <input type="submit" value="新增" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
 </div>
+<script>
+    var travelcheck;
+    $.ajax({
+        url: "@Url.Action("tcheckStatus", "Travel")",
+        type: "Get",
+        success: function (tchecks) {
+            txt = "";
+            console.log(tchecks);
+            for (let i = 0; i < tchecks.length; i++) {
+                txt += "<option value='" + tchecks[i].cCheckStatusID + "'>" + tchecks[i].cCheckStatus + "</option>";
+            }
+      
+            document.getElementById("t差旅費下拉選單").innerHTML = txt;
+        }
+    });
+</script>
+   
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

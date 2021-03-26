@@ -12,7 +12,8 @@ using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
-    public class TravelController : Controller
+    
+    public class TravelController : BaseController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
         public JsonResult tcheckStatus()
@@ -21,9 +22,21 @@ namespace MyHR_Web.Controllers
                        select t;
             return Json(tchecks);
         }
-        public IActionResult List()
+        public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
-            var traveltable = from t in db.TTravelExpenseApplications
+            ViewBag.StartDate = startDate;
+            ViewBag.EndDate = endDate;
+            IQueryable<TTravelExpenseApplication> tt = db.TTravelExpenseApplications.AsQueryable();
+            if(startDate.HasValue)
+            {
+                tt = tt.Where(e => e.CApplyDate >= startDate.Value);
+            }
+            if (endDate.HasValue)
+            {
+                tt = tt.Where(e => e.CApplyDate < endDate.Value);
+            }
+
+            var traveltable = from t in tt
                               join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
                               select new
                               {
@@ -58,32 +71,39 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            //return View(new CTravelViewModel 
-            //{
-            //    CDepartmentName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT),
-            //    CEmployeeId = int.Parse(HttpContext.Session.GetString(CDictionary.LOGIN_USERID))
-            //});
-            return View();
+            ViewBag.Departments = db.TUserDepartments.ToList();
+            ViewBag.Status = db.TCheckStatuses.ToList();
+            DateTime now = DateTime.UtcNow.AddHours(8).Date;
+            return View(new CTravelViewModel
+            {
+                CDepartmentId = GetUserDepartmentId(),
+                CEmployeeId = GetUserId(),
+                CTravelEndTime = now,
+                CTravelStartTime = now,
+                CApplyDate = now
+            });
         }
         [HttpPost]
-        public IActionResult Create(CTravelViewModel t)
+        public IActionResult Create(CTravelViewModel model)
         {
             if(ModelState.IsValid == false)
             {
-                return View(t);
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.Status = db.TCheckStatuses.ToList();
+                return View(model);
             }
-            var depart = db.TUserDepartments.FirstOrDefault(e => e.CDepartment == t.CDepartmentName);
-            //TODO 部門不存在
-            if(depart == null)
+            
+            db.TTravelExpenseApplications.Add(new TTravelExpenseApplication 
             {
-                throw new NotImplementedException();
-            }
-            t.CDepartmentId = depart.CDepartmentId;
-            db.TTravelExpenseApplications.Add(t.travel);
+                CAmont = model.CAmont,
+                CApplyDate = DateTime.UtcNow.AddHours(8),
+                CCheckStatus = model.CCheckStatus,
+                CDepartmentId = model.CDepartmentId,
+                CEmployeeId = model.CEmployeeId,
+                CReason = model.CReason,
+                CTravelEndTime = model.CTravelEndTime,
+                CTravelStartTime = model.CTravelStartTime,
+            });
             db.SaveChanges();
             return RedirectToAction("List");
         }
@@ -103,42 +123,63 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-
-            if (id != null)
+            if(id.HasValue == false)
             {
-                TTravelExpenseApplication t = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
-                TCheckStatus ch = db.TCheckStatuses.FirstOrDefault(ch => ch.CCheckStatusId == t.CCheckStatus);
-                if (t != null)
-                {
-                    return View(new CTravelViewModel(t,ch));
-                }
+                return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+
+            TTravelExpenseApplication et = 
+                db.TTravelExpenseApplications
+                .Where(e => e.CApplyNumber == id)
+                .FirstOrDefault();
+
+            if(et == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            var result = new CTravelViewModel 
+            { 
+                CAmont = et.CAmont,
+                CApplyNumber = et.CApplyNumber,
+                CCheckStatus = et.CCheckStatus,
+                CDepartmentId = et.CDepartmentId,
+                CEmployeeId = et.CEmployeeId,
+                CReason = et.CReason,
+                CTravelEndTime = et.CTravelEndTime,
+                CTravelStartTime = et.CTravelStartTime
+            };
+
+            ViewBag.Departments = db.TUserDepartments.ToList();
+            ViewBag.Status = db.TCheckStatuses.ToList();
+
+            return View(result);
         }
         [HttpPost]
-        public ActionResult Edit(CTravelViewModel t_travelEdit)
+        public ActionResult Edit(CTravelViewModel model)
         {
-            if (t_travelEdit != null)
+            if (ModelState.IsValid == false)
             {
-                TTravelExpenseApplication l_tea被修改 = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == t_travelEdit.CApplyNumber);
-                TCheckStatus l_tcs被修改=db.TCheckStatuses.FirstOrDefault(t => t.CCheckStatusId == (int)t_travelEdit.CCheckStatus);
-                if (l_tea被修改 != null)
-                {
-                    l_tea被修改.CEmployeeId = t_travelEdit.CEmployeeId;
-                    l_tea被修改.CDepartmentId = t_travelEdit.CDepartmentId;
-                    l_tea被修改.CReason = t_travelEdit.CReason;
-                    l_tea被修改.CApplyDate = t_travelEdit.CApplyDate;
-                    l_tea被修改.CTravelStartTime = t_travelEdit.CTravelStartTime;
-                    l_tea被修改.CTravelEndTime = t_travelEdit.CTravelEndTime;
-                    l_tea被修改.CAmont = t_travelEdit.CAmont;
-                    l_tcs被修改.CCheckStatusId = (int)t_travelEdit.CCheckStatus;
-                    db.SaveChanges();
-                }
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.Status = db.TCheckStatuses.ToList();
+                return View(model);
             }
+            var entity = db.TTravelExpenseApplications
+                .Where(e => e.CApplyNumber == model.CApplyNumber)
+                .FirstOrDefault();
+
+            if(entity == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            entity.CAmont = model.CAmont;
+            entity.CCheckStatus = model.CCheckStatus;
+            entity.CReason = model.CReason;
+            entity.CTravelEndTime = model.CTravelEndTime;
+            entity.CTravelStartTime = model.CTravelStartTime;
+            db.SaveChanges();
+
             return RedirectToAction("List");
         }
     }

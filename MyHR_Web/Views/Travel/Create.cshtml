@@ -1,8 +1,9 @@
 ﻿@model MyHR_Web.ViewModel.CTravelViewModel
 
-
 @{
     ViewData["Title"] = "Create";
+    List<TUserDepartment> departs = ViewBag.Departments;
+    List<TCheckStatus> status = ViewBag.Status;
 }
 
 <div class="content-wrapper">
@@ -25,18 +26,32 @@
 
         </header>
         <h2>差旅費系統</h2>
-        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })  
+        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="card-header">
-                <form asp-action="Create" enctype="multipart/form-data">
+                <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="CDepartmentName" class="control-label"></label>
-                        <input asp-for="CDepartmentName" class="form-control" value="@ViewData["LOGINED_USERDEPARTMENT"]" />
+                        <label asp-for="CDepartmentId" class="control-label"></label>
+                        <input type="hidden" name="CDepartmentId" value="@Model.CDepartmentId" />
+                        <select class="form-control" disabled>
+                            @foreach (var d in departs)
+                            {
+                                if (d.CDepartmentId == Model.CDepartmentId)
+                                {
+                                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+                                }
+                                else
+                                {
+                                    <option value="@d.CDepartmentId">@d.CDepartment</option>
+                                }
+                            }
+                        </select>
+                        <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CEmployeeId" class="control-label"></label>
-                        <input asp-for="CEmployeeId" class="form-control" value="@ViewData["LOGIN_USERID"]" />
+                        <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
                         <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -45,18 +60,13 @@
                         <span asp-validation-for="CReason" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="CApplyDate" class="control-label"></label>
-                        <input asp-for="CApplyDate" class="form-control" type="date" />
-                        <span asp-validation-for="CApplyDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label asp-for="CTravelStartTime" class="control-label"></label>
-                        <input asp-for="CTravelStartTime" class="form-control" type="date" />
+                        <input asp-for="CTravelStartTime" type="datetime-local" class="form-control" />
                         <span asp-validation-for="CTravelStartTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="CTravelEndTime" class="control-label"></label>
-                        <input asp-for="CTravelEndTime" class="form-control" type="date" />
+                        <input asp-for="CTravelEndTime" type="datetime-local" class="form-control" />
                         <span asp-validation-for="CTravelEndTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -64,37 +74,25 @@
                         <input asp-for="CAmont" class="form-control" />
                         <span asp-validation-for="CAmont" class="text-danger"></span>
                     </div>
-                    <div class="form-group" typeof="text">
+                    <div class="form-group">
                         <label asp-for="CCheckStatus" class="control-label"></label>
-                        <select asp-for="CCheckStatus" id="t差旅費下拉選單" class="form-control" />
+                        <select name="CCheckStatus" class="form-control">
+                            @foreach (var d in status)
+                            {
+                                <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
+                            }
+                        </select>
                         <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="新增" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn btn-default" />
                     </div>
                 </form>
             </div>
         </div>
 </div>
-<script>
-    var travelcheck;
-    $.ajax({
-        url: "@Url.Action("tcheckStatus", "Travel")",
-        type: "Get",
-        success: function (tchecks) {
-            txt = "";
-            console.log(tchecks);
-            for (let i = 0; i < tchecks.length; i++) {
-                txt += "<option value='" + tchecks[i].cCheckStatusID + "'>" + tchecks[i].cCheckStatus + "</option>";
-            }
-      
-            document.getElementById("t差旅費下拉選單").innerHTML = txt;
-        }
-    });
-</script>
-   
 
 
-        @section Scripts {
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

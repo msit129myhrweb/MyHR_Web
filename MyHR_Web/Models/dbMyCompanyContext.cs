@@ -402,7 +402,7 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
 
                 entity.Property(e => e.CLostAndFoundDate)
-                    .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cLostAndFoundDate");
 
                 entity.Property(e => e.CLostAndFoundSpace)
@@ -564,8 +564,7 @@ namespace MyHR_Web.Models
                     .HasColumnName("cAmont");
 
                 entity.Property(e => e.CApplyDate)
-                    .IsRequired()
-                    .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -582,13 +581,11 @@ namespace MyHR_Web.Models
                     .HasColumnName("cReason");
 
                 entity.Property(e => e.CTravelEndTime)
-                    .IsRequired()
-                    .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cTravelEndTime");
 
                 entity.Property(e => e.CTravelStartTime)
-                    .IsRequired()
-                    .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cTravelStartTime");
 
                 entity.HasOne(d => d.CCheckStatusNavigation)

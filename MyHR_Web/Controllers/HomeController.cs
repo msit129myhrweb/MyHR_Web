@@ -72,6 +72,7 @@ namespace MyHR_Web.Controllers
             {
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartmentEnum)user.CDepartmentId).ToString());
+                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_UserEpartmentId, user.CDepartmentId.ToString());
                 HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
                 HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
                 HttpContext.Session.SetString(CDictionary.LOGIN_USERID, user.CEmployeeId.ToString());
