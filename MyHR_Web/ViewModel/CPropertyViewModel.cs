@@ -45,7 +45,7 @@ namespace MyHR_Web.ViewModel
         public string CDepartmentName { get; set; }
         public int CDeparmentId
         {
-            get {return iv_property.CDeparmentId;}
+            get { return iv_property.CDeparmentId;}
             set { iv_property.CDeparmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
@@ -117,10 +117,10 @@ namespace MyHR_Web.ViewModel
         [DisplayName("失物狀態")]
         public string CPropertyCheckStatusName {get ;set ; }
 
-        public eLostAndFoundCheckStatus CPropertyCheckStatusId
+        public int CPropertyCheckStatusId
         {
-            get { return (eLostAndFoundCheckStatus)iv_property.CPropertyCheckStatusId; }
-            set { iv_property.CPropertyCheckStatusId = (int)value; }
+            get { return iv_property.CPropertyCheckStatusId; }
+            set { iv_property.CPropertyCheckStatusId = value; }
         }
 
     }
