@@ -91,7 +91,7 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "日期是必填欄位")]
         [DisplayName("日期")]
-        public string CLostAndFoundDate
+        public DateTime? CLostAndFoundDate
         {
             get { return iv_property.CLostAndFoundDate; }
             set { iv_property.CLostAndFoundDate = value; }
