@@ -74,12 +74,15 @@
                         <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-offset-5">
-                        <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />                       
+                @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                {
+                    <div class="row">
+                        <div class="col-md-offset-5">
+                            <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />
+                        </div>
                     </div>
-                </div>
-            </form>
+                }
+                </form>
 
 
         </div>
@@ -132,12 +135,13 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    @if (item.CEmployeeId == ViewBag.Session_USERIDSERID)
-                    {
+
                         <tr style="text-align:center">
                             <td>
-                                <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CRepairNumber)" id="CheckboxGroup" />
-                               
+                                @{ if (item.CRepairStatus == 0)
+                                    {
+                                        <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CRepairNumber)" id="CheckboxGroup" />}
+                                 }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.CRepairNumber)
@@ -190,7 +194,7 @@
 
 
                         </tr>
-                    }
+                    
                 }
             </tbody>
         </table>
