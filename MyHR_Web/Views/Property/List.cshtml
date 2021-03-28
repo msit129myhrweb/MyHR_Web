@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "List";
+    DateTime? startdate = ViewBag.startdate;
+    DateTime? enddate = ViewBag.enddate;
 }
 
 <style>
@@ -28,13 +30,17 @@
         @Html.ActionLink("新增失物", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">
-                    查詢條件<br />
-                    起 : <input type="date"value="pstart" />迄 : <input type="date" value="pent"/>     <button type="submit"  class="btn btn-outline-secondary">查詢</button>
+                <form asp-action="List">
+                    <h3 class="card-title">
+                        查詢條件<br />
+                        起 : <input type="date" name="startdate" value="@startdate?.ToString("yyyy-MM-dd")" />迄 : <input type="date" name="enddate" value="@enddate?.ToString("yyyy-MM-dd")" />     
+                        <input type="submit" value="查詢" class="btn btn-outline-secondary"/>
 
-</h3>
+                    </h3>
+                </form>
+               
 
-                <table class="table">
+                <table class="table table-bordered table-hover">
                     <thead>
                         <tr>
                             <th>
@@ -125,16 +131,6 @@
                     </tbody>
                 </table>
             </div>
+        </div>
     </section>
 </div>
-<script>
-$('button').on('click', function () {
-    $.ajax({
-        type: "POST",
-        url: '/Property/propertyfound',
-        dataType: "json",
-        success: function () { alert('Success'); },
-        error: function () { alert('A error'); }
-        });
-})
-</script>

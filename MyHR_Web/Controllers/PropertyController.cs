@@ -12,60 +12,26 @@ using System.IO;
 
 namespace MyHR_Web.Controllers
 {
-    
-    public class PropertyController : Controller
+
+    public class PropertyController : BaseController
     {
-        private IHostingEnvironment iv_host;
+
         dbMyCompanyContext db = new dbMyCompanyContext();
-       
-        public PropertyController(IHostingEnvironment p)
-        {
-            iv_host = p;
-        }
 
-        public JsonResult pSubject()
+        public IActionResult List(DateTime? startdate = null,DateTime? enddate = null)
         {
-            var psubject = from l in db.TLostAndFoundSubjects
-                           select l;
-            return Json(psubject);
-        }
-        public JsonResult pCategory()
-        {
-            var pcategory = from c in db.TLostAndFoundCategories
-                            select c;
-            return Json(pcategory);
-        }
-        public JsonResult pCheckStatus()
-        {
-            var pcheck = from s in db.TLostAndFoundCheckStatuses
-                         select s;
-            return Json(pcheck);
-        }
-        public JsonResult propertyfound(CPropertyListViewModel model)
-        {
-
-            var pfound = from pf in db.TLostAndFounds
-                         //where pf.CLostAndFoundDate <=model.CLostAndFoundDate
-                         select new
-                         {
-                                 CPropertyId = pf.CPropertyId,
-                                 CDeparmentId = pf.CDeparmentId,
-                                 CEmployeeId = pf.CEmployeeId,
-                                 CPhone = pf.CPhone,
-                                 CPropertySubjectId = pf.CPropertySubjectId,
-                                 CPropertyCategoryId = pf.CPropertyCategoryId,
-                                 CPropertyPhoto = pf.CPropertyPhoto,
-                                 CProperty = pf.CProperty,
-                                 CLostAndFoundDate = pf.CLostAndFoundDate,
-                                 CLostAndFoundSpace = pf.CLostAndFoundSpace,
-                                 CtPropertyDescription = pf.CtPropertyDescription,
-                                 CPropertyCheckStatusId = pf.CPropertyCheckStatusId
-                             };
-            return Json(pfound);
-        }
-        public IActionResult List()
-        {
-            var propertytable = from p in db.TLostAndFounds
+             ViewBag.stardate=startdate;
+             ViewBag.enddate=enddate;
+            IQueryable<TLostAndFound> tl = db.TLostAndFounds.AsQueryable();
+            if (startdate.HasValue)
+            {
+                tl = tl.Where(e => e.CLostAndFoundDate >= startdate.Value);
+            }
+            if (enddate.HasValue)
+            {
+                tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
+            }
+            var propertytable = from p in tl
                                 join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
                                 join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
                                 join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
@@ -73,16 +39,16 @@ namespace MyHR_Web.Controllers
                                 {
                                     CPropertyId = p.CPropertyId,
                                     CDeparmentId = p.CDeparmentId,
-                                    CEmployeeId=p.CEmployeeId,
-                                    CPhone=p.CPhone,
-                                    CPropertySubjectId=d.CPropertySubjectId,
-                                    CPropertyCategoryId=e.CPropertyCategoryId,
-                                    CPropertyPhoto=p.CPropertyPhoto,
-                                    CProperty=p.CProperty,
-                                    CLostAndFoundDate=p.CLostAndFoundDate,
-                                    CLostAndFoundSpace=p.CLostAndFoundSpace,
-                                    CtPropertyDescription=p.CtPropertyDescription,
-                                    CPropertyCheckStatusId=f.CPropertyCheckStatusId
+                                    CEmployeeId = p.CEmployeeId,
+                                    CPhone = p.CPhone,
+                                    CPropertySubjectId = d.CPropertySubjectId,
+                                    CPropertyCategoryId = e.CPropertyCategoryId,
+                                    CPropertyPhoto = p.CPropertyPhoto,
+                                    CProperty = p.CProperty,
+                                    CLostAndFoundDate = p.CLostAndFoundDate,
+                                    CLostAndFoundSpace = p.CLostAndFoundSpace,
+                                    CtPropertyDescription = p.CtPropertyDescription,
+                                    CPropertyCheckStatusId = f.CPropertyCheckStatusId
                                 };
             List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
             foreach (var pitem in propertytable)
@@ -109,38 +75,44 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Create()
         {
-            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            string uSERPHONE = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-
-            return View();
+            ViewBag.Departments =db.TUserDepartments.ToList();
+            ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+            ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+            ViewBag.category = db.TLostAndFoundCategories.ToList();
+            DateTime now = DateTime.UtcNow.AddHours(8).Date;
+            return View(new CPropertyViewModel
+            {
+                CDeparmentId=GetUserDepartmentId(),
+                CEmployeeId=GetUserId(),
+                CPhone=getUserPhone(),
+                CLostAndFoundDate=now
+            });
         }
 
         [HttpPost]
-        public IActionResult Create(CPropertyViewModel p)
+        public IActionResult Create(CPropertyViewModel pmodel)
         {
-            //如果有上傳照片
-            if(p.image != null)
+            if (ModelState.IsValid == false)
             {
-                string photoName = Guid.NewGuid().ToString() + ".jpg";
-                using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName, FileMode.Create))
-                {
-                    p.image.CopyTo(photo);
-                }
-                p.CPropertyPhoto = "../images/" + photoName;
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                //ViewBag.phone =
+                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+                ViewBag.category = db.TLostAndFoundCategories.ToList();
+                return View(pmodel);
             }
-            var depart = db.TUserDepartments.FirstOrDefault(e => e.CDepartment == p.CDepartmentName);
-           
-            if(depart == null)
+            db.TLostAndFounds.Add(new TLostAndFound
             {
-                //TODO 找不到部門
-                throw new NotImplementedException();
-            }
-            p.CDeparmentId = depart.CDepartmentId;
-            db.TLostAndFounds.Add(p.property);
+                CDeparmentId=pmodel.CDeparmentId,
+                CEmployeeId=pmodel.CEmployeeId,
+                CLostAndFoundDate=DateTime.UtcNow.AddHours(8),
+                CLostAndFoundSpace=pmodel.CLostAndFoundSpace,
+                CPhone=pmodel.CPhone,
+                CProperty=pmodel.CProperty,
+                CPropertyCategoryId=pmodel.CPropertyCategoryId,
+                
+            });
+
             db.SaveChanges();
             return RedirectToAction("List");
         }
@@ -158,59 +130,66 @@ namespace MyHR_Web.Controllers
             }
             return RedirectToAction("List");
         }
+
         public IActionResult Edit(int? id)
         {
-            string uSERDEPARTMENT = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            string uSERID = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            string uSERPHONE = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            ViewData[CDictionary.LOGIN_USERID] = HttpContext.Session.GetString(CDictionary.LOGIN_USERID);
-            ViewData[CDictionary.LOGIN_USERPHONE] = HttpContext.Session.GetString(CDictionary.LOGIN_USERPHONE);
-            
-            if (id != null)
+            if (id.HasValue == false)
             {
-                TLostAndFound d = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == id);
-                TLostAndFoundSubject s = db.TLostAndFoundSubjects.FirstOrDefault(s => s.CPropertySubjectId == d.CPropertySubjectId);
-                TLostAndFoundCategory c = db.TLostAndFoundCategories.FirstOrDefault(c => c.CPropertyCategoryId == d.CPropertyCategoryId);
-                TLostAndFoundCheckStatus e = db.TLostAndFoundCheckStatuses.FirstOrDefault(e => e.CPropertyCheckStatusId == d.CPropertyCheckStatusId);
-
-                
-                if (d != null)
-                {
-                    var result = new CPropertyViewModel(d, s, c, e);
-                    result.CDepartmentName = db.TUserDepartments.FirstOrDefault(e => e.CDepartmentId == result.CDeparmentId)?.CDepartment;
-                    return View(result);
-                }
+                return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+            TLostAndFound tf = db.TLostAndFounds.Where(e => e.CPropertyId == id).FirstOrDefault();
+
+            if (tf == null)
+            {
+                return RedirectToAction("List");
+            }
+            var result = new CPropertyViewModel
+            {
+                CLostAndFoundDate = tf.CLostAndFoundDate,
+                CEmployeeId = tf.CEmployeeId,
+                CLostAndFoundSpace = tf.CLostAndFoundSpace,
+                CPropertyCheckStatusId = tf.CPropertyCheckStatusId,
+                CPhone = tf.CPhone,
+                CPropertySubjectId = tf.CPropertySubjectId,
+                CtPropertyDescription = tf.CtPropertyDescription,
+                CDeparmentId = tf.CDeparmentId,
+                CPropertyCategoryId = tf.CPropertyCategoryId
+            };
+            ViewBag.Departments = db.TUserDepartments.ToList();
+            //ViewBag.phone =
+            ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+            ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+            ViewBag.category = db.TLostAndFoundCategories.ToList();
+
+            return View(result);
         }
         [HttpPost]
-        public ActionResult Edit(CPropertyViewModel t_propertyEdit)
+        public ActionResult Edit(CPropertyViewModel pmodel)
         {
-            if (t_propertyEdit != null)
+            if (ModelState.IsValid == false)
             {
-                TLostAndFound l_laf被修改 = db.TLostAndFounds.FirstOrDefault(t => t.CPropertyId == t_propertyEdit.CPropertyId);
-                TLostAndFoundSubject l_Subject被修改 = db.TLostAndFoundSubjects.FirstOrDefault(t => t.CPropertySubjectId == t_propertyEdit.CPropertySubjectId);
-                TLostAndFoundCategory l_Category被修改 = db.TLostAndFoundCategories.FirstOrDefault(t => t.CPropertyCategoryId == t_propertyEdit.CPropertyCategoryId);
-                TLostAndFoundCheckStatus l_CheckStatus被修改 = db.TLostAndFoundCheckStatuses.FirstOrDefault(t => t.CPropertyCheckStatusId==(int) t_propertyEdit.CPropertyCheckStatusId);
-
-                if (l_laf被修改 != null)
-                {
-                    l_laf被修改.CEmployeeId = t_propertyEdit.CEmployeeId;
-                    l_laf被修改.CDeparmentId = t_propertyEdit.CDeparmentId;
-                    l_laf被修改.CPhone = t_propertyEdit.CPhone;
-                    l_Subject被修改.CPropertySubjectId = t_propertyEdit.CPropertySubjectId;
-                    l_Category被修改.CPropertyCategoryId = t_propertyEdit.CPropertyCategoryId;
-                    l_laf被修改.CPropertyPhoto = t_propertyEdit.CPropertyPhoto;
-                    l_laf被修改.CProperty = t_propertyEdit.CProperty;
-                    l_laf被修改.CLostAndFoundDate = t_propertyEdit.CLostAndFoundDate;
-                    l_laf被修改.CLostAndFoundSpace = t_propertyEdit.CLostAndFoundSpace;
-                    l_laf被修改.CtPropertyDescription = t_propertyEdit.CtPropertyDescription;
-                    l_laf被修改.CPropertyCheckStatusId =(int) t_propertyEdit.CPropertyCheckStatusId;
-                    db.SaveChanges();
-                }
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                //ViewBag.phone =
+                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+                ViewBag.category = db.TLostAndFoundCategories.ToList();
+                return View(pmodel);
             }
+            var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
+
+            if (entity == null)
+            {
+                return RedirectToAction("List");
+            }
+            entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
+            entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
+            entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
+            entity.CtPropertyDescription = pmodel.CtPropertyDescription;
+            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+            entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+            db.SaveChanges();
             return RedirectToAction("List");
         }
+
     }
 }

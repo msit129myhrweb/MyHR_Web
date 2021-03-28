@@ -24,5 +24,9 @@ namespace MyHR_Web.Controllers
         {
             return HttpContext.Session.GetString(key);
         }
+        protected string getUserPhone()
+        {
+            return GetSessionString(CDictionary.LOGIN_USERPHONE);
+        }
     }
 }

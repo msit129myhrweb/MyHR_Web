@@ -5,11 +5,9 @@
     DateTime? startDate = ViewBag.StartDate;
     DateTime? endDate = ViewBag.EndDate;
 }
-<div class="content-wrapper">
-    <section class="content-header">
-        <header>
-            <style>
-                h2 {
+
+<style>
+       h2 {
                     background-color: #cbb2ae;
                     border-left: 5px solid #808080;
                     font-family: "微软雅黑", "宋体", "黑体", Arial;
@@ -21,94 +19,98 @@
                     color: #FFFFFF;
                     padding-left: 10px;
                 }
-            </style>
-        </header>
+</style>
+ 
+<div class="content-wrapper">
+    <section class="content-header">
         <h2>差旅費系統</h2>
 
         @Html.ActionLink("差旅費申請", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-    
+
         <div class="card">
             <div class="card-header">
                 <form asp-action="List">
                     <h3 class="card-title">
                         查詢條件<br />
-                        起 : <input name="startDate" type="date"value="@startDate?.ToString("yyyy-MM-dd")" />迄 : <input name="endDate" type="date"value="@endDate?.ToString("yyyy-MM-dd")" />
+                        起 : <input name="startDate" type="date" value="@startDate?.ToString("yyyy-MM-dd")" />迄 : <input name="endDate" type="date" value="@endDate?.ToString("yyyy-MM-dd")" />
                         <input type="submit" value="查詢" class="btn btn-outline-secondary" />
                     </h3>
                 </form>
-             
-    
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyNumber)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CDepartmentId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CReason)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CApplyDate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CTravelStartTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CTravelEndTime)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CAmont)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CCheckStatus)
-                    </th>
-                    <th></th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CApplyNumber)
-                        </td>
-                        <td>
-                            @Enum.GetName(typeof(eDepartmentEnum),item.CDepartmentId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CEmployeeId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CReason)
-                        </td>
-                        <td>
-                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))
-                        </td>
-                        <td>
-                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))
-                        </td>
-                        <td>
-                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CAmont)
-                        </td>
-                        <td>
-                            @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
-                        </td>
-                        <td>
-                            @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
-                            @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-     </div>
+
+
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CApplyNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CDepartmentId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CEmployeeId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CReason)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CApplyDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CTravelStartTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CTravelEndTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CAmont)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CCheckStatus)
+                            </th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CApplyNumber)
+                                </td>
+                                <td>
+                                    @Enum.GetName(typeof(eDepartmentEnum), item.CDepartmentId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CEmployeeId)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CReason)
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))
+                                </td>
+                                <td>
+                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CAmont)
+                                </td>
+                                <td>
+                                    @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
+                                    @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
 </div>

@@ -16,12 +16,7 @@ namespace MyHR_Web.Controllers
     public class TravelController : BaseController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
-        public JsonResult tcheckStatus()
-        {
-            var tchecks = from t in db.TCheckStatuses
-                       select t;
-            return Json(tchecks);
-        }
+     
         public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
             ViewBag.StartDate = startDate;
