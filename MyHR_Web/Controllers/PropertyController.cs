@@ -31,46 +31,93 @@ namespace MyHR_Web.Controllers
             {
                 tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
             }
-            var propertytable = from p in tl
-                                join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
-                                join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
-                                join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
-                                select new
-                                {
-                                    CPropertyId = p.CPropertyId,
-                                    CDeparmentId = p.CDeparmentId,
-                                    CEmployeeId = p.CEmployeeId,
-                                    CPhone = p.CPhone,
-                                    CPropertySubjectId = d.CPropertySubjectId,
-                                    CPropertyCategoryId = e.CPropertyCategoryId,
-                                    CPropertyPhoto = p.CPropertyPhoto,
-                                    CProperty = p.CProperty,
-                                    CLostAndFoundDate = p.CLostAndFoundDate,
-                                    CLostAndFoundSpace = p.CLostAndFoundSpace,
-                                    CtPropertyDescription = p.CtPropertyDescription,
-                                    CPropertyCheckStatusId = f.CPropertyCheckStatusId
-                                };
-            List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
-            foreach (var pitem in propertytable)
+            if (GetUserDepartmentId() == 5)
             {
-                CPropertyListViewModel cvm = new CPropertyListViewModel()
+                var propertytable = from p in tl
+                                    join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
+                                    join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
+                                    join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                    select new
+                                    {
+                                        CPropertyId = p.CPropertyId,
+                                        CDeparmentId = p.CDeparmentId,
+                                        CEmployeeId = p.CEmployeeId,
+                                        CPhone = p.CPhone,
+                                        CPropertySubjectId = d.CPropertySubjectId,
+                                        CPropertyCategoryId = e.CPropertyCategoryId,
+                                        CPropertyPhoto = p.CPropertyPhoto,
+                                        CProperty = p.CProperty,
+                                        CLostAndFoundDate = p.CLostAndFoundDate,
+                                        CLostAndFoundSpace = p.CLostAndFoundSpace,
+                                        CtPropertyDescription = p.CtPropertyDescription,
+                                        CPropertyCheckStatusId = f.CPropertyCheckStatusId
+                                    };
+                List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
+                foreach (var pitem in propertytable)
                 {
-                    CPropertyId = pitem.CPropertyId,
-                    CDeparmentId = pitem.CDeparmentId,
-                    CEmployeeId = pitem.CEmployeeId,
-                    CPhone = pitem.CPhone,
-                    CPropertySubjectId = pitem.CPropertySubjectId,
-                    CPropertyCategoryId = pitem.CPropertyCategoryId,
-                    CPropertyPhoto = pitem.CPropertyPhoto,
-                    CProperty = pitem.CProperty,
-                    CLostAndFoundDate = pitem.CLostAndFoundDate,
-                    CLostAndFoundSpace = pitem.CLostAndFoundSpace,
-                    CtPropertyDescription = pitem.CtPropertyDescription,
-                    CPropertyCheckStatusId = pitem.CPropertyCheckStatusId
-                };
-                plist.Add(cvm);
+                    CPropertyListViewModel cvm = new CPropertyListViewModel()
+                    {
+                        CPropertyId = pitem.CPropertyId,
+                        CDeparmentId = pitem.CDeparmentId,
+                        CEmployeeId = pitem.CEmployeeId,
+                        CPhone = pitem.CPhone,
+                        CPropertySubjectId = pitem.CPropertySubjectId,
+                        CPropertyCategoryId = pitem.CPropertyCategoryId,
+                        CPropertyPhoto = pitem.CPropertyPhoto,
+                        CProperty = pitem.CProperty,
+                        CLostAndFoundDate = pitem.CLostAndFoundDate,
+                        CLostAndFoundSpace = pitem.CLostAndFoundSpace,
+                        CtPropertyDescription = pitem.CtPropertyDescription,
+                        CPropertyCheckStatusId = pitem.CPropertyCheckStatusId
+                    };
+                    plist.Add(cvm);
+                }
+                return View(plist);
             }
-            return View(plist);
+            else
+            {
+                var propertytable = from p in tl
+                                    join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
+                                    join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
+                                    join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                    where p.CEmployeeId == GetUserId()
+                                    select new
+                                    {
+                                        CPropertyId = p.CPropertyId,
+                                        CDeparmentId = p.CDeparmentId,
+                                        CEmployeeId = p.CEmployeeId,
+                                        CPhone = p.CPhone,
+                                        CPropertySubjectId = d.CPropertySubjectId,
+                                        CPropertyCategoryId = e.CPropertyCategoryId,
+                                        CPropertyPhoto = p.CPropertyPhoto,
+                                        CProperty = p.CProperty,
+                                        CLostAndFoundDate = p.CLostAndFoundDate,
+                                        CLostAndFoundSpace = p.CLostAndFoundSpace,
+                                        CtPropertyDescription = p.CtPropertyDescription,
+                                        CPropertyCheckStatusId = f.CPropertyCheckStatusId
+                                    };
+                List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
+                foreach (var pitem in propertytable)
+                {
+                    CPropertyListViewModel cvm = new CPropertyListViewModel()
+                    {
+                        CPropertyId = pitem.CPropertyId,
+                        CDeparmentId = pitem.CDeparmentId,
+                        CEmployeeId = pitem.CEmployeeId,
+                        CPhone = pitem.CPhone,
+                        CPropertySubjectId = pitem.CPropertySubjectId,
+                        CPropertyCategoryId = pitem.CPropertyCategoryId,
+                        CPropertyPhoto = pitem.CPropertyPhoto,
+                        CProperty = pitem.CProperty,
+                        CLostAndFoundDate = pitem.CLostAndFoundDate,
+                        CLostAndFoundSpace = pitem.CLostAndFoundSpace,
+                        CtPropertyDescription = pitem.CtPropertyDescription,
+                        CPropertyCheckStatusId = pitem.CPropertyCheckStatusId
+                    };
+                    plist.Add(cvm);
+                }
+                return View(plist);
+            } 
         }
 
         public IActionResult Create()
@@ -95,7 +142,6 @@ namespace MyHR_Web.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Departments = db.TUserDepartments.ToList();
-                //ViewBag.phone =
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
@@ -109,8 +155,7 @@ namespace MyHR_Web.Controllers
                 CLostAndFoundSpace=pmodel.CLostAndFoundSpace,
                 CPhone=pmodel.CPhone,
                 CProperty=pmodel.CProperty,
-                CPropertyCategoryId=pmodel.CPropertyCategoryId,
-                
+                CPropertyCategoryId=pmodel.CPropertyCategoryId  
             });
 
             db.SaveChanges();
@@ -169,7 +214,6 @@ namespace MyHR_Web.Controllers
             if (ModelState.IsValid == false)
             {
                 ViewBag.Departments = db.TUserDepartments.ToList();
-                //ViewBag.phone =
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                 ViewBag.category = db.TLostAndFoundCategories.ToList();

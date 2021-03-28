@@ -110,7 +110,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                            <select asp-for="CPropertyCheckStatusId" class="form-control">
+                            <select  type="hidden" name="CPropertyCheckStatusId" readonly="readonly" disabled class="form-control">
                                 @foreach (var c in status)
                                 {
                                     <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
