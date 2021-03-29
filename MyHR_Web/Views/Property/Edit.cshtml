@@ -6,6 +6,7 @@
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
+   
 }
 
 <div class="content-wrapper">
@@ -38,8 +39,7 @@
                     <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                 </div>
                 <div class="form-group">
-                    <label asp-for="CDeparmentId" class="control-label"></label>
-                    <input name="CDeparmentId" class="form-control"  readonly="readonly" value="@Model.CDeparmentId" />
+                    <label asp-for="CDeparmentId"  readonly="readonly" class="control-label"></label>
                     <select class="form-control" disabled>
                         @foreach (var d in departs)
                         {
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="CPhone" class="control-label"></label>
-                    <input asp-for="CPhone" class="form-control" readonly="readonly" value="@ViewData["LOGIN_USERPHONE"]" />
+                    <input asp-for="CPhone" class="form-control" readonly="readonly"  />
                     <span asp-validation-for="CPhone" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -90,7 +90,7 @@
                             }
                             else
                             {
-                    <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+                                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
                             }
                         }
                     </select>
@@ -121,24 +121,49 @@
                     <input asp-for="CtPropertyDescription" class="form-control" />
                     <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
                 </div>
-                <div class="form-group">
-                    <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
-                    <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" disabled class="form-control">
-                        @foreach (var c in status)
-                        {
-                            if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
+                @if (Model.CDeparmentId != 5)
+                {
+                    <div class="form-group">
+                        <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
+                        <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" disabled class="form-control">
+                            @foreach (var c in status)
                             {
-                                <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                            }
-                            else
-                            {
-                                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                            }
+                                if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
+                                {
+                                    <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                                }
+                                else
+                                {
+                                    <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                                }
 
-                        }
-                    </select>
-                    <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
-                </div>
+                            }
+                        </select>
+                        <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
+                        <select name="CPropertyCheckStatusId" class="form-control">
+                            @foreach (var c in status)
+                            {
+                                if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
+                                {
+                                    <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                                }
+                                else
+                                {
+                                    <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                                }
+
+                            }
+                        </select>
+                        <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+                    </div>
+                }
+
                 <div class="form-group">
                     <input type="submit" value="修改" class="btn btn-primary" />
                 </div>

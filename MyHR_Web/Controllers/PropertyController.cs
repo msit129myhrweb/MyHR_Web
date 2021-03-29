@@ -194,18 +194,17 @@ namespace MyHR_Web.Controllers
                 CEmployeeId = tf.CEmployeeId,
                 CLostAndFoundSpace = tf.CLostAndFoundSpace,
                 CPropertyCheckStatusId = tf.CPropertyCheckStatusId,
-                CPhone = tf.CPhone,
+                CPhone = getUserPhone(),
                 CPropertySubjectId = tf.CPropertySubjectId,
                 CtPropertyDescription = tf.CtPropertyDescription,
                 CDeparmentId = tf.CDeparmentId,
                 CPropertyCategoryId = tf.CPropertyCategoryId
             };
             ViewBag.Departments = db.TUserDepartments.ToList();
-            //ViewBag.phone =
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
             ViewBag.category = db.TLostAndFoundCategories.ToList();
-
+            
             return View(result);
         }
         [HttpPost]

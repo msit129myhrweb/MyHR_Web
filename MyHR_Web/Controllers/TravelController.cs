@@ -210,11 +210,7 @@ namespace MyHR_Web.Controllers
             entity.CReason = model.CReason;
             entity.CTravelEndTime = model.CTravelEndTime;
             entity.CTravelStartTime = model.CTravelStartTime;
-
-            if (GetUserDepartmentId() == 5)
-            {
-                entity.CCheckStatus = model.CCheckStatus;
-            }
+            entity.CCheckStatus = model.CCheckStatus;
             
             db.SaveChanges();
             return RedirectToAction("List");
