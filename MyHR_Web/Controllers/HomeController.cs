@@ -113,6 +113,7 @@ namespace MyHR_Web.Controllers
                     u.CPhone = Tuser_vm.CPhone;
                     u.CEmergencyPerson = Tuser_vm.CEmergencyPerson;
                     u.CEmergencyContact = Tuser_vm.CEmergencyContact;
+                    u.CAccountEnable = Tuser_vm.CAccountEnable;
                     db.SaveChanges();
                 }
             }
@@ -150,7 +151,7 @@ namespace MyHR_Web.Controllers
             //}
 
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
-            if(p.txtAccount!=null ||p.txtPassword!=null)
+            if(p.txtAccount!=null && p.txtPassword!=null)
             { 
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                 c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
@@ -165,13 +166,13 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID,(user.CEmployeeId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME,user.CEmployeeEnglishName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD , user.CPassWord);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString("yyyy/MM/dd"));
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BBD, (user.CByeByeDay).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMAIL, user.CEmail);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ADDRESS, user.CAddress);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_SUPERVISOR, (user.CSupervisor).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BRD, (user.CBirthday).ToString("yyyy/MM/dd"));
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BRD, (user.CBirthday).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PHONE, user.CPhone);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_PER, user.CEmergencyPerson);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
@@ -186,15 +187,29 @@ namespace MyHR_Web.Controllers
             return PartialView();
         }
 
-       
+        public IActionResult AccEnable()
+        {
+            return View();
+        }
+
 
         [HttpPost]
-        public IActionResult register(TUserViewModel _user)
+        public IActionResult AccEnable(TUserViewModel _user)
         {
-
+           
+           
             dbMyCompanyContext db = new dbMyCompanyContext();
-            db.TUsers.Add(_user.tuserVM);
-            db.SaveChanges();
+            if (_user != null)
+            {
+
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == _user.CEmployeeId);
+                if (u != null)
+                {
+                  
+                    u.CAccountEnable =1;
+                    db.SaveChanges();
+                }
+            }
             return RedirectToAction("Login");
 
 

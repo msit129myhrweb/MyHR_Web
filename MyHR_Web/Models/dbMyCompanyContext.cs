@@ -192,7 +192,8 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CAge).HasColumnName("cAge");
 
                 entity.Property(e => e.CBirthday)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cBirthday");
 
                 entity.Property(e => e.CDepartment).HasColumnName("cDepartment");
@@ -218,7 +219,8 @@ namespace MyHR_Web.Models
                     .HasColumnName("cExperience");
 
                 entity.Property(e => e.CInterViewDate)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cInterViewDate");
 
                 entity.Property(e => e.CInterViewProcessId).HasColumnName("cInterViewProcessID");
@@ -333,7 +335,8 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CApplyNumber).HasColumnName("cApplyNumber");
 
                 entity.Property(e => e.CApplyDate)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -347,11 +350,13 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CLeaveCategory).HasColumnName("cLeaveCategory");
 
                 entity.Property(e => e.CLeaveEndTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cLeaveEndTime");
 
                 entity.Property(e => e.CLeaveStartTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cLeaveStartTime");
 
                 entity.Property(e => e.CReason)
@@ -397,7 +402,7 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
 
                 entity.Property(e => e.CLostAndFoundDate)
-                    .HasColumnType("date")
+                    .HasMaxLength(50)
                     .HasColumnName("cLostAndFoundDate");
 
                 entity.Property(e => e.CLostAndFoundSpace)
@@ -416,12 +421,14 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CPropertyCheckStatusId).HasColumnName("cPropertyCheckStatusID");
 
-                entity.Property(e => e.CPropertyPhoto).HasColumnName("cPropertyPhoto");
+                entity.Property(e => e.CPropertyPhoto)
+                    .HasMaxLength(255)
+                    .HasColumnName("cPropertyPhoto");
 
                 entity.Property(e => e.CPropertySubjectId).HasColumnName("cPropertySubjectID");
 
                 entity.Property(e => e.CtPropertyDescription)
-                    .HasColumnType("text")
+                    .HasMaxLength(50)
                     .HasColumnName("ctPropertyDescription");
 
                 entity.HasOne(d => d.CDeparment)
@@ -472,15 +479,16 @@ namespace MyHR_Web.Models
 
             modelBuilder.Entity<TLostAndFoundCheckStatus>(entity =>
             {
-                entity.HasKey(e => e.CcPropertyCheckStatusId);
+                entity.HasKey(e => e.CPropertyCheckStatusId);
 
                 entity.ToTable("tLostAndFoundCheckStatus");
 
-                entity.Property(e => e.CcPropertyCheckStatusId).HasColumnName("ccPropertyCheckStatusID");
+                entity.Property(e => e.CPropertyCheckStatusId).HasColumnName("cPropertyCheckStatusID");
 
-                entity.Property(e => e.CcPropertyCheckStatus)
+                entity.Property(e => e.CPropertyCheckStatus)
+                    .IsRequired()
                     .HasMaxLength(15)
-                    .HasColumnName("ccPropertyCheckStatus");
+                    .HasColumnName("cPropertyCheckStatus");
             });
 
             modelBuilder.Entity<TLostAndFoundSubject>(entity =>
@@ -539,7 +547,7 @@ namespace MyHR_Web.Models
                     .WithMany(p => p.TRepairs)
                     .HasForeignKey(d => d.CEmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tRepair_tUser");
+                    .HasConstraintName("FK_tRepair_tUser2");
             });
 
             modelBuilder.Entity<TTravelExpenseApplication>(entity =>
@@ -556,7 +564,8 @@ namespace MyHR_Web.Models
                     .HasColumnName("cAmont");
 
                 entity.Property(e => e.CApplyDate)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -573,11 +582,13 @@ namespace MyHR_Web.Models
                     .HasColumnName("cReason");
 
                 entity.Property(e => e.CTravelEndTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cTravelEndTime");
 
                 entity.Property(e => e.CTravelStartTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cTravelStartTime");
 
                 entity.HasOne(d => d.CCheckStatusNavigation)
@@ -625,7 +636,6 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CDepartmentId).HasColumnName("cDepartmentID");
 
                 entity.Property(e => e.CEmail)
-                    .IsRequired()
                     .HasMaxLength(30)
                     .HasColumnName("cEmail");
 
@@ -642,7 +652,6 @@ namespace MyHR_Web.Models
                     .HasColumnName("cEmployeeEnglishName");
 
                 entity.Property(e => e.CEmployeeName)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cEmployeeName");
 
@@ -659,7 +668,6 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.COnBoardStatusId).HasColumnName("cOnBoardStatusID");
 
                 entity.Property(e => e.CPassWord)
-                    .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cPassWord");
 
@@ -670,6 +678,12 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CPhoto).HasColumnName("cPhoto");
 
                 entity.Property(e => e.CSupervisor).HasColumnName("cSupervisor");
+
+                entity.HasOne(d => d.CJobTitle)
+                    .WithMany(p => p.TUsers)
+                    .HasForeignKey(d => d.CJobTitleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tUser_tUserJobTitle");
 
                 entity.HasOne(d => d.COnBoardStatus)
                     .WithMany(p => p.TUsers)
@@ -706,6 +720,8 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cJobTitle");
+
+                entity.Property(e => e.CJobTitleSalary).HasColumnName("cJobTitleSalary");
             });
 
             modelBuilder.Entity<TUserOnBoardStatus>(entity =>

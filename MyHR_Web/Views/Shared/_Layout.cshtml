@@ -1,4 +1,11 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http;
+@{
+    int userid=int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERID"));
+
+ }
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -178,6 +185,36 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
+                        @if(userid == 1){
+                        @*員工管理*@
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-user-cog"></i>
+                                <p>
+                                    員工管理
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>註冊新員工</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>員工清單</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        }
+
+
+
+
                         @*打卡*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Absence" asp-action="List" class="nav-link">
@@ -267,7 +304,7 @@
                                 <p>面試資料</p>
                             </a>
                         </li>
-                            @*薪資*@
+                        @*薪資*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                 <i class="fas fa-money-bill-alt"></i>

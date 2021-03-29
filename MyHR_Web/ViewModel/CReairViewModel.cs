@@ -51,12 +51,13 @@ namespace MyHR_Web.ViewModel
         {
             get
             {
-                iv_User.CEmployeeName = db.TUsers.Where(n => n.CEmployeeId == CEmployeeId).Select(n => n.CEmployeeName).FirstOrDefault();
-                return iv_User.CEmployeeName;
+                string _CEmployeeName = db.TUsers.Where(n => n.CEmployeeId == CEmployeeId).Select(n => n.CEmployeeName).FirstOrDefault();
+                return _CEmployeeName;
             }
-            set { iv_User.CEmployeeName = value; }
+            set { CEmployeeName = value; }
         }
 
+        
 
 
         [Required(ErrorMessage = "必填欄位")]
@@ -110,7 +111,7 @@ namespace MyHR_Web.ViewModel
         //}
 
 
-        public string employeeName { get { return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
+       
 
 
 

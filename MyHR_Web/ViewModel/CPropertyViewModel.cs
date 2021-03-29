@@ -64,7 +64,7 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "失物照片是必填欄位")]
         [DisplayName("失物照片")]
-        public byte[] CPropertyPhoto
+        public string CPropertyPhoto
         {
             get { return iv_property.CPropertyPhoto; }
             set { iv_property.CPropertyPhoto = value; }
@@ -80,7 +80,7 @@ namespace MyHR_Web.ViewModel
         }
         [Required(ErrorMessage = "日期是必填欄位")]
         [DisplayName("日期")]
-        public DateTime? CLostAndFoundDate
+        public string CLostAndFoundDate
         {
             get { return iv_property.CLostAndFoundDate; }
             set { iv_property.CLostAndFoundDate = value; }

@@ -5,208 +5,100 @@
 }
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>MSIT129有限公司</title>
 
-    
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <link rel="stylesheet" href="~/theme/plugins/fontawesome-free/css/all.min.css">
     <link rel=" sheet" href="~/theme/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <link href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css'>
-
-
-
     <link href="~/css/site.css" rel="stylesheet" />
+
+  
+
 </head>
+
 <body>
     <div class="row">
         <div class="col-md-6 mx-auto p-0">
 
             <div class="login-box">
                 <div class="login-snip">
-                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登入系統</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">註冊新員工</label>
-                        <div class="login-space">
-                            <div class="login">
-                                <form asp-action="Login">
-                                    <div class="group"> <label for="user" class="label">帳號</label> <input id="user" name="txtAccount" type="text" class="input" placeholder="輸入帳號"> </div>
-                                    <div class="group"> <label for="pass" class="label">密碼</label> <input id="pass" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼"> </div>
-                                    <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span>保持登入</label> </div>
+                    <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">登入系統</label> <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">員工首次報到</label>
+                    <div class="login-space">
+                        <div class="login">
+                            <form asp-action="Login">
+                                <div class="group"> <label for="user" class="label">帳號</label> <input id="txtAccount"  name="txtAccount" type="text" class="input" placeholder="輸入帳號" > </div>
+                                <div class="group"> <label for="pass" class="label">密碼</label> <input id="txtPassword" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼" > </div>
+                                <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span>保持登入</label> </div>
 
-                                    <div class="group"> <input type="submit" class="button" style="filter: grayscale(50%)" value="登入"> </div>
+                                <div class="group"> <input type="submit" id="btnlogin" name="btnlogin" class="button" style="filter: grayscale(50%)" value="登入"> </div>
 
-                                    <div class="hr"></div>
-                                    <div class="foot"> <a href="#">Forgot Password?</a> </div>
-                                </form>
-                            </div>
-
-
-                            <div class="sign-up-form">
-                                <form asp-action="register">
-                                    <div class="group"> <label for="username" class="label">姓名</label> <input asp-for="CEmployeeName" id="username" type="text" class="input"> </div>
-                                    <div class="group"> <label for="pass" class="label">密碼</label> <input asp-for="CPassWord" id="pass" type="password" class="input" data-type="password"> </div>
-                                    <div class="group"> <label for="Email" class="label">信箱</label> <input asp-for="CEmail" id="Email" type="text" class="input"> </div>
-
-                                    <div class="group">
-                                        <label for="DepartmentId" class="label">部門</label>
-                                        <select asp-for="CDepartmentId" class="input" >
-                                            <option value="1"  class="input" >管理部</option>
-                                            <option value="2"  class="input" >企劃部</option>
-                                            <option value="3"  class="input" >研發部</option>
-                                            <option value="4"  class="input" >資訊部</option>
-                                            <option value="5" class="input" >總務部</option>
-                                            <option value="6" class="input" >財會部</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="select-style">
-                                        <label for="JobTitleId" class="label">職位</label>
-                                        <select asp-for="CJobTitleId" class="input" style="color:black">
-                                            <option value="1">總經理</option>
-                                            <option value="2">經理</option>
-                                            <option value="3">專員</option>
-                                        </select>
-                                    </div>
-
-                                    <div class="group"> <label for="onBBD" class="label">到職日</label> <input asp-for="COnBoardDay" id="onBBD" type="date" class="input"> </div>
-                                    <div class="group" style="display:none">
-                                        <label asp-for="COnBoardStatusId" class="label"></label>
-                                        <select asp-for="COnBoardStatusId" class="form-control">
-                                            <option value="1" selected>1</option>
-                                        </select>
-                                    </div>
-                                    <div class="group" style="display:none"> <label for="cAccountEnable" class="label">帳號狀態</label> <input asp-for="CAccountEnable" id="AccountEnable" type="text" class="input" value="1"> </div>
-                                    <div class="group"> <a asp-area="" asp-controller="Home" asp-action="register" class="nav-link"><input type="submit" class="button" style="filter: grayscale(50%)" value="新增員工"> </a></div>
-                                    <div class="hr"></div>
-                                </form>
-                            </div>
-
-                        @*<div class="sign-up-form">
-                            <form asp-action="register">
-                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                                <div class="form-group">
-                                    <label asp-for="CEmployeeName" class="control-label"></label>
-                                    <input asp-for="CEmployeeName" class="form-control" />
-                                    <span asp-validation-for="CEmployeeName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CEmployeeEnglishName" class="control-label"></label>
-                                    <input asp-for="CEmployeeEnglishName" class="form-control" />
-                                    <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPassWord" class="control-label"></label>
-                                    <input asp-for="CPassWord" class="form-control" />
-                                    <span asp-validation-for="CPassWord" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="COnBoardDay" class="control-label"></label>
-                                    <input asp-for="COnBoardDay" class="form-control" />
-                                    <span asp-validation-for="COnBoardDay" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CByeByeDay" class="control-label"></label>
-                                    <input asp-for="CByeByeDay" class="form-control" />
-                                    <span asp-validation-for="CByeByeDay" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CGender" class="control-label"></label>
-                                    <input asp-for="CGender" class="form-control" />
-                                    <span asp-validation-for="CGender" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CEmail" class="control-label"></label>
-                                    <input asp-for="CEmail" class="form-control" />
-                                    <span asp-validation-for="CEmail" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CAddress" class="control-label"></label>
-                                    <input asp-for="CAddress" class="form-control" />
-                                    <span asp-validation-for="CAddress" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CDepartmentId" class="control-label"></label>
-                                    <input asp-for="CDepartmentId" class="form-control" />
-                                    <span asp-validation-for="CDepartmentId" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CJobTitleId" class="control-label"></label>
-                                    <input asp-for="CJobTitleId" class="form-control" />
-                                    <span asp-validation-for="CJobTitleId" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CSupervisor" class="control-label"></label>
-                                    <input asp-for="CSupervisor" class="form-control" />
-                                    <span asp-validation-for="CSupervisor" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CBirthday" class="control-label"></label>
-                                    <input asp-for="CBirthday" class="form-control" />
-                                    <span asp-validation-for="CBirthday" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPhone" class="control-label"></label>
-                                    <input asp-for="CPhone" class="form-control" />
-                                    <span asp-validation-for="CPhone" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CPhoto" class="control-label"></label>
-                                    <input asp-for="CPhoto" class="form-control" />
-                                    <span asp-validation-for="CPhoto" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CEmergencyPerson" class="control-label"></label>
-                                    <input asp-for="CEmergencyPerson" class="form-control" />
-                                    <span asp-validation-for="CEmergencyPerson" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CEmergencyContact" class="control-label"></label>
-                                    <input asp-for="CEmergencyContact" class="form-control" />
-                                    <span asp-validation-for="CEmergencyContact" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="COnBoardStatusId" class="control-label"></label>
-                                    <select asp-for="COnBoardStatusId" class="form-control" asp-items="ViewBag.COnBoardStatusId">
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label asp-for="CAccountEnable" class="control-label"></label>
-                                    <input asp-for="CAccountEnable" class="form-control" />
-                                    <span asp-validation-for="CAccountEnable" class="text-danger"></span>
-                                </div>
-                                <div class="form-group">
-                                    <input type="submit" value="Create" class="btn btn-default" />
-                                </div>
+                                <div class="hr"></div>
+                                <div class="foot"> <a href="#">Forgot Password?</a> </div>
                             </form>
-                        </div>*@
-
-
-                            </div>
-
-
                         </div>
+
+
+                        <div class="sign-up-form">
+                            <form asp-action="AccEnable">
+
+                                <div class="group"> <label for="username" class="label">帳號</label> <input   asp-for="CEmployeeId" id="user1" name="txtAccount1" type="text" class="input"> </div>
+                                <div class="group"> <label for="pass" class="label">密碼</label> <input   asp-for="CPassWord" id="pass1" name="txtPassword1" type="password" class="input" data-type="password"> </div>
+
+                                <div class="group" style="display:none"> <label for="cAccountEnable" class="label">帳號狀態</label> <input asp-for="CAccountEnable" id="AccountEnable" type="text" class="input" value="1"> </div>
+                                <div class="group"><input type="submit" class="button" style="filter: grayscale(50%)" value="員工報到" onclick="return (confirm('報到成功，請重新登入。'))"></div>
+                                <div class="hr"></div>
+                            </form>
+                        </div>
+
+
+
+                    </div>
+
+
                 </div>
             </div>
-
         </div>
 
     </div>
 
-
-    
     <script src="~/theme/plugins/jquery/jquery.min.js"></script>
     <script src="~/theme/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="~/theme/dist/js/adminlte.min.js"></script>
     <script src='https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.bundle.min.js'></script>
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script>
+
+
+      
+        $("#btnlogin").click(function () {
+            account = $("#txtAccount").val();
+            password = $("#txtPassword").val();
+           
+            if (password == "" && account == "")
+            {
+                window.alert("帳號、密碼不得為空");
+            }
+            else if (password == "")
+            {
+                window.alert("密碼不得為空");
+            }
+            else if (account == "") {
+                window.alert("帳號不得為空");
+            }
+            
+        });
+
+
         $(document).keyup(function (e) {
-            if (e.shiftKey && e.keyCode == 49 ) { //Shift + 1
+            if (e.shiftKey && e.keyCode == 49) { //Shift + 1
                 $("#user").val(1);
-                $("#pass").val(789);                
+                $("#pass").val(789);
             }
             else if (e.shiftKey && e.keyCode == 50) { //Shift + 2
                 $("#user").val(2);
@@ -216,7 +108,7 @@
                 $("#user").val(5);
                 $("#pass").val(456);
             }
-            else  if (e.shiftKey && e.keyCode == 52) { //Shift + 4
+            else if (e.shiftKey && e.keyCode == 52) { //Shift + 4
                 $("#user").val(7);
                 $("#pass").val(123);
             }

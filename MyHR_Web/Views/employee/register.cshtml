@@ -1,0 +1,167 @@
+﻿@model MyHR_Web.ViewModel.TUserViewModel
+
+@{
+    ViewData["Title"] = "register";
+}
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <h2>註冊新員工</h2>
+
+    </section>
+
+    <hr />
+    <section class="content">
+        <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
+            <div class="card">
+                <div class="card-header p-2">
+                    <div class="card-body">
+                        <form asp-action="register" method="post" enctype="multipart/form-data">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="form-group">
+                                <label asp-for="CEmployeeName" class="control-label"></label>
+                                <input asp-for="CEmployeeName" class="form-control" />
+                                <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmployeeEnglishName" class="control-label"></label>
+                                <input asp-for="CEmployeeEnglishName" class="form-control" />
+                                <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CPassWord" class="control-label"></label>
+                                <input asp-for="CPassWord" class="form-control" />
+                                <span asp-validation-for="CPassWord" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="COnBoardDay" class="control-label"></label>
+                                <input asp-for="COnBoardDay" class="form-control" />
+                                <span asp-validation-for="COnBoardDay" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CByeByeDay" class="control-label"></label>
+                                <input asp-for="CByeByeDay" class="form-control" />
+                                <span asp-validation-for="CByeByeDay" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CGender" class="control-label"></label>
+                                @*<input asp-for="CGender" class="form-control" />*@
+                                <select asp-for="CGender" class="form-control">
+                                    <option value="" style="display: none">請選擇</option>
+                                    <option value="女">女</option>
+                                    <option value="男">男</option>
+                                </select>
+                                <span asp-validation-for="CGender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmail" class="control-label"></label>
+                                <input asp-for="CEmail" class="form-control" />
+                                <span asp-validation-for="CEmail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CAddress" class="control-label"></label>
+                                <input asp-for="CAddress" class="form-control" />
+                                <span asp-validation-for="CAddress" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CDepartmentId" class="control-label"></label>
+                                @*<input asp-for="CDepartmentId" class="form-control" />*@
+                                <select asp-for="CDepartmentId" class="form-control">
+                                    <option value="" style="display: none">請選擇</option>
+                                    <option value="1" class="input">管理部</option>
+                                    <option value="2" class="input">企劃部</option>
+                                    <option value="3" class="input">研發部</option>
+                                    <option value="4" class="input">資訊部</option>
+                                    <option value="5" class="input">總務部</option>
+                                    <option value="6" class="input">財會部</option>
+                                </select>
+                                <span asp-validation-for="CDepartmentId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CJobTitleId" class="control-label"></label>
+                                @*<select asp-for="CJobTitleId" class="form-control" asp-items="ViewBag.CJobTitleId"></select>*@
+                                <select asp-for="CJobTitleId" class="form-control" style="color:black">
+                                    <option value="" style="display: none">請選擇</option>
+                                    <option value="1">總經理</option>
+                                    <option value="2">經理</option>
+                                    <option value="3">專員</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CSupervisor" class="control-label"></label>
+                                <input asp-for="CSupervisor" class="form-control" />
+                                <span asp-validation-for="CSupervisor" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CBirthday" class="control-label"></label>
+                                <input asp-for="CBirthday" class="form-control" />
+                                <span asp-validation-for="CBirthday" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CPhone" class="control-label"></label>
+                                <input asp-for="CPhone" class="form-control" />
+                                <span asp-validation-for="CPhone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CPhoto" class="control-label"></label>
+                                <input asp-for="CPhoto" class="form-control" />
+                                <span asp-validation-for="CPhoto" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CEmergencyPerson" class="control-label"></label>
+                                <input asp-for="CEmergencyPerson" class="form-control" />
+                                <span asp-validation-for="CEmergencyPerson" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CEmergencyContact" class="control-label"></label>
+                                <input asp-for="CEmergencyContact" class="form-control" />
+                                <span asp-validation-for="CEmergencyContact" class="text-danger"></span>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="COnBoardStatusId" class="control-label"></label>
+                                @*<select asp-for="COnBoardStatusId" class="form-control" asp-items="ViewBag.COnBoardStatusId"></select>*@
+                                <select asp-for="COnBoardStatusId">
+                                    <option value="1" selected>1</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="display:none">
+                                <label asp-for="CAccountEnable" class="control-label"></label>
+                                <input asp-for="CAccountEnable" class="form-control" value="0">
+                                @*<input asp-for="CAccountEnable" class="form-control" />*@
+                                <span asp-validation-for="CAccountEnable" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+
+                                <input type="submit" class="btn btn-info" style="filter: grayscale(50%)" value="新增員工">
+
+                            </div>
+                        </form>
+
+
+
+                    </div>
+                </div>
+            </div>
+
+            <br />
+        </div>
+
+
+    </section>
+</div>

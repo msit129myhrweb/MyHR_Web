@@ -45,7 +45,7 @@ namespace MyHR_Web.ViewModel
             set { iv_user.CPassWord = value; }
         }
         [DisplayName("到職日")]
-        public DateTime COnBoardDay
+        public DateTime? COnBoardDay
         {
             get { return iv_user.COnBoardDay; }
             set { iv_user.COnBoardDay = value; }
@@ -93,7 +93,7 @@ namespace MyHR_Web.ViewModel
             set { iv_user.CSupervisor = value; }
         }
         [DisplayName("生日")]
-        public DateTime CBirthday
+        public DateTime? CBirthday
         {
             get { return iv_user.CBirthday; }
             set { iv_user.CBirthday = value; }
@@ -129,7 +129,7 @@ namespace MyHR_Web.ViewModel
             set { iv_user.COnBoardStatusId = value; }
         }
         [DisplayName("帳號狀態")]
-        public byte CAccountEnable
+        public byte? CAccountEnable
         {
             get { return iv_user.CAccountEnable; }
             set { iv_user.CAccountEnable = value; }

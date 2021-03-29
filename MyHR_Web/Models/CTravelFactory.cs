@@ -37,9 +37,9 @@ namespace MyHR_Web.Models
                     //CDepartment = (int)reader["CDepartment"],
                     CEmployeeId = (int)reader["CEmployeeId"],
                     CReason = reader["CReason"].ToString(),
-                    CApplyDate = (DateTime)reader["CApplyDate"],
-                    CTravelStartTime = (DateTime)reader["CTravelStartTime"],
-                    CTravelEndTime = (DateTime)reader["CTravelEndTime"],
+                    CApplyDate = reader["CApplyDate"].ToString(),
+                    CTravelStartTime = reader["CTravelStartTime"].ToString(),
+                    CTravelEndTime =reader["CTravelEndTime"].ToString(),
                     CAmont = (decimal)reader["CAmont"],
                     CCheckStatus = (int)reader["CCheckStatus"]
                 };
