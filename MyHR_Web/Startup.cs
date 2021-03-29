@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,6 +27,16 @@ namespace MyHR_Web
         {
             services.AddControllersWithViews();
             services.AddSession();
+
+            services.AddRazorPages()   //[Required] Attribute對於「DateTime」、「int」等實值型別沒有作用： (!!所以不能使用自定義錯誤訊息)
+            .AddMvcOptions(options =>
+    {
+        options.MaxModelValidationErrors = 50;
+        options.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(
+            _ => "此欄位不得為空");
+
+    });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

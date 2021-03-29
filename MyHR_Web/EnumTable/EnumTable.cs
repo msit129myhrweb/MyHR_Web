@@ -16,7 +16,23 @@ public enum eJobTitle
     經理,
     專員
 }
-public enum eLostAndFoundCategory
+public enum eCheckStatus
+{
+    NONE,
+    審核中,
+    通過,
+    退件
+}
+
+public enum eLeaveCategory
+{
+    NONE,
+    病假,
+    事假,
+    生理假,
+    喪假,
+    特休
+}public enum eLostAndFoundCategory
 {
     NONE,
     個人物品,
@@ -45,4 +61,4 @@ public enum eCheckStatusEnum
     審核中,
     通過,
     退件
-}
+}}

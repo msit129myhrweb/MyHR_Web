@@ -38,8 +38,7 @@ namespace MyHR_Web.ViewModel
 
         [Required(ErrorMessage = "失物照片是必填欄位")]
         [DisplayName("失物照片")]
-        public string CPropertyPhoto { get; set; }
-
+public string CPropertyPhoto { get; set; }
         public IFormFile image { get; set; }
 
         [Required(ErrorMessage = "失物名稱是必填欄位")]
@@ -49,7 +48,6 @@ namespace MyHR_Web.ViewModel
         [Required(ErrorMessage = "日期是必填欄位")]
         [DisplayName("日期")]
         public DateTime? CLostAndFoundDate { get; set; }
-
         [Required(ErrorMessage = "地點是必填欄位")]
         [DisplayName("地點")]
         public string CLostAndFoundSpace { get; set; }

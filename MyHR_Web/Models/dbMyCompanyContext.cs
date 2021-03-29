@@ -402,7 +402,7 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
 
                 entity.Property(e => e.CLostAndFoundDate)
-                    .HasColumnType("date")
+                    .HasMaxLength(50)
                     .HasColumnName("cLostAndFoundDate");
 
                 entity.Property(e => e.CLostAndFoundSpace)
@@ -564,7 +564,8 @@ namespace MyHR_Web.Models
                     .HasColumnName("cAmont");
 
                 entity.Property(e => e.CApplyDate)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -581,11 +582,13 @@ namespace MyHR_Web.Models
                     .HasColumnName("cReason");
 
                 entity.Property(e => e.CTravelEndTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cTravelEndTime");
 
                 entity.Property(e => e.CTravelStartTime)
-                    .HasColumnType("date")
+                    .IsRequired()
+                    .HasMaxLength(50)
                     .HasColumnName("cTravelStartTime");
 
                 entity.HasOne(d => d.CCheckStatusNavigation)
@@ -676,12 +679,17 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CSupervisor).HasColumnName("cSupervisor");
 
+  entity.HasOne(d => d.CDepartment)
+                    .WithMany(p => p.TUsers)
+                    .HasForeignKey(d => d.CDepartmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tUser_tUserDepartment");
+
                 entity.HasOne(d => d.CJobTitle)
                     .WithMany(p => p.TUsers)
                     .HasForeignKey(d => d.CJobTitleId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tUser_tUserJobTitle");
-
                 entity.HasOne(d => d.COnBoardStatus)
                     .WithMany(p => p.TUsers)
                     .HasForeignKey(d => d.COnBoardStatusId)
