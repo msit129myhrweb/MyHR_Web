@@ -36,9 +36,9 @@ namespace MyHR_Web.ViewModel
         [DisplayName("類別")]
         public int CPropertyCategoryId { get; set; }
 
-        [Required(ErrorMessage = "失物照片是必填欄位")]
+        //[Required(ErrorMessage = "失物照片是必填欄位")]
         [DisplayName("失物照片")]
-public string CPropertyPhoto { get; set; }
+        public string CPropertyPhoto { get; set; }
         public IFormFile image { get; set; }
 
         [Required(ErrorMessage = "失物名稱是必填欄位")]

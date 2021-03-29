@@ -15,8 +15,14 @@ namespace MyHR_Web.Controllers
 
     public class PropertyController : BaseController
     {
-
         dbMyCompanyContext db = new dbMyCompanyContext();
+
+        private IHostingEnvironment iv_host;
+
+        public PropertyController(IHostingEnvironment p)
+        {
+            iv_host = p;
+        }
 
         public IActionResult List(DateTime? startdate = null,DateTime? enddate = null)
         {
@@ -138,7 +144,7 @@ namespace MyHR_Web.Controllers
 
         [HttpPost]
         public IActionResult Create(CPropertyViewModel pmodel)
-        {
+        { 
             if (ModelState.IsValid == false)
             {
                 ViewBag.Departments = db.TUserDepartments.ToList();
@@ -147,6 +153,16 @@ namespace MyHR_Web.Controllers
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
                 return View(pmodel);
             }
+            
+            string photoName = Guid.NewGuid().ToString() + ".jpg";
+            using (var photo = new FileStream(
+                iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
+                FileMode.Create))
+            {
+                pmodel.image.CopyTo(photo);
+            }
+            pmodel.CPropertyPhoto = "../images/" + photoName;
+
             db.TLostAndFounds.Add(new TLostAndFound
             {
                 CDeparmentId=pmodel.CDeparmentId,
@@ -155,7 +171,11 @@ namespace MyHR_Web.Controllers
                 CLostAndFoundSpace=pmodel.CLostAndFoundSpace,
                 CPhone=pmodel.CPhone,
                 CProperty=pmodel.CProperty,
-                CPropertyCategoryId=pmodel.CPropertyCategoryId  
+                CPropertyCategoryId=pmodel.CPropertyCategoryId,
+                CPropertyPhoto=pmodel.CPropertyPhoto,
+                CPropertySubjectId=pmodel.CPropertySubjectId,
+                CPropertyCheckStatusId=pmodel.CPropertyCheckStatusId,
+                CtPropertyDescription=pmodel.CtPropertyDescription
             });
 
             db.SaveChanges();

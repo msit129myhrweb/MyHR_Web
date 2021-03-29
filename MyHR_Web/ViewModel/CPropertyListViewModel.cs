@@ -73,7 +73,7 @@ namespace MyHR_Web.ViewModel
             get { return iv_property.CPropertyCategoryId; }
             set { iv_property.CPropertyCategoryId = value; }
         }
-        [Required(ErrorMessage = "失物照片是必填欄位")]
+        //[Required(ErrorMessage = "失物照片是必填欄位")]
         [DisplayName("失物照片")]
         public string CPropertyPhoto
         {

@@ -106,7 +106,8 @@
                                     @Enum.GetName(typeof(eLostAndFoundCategory), item.CPropertyCategoryId)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.CPropertyPhoto)
+                                    <img src="@item.CPropertyPhoto" width="100" height="150" />
+                                    @*@Html.DisplayFor(modelItem => item.CPropertyPhoto)*@
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CProperty)
