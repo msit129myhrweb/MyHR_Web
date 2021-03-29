@@ -17,7 +17,7 @@ namespace MyHR_Web.Controllers
         {
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             //IEnumerable<TTravelExpenseApplication> table = null;
-            List<CTravelViewModel> list = new List<CTravelViewModel>();
+            List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
             dbMyCompanyContext DB = new dbMyCompanyContext();
 
             //searching
@@ -110,7 +110,7 @@ namespace MyHR_Web.Controllers
 
                 foreach (var item in table)
                 {
-                    CTravelViewModel traObj = new CTravelViewModel()
+                    Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
                     {
                         employeeName = item.CEmployeeName,
                         CApplyNumber = item.CApplyNumber,
@@ -144,11 +144,13 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
-
-                if (travel != null)
+                if (travel.CCheckStatus == 1)
                 {
-                    travel.CCheckStatus = 2;
-                    db.SaveChanges();
+                    if (travel != null)
+                    {
+                        travel.CCheckStatus = 2;
+                        db.SaveChanges();
+                    }
                 }
             }
             return Json(d);
@@ -169,11 +171,13 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
-
-                if (travel != null)
+                if (travel.CCheckStatus == 1)
                 {
-                    travel.CCheckStatus = 3;
-                    db.SaveChanges();
+                    if (travel != null)
+                    {
+                        travel.CCheckStatus = 3;
+                        db.SaveChanges();
+                    }
                 }
             }
             return Json(d);
@@ -189,8 +193,11 @@ namespace MyHR_Web.Controllers
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 if (travel != null)
                 {
-                    travel.CCheckStatus = 2;
-                    db.SaveChanges();
+                    //if (leave.CCheckStatus==1)
+                    {
+                        travel.CCheckStatus = 2;
+                        db.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("List");
@@ -203,8 +210,11 @@ namespace MyHR_Web.Controllers
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 if (travel != null)
                 {
-                    travel.CCheckStatus = 3;
-                    db.SaveChanges();
+                    //if (leave.CCheckStatus==1)
+                    {
+                        travel.CCheckStatus = 3;
+                        db.SaveChanges();
+                    }
                 }
             }
             return RedirectToAction("List");

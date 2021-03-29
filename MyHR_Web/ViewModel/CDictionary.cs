@@ -7,6 +7,9 @@ namespace prjCoreDemo.ViewModel
 {
     public class CDictionary
     {
+
+        public static readonly string Current_User = "Current_User";
+
         public static readonly string CURRENT_LOGINED_USERNAME = "CURRENT_LOGINED_USERNAME";
         public static readonly string CURRENT_LOGINED_USERID = "CURRENT_LOGINED_USERID";
         public static readonly string CURRENT_LOGINED_USERDEPARTMENT = "CURRENT_LOGINED_USERDEPARTMENT";
@@ -14,7 +17,8 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_USERJOBTITLE = "CURRENT_LOGINED_USERJOBTITLE";
         public static readonly string LOGIN_AUTHTICATION_CODE = "LOGIN_AUTHTICATION_CODE";
 
-       
+        public static readonly string CURRENT_LOGINED_USERJOBTITLEID = "CURRENT_LOGINED_USERJOBTITLEID";
+
         public static readonly string CURRENT_LOGINED_USERENNAME = "CURRENT_LOGINED_USERENNAME";
         public static readonly string CURRENT_LOGINED_PASSWORD = "CURRENT_LOGINED_PASSWORD";
         public static readonly string CURRENT_LOGINED_OBD = "CURRENT_LOGINED_OBD";

@@ -37,8 +37,8 @@ namespace MyHR_Web.ViewModel
        
         [DisplayName("部門名稱")]
         public string CDepartmentName { get { return iv_Department.CDepartment; } set { iv_Department.CDepartment = value; } }
-        
-       
+
+        [DisplayName("申請單號")]
         public int CApplyNumber { get { return iv_Leave.CApplyNumber; } set { iv_Leave.CApplyNumber = value; } }
 
         [DisplayName("員工名稱")] //取得ID值，轉換成員工名稱

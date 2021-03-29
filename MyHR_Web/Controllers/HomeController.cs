@@ -33,18 +33,6 @@ namespace MyHR_Web.Controllers
             return View();
         }
 
-        //private dbMyCompanyContext db;
-        //public HomeController(dbMyCompanyContext dbContext)
-        //{
-        //    db = dbContext;
-        //}
-        [HttpGet]
-        //private dbMyCompanyContext db;
-        //public HomeController(dbMyCompanyContext dbContext)
-        //{
-        //    db = dbContext;
-        //}
-        [HttpGet]
         public IActionResult Profile()
         {            
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
@@ -56,7 +44,7 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Profile(TUser user, List<IFormFile> CPhoto)
         {
-            user = HttpContext.Session.GetObject<TUser>("8");
+            user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
 
             foreach (var item in CPhoto)
             {
@@ -69,20 +57,13 @@ namespace MyHR_Web.Controllers
                     }
                 }
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                //TUser userEdit = new TUser() { CEmployeeId = id };
                 if (user != null)
                 {
-                    user.CEmployeeId = 8;
-                    //user.CPhoto = user.CPhoto;
                     db.Update(user);
                     db.SaveChanges();
                 }
             }
-            //db.TUsers.Add(user);
-            //db.SaveChanges();
-
             return View();
-
         }
 
         public IActionResult Login()
@@ -126,11 +107,15 @@ namespace MyHR_Web.Controllers
 
                 if (user != null)
                 {
+                    HttpContext.Session.SetObject<TUser>(CDictionary.Current_User, user);
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLEID,user.CJobTitleId.ToString());
+
+
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD, user.CPassWord);

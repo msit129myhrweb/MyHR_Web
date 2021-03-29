@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @{ 
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-
+    int jobTitle = int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERJOBTITLEID"));
 }
 
 <!DOCTYPE html>
@@ -192,29 +192,34 @@
                             </a>
                         </li>
                         @*簽核*@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-file-signature"></i>
-                                <p>
-                                    簽核
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
+                        @{
+                            if (jobTitle <3)
+                            {
                                 <li class="nav-item">
-                                    <a asp-area="" asp-controller="LeaveApplication" asp-action="List" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>請假審核</p>
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-file-signature"></i>
+                                        <p>
+                                            簽核
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
                                     </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="LeaveApplication" asp-action="List" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>請假審核</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Travel_Expense_Application" asp-action="List" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>出差審核</p>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Travel_Expense_Application" asp-action="List" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>出差審核</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                            }
+                        }
                         @*報修*@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -356,7 +361,7 @@
                                 <p>行事曆</p>
                             </a>
                         </li>
-                        
+
                         @*登出*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">

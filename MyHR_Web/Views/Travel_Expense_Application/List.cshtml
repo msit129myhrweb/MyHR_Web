@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.CTravelViewModel>
+﻿@model IEnumerable<MyHR_Web.ViewModel.Travel_Expense_ApplicationViewModel>
 
 @{
     ViewData["Title"] = "List";
@@ -106,7 +106,7 @@
                                     <thead>
                                         <tr>
                                             <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
-                                            <th>序</th>
+                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
                                             <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
                                             <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
                                             <th>@Html.DisplayNameFor(model => model.employeeName)</th>
@@ -122,7 +122,7 @@
                                     <tbody>
                                         @foreach (var item in Model)
                                         {
-                                        <tr>
+                                         <tr>
                                             <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
                                             <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
                                             <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
@@ -134,12 +134,24 @@
                                             <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
                                             <td>@Html.DisplayFor(modelItem => item.CReason)</td>
                                             <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
-                                            <td>
-                                                <input type="button" name="options" id="option1" autocomplete="off" />@Html.ActionLink("通過", "pass", new { id = item.CApplyNumber })
-                                                <input type="button" name="options" id="option2" autocomplete="off" />@Html.ActionLink("退件", "fail", new { id = item.CApplyNumber })
-                                            </td>
-                                        </tr>
-                                        }
+                                                @{
+                                                    if (item.CCheckStatus == 1)
+                                                    {
+                                                        <td>
+                                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+                                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
+                                                        <td  >
+                                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button"} )
+                                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-danger disabled", @style = "filter: grayscale(50%)", @type = "button"})
+                                                        </td>
+                                                    }
+                                                 }
+                                         </tr>
+                                         }
                                     </tbody>
                                 </table>
                             </div>

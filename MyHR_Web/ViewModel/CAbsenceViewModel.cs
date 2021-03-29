@@ -30,6 +30,7 @@ namespace MyHR_Web.ViewModel
             get { return iv_absence.CEmployeeId; }
             set { iv_absence.CEmployeeId = value; }
         }
+
         [DisplayName("上班")]
         public DateTime? COn 
         {

@@ -10,9 +10,17 @@
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
     <script src="~/js/Absence.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+
+    @*calendar*@
+    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>*@
+
+    <link rel="stylesheet" href="aicon/style.css">
+    <link rel="stylesheet" href="css/jquery-nao-calendar.css">
+    <script src="/path/to/cdn/jquery.min.js"></script>
+    <script src="jquery-nao-calendar.js"></script>
+
 
     <style>
         .red a {
@@ -29,16 +37,45 @@
             background-color: green !important;
             border-radius: 20px;
         }
+
+        .myCalendar.nao-month td {
+            padding:15px;
+        }
+        .myCalendar .month-head > div,
+        .myCalendar .month-head > button {
+            padding:15px;
+        }
+
     </style>
     <script>
+        $(function () {
+            $('.myCalendar').calendar();
+        });
+        $('.myCalendar').calendar({
+  date: new Date(),
+  autoSelect: true
+        });
+        $('.myCalendar').calendar({
+  select: function(date) {
+                console.log('SELECT', date)
+            }
+});
+        $('.myCalendar').calendar({
+  toggle: function(y, m) {
+                console.log('TOGGLE', y, m)
+            }
+});
+
 
         $(document).ready(function () {
-            var red = ["2017-08-02", "2017-08-04", "2017-08-06"];
-            var yellow = ["2017-08-09"];
-            var green = ["2017-08-10", "2017-08-11"];
+            var red = ["2021-03-02", "2021-03-04", "2021-03-06"];
+            var yellow = ["2021-03-09"];
+            var green = ["2021-03-10", "2021-03-11"];
+            var d = new data();
+            var today = d.today;
 
             $("#calendar").datepicker({
-                defaultDate: '08/07/2017',      // Just for this demo longevity on SO ;)
+                defaultDate: "2021-03-10",
 
                 beforeShowDay: function (date) {
                     var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
@@ -90,6 +127,7 @@
             )
             var content = document.getElementById("showClock");
             content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+
         };
 
         function clockOff() {
@@ -106,6 +144,7 @@
                 }, "json"
             )
             var content = document.getElementById("showClock");
+
             content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
         };
 
@@ -169,8 +208,8 @@
                                             }
                                         </tbody>
                                     </table>
-
                                     <div id="calendar"></div>
+                                    <div class="myCalendar"></div>
 
                                 </div>
                             </div>

@@ -100,11 +100,15 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
-
-                if (leave != null)
+                if (leave.CCheckStatus == 1)
                 {
-                    leave.CCheckStatus = 2;
-                    db.SaveChanges();                }
+                    if (leave != null)
+                    {
+                        leave.CCheckStatus = 2;
+                        db.SaveChanges();
+                    }
+
+                }
             }
             return Json(d);
         }
@@ -124,11 +128,14 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c=>c.CApplyNumber==i);
-
-                if (leave!= null)
+                if (leave.CCheckStatus == 1)
                 {
-                    leave.CCheckStatus= 3;
-                    db.SaveChanges();
+                    if (leave != null)
+                    {
+                        leave.CCheckStatus = 3;
+                        db.SaveChanges();
+                    }
+
                 }
             }
             return Json(d);
@@ -154,7 +161,7 @@ namespace MyHR_Web.Controllers
             }
             return RedirectToAction("List");
         }
-        public IActionResult Fail(int? id)
+        public IActionResult fail(int? id)
         {
             if (id != null)
             {

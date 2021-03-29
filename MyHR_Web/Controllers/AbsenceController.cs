@@ -14,7 +14,7 @@ namespace MyHR_Web.Controllers
 
     public class AbsenceController : Controller
     {
-        #region List
+        #region 上下班打卡
         public IActionResult List()
         {
             string status = "";
@@ -35,10 +35,8 @@ namespace MyHR_Web.Controllers
 
             return View(list);
         }
-        #endregion
 
-        #region Create
-        public JsonResult getClockString_on(string c)
+        public JsonResult getClockString_on(string c)//上班
         {
             string[] ids = c.Split('\"', '"', ',',' ');
             var id=ids[1];
@@ -46,43 +44,76 @@ namespace MyHR_Web.Controllers
             var time = ids[4];
             var on = date + " " + time;
             dbMyCompanyContext db = new dbMyCompanyContext();
-            TAbsence a = new TAbsence() {
-                CEmployeeId = int.Parse(id),
-                COn = DateTime.Parse(on),
-                //COff=DateTime.Parse(on)
-            };
-            db.TAbsences.Add(a);
-            db.SaveChanges();
+
+            TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
+            if (a==null)//今天已打卡
+            {
+                TAbsence b = new TAbsence()
+                {
+                    CEmployeeId = int.Parse(id),
+                    COn = DateTime.Parse(on),
+                };
+                db.TAbsences.Add(b);
+                db.SaveChanges();
+            }
             return Json(c);
         }
-        public JsonResult getClockString_off(string c)
+        public JsonResult getClockString_off(string c)//下班
         {
             string[] ids = c.Split('\"', '"', ',', ' ');
             var id = ids[1];
             var date = ids[2];
             var time = ids[4];
+
+            string[] ymd = date.Split('-');
+            var year = ymd[0];
+            var month = ymd[1];
+            var day = ymd[2];
+
             var on = date + " " + time;
             dbMyCompanyContext db = new dbMyCompanyContext();
-            TAbsence a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id));
-            if (a.COn.Value.Month.ToString().Length < 2)
-            {
-                string aDate = "0" + a.COn.Value.Month.ToString();
+            TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
 
-                string ON = a.COn.Value.Year.ToString() + "-" + aDate + "-" + a.COn.Value.Day.ToString();
-                if (date == ON)
-                {
-                    a.COff = DateTime.Parse(on);
-                    db.SaveChanges();
-                }            }
-            else
+            if (a!=null)//有打上班卡
             {
-                string ON = a.COn.Value.Year.ToString() + "-" + a.COn.Value.Month.ToString() + "-" + a.COn.Value.Day.ToString();
-                if (date == ON)
+                if (a.COn.Value.Month.ToString().Length < 2)
                 {
-                    a.COff = DateTime.Parse(on);
-                    db.SaveChanges();
+                    string addMonth = "0" + a.COn.Value.Month.ToString();
+                    a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id) && x.COn.Value.Year.ToString() == year && addMonth == month && x.COn.Value.Day.ToString() == day);
                 }
+                else
+                    a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id) && x.COn.Value.Year.ToString() == year && a.COn.Value.Month.ToString() == month && x.COn.Value.Day.ToString() == day);
 
+                if (a.COn.Value.Month.ToString().Length < 2)
+                {
+                    string addMonth = "0" + a.COn.Value.Month.ToString();
+
+                    string ON = a.COn.Value.Year.ToString() + "-" + addMonth + "-" + a.COn.Value.Day.ToString();
+                    if (date == ON)
+                    {
+                        a.COff = DateTime.Parse(on);
+                        db.SaveChanges();
+                    }
+                }
+                else
+                {
+                    string ON = a.COn.Value.Year.ToString() + "-" + a.COn.Value.Month.ToString() + "-" + a.COn.Value.Day.ToString();
+                    if (date == ON)
+                    {
+                        a.COff = DateTime.Parse(on);
+                        db.SaveChanges();
+                    }
+                }
+            }
+            else//沒打上班卡
+            {
+                TAbsence b = new TAbsence()
+                {
+                    CEmployeeId = int.Parse(id),
+                    COff = DateTime.Parse(on)
+                };
+                db.TAbsences.Add(b);
+                db.SaveChanges();
             }
             return Json(c);
         }
