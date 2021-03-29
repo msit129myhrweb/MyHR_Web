@@ -35,7 +35,7 @@ namespace MyHR_Web.ViewModel
         {
             get
             {
-                cDepartmentName = ((eDepartment)iv_Leave.CDepartmentId).ToString();
+                cDepartmentName = ((eDepartmentEnum)iv_Leave.CDepartmentId).ToString();
                 return cDepartmentName;
             }
             set { CDepartmentName = value; }
@@ -49,7 +49,7 @@ namespace MyHR_Web.ViewModel
         {
             get
             {
-                iv_Leave.CDepartmentId = (int)Enum.Parse(typeof(eDepartment), CDepartmentName);
+                iv_Leave.CDepartmentId = (int)Enum.Parse(typeof(eDepartmentEnum), CDepartmentName);
                 return iv_Leave.CDepartmentId;
 
             }

@@ -68,16 +68,12 @@ namespace MyHR_Web.Controllers
 
             string Account = Request.Form["txtAccount"].ToString();
             string Psd = Request.Form["txtPassword"].ToString();
+          
 
-            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
-            {
-HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
-                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartmentEnum)user.CDepartmentId).ToString());
-                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_UserEpartmentId, user.CDepartmentId.ToString());
-                HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
-                HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
-                HttpContext.Session.SetString(CDictionary.LOGIN_USERID, user.CEmployeeId.ToString());
-                return RedirectToAction("Index");            }
+                if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
+            { 
+                      
+            }
             else
             {
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
@@ -87,7 +83,7 @@ HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmploy
                 {
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartmentEnum)user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
@@ -105,7 +101,12 @@ HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmploy
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OB_STATUS, ((eOnBoard)user.COnBoardStatusId).ToString());
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
-
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartmentEnum)user.CDepartmentId).ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_UserEpartmentId, user.CDepartmentId.ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
+                    HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
+                    HttpContext.Session.SetString(CDictionary.LOGIN_USERID, user.CEmployeeId.ToString());
 
                     return RedirectToAction("Index");
                 }

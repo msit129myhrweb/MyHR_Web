@@ -94,7 +94,7 @@ namespace MyHR_Web.ViewModel
         public DateTime? CLostAndFoundDate
         {
             get { return iv_property.CLostAndFoundDate; }
-            set { iv_property.CLostAndFoundDate = value; }
+            set { iv_property.CLostAndFoundDate = (DateTime)value; }
         }
         [Required(ErrorMessage = "地點是必填欄位")]
         [DisplayName("地點")]
