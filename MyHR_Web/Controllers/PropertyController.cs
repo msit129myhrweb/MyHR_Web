@@ -209,6 +209,7 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
+
             var result = new CPropertyViewModel
             {
                 CLostAndFoundDate = tf.CLostAndFoundDate,
@@ -219,7 +220,9 @@ namespace MyHR_Web.Controllers
                 CPropertySubjectId = tf.CPropertySubjectId,
                 CtPropertyDescription = tf.CtPropertyDescription,
                 CDeparmentId = tf.CDeparmentId,
-                CPropertyCategoryId = tf.CPropertyCategoryId
+                CPropertyCategoryId = tf.CPropertyCategoryId,
+                CProperty=tf.CProperty,
+                CPropertyPhoto=tf.CPropertyPhoto
             };
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
@@ -245,12 +248,24 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
+            entity.CProperty = pmodel.CProperty;
             entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
             entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
             entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
-            entity.CtPropertyDescription = pmodel.CtPropertyDescription;
-            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+            entity.CtPropertyDescription = pmodel.CtPropertyDescription; 
             entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+
+            string photoName = Guid.NewGuid().ToString() + ".jpg";
+            using (var photo = new FileStream(
+                iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
+                FileMode.Create))
+            {
+                pmodel.image.CopyTo(photo);
+            }
+           
+            pmodel.CPropertyPhoto = "../images/" + photoName;
+            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+           
             db.SaveChanges();
             return RedirectToAction("List");
         }
