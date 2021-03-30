@@ -16,7 +16,7 @@ namespace MyHR_Web.Controllers
     public class TravelController : BaseController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
-     
+        List<CTravelViewModel> tlist = new List<CTravelViewModel>();
         public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
             ViewBag.StartDate = startDate;
@@ -46,10 +46,9 @@ namespace MyHR_Web.Controllers
                                       CAmont = t.CAmont,
                                       CCheckStatus = c.CCheckStatusId
                                   };
-                List<CTravelListViewModel> tlist = new List<CTravelListViewModel>();
                 foreach (var titem in traveltable)
                 {
-                    CTravelListViewModel ctlvm = new CTravelListViewModel()
+                    CTravelViewModel ctlvm = new CTravelViewModel()
                     {
                         CApplyNumber = titem.CApplyNumber,
                         CDepartmentId = titem.CDepartmentId,
@@ -82,10 +81,10 @@ namespace MyHR_Web.Controllers
                                       CAmont = t.CAmont,
                                       CCheckStatus = c.CCheckStatusId
                                   };
-                List<CTravelListViewModel> tlist = new List<CTravelListViewModel>();
+               
                 foreach (var titem in traveltable)
                 {
-                    CTravelListViewModel ctlvm = new CTravelListViewModel()
+                    CTravelViewModel ctlvm = new CTravelViewModel()
                     {
                         CApplyNumber = titem.CApplyNumber,
                         CDepartmentId = titem.CDepartmentId,
