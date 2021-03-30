@@ -108,6 +108,7 @@ namespace MyHR_Web.Controllers
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
             return View(new CTravelViewModel
             {
+                
                 CDepartmentId = GetUserDepartmentId(),
                 CEmployeeId = GetUserId(),
                 CTravelEndTime = now,
@@ -196,6 +197,7 @@ namespace MyHR_Web.Controllers
                 ViewBag.Status = db.TCheckStatuses.ToList();
                 return View(model);
             }
+        
             var entity = db.TTravelExpenseApplications
                 .Where(e => e.CApplyNumber == model.CApplyNumber)
                 .FirstOrDefault();

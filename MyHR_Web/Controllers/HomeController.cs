@@ -79,6 +79,7 @@ namespace MyHR_Web.Controllers
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                            c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
 
+               
                 if (user != null)
                 {
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
@@ -107,6 +108,7 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
                     HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
                     HttpContext.Session.SetString(CDictionary.LOGIN_USERID, user.CEmployeeId.ToString());
+                  
 
                     return RedirectToAction("Index");
                 }
