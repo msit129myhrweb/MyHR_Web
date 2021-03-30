@@ -212,7 +212,7 @@ namespace MyHR_Web.Controllers
             entity.CTravelEndTime = model.CTravelEndTime;
             entity.CTravelStartTime = model.CTravelStartTime;
             entity.CCheckStatus = model.CCheckStatus;
-
+            //entity.CApplyDate = model.CApplyDate;
 
 
             db.SaveChanges();
