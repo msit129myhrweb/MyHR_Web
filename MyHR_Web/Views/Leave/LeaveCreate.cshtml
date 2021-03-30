@@ -1,8 +1,17 @@
-﻿@model MyHR_Web.ViewModel.TLeaveApplicationViewModel
+﻿@model MyHR_Web.ViewModel.TLeaveApplicationCreateViewModel
+@using Microsoft.AspNetCore.Http;
 
-@{
-    ViewData["Title"] = "LeaveCreate";
-}
+@Html.ValidationMessage("CReason")
+
+@{ 
+
+    string Session_name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+    string Session_Id = Context.Session.GetString("CURRENT_LOGINED_USERID");
+    string Session_department = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENT");
+    string Session_Today = Context.Session.GetString("Today");
+    var Leave_Cate = ViewBag.LeaveCate;
+
+    }
     <style>
         h2 {
             background-color: #cbb2ae;
@@ -18,6 +27,7 @@
         }
     </style>
 
+
     <div class="content-wrapper">
 
         <section class="content-header">
@@ -27,51 +37,68 @@
             @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
             @*<div class="card">*@
             @*<div class="card-header p-2">
-        <div class="card-body">*@
+                <div class="card-body">*@
+
 
             <form asp-action="LeaveCreate">
 
                 @*<div class="table table-bordered table-hover" style="width:50%;margin:0px auto;padding:0px;">*@
-                <div class="card" style="width:50%;margin:0px auto;padding:0px;">
-                    @*寬度維持視窗一半，並且置中*@
-                    <div class="card-header" @*style="vertical-align:auto"*@>
-                        @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+
+                @*寬度維持視窗一半，並且置中*@
+                @*style="vertical-align:auto">*@
+                @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+
+                <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                    <div class="card-header">
+
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group" style="display:none">
-                            <label asp-for="CApplyNumber" class="control-label"></label>
-                            <input asp-for="CApplyNumber" class="form-control" />
-                            <span asp-validation-for="CApplyNumber" class="text-danger"></span>
+
+
+                        <div class="form-group">@*用這欄位自動帶入ID*@
+                            <label asp-for="CDepartmentName" class="control-label"></label>
+                            <input asp-for="CDepartmentName" value="@Session_department" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CDepartmentName" class="text-danger"></span>
                         </div>
-                        @*<div class="form-group">
-                        <label asp-for="CDepartment" class="control-label"></label>
-                        <input asp-for="CDepartment" class="form-control" />
-                        <span asp-validation-for="CDepartment" class="text-danger"></span>
-                    </div>*@
+
                         <div class="form-group">
+                            <label asp-for="CUserName" class="control-label"></label>
+                            <input asp-for="CUserName" value="@Session_name" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CUserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group" style="display:none"> @*隱藏*@
                             <label asp-for="CEmployeeId" class="control-label"></label>
-                            <input asp-for="CEmployeeId" class="form-control" />
+                            <input asp-for="CEmployeeId" value="@Session_Id" class="form-control" readonly="readonly" />
                             <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                         </div>
 
 
                         <div class="form-group">
                             <label asp-for="CApplyDate" class="control-label"></label>
-                            <input asp-for="CApplyDate" class="form-control" />
+                            <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" id="Leave-ApplyDate" readonly="readonly" />
                             <span asp-validation-for="CApplyDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="CLeaveCategory" class="control-label"></label>
-                            <input asp-for="CLeaveCategory" class="form-control" />
-                            <span asp-validation-for="CLeaveCategory" class="text-danger"></span>
+                            <label asp-for="CLeaveCategoryName" class="control-label"></label>
+                            <select asp-for="CLeaveCategoryName" class="form-control" id="Leave-Category">
+                                @*<input asp-for="CLeaveCategory" class="form-control" id="Leave-Category" />*@
+                                @*<option value="" disabled="disabled">請選擇要申請的假別</option>*@
+                                @for (int i = 0; i < Leave_Cate.Count; i++)
+                                {
+                            <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+}
+
+                            </select>
+                            <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group ">
                             <label asp-for="CLeaveStartTime" class="control-label"></label>
-                            <input asp-for="CLeaveStartTime" class="form-control" />
+                            <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control" id="Leave_Start" min="2021-03-22T08:30" />
                             <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
                         </div>
                         <div class="form-group">
                             <label asp-for="CLeaveEndTime" class="control-label"></label>
-                            <input asp-for="CLeaveEndTime" class="form-control" />
+                            <input type="datetime-local" asp-for="CLeaveEndTime" class="form-control" id="Leave_End" />
                             <span asp-validation-for="CLeaveEndTime" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -79,23 +106,33 @@
                             <input asp-for="CReason" class="form-control" />
                             <span asp-validation-for="CReason" class="text-danger"></span>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" style="display:none">
                             <label asp-for="CCheckStatus" class="control-label"></label>
-                            <input asp-for="CCheckStatus" class="form-control" />
+                            <input asp-for="CCheckStatus" value="1" class="form-control" />
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <div class="card-footer">
+                                <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-default btn-lg" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="LeaveList" />
+                                <i>@*nothing*@</i><i>@*nothing*@</i>
+                                <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </form>
         </section>
-</div>
-                
- <br />
-            
+    </div>
+
+    <script type="text/javascript">
 
 
-        
-   
+
+    </script>
+
+
+
+
+

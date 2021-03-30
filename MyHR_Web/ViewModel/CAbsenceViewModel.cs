@@ -31,13 +31,13 @@ namespace MyHR_Web.ViewModel
             set { iv_absence.CEmployeeId = value; }
         }
         [DisplayName("上班")]
-        public DateTime COn 
+        public DateTime? COn 
         {
             get { return iv_absence.COn; }
             set { iv_absence.COn = value; }
         }
         [DisplayName("下班")]
-        public DateTime COff 
+        public DateTime? COff 
         {
             get { return iv_absence.COff; }
             set { iv_absence.COff = value; } 
