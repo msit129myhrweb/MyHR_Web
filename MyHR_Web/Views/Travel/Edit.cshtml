@@ -4,6 +4,8 @@
     ViewData["Title"] = "Edit";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TCheckStatus> status = ViewBag.Status;
+    
+
 }
 
 <div class="content-wrapper">
@@ -61,8 +63,8 @@
                         <span asp-validation-for="CReason" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="CApplyDate" class="control-label" style="display:none" ></label>
-                        <input asp-for="CApplyDate" type="date" readonly="readonly" class="form-control" style="display:none"/>
+                        <label asp-for="CApplyDate" class="control-label" style="display:none"></label>
+                        <input asp-for="CApplyDate" type="date" readonly="readonly" class="form-control" style="display:none" />
                         <span asp-validation-for="CApplyDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -81,29 +83,12 @@
                         <span asp-validation-for="CAmont" class="text-danger"></span>
                     </div>
 
-
-                    @if (Model.CDepartmentId != 6)
+                     
+                    @if (Model.CEmployeeId==12)
                     {
-                        <div class="form-group">
-                            <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
-                            <select type="hidden" readonly="readonly" name="CCheckStatus" class="form-control" style="display:none">
-                                @foreach (var d in status)
-                                {
-                                    if (d.CCheckStatusId == Model.CCheckStatus)
-                                    {
-                                        <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
-                                }
-                            </select>
-                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
-                        </div>
-                    }
-                    else
-                    {
+                        <script>
+                            console.log(456);
+                        </script>
                         <div class="form-group">
                             <label asp-for="CCheckStatus" class="control-label"></label>
                             <select name="CCheckStatus" class="form-control">
@@ -121,6 +106,30 @@
                             </select>
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                         </div>
+                    }
+                    else
+                    {
+                        <script>
+                            console.log(123);
+                        </script>
+                        <div class="form-group">
+                            <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
+                            <select type="hidden" readonly="readonly" name="CCheckStatus" class="form-control" style="display:none">
+                                @foreach (var d in status)
+                                {
+                                    if (d.CCheckStatusId == Model.CCheckStatus)
+                                    {
+                                        <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
+                                    }
+                                }
+                            </select>
+                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+                        </div>
+
                     }
 
                     <div class="form-group">

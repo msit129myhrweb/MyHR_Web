@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using prjCoreDemo.ViewModel;
+using MyHR_Web.MyClass;
 
 namespace MyHR_Web.Controllers
 {
@@ -17,6 +18,7 @@ namespace MyHR_Web.Controllers
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
         List<CTravelViewModel> tlist = new List<CTravelViewModel>();
+
         public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
             ViewBag.StartDate = startDate;
@@ -103,6 +105,7 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
+           
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.Status = db.TCheckStatuses.ToList();
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
@@ -185,7 +188,7 @@ namespace MyHR_Web.Controllers
 
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.Status = db.TCheckStatuses.ToList();
-
+            
             return View(result);
         }
         [HttpPost]
@@ -195,6 +198,7 @@ namespace MyHR_Web.Controllers
             {
                 ViewBag.Departments = db.TUserDepartments.ToList();
                 ViewBag.Status = db.TCheckStatuses.ToList();
+                
                 return View(model);
             }
         

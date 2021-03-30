@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
+using MyHR_Web.MyClass;
 
 namespace MyHR_Web.Controllers
 {  //現在版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -82,6 +83,7 @@ namespace MyHR_Web.Controllers
                
                 if (user != null)
                 {
+                    HttpContext.Session.SetObject<TUser>(CDictionary.CURRENT_USER, user);
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartmentEnum)user.CDepartmentId).ToString());
