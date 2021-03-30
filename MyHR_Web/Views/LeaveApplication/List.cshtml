@@ -169,24 +169,17 @@
         }, false);
     }, false);
 
-    var x = "";
     $(".leave_").change(function () {
-
-        x = $("#Leave_Cate").val()
-        y = $("#Leave_Statues").val()
-        a = $("#sDate").val()
-        b = $("#eDate").val()
-        console.log(x); 
-        console.log(y);
-        console.log(a);
-        console.log(b);
-
+        var Cate = $("#Leave_Cate").val()
+        var Status = $("#Leave_Statues").val()
+        var sDate = $("#sDate").val()
+        var eDate = $("#eDate").val()
 
         $.ajax({
             type: "get",
             dataType: "html",
-            url: "/LeaveApplication/Mutiple_search",
-            data: { cate: x, status: y, start: a, end: b },
+            url: "/LeaveApplication/dateSearch",
+            data: { cate: Cate, status: Status, start: sDate, end: eDate },
             success: function (data) {
                 console.log("有進去");
                 $("#Leave_table").html(data);

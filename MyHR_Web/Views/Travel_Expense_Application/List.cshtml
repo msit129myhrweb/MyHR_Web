@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "List";
+    var Status = ViewBag.travelStatus;
 }
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
@@ -19,12 +20,13 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     查詢條件<br />
-                                    申請日查詢&nbsp&nbsp起&nbsp:&nbsp<input type="date" name="sDate" />&nbsp迄&nbsp:&nbsp<input type="date" name="eDate" />
-                                    狀態 :
-                                    <select>
-                                        <option>審核中</option>
-                                        <option>通過</option>
-                                        <option>退件</option>
+                                    申請日查詢&nbsp&nbsp起&nbsp:&nbsp<input type="date" name="sDate" id="sDate"/>&nbsp迄&nbsp:&nbsp<input type="date" name="eDate" id="eDate"/>
+                                    審核狀態 :
+                                    <select class="travel_" id="travel_Status">
+                                        @for (int i = 0; i < Status.Count; i++)
+                                            {
+                                                <option value="@Status[i].CCheckStatusId">@Status[i].CCheckStatus</option>
+                                            }
                                     </select>&nbsp&nbsp<br />
                                     單號搜尋&nbsp:&nbsp<input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />&nbsp&nbsp
                                     員編搜尋&nbsp:&nbsp<input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />&nbsp&nbsp
@@ -34,7 +36,7 @@
                                     <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
                                 </h3>
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" id="travel_table">
                                 <table id="example2" class="table table-bordered table-hover">
                                     <thead>
                                         <tr>
@@ -161,5 +163,24 @@
         }, false);
 
 
+    $(".travel_").change(function () {
+        var Status = $("#travel_Status").val()
+        var sDate= $("#sDate").val()
+        var eDate= $("#eDate").val()
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Travel_Expense_Application/dateSearch",
+            data: { status: Status, start: sDate, end: eDate },
+            success: function (data) {
+                console.log("有進去");
+                $("#travel_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
 
 </script>

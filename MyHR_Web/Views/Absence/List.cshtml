@@ -11,16 +11,9 @@
     <link href="~/css/Absence.css" rel="stylesheet" />
     <script src="~/js/Absence.js"></script>
 
-    @*calendar*@
-    @*<link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>*@
-
-    <link rel="stylesheet" href="aicon/style.css">
-    <link rel="stylesheet" href="css/jquery-nao-calendar.css">
-    <script src="/path/to/cdn/jquery.min.js"></script>
-    <script src="jquery-nao-calendar.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 
     <style>
         .red a {
@@ -38,44 +31,109 @@
             border-radius: 20px;
         }
 
-        .myCalendar.nao-month td {
-            padding:15px;
+        #absence_table{
+            float:left;
+            width:60%;
+            margin-left:10px;
         }
-        .myCalendar .month-head > div,
-        .myCalendar .month-head > button {
-            padding:15px;
+        #calendar{
+            float:right;
+            width:38%;
+            margin-left:10px;
         }
-
     </style>
-    <script>
-        $(function () {
-            $('.myCalendar').calendar();
-        });
-        $('.myCalendar').calendar({
-  date: new Date(),
-  autoSelect: true
-        });
-        $('.myCalendar').calendar({
-  select: function(date) {
-                console.log('SELECT', date)
-            }
-});
-        $('.myCalendar').calendar({
-  toggle: function(y, m) {
-                console.log('TOGGLE', y, m)
-            }
-});
+
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h2>打卡</h2>
+        </section>
+        <section class="content">
+            <div class="clock">
+                <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
+                <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+                <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定" /><br /><br />
+                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定" />
+            </div>
+            <div class="content-wrapper">
+                <body onload="ShowTime()">
+                    <form id="form1" runat="server" class="nowTime">
+                        <div id="showbox"></div>
+                        <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
+                    </form>
+                </body>
+
+                <div class="container-fluid" id="absence_table">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card" >
+                                <div class="card-header">
+                                    <h3 class="card-title">
+                                        查詢條件<br />
+                                        起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                            <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off">當天</label>
+                                            <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
+                                            <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
+                                        </div>
+                                        <a asp-action="Create" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
+                                    </h3>
+                                </div>
+                                <div class="card-body">
+                                    <table id="example2" class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>@Html.DisplayNameFor(model => model.COn)</th>
+                                                <th>@Html.DisplayNameFor(model => model.COff)</th>
+                                                <th>狀態</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tbody>
+                                            @foreach (var item in Model)
+                                            {
+                                                <tr>
+                                                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                                                    <td id="status" name="status">@ViewData["clockStatus"]</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div id="calendar" ></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
+<script>
+    var onTime = document.getElementsByName("example2").row[1].cell[0].firstChild.value;
+    var offTime = document.getElementsByName("example2").row[1].cell[1].firstChild.value;
+    console.log(onTime);
+    console.log(offTime);
+    //if (onTime.innerHTML) {
+
+    //}
+    var status = onTime - offTime;
+    
 
 
         $(document).ready(function () {
-            var red = ["2021-03-02", "2021-03-04", "2021-03-06"];
-            var yellow = ["2021-03-09"];
-            var green = ["2021-03-10", "2021-03-11"];
-            var d = new data();
-            var today = d.today;
+            var red = ["2017-08-02", "2017-08-04", "2017-08-06"];
+            var yellow = ["2017-08-09"];
+            var green = ["2017-08-10", "2017-08-11"];
 
             $("#calendar").datepicker({
-                defaultDate: "2021-03-10",
+                defaultDate: '08/07/2017',      // Just for this demo longevity on SO ;)
 
                 beforeShowDay: function (date) {
                     var dateISO = $.datepicker.formatDate('yy-mm-dd', date);
@@ -94,6 +152,7 @@
                 }
             });
         });
+
 
         @*document.addEventListener("DOMContentLoaded", function () {
             document.getElementById("on").addEventListener("click", function () {
@@ -148,78 +207,5 @@
             content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
         };
 
-    </script>
-
-</head>
-<body>
-    <div class="content-wrapper">
-        <section class="content-header">
-            <h2>打卡</h2>
-        </section>
-        <section class="content">
-            <div class="clock">
-                <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
-                <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
-                <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"/><br /><br />
-                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"/>
-            </div>
-            <div class="content-wrapper">
-                <body onload="ShowTime()">
-                    <form id="form1" runat="server" class="nowTime">
-                        <div id="showbox"></div>
-                        <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
-                    </form>
-                </body>
-
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">
-                                        查詢條件<br />
-                                        起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                            <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off">當天</label>
-                                            <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
-                                            <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
-                                        </div>
-                                        <a asp-action="Create" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
-                                    </h3>
-                                </div>
-                                <div class="card-body">
-                                    <table id="example2" class="table table-bordered table-hover">
-                                        <thead>
-                                            <tr>
-                                                <th>@Html.DisplayNameFor(model => model.COn)</th>
-                                                <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                                <th>狀態</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tbody>
-                                            @foreach (var item in Model)
-                                            {
-                                                <tr>
-                                                    <td id="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                                                    <td id="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                                    <td id="status">@ViewData["clockStatus"]</td>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                    <div id="calendar"></div>
-                                    <div class="myCalendar"></div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-</body>
-</html>
-
+</script>
 

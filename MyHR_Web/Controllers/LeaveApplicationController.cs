@@ -423,6 +423,10 @@ namespace MyHR_Web.Controllers
             }
         }
 
+        public IActionResult date_search(int? cate, int? status, DateTime? start, DateTime? end)
+        {
+            return PartialView();
+        }
 
         #region Edit
         //勾選通過

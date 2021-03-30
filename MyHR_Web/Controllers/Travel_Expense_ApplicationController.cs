@@ -12,12 +12,17 @@ using prjCoreDemo.ViewModel;
 namespace MyHR_Web.Controllers
 {
     public class Travel_Expense_ApplicationController : Controller
-    {
+    { 
+        dbMyCompanyContext DB = new dbMyCompanyContext();
+
         public IActionResult List()
         {
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
-            dbMyCompanyContext DB = new dbMyCompanyContext();
+           
+            List<TCheckStatus> checkSta = getCheckStatus();
+            ViewBag.travelStatus = checkSta;
+
 
             //searching
             if (!string.IsNullOrEmpty(Request.ContentType))
@@ -357,6 +362,27 @@ namespace MyHR_Web.Controllers
                 }
             }
             return View(list);
+        }
+
+        private List<TCheckStatus> getCheckStatus()//取得資料庫審核狀態
+        {
+            try
+            {
+                List<TCheckStatus> list = new List<TCheckStatus>();
+                list = (from c in DB.TCheckStatuses
+                        select c).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                string err = ex.ToString();
+                return null;
+            }
+        }
+
+        public IActionResult dateSearch(int? status, DateTime? start, DateTime? end)
+        {
+            return PartialView();
         }
         #region Edit
         //勾選通過
