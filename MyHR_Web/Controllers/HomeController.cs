@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Web.Helpers;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
@@ -45,9 +46,6 @@ namespace MyHR_Web.Controllers
                         where u.CEmployeeId == userid
                         select u;
             //return View(table);
-
-
-
 
             List<TUserViewModel> list = new List<TUserViewModel>();
             foreach (TUser i in table)
@@ -88,6 +86,7 @@ namespace MyHR_Web.Controllers
                 if (u != null)
                 {
                     return View(new TUserViewModel(u));
+                    
                 }
 
             }
@@ -96,24 +95,47 @@ namespace MyHR_Web.Controllers
 
 
         [HttpPost]
-        public IActionResult ProfileEdit(TUserViewModel Tuser_vm)
+        public async Task<IActionResult> ProfileEdit(TUser user, TUserViewModel user_vm,List<IFormFile> CPhoto)
         {
+
+
+            user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
             dbMyCompanyContext db = new dbMyCompanyContext();
-            if (Tuser_vm != null)
+
+            foreach (var item in CPhoto)
+            {
+                if (item.Length > 0)
+                {
+                    using (var stream = new MemoryStream())
+                    {
+                        await item.CopyToAsync(stream);
+                        user.CPhoto = stream.ToArray();
+                    }
+                }
+                
+                if (user != null)
+                {
+                    db.Update(user);
+                    db.SaveChanges();
+                }
+            }
+            //return View();
+            if (user_vm != null)
             {
 
-                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == Tuser_vm.CEmployeeId);
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == user_vm.CEmployeeId);
                 if (u != null)
-                { u.CEmployeeEnglishName = Tuser_vm.CEmployeeEnglishName;
-                    u.CPassWord =Tuser_vm.CPassWord; 
-                    u.CGender = Tuser_vm.CGender;   
-                    u.CEmail = Tuser_vm.CEmail;
-                    u.CAddress = Tuser_vm.CAddress;
-                    u.CBirthday = (DateTime)Tuser_vm.CBirthday;
-                    u.CPhone = Tuser_vm.CPhone;
-                    u.CEmergencyPerson = Tuser_vm.CEmergencyPerson;
-                    u.CEmergencyContact = Tuser_vm.CEmergencyContact;
-                    u.CAccountEnable = Tuser_vm.CAccountEnable;
+                {
+                    u.CEmployeeEnglishName = user_vm.CEmployeeEnglishName;
+                    u.CPassWord = user_vm.CPassWord;
+                    u.CGender = user_vm.CGender;
+                    u.CEmail = user_vm.CEmail;
+                    u.CAddress = user_vm.CAddress;
+                    u.CBirthday = (DateTime)user_vm.CBirthday;
+                    u.CPhone = user_vm.CPhone;
+                    u.CEmergencyPerson = user_vm.CEmergencyPerson;
+                    u.CEmergencyContact = user_vm.CEmergencyContact;
+                    u.CAccountEnable = user_vm.CAccountEnable;
                     db.SaveChanges();
                 }
             }
@@ -152,20 +174,24 @@ namespace MyHR_Web.Controllers
 
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
             if(p.txtAccount!=null && p.txtPassword!=null)
-            { 
+            {
+                
+
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                 c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
-            
+
                 if (user != null)
                 {
+                    HttpContext.Session.SetObject<TUser>(CDictionary.Current_User, user);
+
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
 
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID,(user.CEmployeeId).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME,user.CEmployeeEnglishName);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD , user.CPassWord);
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, (user.CEmployeeId).ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD, user.CPassWord);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BBD, (user.CByeByeDay).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
@@ -179,7 +205,14 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OB_STATUS, ((eOnBoard)user.COnBoardStatusId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
 
+                    
+
                     return RedirectToAction("Index");
+                }
+                else 
+                {
+                    ViewBag.Message = "錯誤的帳號或密碼";
+
                 }
             }
             
@@ -194,20 +227,24 @@ namespace MyHR_Web.Controllers
 
 
         [HttpPost]
-        public IActionResult AccEnable(TUserViewModel _user)
+        public IActionResult AccEnable(CLoginViewModel p,TUserViewModel _user)
         {
-           
-           
-            dbMyCompanyContext db = new dbMyCompanyContext();
-            if (_user != null)
+            if (p.txtAccount != null && p.txtPassword != null)
             {
-
-                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == _user.CEmployeeId);
-                if (u != null)
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                if (_user != null)
                 {
-                  
-                    u.CAccountEnable =1;
-                    db.SaveChanges();
+
+                    TUser u = db.TUsers.FirstOrDefault(u => u.CEmployeeId == int.Parse(p.txtAccount) && u.CPassWord==p.txtPassword);
+                    if (u != null)
+                    {
+                        u.CAccountEnable = 1;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                         ViewBag.Message = "錯誤的帳號或密碼";
+                    }
                 }
             }
             return RedirectToAction("Login");

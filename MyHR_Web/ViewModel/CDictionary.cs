@@ -30,5 +30,6 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_ACC_ENABLE = "CURRENT_LOGINED_ACC_ENABLE";
 
         public static readonly string LOGIN_AUTHTICATION_CODE = "LOGIN_AUTHTICATION_CODE";
+        public static readonly string Current_User = "Current_User";
     }
 }

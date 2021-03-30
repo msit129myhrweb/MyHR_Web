@@ -28,17 +28,22 @@
             @Html.ActionLink("註冊員工", "register", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
         </p>
 
-
         <table table class="table table-bordered table-hover">
             <thead>
-                <tr>
+                <tr style="text-align:center">
+                    <th>
+                        <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" />
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CEmployeeName)
                     </th>
-                    <th  style ="display:none">
+                    <th style="display:none">
                         @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
                     </th>
-                    <th  style ="display:none">
+                    <th style="display:none">
                         @Html.DisplayNameFor(model => model.CPassWord)
                     </th>
                     <th>
@@ -59,22 +64,20 @@
                     <th>
                         @Html.DisplayNameFor(model => model.CDepartmentId)
                     </th>
-                    <th>
+                    <th  style ="display:none">
                         @Html.DisplayNameFor(model => model.CSupervisor)
                     </th>
-                    <th  style ="display:none">
+                    <th style="display:none">
                         @Html.DisplayNameFor(model => model.CBirthday)
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CPhone)
                     </th>
-                    <th style ="display:none">
-                        @Html.DisplayNameFor(model => model.CPhoto)
-                    </th>
-                    <th  style ="display:none">
+                    
+                    <th style="display:none">
                         @Html.DisplayNameFor(model => model.CEmergencyPerson)
                     </th>
-                    <th style ="display:none">
+                    <th style="display:none">
                         @Html.DisplayNameFor(model => model.CEmergencyContact)
                     </th>
                     <th>
@@ -92,7 +95,16 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr>
+                    <tr style="text-align:center">
+                         <td>
+                        @{ if (item.COnBoardStatusId == 1)
+                            {
+                                <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CEmployeeId)" id="CheckboxGroup" />}
+                        }
+                    </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CEmployeeName)
                         </td>
@@ -120,9 +132,9 @@
                             @Html.DisplayFor(modelItem => item.CAddress)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CDepartmentId)
+                            @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
                         </td>
-                        <td>
+                        <td  style ="display:none">
                             @Html.DisplayFor(modelItem => item.CSupervisor)
                         </td>
                         <td style ="display:none">
@@ -131,9 +143,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.CPhone)
                         </td>
-                        <td style="display:none">
-                            @Html.DisplayFor(modelItem => item.CPhoto)
-                        </td>
+                        
                         <td style ="display:none">
                             @Html.DisplayFor(modelItem => item.CEmergencyPerson)
                         </td>
@@ -141,19 +151,20 @@
                             @Html.DisplayFor(modelItem => item.CEmergencyContact)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CAccountEnable)
+                            @Enum.GetName(typeof(eAccount), item.CAccountEnable)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.CJobTitleId)
+                            @Enum.GetName(typeof(eJobTitle), item.CJobTitleId)
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.COnBoardStatusId)
+                            @Enum.GetName(typeof(eOnBoard), item.COnBoardStatusId)
                         </td>
                         <td>
                             @Html.ActionLink("修改", "ProfileEdit", new { id = item.CEmployeeId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
+        </section>
+    </div>

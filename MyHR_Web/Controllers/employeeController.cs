@@ -26,7 +26,7 @@ namespace MyHR_Web.Controllers
             dbMyCompanyContext db = new dbMyCompanyContext();
             db.TUsers.Add(_user.tuserVM);
             db.SaveChanges();
-            return RedirectToAction("register");
+            return RedirectToAction("employeeList");
 
 
         }
