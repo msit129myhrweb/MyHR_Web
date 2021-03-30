@@ -31,7 +31,7 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_OB_STATUS = "CURRENT_LOGINED_OB_STATUS";
         public static readonly string CURRENT_LOGINED_ACC_ENABLE = "CURRENT_LOGINED_ACC_ENABLE";
 
-        
+        public static readonly string Current_User = "Current_User";// For Seession TUser
 
 
 
