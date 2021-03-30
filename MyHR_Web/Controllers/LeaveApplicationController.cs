@@ -12,39 +12,348 @@ namespace MyHR_Web.Controllers
 {
     public class LeaveApplicationController : Controller
     {
+        dbMyCompanyContext DB = new dbMyCompanyContext();
+
         public IActionResult List()
         {        
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            //IEnumerable<TLeaveApplication> table = null;
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
-            dbMyCompanyContext DB = new dbMyCompanyContext();
 
-            // keyword searching
+            List<TLeave> leaveCate = getLeaveCategory();
+            ViewBag.leaveCategory = leaveCate;
+
+            List<TCheckStatus> checkSta = getCheckStatus();
+            ViewBag.leaveStatus = checkSta;
+
             if (!string.IsNullOrEmpty(Request.ContentType))
             {
-                string Keyword = Request.Form["txtKeyword"];
+                string AppNum = Request.Form["txtAppNum"];
+                string Id = Request.Form["txtId"];
+                string Name = Request.Form["txtName"];
 
-                //事由跟申請單號為空
-                if (string.IsNullOrEmpty(Keyword))
+                //AppNum有值
+                if (!string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
                 {
-                    var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                            join user in (new dbMyCompanyContext()).TUsers on leave.CEmployeeId equals user.CEmployeeId
-                            where leave.CDepartmentId == DepId
-                            select leave;
+                    var table = from leave in DB.TLeaveApplications
+                            join user in DB.TUsers on leave.CEmployeeId equals user.CEmployeeId
+                            where leave.CDepartmentId == DepId &&
+                                  leave.CApplyNumber.ToString().Contains(AppNum)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+
                 }
-                //事由、申請單號都(或其一)有值
-                else
+                //Id有值
+                else if (string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
                 {
-                    var table = from leave in (new dbMyCompanyContext()).TLeaveApplications
-                            join user in (new dbMyCompanyContext()).TUsers 
+                    var table = from leave in DB.TLeaveApplications
+                            join user in DB.TUsers 
                             on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId &&
-                                  leave.CReason.Contains(Keyword) ||
-                                  leave.CApplyNumber.ToString().Contains(Keyword)
-                            select leave;
+                                  leave.CEmployeeId.ToString().Contains(Id)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+
+                }
+                //Name有值
+                else if (string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      user.CEmployeeName.Contains(Name)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+
+                }
+                
+                //AppNum, Id有值
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      leave.CApplyNumber.ToString().Contains(AppNum)&&
+                                      leave.CEmployeeId.ToString().Contains(Id)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+                }
+                //AppNum, Name有值
+                else if (!string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      leave.CApplyNumber.ToString().Contains(AppNum)&&
+                                      user.CEmployeeName.Contains(Name)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+                }
+                //Id, Name有值
+                else if (string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      leave.CEmployeeId.ToString().Contains(Id)&&
+                                      user.CEmployeeName.Contains(Name)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+                }
+
+                //AppNum, Id, Name有值
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      leave.CApplyNumber.ToString().Contains(AppNum) &&
+                                      leave.CEmployeeId.ToString().Contains(Id) &&
+                                      user.CEmployeeName.Contains(Name)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
+                }
+
+                //全部皆為空白
+                else if (AppNum=="" && Id=="" && Name=="")
+                {
+                    var table = from leave in DB.TLeaveApplications
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    leave.CApplyDate,
+                                    leave.CApplyNumber,
+                                    leave.CCheckStatus,
+                                    leave.CLeaveCategory,
+                                    leave.CLeaveStartTime,
+                                    leave.CLeaveEndTime,
+                                    leave.CEmployeeId,
+                                    leave.CReason
+                                };
+
+                    foreach (var item in table)
+                    {
+                        TLeaveApplicationViewModel newObj = new TLeaveApplicationViewModel()
+                        {
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            employeeName = item.CEmployeeName,
+                            CEmployeeId = item.CEmployeeId,
+                            CReason = item.CReason,
+                            CLeaveStartTime = item.CLeaveStartTime,
+                            CLeaveEndTime = item.CLeaveEndTime,
+                            CLeaveCategory = item.CLeaveCategory,
+                            CCheckStatus = item.CCheckStatus
+
+                        };
+                        list.Add(newObj);
+                    }
                 }
             }
-            //事由跟申請單號為空白
+            //全部皆為空白
             else
             {
                 var table =from leave in DB.TLeaveApplications
@@ -83,6 +392,38 @@ namespace MyHR_Web.Controllers
             }
            return View(list) ;
         }
+        private List<TLeave> getLeaveCategory()//取得資料庫請假類別
+        {
+            try
+            {
+                List<TLeave> list = new List<TLeave>();
+                list = (from l in DB.TLeaves
+                        select l).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                string err = ex.ToString();
+                return null;
+            }
+        }
+        private List<TCheckStatus> getCheckStatus()//取得資料庫審核狀態
+        {
+            try
+            {
+                List<TCheckStatus> list = new List<TCheckStatus>();
+                list = (from c in DB.TCheckStatuses
+                        select c).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                string err= ex.ToString();
+                return null;
+            }
+        }
+
+
         #region Edit
         //勾選通過
         public JsonResult getPassString(string d)
@@ -107,7 +448,6 @@ namespace MyHR_Web.Controllers
                         leave.CCheckStatus = 2;
                         db.SaveChanges();
                     }
-
                 }
             }
             return Json(d);
@@ -127,7 +467,7 @@ namespace MyHR_Web.Controllers
             foreach (var i in list)
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c=>c.CApplyNumber==i);
+                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
                 if (leave.CCheckStatus == 1)
                 {
                     if (leave != null)
@@ -135,13 +475,10 @@ namespace MyHR_Web.Controllers
                         leave.CCheckStatus = 3;
                         db.SaveChanges();
                     }
-
                 }
             }
             return Json(d);
         }
-
-
 
         //通過或退件
         public IActionResult pass(int? id)
@@ -152,7 +489,7 @@ namespace MyHR_Web.Controllers
                 TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == id);
                 if (leave != null)
                 {
-                    if (leave.CCheckStatus==1)
+                    if (leave.CCheckStatus == 1)
                     {
                         leave.CCheckStatus = 2;
                         db.SaveChanges();
@@ -180,4 +517,5 @@ namespace MyHR_Web.Controllers
         }
     }
     #endregion
+
 }

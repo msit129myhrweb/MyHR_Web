@@ -16,7 +16,6 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            //IEnumerable<TTravelExpenseApplication> table = null;
             List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
             dbMyCompanyContext DB = new dbMyCompanyContext();
 
@@ -26,66 +25,298 @@ namespace MyHR_Web.Controllers
                 string AppNum = Request.Form["txtAppNum"];
                 string Id = Request.Form["txtId"];
                 string Name = Request.Form["txtName"];
-                string Reason = Request.Form["txtReason"];
 
-                //全部條件為空白
-                if (string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Reason))
+                //AppNum有值
+                if (!string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
                 {
-                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
-                                where travel.CDepartmentId == DepId
-                                select travel;
-
-                    //todo inner join TUser Name
-
-                }
-                //其一有值
-                else if (!string.IsNullOrEmpty(AppNum) || !string.IsNullOrEmpty(Id) || !string.IsNullOrEmpty(Name) || !string.IsNullOrEmpty(Reason))
-                {
-                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
-                                      travel.CReason.Contains(Reason) ||
-                                      travel.CApplyNumber.ToString().Contains(AppNum) ||
-                                      travel.CEmployeeId.ToString().Contains(Id) ||
+                                      travel.CApplyNumber.ToString().Contains(AppNum)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
+                }
+                //Id有值
+                else if (string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
+                {
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
+                                      travel.CEmployeeId.ToString().Contains(Id)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
+                }
+                //Name有值
+                else if (string.IsNullOrEmpty(AppNum) && string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
+                {
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
                                       user.CEmployeeName.Contains(Name)
-                                select travel;
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
                 }
-                ////其二有值
-                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                //AppNum, Id有值
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
                 {
-                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
-                                      travel.CReason.Contains(Reason) &&
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
+                                      travel.CEmployeeId.ToString().Contains(Id)
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
+                }
+                //Name, Id有值
+                else if (!string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(AppNum))
+                {
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId &&
                                       travel.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
-                                select travel;
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
                 }
-                ////其三有值
-                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                //Name, AppNum有值
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Name) && string.IsNullOrEmpty(Id))
                 {
-                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
-                                      travel.CReason.Contains(Reason) &&
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
-                                      travel.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
-                                select travel;
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
                 }
                 //全部有值
-                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Reason))
+                else if (!string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && !string.IsNullOrEmpty(Name))
                 {
-                    var table = from travel in (new dbMyCompanyContext()).TTravelExpenseApplications.AsEnumerable()
-                                join user in (new dbMyCompanyContext()).TUsers on travel.CEmployeeId equals user.CEmployeeId
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
-                                      travel.CReason.Contains(Reason) &&
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
                                       travel.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
-                                select travel;
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
+                }
+                //全部條件為空白
+                else if (AppNum==""&& Id==""&& Name=="")
+                {
+                    var table = from travel in DB.TTravelExpenseApplications
+                                join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
+                                where travel.CDepartmentId == DepId
+                                select new
+                                {
+                                    user.CEmployeeName,
+                                    travel.CApplyDate,
+                                    travel.CEmployeeId,
+                                    travel.CAmont,
+                                    travel.CCheckStatus,
+                                    travel.CTravelStartTime,
+                                    travel.CTravelEndTime,
+                                    travel.CReason,
+                                    travel.CApplyNumber
+                                };
+                    foreach (var item in table)
+                    {
+                        Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                        {
+                            employeeName = item.CEmployeeName,
+                            CApplyNumber = item.CApplyNumber,
+                            CApplyDate = item.CApplyDate,
+                            CTravelStartTime = item.CTravelStartTime,
+                            CTravelEndTime = item.CTravelEndTime,
+                            CAmont = item.CAmont,
+                            CReason = item.CReason,
+                            CEmployeeId = item.CEmployeeId,
+                            CCheckStatus = item.CCheckStatus
+                        };
+                        list.Add(traObj);
+                    }
                 }
             }
             //全部條件為空白
@@ -144,9 +375,9 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
-                if (travel.CCheckStatus == 1)
+                if (travel != null)
                 {
-                    if (travel != null)
+                    if (travel.CCheckStatus == 1)
                     {
                         travel.CCheckStatus = 2;
                         db.SaveChanges();
@@ -171,9 +402,9 @@ namespace MyHR_Web.Controllers
             {
                 dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(c => c.CApplyNumber == i);
-                if (travel.CCheckStatus == 1)
+                if (travel != null)
                 {
-                    if (travel != null)
+                    if (travel.CCheckStatus == 1)
                     {
                         travel.CCheckStatus = 3;
                         db.SaveChanges();
@@ -182,7 +413,6 @@ namespace MyHR_Web.Controllers
             }
             return Json(d);
         }
-
         
         //通過或退件
         public IActionResult pass(int? id)
@@ -193,7 +423,7 @@ namespace MyHR_Web.Controllers
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 if (travel != null)
                 {
-                    //if (leave.CCheckStatus==1)
+                    if (travel.CCheckStatus==1)
                     {
                         travel.CCheckStatus = 2;
                         db.SaveChanges();
@@ -210,7 +440,7 @@ namespace MyHR_Web.Controllers
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
                 if (travel != null)
                 {
-                    //if (leave.CCheckStatus==1)
+                    if (travel.CCheckStatus==1)
                     {
                         travel.CCheckStatus = 3;
                         db.SaveChanges();
