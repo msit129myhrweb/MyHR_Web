@@ -16,6 +16,7 @@ namespace MyHR_Web.Controllers
     public class PropertyController : BaseController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
+        List<CPropertyViewModel> plist = new List<CPropertyViewModel>();
 
         private IHostingEnvironment iv_host;
 
@@ -58,10 +59,10 @@ namespace MyHR_Web.Controllers
                                         CtPropertyDescription = p.CtPropertyDescription,
                                         CPropertyCheckStatusId = f.CPropertyCheckStatusId
                                     };
-                List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
+                
                 foreach (var pitem in propertytable)
                 {
-                    CPropertyListViewModel cvm = new CPropertyListViewModel()
+                    CPropertyViewModel cvm = new CPropertyViewModel()
                     {
                         CPropertyId = pitem.CPropertyId,
                         CDeparmentId = pitem.CDeparmentId,
@@ -102,10 +103,10 @@ namespace MyHR_Web.Controllers
                                         CtPropertyDescription = p.CtPropertyDescription,
                                         CPropertyCheckStatusId = f.CPropertyCheckStatusId
                                     };
-                List<CPropertyListViewModel> plist = new List<CPropertyListViewModel>();
+              
                 foreach (var pitem in propertytable)
                 {
-                    CPropertyListViewModel cvm = new CPropertyListViewModel()
+                    CPropertyViewModel cvm = new CPropertyViewModel()
                     {
                         CPropertyId = pitem.CPropertyId,
                         CDeparmentId = pitem.CDeparmentId,
