@@ -43,5 +43,7 @@ namespace MyHR_Web.ViewModel
             get { return iv_absence.COff; }
             set { iv_absence.COff = value; } 
         }
+        public string status { get; set; }
+
     }
 }

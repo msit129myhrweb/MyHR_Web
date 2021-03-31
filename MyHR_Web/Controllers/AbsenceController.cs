@@ -14,19 +14,41 @@ namespace MyHR_Web.Controllers
 
     public class AbsenceController : Controller
     {
+        dbMyCompanyContext db = new dbMyCompanyContext();
         #region 上下班打卡
         public IActionResult List()
         {
-            string status = "";
-            {
-
-            }
-
-            ViewData["clockStatus"]=status;
-
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
-            var table = from absence in (new dbMyCompanyContext()).TAbsences
+            CAbsenceViewModel a_vm = new CAbsenceViewModel();
+            string a_status = "";
+
+            DateTime now = DateTime.Now; //現在時間
+            DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
+            DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
+
+            var time = from t in db.TAbsences
+                       where t.CEmployeeId == userId
+                       select new
+                       {
+                           t.COn,
+                           t.COff
+                       };
+            List<CAbsenceViewModel> alist = new List<CAbsenceViewModel>();
+            foreach (var item in time)
+            {
+                CAbsenceViewModel obj = new CAbsenceViewModel()
+                {
+                    COn = item.COn,
+                    COff = item.COff
+                };
+                alist.Add(obj);
+            }
+
+            
+
+            var table = from absence in db.TAbsences
+                        //join a_vm in (new CAbsenceViewModel()).status on absence.CApplyNumber equals a_vm
                         where absence.CEmployeeId== userId
                         select absence;
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
@@ -43,7 +65,7 @@ namespace MyHR_Web.Controllers
             var date = ids[2];
             var time = ids[4];
             var on = date + " " + time;
-            dbMyCompanyContext db = new dbMyCompanyContext();
+            
 
             TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
             if (a==null)//今天已打卡
@@ -71,7 +93,6 @@ namespace MyHR_Web.Controllers
             var day = ymd[2];
 
             var on = date + " " + time;
-            dbMyCompanyContext db = new dbMyCompanyContext();
             TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
 
             if (a!=null)//有打上班卡
@@ -126,7 +147,6 @@ namespace MyHR_Web.Controllers
         {
             if (userId!=null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TAbsence absence = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId);
                 if (absence!=null)
                 {
@@ -141,7 +161,6 @@ namespace MyHR_Web.Controllers
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             if (absenceEdit!=null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TAbsence absenceEdited = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == absenceEdit.CEmployeeId);
 
                 if (absenceEdited!=null)
@@ -155,32 +174,22 @@ namespace MyHR_Web.Controllers
         }
         #endregion
 
-        DateTime now = DateTime.Now; //現在時間
-        DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
-        DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
 
 
 
 
         public string Clock()//打卡
         {
-            var t = from clock in (new dbMyCompanyContext()).TAbsences
+            var t = from clock in db.TAbsences
                     let x = DateTime.Today.ToString("yyyy-MM-dd")
                     where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
                     select clock;
-
-            if (t.ToList().Count == 0)
-            {
-
-            }
             return "";
+
         }
         public string showClockStatus()
         {
-            if (now > on)
-            {
 
-            }
             return "";
         }
     }
