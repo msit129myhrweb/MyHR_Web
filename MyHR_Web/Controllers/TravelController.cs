@@ -23,6 +23,7 @@ namespace MyHR_Web.Controllers
         {
             ViewBag.StartDate = startDate;
             ViewBag.EndDate = endDate;
+            ViewBag.Status = db.TCheckStatuses.ToList();
             IQueryable<TTravelExpenseApplication> tt = db.TTravelExpenseApplications.AsQueryable();
             if(startDate.HasValue)
             {
