@@ -1,26 +1,6 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.TUserViewModel>
-@*@model IEnumerable<MyHR_Web.Models.TUser>*@
-
 @{ ViewData["Title"] = "Profile"; }
 @using System.IO
-
-@functions
-{public string DispalyImage(byte[] imageData)
-    {
-        string imageSrc = null;
-        if (imageData != null)
-        {
-            MemoryStream ms = new MemoryStream();
-            ms.Write(imageData, 78, imageData.Length - 78);
-            string imageBase64 = Convert.ToBase64String(ms.ToArray());
-            imageSrc = string.Format("data:image/gif;base64"+imageBase64);
-        }
-        return imageSrc;
-    }
-
-
-}
-
 <style>
     h2 {
         background-color: #cbb2ae;
@@ -49,15 +29,14 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-3">
-                    <!-- todo wz -->
+
                     <!-- Profile Image -->
                     <div class="card card-primary card-outline">
                         <div class="card-body box-profile">
                             <div class="text-center">
-                                <img id="imgid"
-                                     class="profile-user-img img-fluid img-circle"
-                                     src="/Home/ViewPhoto?id=@ViewData["USERID"]">
-
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="/Home/ViewPhoto?id=@ViewData["USERID"]"
+                                     alt="User profile picture">
                             </div>
 
                             <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
@@ -90,7 +69,7 @@
 
                             <hr>
 
-
+                           
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -106,16 +85,11 @@
                         </div><!-- /.card-header -->
                         <div class="card-body">
                             <div class="tab-content">
+
                                 <div class="active tab-pane" id="settings">
                                     <form asp-action="RepairEdit">
                                         @foreach (var item in Model)
                                         {
-
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CPhoto)</label>
-                                                <div class="col-sm-10">
-                                                </div>
-                                            </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeName)</label>
                                                 <div class="col-sm-10">
@@ -236,8 +210,6 @@
 
                                         }
                                     </form>
-
-
                                 </div>
 
                             </div>

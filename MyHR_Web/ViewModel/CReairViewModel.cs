@@ -18,7 +18,7 @@ namespace MyHR_Web.ViewModel
 
         public TRepair repair { get { return iv_repair; } }
         public TUser user { get { return iv_User; } }
-        public CReairViewModel(TRepair p,TUser u)
+        public CReairViewModel(TRepair p, TUser u)
         {
             iv_repair = p;
             iv_User = u;
@@ -46,7 +46,7 @@ namespace MyHR_Web.ViewModel
             set { iv_repair.CEmployeeId = (int)value; }
         }
 
-        [DisplayName("員工名稱")] 
+        [DisplayName("員工名稱")]
         public string CEmployeeName
         {
             get
@@ -57,7 +57,7 @@ namespace MyHR_Web.ViewModel
             set { CEmployeeName = value; }
         }
 
-        
+
 
 
         [Required(ErrorMessage = "必填欄位")]
@@ -103,15 +103,8 @@ namespace MyHR_Web.ViewModel
             set { iv_repair.CRepairStatus = (byte)value; }
         }
 
-        //todo Reina
-        //[DisplayName("員工")]
-        //public virtual TUser Employee {
-        //    get { return iv_repair.Employee; }
-        //    set { iv_repair.Employee = value; }
-        //}
+        
 
-
-       
 
 
 
