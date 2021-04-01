@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Exts;
+using MyHR_Web.Models;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
@@ -8,7 +9,8 @@ namespace MyHR_Web.Controllers
 
     public class BaseController : Controller
     {
-        protected int GetUserDepartmentId()
+        dbMyCompanyContext db = new dbMyCompanyContext();
+        protected int getUserDepartmentId()
         {
             return GetSessionString(CDictionary.CURRENT_LOGINED_UserEpartmentId).TryToInt().GetValueOrDefault();
         }
@@ -16,7 +18,7 @@ namespace MyHR_Web.Controllers
         /// 取得UserID
         /// </summary>
         /// <returns></returns>
-        protected int GetUserId()
+        protected int getUserId()
         {
             return GetSessionString(CDictionary.LOGIN_USERID).TryToInt().GetValueOrDefault();
         }
@@ -28,7 +30,10 @@ namespace MyHR_Web.Controllers
         {
             return GetSessionString(CDictionary.LOGIN_USERPHONE);
         }
-        
-       
+        protected string getUserName()
+        {
+            return GetSessionString(CDictionary.CURRENT_LOGINED_USERNAME);
+        }
+
     }
 }

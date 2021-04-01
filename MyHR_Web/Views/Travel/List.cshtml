@@ -25,8 +25,8 @@
     <section class="content-header">
         <h2>差旅費系統</h2>
 
-        @Html.ActionLink("差旅費申請", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("差旅費申請", "Create", new { }, new { @type = "button", @class = "btn btn-primary", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
 
         <div class="card">
             <div class="card-header">
@@ -52,6 +52,9 @@
                                 @Html.DisplayNameFor(model => model.CEmployeeId)
                             </th>
                             <th>
+                                @Html.DisplayNameFor(model => model.CEmployeeName)
+                            </th>
+                            <th>
                                 @Html.DisplayNameFor(model => model.CReason)
                             </th>
                             <th>
@@ -75,39 +78,42 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eDepartmentEnum), item.CDepartmentId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CReason)
-                                </td>
-                                <td>
-                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))
-                                </td>
-                                <td>
-                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))
-                                </td>
-                                <td>
-                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CAmont)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
-                                    @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
-                                </td>
-                            </tr>
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CApplyNumber)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eDepartmentEnum), item.CDepartmentId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CEmployeeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CEmployeeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CReason)
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CAmont)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
+                            </td>
+                            <td>
+                                @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
+                                @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>

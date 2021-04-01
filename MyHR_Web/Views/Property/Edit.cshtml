@@ -1,4 +1,5 @@
 ﻿@model MyHR_Web.ViewModel.CPropertyViewModel
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Edit";
@@ -6,7 +7,7 @@
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
-   
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
 }
 
 <div class="content-wrapper">
@@ -28,7 +29,7 @@
             </style>
         </header>
         <h2>失物招領系統</h2>
-        @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+        @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -37,6 +38,11 @@
                     <label asp-for="CEmployeeId" class="control-label"></label>
                     <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
                     <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CEmployeeName" class="control-label"></label>
+                    <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
+                    <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="CDeparmentId" readonly="readonly" class="control-label"></label>
@@ -121,25 +127,25 @@
                     <input asp-for="CtPropertyDescription" class="form-control" />
                     <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
                 </div>
-               
-                    <div class="form-group">
-                        <label type="hidden" asp-for="CPropertyCheckStatusId" class="control-label" style="display:none"></label>
-                        <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
-                            @foreach (var c in status)
-                            {
-                                if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
-                                {
-                                    <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                                }
-                                else
-                                {
-                                    <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                                }
 
+                <div class="form-group">
+                    <label type="hidden" asp-for="CPropertyCheckStatusId" class="control-label" style="display:none"></label>
+                    <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
+                        @foreach (var c in status)
+                        {
+                            if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
+                            {
+                                <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
                             }
-                        </select>
-                        <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
-                    </div>
+                            else
+                            {
+                                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                            }
+
+                        }
+                    </select>
+                    <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+                </div>
 
 
                 <div class="form-group">

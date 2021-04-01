@@ -38,34 +38,37 @@ namespace MyHR_Web.Controllers
             {
                 tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
             }
-            
-                var propertytable = from p in tl
-                                    join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
-                                    join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
-                                    join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
-                                    select new
-                                    {
-                                        CPropertyId = p.CPropertyId,
-                                        CDeparmentId = p.CDeparmentId,
-                                        CEmployeeId = p.CEmployeeId,
-                                        CPhone = p.CPhone,
-                                        CPropertySubjectId = d.CPropertySubjectId,
-                                        CPropertyCategoryId = e.CPropertyCategoryId,
-                                        CPropertyPhoto = p.CPropertyPhoto,
-                                        CProperty = p.CProperty,
-                                        CLostAndFoundDate = p.CLostAndFoundDate,
-                                        CLostAndFoundSpace = p.CLostAndFoundSpace,
-                                        CtPropertyDescription = p.CtPropertyDescription,
-                                        CPropertyCheckStatusId = f.CPropertyCheckStatusId
-                                    };
-                
-                foreach (var pitem in propertytable)
+
+            var propertytable = from p in tl
+                                join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
+                                join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
+                                join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
+                                select new
+                                {
+                                    CPropertyId = p.CPropertyId,
+                                    CDeparmentId = p.CDeparmentId,
+                                    CEmployeeId = p.CEmployeeId,
+                                    CEmployeeName = u.CEmployeeName,
+                                    CPhone = p.CPhone,
+                                    CPropertySubjectId = d.CPropertySubjectId,
+                                    CPropertyCategoryId = e.CPropertyCategoryId,
+                                    CPropertyPhoto = p.CPropertyPhoto,
+                                    CProperty = p.CProperty,
+                                    CLostAndFoundDate = p.CLostAndFoundDate,
+                                    CLostAndFoundSpace = p.CLostAndFoundSpace,
+                                    CtPropertyDescription = p.CtPropertyDescription,
+                                    CPropertyCheckStatusId = f.CPropertyCheckStatusId
+                                };
+
+            foreach (var pitem in propertytable)
                 {
                     CPropertyViewModel cvm = new CPropertyViewModel()
                     {
                         CPropertyId = pitem.CPropertyId,
                         CDeparmentId = pitem.CDeparmentId,
                         CEmployeeId = pitem.CEmployeeId,
+                        CEmployeeName = pitem.CEmployeeName,
                         CPhone = pitem.CPhone,
                         CPropertySubjectId = pitem.CPropertySubjectId,
                         CPropertyCategoryId = pitem.CPropertyCategoryId,
@@ -91,11 +94,12 @@ namespace MyHR_Web.Controllers
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
             return View(new CPropertyViewModel
             {
-                CDeparmentId=GetUserDepartmentId(),
-                CEmployeeId=GetUserId(),
-                CPhone=getUserPhone(),
-                CLostAndFoundDate=now
-            });
+                CEmployeeName = getUserName(),
+                CDeparmentId = getUserDepartmentId(),
+                CEmployeeId = getUserId(),
+                CPhone = getUserPhone(),
+                CLostAndFoundDate = now
+            }); 
         }
 
         [HttpPost]
@@ -123,7 +127,7 @@ namespace MyHR_Web.Controllers
             {
                 CDeparmentId=pmodel.CDeparmentId,
                 CEmployeeId=pmodel.CEmployeeId,
-                CLostAndFoundDate=DateTime.UtcNow.AddHours(8),
+                CLostAndFoundDate =DateTime.UtcNow.AddHours(8),
                 CLostAndFoundSpace=pmodel.CLostAndFoundSpace,
                 CPhone=pmodel.CPhone,
                 CProperty=pmodel.CProperty,
@@ -189,42 +193,40 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
-            
-            if (ModelState.IsValid == false)
-            {
-                ViewBag.Departments = db.TUserDepartments.ToList();
-                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
-                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
-                ViewBag.category = db.TLostAndFoundCategories.ToList();
-                return View(pmodel);
-            }
-            var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
+                if (ModelState.IsValid == false)
+                {
+                    ViewBag.Departments = db.TUserDepartments.ToList();
+                    ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+                    ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+                    ViewBag.category = db.TLostAndFoundCategories.ToList();
+                    return View(pmodel);
+                }
+                var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
 
-            if (entity == null)
-            {
+                if (entity == null)
+                {
+                    return RedirectToAction("List");
+                }
+                entity.CProperty = pmodel.CProperty;
+                entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
+                entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
+                entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
+                entity.CtPropertyDescription = pmodel.CtPropertyDescription;
+                entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+
+                string photoName = Guid.NewGuid().ToString() + ".jpg";
+                using (var photo = new FileStream(
+                    iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
+                    FileMode.Create))
+                {
+                    pmodel.image.CopyTo(photo);
+                }
+
+                pmodel.CPropertyPhoto = "../images/" + photoName;
+                entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+
+                db.SaveChanges();
                 return RedirectToAction("List");
             }
-            entity.CProperty = pmodel.CProperty;
-            entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
-            entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
-            entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
-            entity.CtPropertyDescription = pmodel.CtPropertyDescription; 
-            entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
-
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
-            using (var photo = new FileStream(
-                iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
-                FileMode.Create))
-            {
-                pmodel.image.CopyTo(photo);
-            }
-           
-            pmodel.CPropertyPhoto = "../images/" + photoName;
-            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
-           
-            db.SaveChanges();
-            return RedirectToAction("List");
-        }
-
     }
 }

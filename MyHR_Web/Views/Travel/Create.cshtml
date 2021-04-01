@@ -1,10 +1,11 @@
 ﻿@model MyHR_Web.ViewModel.CTravelViewModel
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Create";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TCheckStatus> status = ViewBag.Status;
-   
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
 }
 
 
@@ -27,7 +28,7 @@
     <section class="content-header">
 
         <h2>差旅費系統</h2>
-        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="card">
                 <div class="card-header">
@@ -58,6 +59,11 @@
                             <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                         </div>
                         <div class="form-group">
+                            <label asp-for="CEmployeeName" class="control-label"></label>
+                            <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
                             <label asp-for="CReason" class="control-label"></label>
                             <input asp-for="CReason" class="form-control" />
                             <span asp-validation-for="CReason" class="text-danger"></span>
@@ -85,7 +91,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
-                            <input type="hidden" asp-for="CCheckStatus" disabled readonly="readonly"  />
+                            <input type="hidden" asp-for="CCheckStatus" disabled readonly="readonly" />
                             <select type="hidden" name="CCheckStatus" readonly="readonly" style="display:none" class="form-control">
                                 @foreach (var c in status)
                                 {
@@ -94,7 +100,7 @@
                             </select>
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                         </div>
-                        
+
                         <div class="form-group">
                             <input type="submit" value="新增" class="btn btn-primary" />
                         </div>

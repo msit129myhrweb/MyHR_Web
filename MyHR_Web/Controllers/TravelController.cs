@@ -32,15 +32,17 @@ namespace MyHR_Web.Controllers
             {
                 tt = tt.Where(e => e.CApplyDate < endDate.Value);
             }
-            if (GetUserDepartmentId() == 6)
+            if (getUserDepartmentId() == 6)
             {
                 var traveltable = from t in tt
                                   join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
+                                  join u in db.TUsers on t.CEmployeeId equals u.CEmployeeId
                                   select new
                                   {
                                       CApplyNumber = t.CApplyNumber,
                                       CDepartmentId = t.CDepartmentId,
                                       CEmployeeId = t.CEmployeeId,
+                                      CEmployeeName = u.CEmployeeName,
                                       CReason = t.CReason,
                                       CApplyDate = t.CApplyDate,
                                       CTravelStartTime = t.CTravelStartTime,
@@ -55,6 +57,7 @@ namespace MyHR_Web.Controllers
                         CApplyNumber = titem.CApplyNumber,
                         CDepartmentId = titem.CDepartmentId,
                         CEmployeeId = titem.CEmployeeId,
+                        CEmployeeName =titem.CEmployeeName,
                         CReason = titem.CReason,
                         CApplyDate = titem.CApplyDate,
                         CTravelStartTime = titem.CTravelStartTime,
@@ -70,12 +73,14 @@ namespace MyHR_Web.Controllers
             {
                 var traveltable = from t in tt
                                   join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
-                                  where t.CEmployeeId == GetUserId()
+                                  join u in db.TUsers on t.CEmployeeId equals u.CEmployeeId
+                                  where t.CEmployeeId == getUserId()
                                   select new
                                   {
                                       CApplyNumber = t.CApplyNumber,
                                       CDepartmentId = t.CDepartmentId,
                                       CEmployeeId = t.CEmployeeId,
+                                      CEmployeeName = u.CEmployeeName,
                                       CReason = t.CReason,
                                       CApplyDate = t.CApplyDate,
                                       CTravelStartTime = t.CTravelStartTime,
@@ -91,6 +96,7 @@ namespace MyHR_Web.Controllers
                         CApplyNumber = titem.CApplyNumber,
                         CDepartmentId = titem.CDepartmentId,
                         CEmployeeId = titem.CEmployeeId,
+                        CEmployeeName = titem.CEmployeeName,
                         CReason = titem.CReason,
                         CApplyDate = titem.CApplyDate,
                         CTravelStartTime = titem.CTravelStartTime,
@@ -105,15 +111,14 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-           
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.Status = db.TCheckStatuses.ToList();
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
             return View(new CTravelViewModel
             {
-                
-                CDepartmentId = GetUserDepartmentId(),
-                CEmployeeId = GetUserId(),
+                CEmployeeName = getUserName(),
+                CDepartmentId = getUserDepartmentId(),
+                CEmployeeId = getUserId(),
                 CTravelEndTime = now,
                 CTravelStartTime = now,
                 CApplyDate = now

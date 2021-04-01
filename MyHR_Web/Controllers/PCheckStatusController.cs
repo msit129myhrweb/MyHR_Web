@@ -16,6 +16,7 @@ namespace MyHR_Web.Controllers
         {
             ViewBag.stardate = startdate;
             ViewBag.enddate = enddate;
+            
             IQueryable<TLostAndFound> tl = db.TLostAndFounds.AsQueryable();
             if (startdate.HasValue)
             {
@@ -30,11 +31,13 @@ namespace MyHR_Web.Controllers
                                 join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
                                 join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
                                 join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
                                 select new
                                 {
                                     CPropertyId = p.CPropertyId,
                                     CDeparmentId = p.CDeparmentId,
                                     CEmployeeId = p.CEmployeeId,
+                                    CEmployeeName=u.CEmployeeName,
                                     CPhone = p.CPhone,
                                     CPropertySubjectId = d.CPropertySubjectId,
                                     CPropertyCategoryId = e.CPropertyCategoryId,
@@ -53,6 +56,7 @@ namespace MyHR_Web.Controllers
                     CPropertyId = pitem.CPropertyId,
                     CDeparmentId = pitem.CDeparmentId,
                     CEmployeeId = pitem.CEmployeeId,
+                    CEmployeeName =pitem.CEmployeeName,
                     CPhone = pitem.CPhone,
                     CPropertySubjectId = pitem.CPropertySubjectId,
                     CPropertyCategoryId = pitem.CPropertyCategoryId,
@@ -119,11 +123,14 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
-          
-            entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+            else
+            {
+                entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
 
-            db.SaveChanges();
-            return RedirectToAction("List");
+                db.SaveChanges();
+                return RedirectToAction("List");
+            }          
+         
         }
     }
 }

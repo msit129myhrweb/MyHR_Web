@@ -1,10 +1,11 @@
 ﻿@model MyHR_Web.ViewModel.CTravelViewModel
+@using Microsoft.AspNetCore.Http;
 
 @{
     ViewData["Title"] = "Edit";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TCheckStatus> status = ViewBag.Status;
-    
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
 
 }
 
@@ -27,7 +28,7 @@
             </style>
         </header>
         <h2>差旅費系統</h2>
-        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
 
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="col-md-4">
@@ -58,6 +59,11 @@
                         <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="CEmployeeName" class="control-label"></label>
+                        <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <label asp-for="CReason" class="control-label"></label>
                         <input asp-for="CReason" class="form-control" />
                         <span asp-validation-for="CReason" class="text-danger"></span>
@@ -83,8 +89,8 @@
                         <span asp-validation-for="CAmont" class="text-danger"></span>
                     </div>
 
-                     
-                    @if (Model.CEmployeeId==12)
+
+                    @if (Model.CEmployeeId == 12)
                     {
                         <script>
                             console.log(456);

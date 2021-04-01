@@ -18,10 +18,14 @@ namespace MyHR_Web.ViewModel
         [Required(ErrorMessage = "員編是必填欄位")]
         [DisplayName("員編")]
         public int CEmployeeId { get; set; }
+
+        [DisplayName("員工姓名")]
+        public string CEmployeeName { get; set; }
+
         [Required(ErrorMessage = "原因是必填欄位")]
         [DisplayName("原因")]
         public string CReason { get; set; }
-        [Required(ErrorMessage = "申請日期是必填欄位")]
+       
         [DisplayName("申請日期")]
         public DateTime? CApplyDate { get; set; }
         [Required(ErrorMessage = "出差開始時間是必填欄位")]

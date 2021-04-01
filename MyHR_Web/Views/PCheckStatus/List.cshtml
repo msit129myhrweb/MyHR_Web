@@ -4,6 +4,7 @@
     ViewData["Title"] = "List";
     DateTime? startdate = ViewBag.startdate;
     DateTime? enddate = ViewBag.enddate;
+    string username = ViewBag.username;
 }
 
 <style>
@@ -27,8 +28,8 @@
 
         <h2>失物招領系統</h2>
 
-        @Html.ActionLink("新增失物", "Create", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
-        @Html.ActionLink("失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
+       
+        @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
         <div class="card">
             <div class="card-header">
                 <form asp-action="List">
@@ -47,8 +48,12 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.CPropertyId)
                             </th>
+
                             <th>
                                 @Html.DisplayNameFor(model => model.CEmployeeId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CEmployeeName)
                             </th>
                             <th>
                                 部門@*@Html.DisplayNameFor(model => model.CDeparmentId)*@
@@ -86,52 +91,55 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr>
-                                @*<td>
-                                    @
-                                </td>*@
+                        <tr>
+                            @*<td>
+            @
+        </td>*@
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CPropertyId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eDepartmentEnum), item.CDeparmentId)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CPhone)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eLostAndFoundSubject), item.CPropertySubjectId)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eLostAndFoundCategory), item.CPropertyCategoryId)
-                                </td>
-                                <td>
-                                    <img src="@item.CPropertyPhoto" width="100" height="150" />
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CProperty)
-                                </td>
-                                <td>
-                                    @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CLostAndFoundDate))
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLostAndFoundSpace)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CtPropertyDescription)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eCheckStatusEnum), item.CPropertyCheckStatusId)
-                                </td>
-                                <td>
-                                    @Html.ActionLink("已領取", "Edit", "PCheckStatus", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" }) |
-                                   
-                                </td>
-                            </tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPropertyId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CEmployeeId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CEmployeeName)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eDepartmentEnum), item.CDeparmentId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CPhone)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eLostAndFoundSubject), item.CPropertySubjectId)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eLostAndFoundCategory), item.CPropertyCategoryId)
+                            </td>
+                            <td>
+                                <img src="@item.CPropertyPhoto" width="100" height="150" />
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CProperty)
+                            </td>
+                            <td>
+                                @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CLostAndFoundDate))
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CLostAndFoundSpace)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.CtPropertyDescription)
+                            </td>
+                            <td>
+                                @Enum.GetName(typeof(eCheckStatusEnum), item.CPropertyCheckStatusId)
+                            </td>
+                            <td>
+                                @Html.ActionLink("已領取", "Edit", "PCheckStatus", new { id = item.CPropertyId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+
+                            </td>
+                        </tr>
                         }
                     </tbody>
                 </table>
