@@ -38,6 +38,9 @@
     <None Include="Views\Repair\RepairList.cshtml" />
     <None Include="Views\Salary\ConfirmPassword.cshtml" />
     <None Include="Views\Salary\SalaryList.cshtml" />
+    <None Include="Views\Shared\Error.cshtml" />
+    <None Include="Views\Shared\_Layout.cshtml" />
+    <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\TravelExpense\Create.cshtml" />
     <None Include="Views\TravelExpense\List.cshtml" />
     <None Include="Views\Travel_Expense_Application\Detail.cshtml" />

@@ -7,7 +7,7 @@ using prjCoreDemo.ViewModel;
 namespace MyHR_Web.Controllers
 {
 
-    public class BaseController : Controller
+    public class BaseController : FilterController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
         protected int getUserDepartmentId()

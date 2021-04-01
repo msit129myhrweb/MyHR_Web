@@ -6,7 +6,7 @@
     ViewData["Title"] = "List";
     DateTime? startdate = ViewBag.startdate;
     DateTime? enddate = ViewBag.enddate;
-    string userid = Context.Session.GetString("LOGIN_USERID");
+    string userid = Context.Session.GetString("CURRENT_LOGINED_USERID");
 }
 
 <style>
