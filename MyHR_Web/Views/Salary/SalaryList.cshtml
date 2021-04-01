@@ -1,6 +1,10 @@
 ﻿
 @model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
-@{ ViewData["Title"] = "SalaryList"; }
+@{ ViewData["Title"] = "SalaryList";
+  
+
+
+    }
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -30,6 +34,60 @@
                     /*  font-family:新細明體;
                     text-decoration:none*/
                 }
+
+                section {
+                    display: block;
+                }
+
+                body {
+                    line-height: 1;
+                }
+
+                ol, ul {
+                    list-style: none;
+                }
+
+                blockquote, q {
+                    quotes: none;
+                }
+
+                    blockquote: before, blockquote : after,
+                    q: before, q: after {
+                        content: '';
+                        content: none;
+                    }
+
+                table {
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                #block_top {
+                    position: sticky;
+                    top: 0px;
+                    height: 60px;
+                    background-color: #24282D;
+                }
+
+                #float_block {
+                    position: absolute;
+                    top: 20px;
+                    left: 350px;
+                    width: 200px;
+                    height: 300px;
+                    color: #0366D6;
+                    background: #FFFFFF;
+                    border: #696969 1px solid;
+                    display: none;
+                }
+
+                #icon {
+                    position: relative;
+                }
+
+                    #icon:hover #float_block {
+                        display: block;
+                    }
             </style>
         </header>
 
@@ -138,8 +196,25 @@
                                     <label class=" col-lg-12 control-label">請假扣款 </label>
                                 </div>
 
+
                                 <div class="col">
-                                    <label class=" col-lg-12 control-label">$______ </label>
+                                    <label class=" col-lg-12 control-label">
+                                        $@Html.DisplayFor(modelItem => item.CLeaveHours)
+
+
+                                        @*<div id="block_top">*@
+                                            <div id="icon">
+
+                                                <a class="btn btn-app bg-warning float-right" style="margin:0px;">
+                                                    <span class="badge bg-info"></span>
+                                                    <i class="fas fa-clipboard-list" style="font-size:20px;"></i> Inbox
+                                                </a>
+                                                <div id="float_block">
+                                                    放HTML，可嗎?
+                                                </div>
+                                            @*</div>*@
+                                            </div>
+                                    </label>
                                 </div>
                             </div>
 

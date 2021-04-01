@@ -354,6 +354,8 @@ namespace MyHR_Web.Models
                     .HasMaxLength(50)
                     .HasColumnName("cLeaveEndTime");
 
+                entity.Property(e => e.CLeaveHours).HasColumnName("cLeaveHours");
+
                 entity.Property(e => e.CLeaveStartTime)
                     .IsRequired()
                     .HasMaxLength(50)
