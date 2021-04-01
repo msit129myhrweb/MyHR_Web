@@ -19,18 +19,16 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            #region 判斷打卡狀態
 
-            CAbsenceViewModel a_vm = new CAbsenceViewModel();
-            string a_status = "";
-
-            DateTime now = DateTime.Now; //現在時間
             DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
             DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
 
-            var time = from t in db.TAbsences
+            var time = from t in db.TAbsences.AsEnumerable()
                        where t.CEmployeeId == userId
                        select new
                        {
+                           t.CApplyNumber,
                            t.COn,
                            t.COff
                        };
@@ -39,21 +37,85 @@ namespace MyHR_Web.Controllers
             {
                 CAbsenceViewModel obj = new CAbsenceViewModel()
                 {
+                    CApplyNumber=item.CApplyNumber,
                     COn = item.COn,
                     COff = item.COff
                 };
                 alist.Add(obj);
             }
+            List<CAbsenceViewModel> aL = new List<CAbsenceViewModel>();
+            foreach (var item in alist)
+            {
+                int num = item.CApplyNumber;
+                DateTime? a = item.COn;
+                DateTime? b = item.COff;
+                CAbsenceViewModel aVM = new CAbsenceViewModel();
+                if (a == null ||b == null)
+                {
+                    aVM.CApplyNumber = num;
+                    aVM.COn = a;
+                    aVM.COff = b;
+                    aVM.status = "異常"; 
+                }
+                else
+                {
+                    a = item.COn.Value;
+                    b = item.COff.Value;
 
-            
+                    if (a < on && b > off)
+                    {
+                        aVM.CApplyNumber = num;
+                        aVM.COn = a;
+                        aVM.COff = b;
+                        aVM.status = "準時";
+                    }
+                    else if (a > on && b > off)
+                    {
+                        aVM.CApplyNumber = num;
+                        aVM.COn = a;
+                        aVM.COff = b;
+                        aVM.status = "遲到";
+                    }
+                    else if (a < on && b < off)
+                    {
+                        aVM.CApplyNumber = num;
+                        aVM.COn = a;
+                        aVM.COff = b;
+                        aVM.status = "早退";
+                    }
+                    else if (a > on && b < off)
+                    {
+                        aVM.CApplyNumber = num;
+                        aVM.COn = a;
+                        aVM.COff = b;
+                        aVM.status = "遲到早退";
+                    }
+                }
+                aL.Add(aVM);
+            }
+            #endregion
 
-            var table = from absence in db.TAbsences
-                        //join a_vm in (new CAbsenceViewModel()).status on absence.CApplyNumber equals a_vm
+            var table = from absence in db.TAbsences.AsEnumerable()
+                        join a_vm in aL on absence.CApplyNumber equals a_vm.CApplyNumber
                         where absence.CEmployeeId== userId
-                        select absence;
+                        select new {
+                            absence.COn,
+                            absence.COff,
+                            a_vm.status
+                        };
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (TAbsence item in table)
-                list.Add(new CAbsenceViewModel(item));
+
+            foreach (var item in table)
+            {
+                CAbsenceViewModel newObj = new CAbsenceViewModel()
+                {
+                    COn=item.COn,
+                    COff=item.COff,
+                    status=item.status
+                };
+                    list.Add(newObj);
+            }
+                
 
             return View(list);
         }

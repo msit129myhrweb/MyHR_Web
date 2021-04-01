@@ -86,7 +86,7 @@
                                             <tr>
                                                 <th>@Html.DisplayNameFor(model => model.COn)</th>
                                                 <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                                <th>狀態</th>
+                                                <th>@Html.DisplayNameFor(model => model.status)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -96,7 +96,7 @@
                                                 <tr>
                                                     <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
                                                     <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                                    <td id="status" name="status">@ViewData["clockStatus"]</td>
+                                                    <td id="status" name="status">@Html.DisplayFor(modelItem => item.status)</td>
                                                 </tr>
                                             }
                                         </tbody>

@@ -39,7 +39,8 @@ namespace MyHR_Web.Models
         public byte? CAccountEnable { get; set; }
 
         public virtual TUserDepartment CDepartment { get; set; }
-        public virtual TUserJobTitle CJobTitle { get; set; }        public virtual TUserOnBoardStatus COnBoardStatus { get; set; }
+        public virtual TUserJobTitle CJobTitle { get; set; }
+        public virtual TUserOnBoardStatus COnBoardStatus { get; set; }
         public virtual ICollection<TAbsence> TAbsences { get; set; }
         public virtual ICollection<TInterView> TInterViews { get; set; }
         public virtual ICollection<TLeaveApplication> TLeaveApplications { get; set; }
