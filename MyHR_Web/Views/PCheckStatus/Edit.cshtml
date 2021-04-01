@@ -1,0 +1,84 @@
+﻿@model MyHR_Web.Models.TLostAndFound
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>TLostAndFound</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="CPropertyId" />
+            <div class="form-group">
+                <label asp-for="CEmployeeId" class="control-label"></label>
+                <select asp-for="CEmployeeId" class="form-control" asp-items="ViewBag.CEmployeeId"></select>
+                <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CDeparmentId" class="control-label"></label>
+                <select asp-for="CDeparmentId" class="form-control" asp-items="ViewBag.CDeparmentId"></select>
+                <span asp-validation-for="CDeparmentId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPhone" class="control-label"></label>
+                <input asp-for="CPhone" class="form-control" />
+                <span asp-validation-for="CPhone" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPropertySubjectId" class="control-label"></label>
+                <select asp-for="CPropertySubjectId" class="form-control" asp-items="ViewBag.CPropertySubjectId"></select>
+                <span asp-validation-for="CPropertySubjectId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPropertyCategoryId" class="control-label"></label>
+                <select asp-for="CPropertyCategoryId" class="form-control" asp-items="ViewBag.CPropertyCategoryId"></select>
+                <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPropertyPhoto" class="control-label"></label>
+                <input asp-for="CPropertyPhoto" class="form-control" />
+                <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CProperty" class="control-label"></label>
+                <input asp-for="CProperty" class="form-control" />
+                <span asp-validation-for="CProperty" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CLostAndFoundDate" class="control-label"></label>
+                <input asp-for="CLostAndFoundDate" class="form-control" />
+                <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CLostAndFoundSpace" class="control-label"></label>
+                <input asp-for="CLostAndFoundSpace" class="form-control" />
+                <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CtPropertyDescription" class="control-label"></label>
+                <input asp-for="CtPropertyDescription" class="form-control" />
+                <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CPropertyCheckStatusId" class="control-label"></label>
+                <select asp-for="CPropertyCheckStatusId" class="form-control" asp-items="ViewBag.CPropertyCheckStatusId"></select>
+                <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @{ 
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+    int login_ureid = int.Parse(Context.Session.GetString("LOGIN_USERID"));
 
 }
 
@@ -335,9 +336,18 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" asp-area="" asp-controller="Property" asp-action="List">
-                                                <p>失物領回</p>
+                                                <p>失物查詢</p>
                                             </a>
                                         </li>
+                                        @if (login_ureid == 7)
+                                        {
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-area="" asp-controller="PCheckStatus" asp-action="List">
+                                                    <p>失物領回</p>
+                                                </a>
+                                            </li>
+                                        }
+
                                     </ul>
                                 </li>
                             </ul>
