@@ -13,6 +13,7 @@ namespace MyHR_Web.Controllers
 {
     public class LoginController : Controller
     {
+
         private dbMyCompanyContext db = new dbMyCompanyContext();
         public IActionResult Login()
         {
@@ -86,6 +87,7 @@ namespace MyHR_Web.Controllers
             return PartialView();
         }
 
+
         public IActionResult AccEnable()
         {
             return View();
@@ -117,5 +119,6 @@ namespace MyHR_Web.Controllers
 
 
         }
+
     }
 }

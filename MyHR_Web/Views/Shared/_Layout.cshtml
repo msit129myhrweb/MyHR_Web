@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Http;
 @{ 
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
     int login_ureid = int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERID"));
@@ -310,29 +310,31 @@
                             </a>
                         </li>
                         @*差旅*@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-plane-departure"></i>
-                                <p>
-                                    差旅
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="Create">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>差旅費申請</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="List">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>差旅費查詢</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-plane-departure"></i>
+                            <p>
+                                差旅
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="Create">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>差旅費申請</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="List">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>差旅費查詢</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
 
                         @*員工福利專區*@
                         <li class="nav-item">
@@ -369,11 +371,14 @@
                                         </li>
                                         @if (login_ureid == 7)
                                         {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-controller="PCheckStatus" asp-action="List">
-                                    <p>失物領回</p>
-                                </a>
-                            </li>}
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-area="" asp-controller="PCheckStatus" asp-action="List">
+                                                    <p>失物領回</p>
+                                                </a>
+                                            </li>
+                                        }
+
 
                                     </ul>
                                 </li>
