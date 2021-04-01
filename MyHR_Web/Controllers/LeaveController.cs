@@ -13,7 +13,7 @@ using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
-    public class LeaveController : Controller
+    public class LeaveController : FilterController
     {
         dbMyCompanyContext MyHr = new dbMyCompanyContext();
 

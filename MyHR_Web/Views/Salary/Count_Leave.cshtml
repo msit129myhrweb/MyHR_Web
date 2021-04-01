@@ -3,34 +3,16 @@
     ViewData["Title"] = "Count_Leave";
     var List_PayOfLeave = ViewBag.PayOfLeave;
 }
-
-
-<h2>Count_Leave</h2>
-
+<h2>本月請假紀錄</h2>
 <div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">本月請假紀錄</h3>
-
-                <div class="card-tools">
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
-
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-default">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <!-- /.card-header -->
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr style="text-align:center">
-                            <th>
+                            <th style="display:none">
                                 @Html.DisplayNameFor(model => model.CSalary_LeaveCate)
                             </th>
                             <th>
@@ -38,7 +20,7 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.CSalary_LeaveCateCount)
                             </th>
-                            <th>
+                            <th style="display:none">
                                 @Html.DisplayNameFor(model => model.CSalary_LeavePercent)
                             </th>
                             <th>
@@ -47,37 +29,40 @@
                         </tr>
                     </thead>
                     <tbody>
-
-
                         @foreach (var item in Model)
                         {
-                        <tr style="text-align:center">
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CSalary_LeaveCate)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CSalary_LeaveCateName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.CSalary_LeaveCateCount)
-                            </td>
-                            <th>
-                                @Html.DisplayFor(modelItem => item.CSalary_LeavePercent)
-                            </th>
-                            <th>
-                                @Html.DisplayFor(modelItem => item.Leave_HaveToPay)
-                            </th>
-
-                        </tr>                 
+                            <tr style="text-align:center">
+                                <td style="display:none">
+                                    @Html.DisplayFor(modelItem => item.CSalary_LeaveCate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CSalary_LeaveCateName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CSalary_LeaveCateCount)
+                                </td>
+                                <td style="display:none">
+                                    @Html.DisplayFor(modelItem => item.CSalary_LeavePercent)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Leave_HaveToPay)
+                                </td>
+                            </tr>
                         }
+                   
+                         
+                    <tr style="text-align:center">
+                        <td></td>
+                        <td style="border-top:double">Total:</td>
+       
+                        @{int count = 0;
 
-                        </br>
-                    @{int count = 0; }
-                        @foreach (var item in Model)
-                        {
-                         <div>@count +=@Html.DisplayFor(modelItem => item.Leave_HaveToPay)</div>
+                            foreach (var item in Model)
+                                count += item.Leave_HaveToPay;
                         }
-                        
+                        <td style="border-top:double">@count</td>
+
+                    </tr>
 
                     </tbody>
                 </table>

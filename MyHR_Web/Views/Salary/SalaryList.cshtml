@@ -73,7 +73,7 @@
                     position: absolute;
                     top: 20px;
                     left: 350px;
-                    width: 200px;
+                    width: 400px;
                     height: 300px;
                     color: #0366D6;
                     background: #FFFFFF;
@@ -178,7 +178,7 @@
                                 </div>
 
                                 <div class="col">
-                                    <label class=" col-lg-12 control-label">$______ </label>
+                                    <label class=" col-lg-12 control-label">$@Html.DisplayFor(modelItem =>item.CAmont) </label>
                                 </div>
                             </div>
 
@@ -199,21 +199,31 @@
 
                                 <div class="col">
                                     <label class=" col-lg-12 control-label">
-                                        $@Html.DisplayFor(modelItem => item.CLeaveHours)
+                                        @*$@Html.DisplayFor(modelItem => item.CLeaveHours)*@
 
+                                        @{ int count = 0;
+                                            foreach (var a in ViewBag.TRYYYY)
+                                            {
+                                                count += a.Leave_HaveToPay;
+                                            } }
+
+                                        $@count
 
                                         @*<div id="block_top">*@
-                                            <div id="icon">
+                                        <div id="icon">
 
-                                                <a class="btn btn-app bg-warning float-right" style="margin:0px;">
-                                                    <span class="badge bg-info"></span>
-                                                    <i class="fas fa-clipboard-list" style="font-size:20px;"></i> Inbox
-                                                </a>
-                                                <div id="float_block">
+                                            <a class="btn btn-app bg-warning float-right" id="Ajax_LeavePay" style="margin:0px;">
+                                                <span class="badge bg-info"></span>
+                                                <i class="fas fa-clipboard-list" style="font-size:20px;"></i> Detail
+                                            </a>
+                                            <div id="float_block">
+                                                <div id="ForLeave">
                                                     放HTML，可嗎?
                                                 </div>
-                                            @*</div>*@
+                                                
                                             </div>
+                                            @*</div>*@
+                                        </div>
                                     </label>
                                 </div>
                             </div>
@@ -274,6 +284,25 @@
                         </div>
 
                     </div>
-                                    <br />
-                                                    <br />
-                                                                    <br />}
+                         <br />
+                             <br />
+                                 <br />}
+                  
+                    <script>
+                        $("#Ajax_LeavePay").hover(function () {
+                            console.log("123");
+                            $.ajax({
+                                type: "get",
+                                dataType: "html",
+                                url: "/Salary/Count_Leave",
+                                success: function (data) {
+                                    console.log("有進去");
+                                    $("#ForLeave").html(data);
+                                },
+                                error: function (msg) {
+                                    alert("error:" + msg);
+                                }
+                                })
+                        });
+
+                    </script>

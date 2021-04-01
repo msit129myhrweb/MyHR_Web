@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MyHR_Web.Controllers;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
@@ -58,7 +59,9 @@ namespace MyCompany_.NetCore_Janna.Controllers
             var table = MyHR.TUsers
              .Include(c => c.CDepartment)
              .Include(c => c.CJobTitle)
-             .Include(d=>d.TLeaveApplications)
+             .Include(c=>c.TLeaveApplications)
+             .Include(c=>c.TTravelExpenseApplications)
+             .Include(c=>c.TAbsences)
              .Where(c => c.CEmployeeId == UserID).AsEnumerable()
              .Select(c => new CSalaryViewModel
              {
@@ -67,40 +70,65 @@ namespace MyCompany_.NetCore_Janna.Controllers
                  CEmployeeId = c.CEmployeeId,
                  CJobTitle = c.CJobTitle.CJobTitle,
                  CJobTitleSalary = c.CJobTitle.CJobTitleSalary,
+                 CAmont=(int)c.TTravelExpenseApplications.Where(c=>DateTime.Parse(c.CTravelStartTime).Month == (DateTime.Now.Date.Month)-1 && c.CCheckStatus == 2).Sum(n=>(n.CAmont))
                  //CLeaveHours = c.TLeaveApplications.Sum(c=>c.CLeaveHours),
-                 CLeaveHours = c.TLeaveApplications.Where(c=>DateTime.Parse(c.CLeaveStartTime).Month == DateTime.Now.Date.Month).Sum(c => c.CLeaveHours),
+                 //CLeaveHours = c.TLeaveApplications.Where(c=>DateTime.Parse(c.CLeaveStartTime).Month == DateTime.Now.Date.Month).Sum(c => c.CLeaveHours),
                 
              });
 
+            //List<CSalaryViewModel> T = new List<CSalaryViewModel>();
+
+            //foreach (var item in table)
+            //{
+            //    CSalaryViewModel obj = new CSalaryViewModel()
+            //    {
+            //        CEmployeeName = item.CEmployeeName,
+            //        CDepartment = item.CDepartment,
+            //        CEmployeeId = item.CEmployeeId,
+            //        CJobTitle = item.CJobTitle,
+            //        CJobTitleSalary = item.CJobTitleSalary,
+            //        CLeaveHours = item.CLeaveHours
+            //    };
+            //    T.Add(obj);
+            //}
+
+            //------------------------------------------------------------------
+
+
+            var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
+                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month)-1 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
+                         orderby i.CLeaveCategory
+                         group i by i.CLeaveCategory into g
+                         select new
+                         {
+                             Category = g.Key,
+                             CategoryCount = g.Sum(n => n.CLeaveHours),
+                         }).ToList();  
+
             List<CSalaryViewModel> T = new List<CSalaryViewModel>();
-            
-            foreach (var item in table)
+
+            foreach (var item in table2)
             {
                 CSalaryViewModel obj = new CSalaryViewModel()
                 {
-                    CEmployeeName = item.CEmployeeName,
-                    CDepartment = item.CDepartment,
-                    CEmployeeId = item.CEmployeeId,
-                    CJobTitle = item.CJobTitle,
-                    CJobTitleSalary = item.CJobTitleSalary,
-                    CLeaveHours=item.CLeaveHours
-                    
+                    CSalary_LeaveCate = item.Category,
+                    CSalary_LeaveCateCount = (int)item.CategoryCount,
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
+
                 };
                 T.Add(obj);
+                ViewBag.TRYYYY = T;
             }
 
-          //------------------------------------------------------------------
             return View(table.ToList());
         }
-
-
         public IActionResult Count_Leave()
         {
             int UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
 
             var table = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                        where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == DateTime.Now.Date.Month  //搜尋 "請假起始日"的月為當月
-                        orderby i.CLeaveCategory
+                        where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month)- 1  //搜尋 "請假起始日"的月為上一個月 (上面也要減)
+                         orderby i.CLeaveCategory
                         group i by i.CLeaveCategory into g
                         
                         
@@ -109,8 +137,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
                             Category = g.Key,
                             CategoryCount = g.Sum(n => n.CLeaveHours),
                             }).ToList();
-
-
 
             List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
@@ -164,11 +190,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
             }     
             return (int)Leave_Sum;
 
-
         }
-
-    
-
-
     }
 }

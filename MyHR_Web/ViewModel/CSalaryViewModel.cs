@@ -32,7 +32,14 @@ namespace MyHR_Web.ViewModel
 
         //TLeaveApplication
 
-        public int? CLeaveHours { get; set; }
+        public int? CLeaveHours { get; set; } 
+
+        //TTravel
+        
+        public int CAmont { get; set; }
+
+
+
 
 
         //自己創造 Salary
@@ -50,7 +57,7 @@ namespace MyHR_Web.ViewModel
             set { CSalary_LeaveCateName = value; }
         }
 
-        [DisplayName("當月請假時數總數")]
+        [DisplayName("當月請假總時數")]
         public int CSalary_LeaveCateCount { get; set; }
 
         [DisplayName("%")]
@@ -90,6 +97,9 @@ namespace MyHR_Web.ViewModel
         [DisplayName("扣款明細")]
         public int Leave_HaveToPay { get; set; }
 
+       
+        
+       
 
 
     }

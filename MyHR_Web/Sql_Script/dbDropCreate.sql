@@ -8,5 +8,5 @@ END
 
 DROP DATABASE IF EXISTS [dbMyCompany]
 GO
-CREATE DATABASE [dbMyCompany]
-GO
+--CREATE DATABASE [dbMyCompany]
+--GO
