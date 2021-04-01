@@ -23,6 +23,8 @@ namespace MyHR_Web.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
+        private dbMyCompanyContext db = new dbMyCompanyContext();
+
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
@@ -37,12 +39,39 @@ namespace MyHR_Web.Controllers
         {
             return View();
         }
+        public IActionResult GetImage(int id)
+        {
+            var photo = db.TUsers.FirstOrDefault(u => u.CEmployeeId == id);
+            if (photo != null && photo.CPhoto != null)
+            {
+                using (System.IO.MemoryStream ms = new MemoryStream())
+                {
+                    byte[] image = photo.CPhoto;
+                    ms.Write(image, 78, image.Length - 78); 
+                    ViewBag.imageBase64 = Convert.ToBase64String(ms.ToArray());
+                    return File(ms.ToArray(), "image/jpeg");
+                   
+
+                    
+                };
+            }
+            return new EmptyResult();
+        }
+
+        [HttpGet]
+        public IActionResult ViewPhoto(int id)
+        {
+            var photo = db.TUsers.FirstOrDefault(u => u.CEmployeeId == id);
+            MemoryStream ms = new MemoryStream(photo.CPhoto);
+            return new FileStreamResult(ms, "image/JPG");
+        }
 
 
         public IActionResult Profile()
         {
+            ViewData["USERID"] = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             int userid = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-            var table = from u in (new dbMyCompanyContext()).TUsers
+            var table = from u in db.TUsers
                         where u.CEmployeeId == userid
                         select u;
             //return View(table);
@@ -55,6 +84,8 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult ProfileEdit(int? id)
         {
+            ViewData["USERID"] = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
@@ -80,7 +111,7 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_ACC_ENABLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE);
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext(); 
+                
                 TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == id);
 
                 if (u != null)
@@ -100,8 +131,7 @@ namespace MyHR_Web.Controllers
 
 
             user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
-            dbMyCompanyContext db = new dbMyCompanyContext();
-
+          
             foreach (var item in CPhoto)
             {
                 if (item.Length > 0)
@@ -177,7 +207,7 @@ namespace MyHR_Web.Controllers
             {
                 
 
-                TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
+                TUser user = db.TUsers.FirstOrDefault(c =>
                 c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
 
                 if (user != null)
@@ -231,7 +261,7 @@ namespace MyHR_Web.Controllers
         {
             if (p.txtAccount != null && p.txtPassword != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
+                
                 if (_user != null)
                 {
 

@@ -2,6 +2,24 @@
 @*@model IEnumerable<MyHR_Web.Models.TUser>*@
 
 @{ ViewData["Title"] = "Profile"; }
+@using System.IO
+
+@functions
+{public string DispalyImage(byte[] imageData)
+    {
+        string imageSrc = null;
+        if (imageData != null)
+        {
+            MemoryStream ms = new MemoryStream();
+            ms.Write(imageData, 78, imageData.Length - 78);
+            string imageBase64 = Convert.ToBase64String(ms.ToArray());
+            imageSrc = string.Format("data:image/gif;base64"+imageBase64);
+        }
+        return imageSrc;
+    }
+
+
+}
 
 <style>
     h2 {
@@ -38,13 +56,7 @@
                             <div class="text-center">
                                 <img id="imgid"
                                      class="profile-user-img img-fluid img-circle"
-                                     src="~/theme/dist/img/user4-128x128.jpg"
-                                     alt="User profile picture"
-                                     onclick="changeImg()">
-
-
-                                @*<img id="imgid" />*@
-                                <!-- todo wz -->
+                                     src="/Home/ViewPhoto?id=@ViewData["USERID"]">
 
                             </div>
 
@@ -99,6 +111,11 @@
                                         @foreach (var item in Model)
                                         {
 
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CPhoto)</label>
+                                                <div class="col-sm-10">
+                                                </div>
+                                            </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeName)</label>
                                                 <div class="col-sm-10">
@@ -236,34 +253,4 @@
     </section>
     <!-- /.content -->
 </div>
-<script>
-    function doUpload() {
 
-        const formdata = new FormData();
-        formdata.append('photo', event.target.files[0]);
-        fetch('/M05/UploadOneFile', {
-            method: 'POST',
-            body: formdata
-        }).then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            document.write(data.msg);
-        });
-
-    }
-    function changeImg() {
-
-
-    }
-    function load(img) {
-
-        var r = new FileReader();
-        r.onload = function () {
-            var output = document.getElementById('imgid');
-            output.src = r.result;
-        }
-        r.readAsDataURL(event.target.files[0])
-    };
-
-
-</script>
