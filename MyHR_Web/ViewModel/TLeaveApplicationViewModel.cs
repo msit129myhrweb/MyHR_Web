@@ -44,43 +44,33 @@ namespace MyHR_Web.ViewModel
         [DisplayName("員工名稱")] //取得ID值，轉換成員工名稱
         public string CEmployeeName { get {
                 iv_User.CEmployeeName = MyHR.TUsers.Where(n => n.CEmployeeId == CEmployeeId).Select(n => n.CEmployeeName).FirstOrDefault();
-                return iv_User.CEmployeeName;
-            }
-            set { iv_User.CEmployeeName = value; }
-        }
+                return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
         [DisplayName("員工名稱")]
         public int CEmployeeId { get { return iv_Leave.CEmployeeId; } set { iv_Leave.CEmployeeId = value; } }
-
+        
 
         [Required(ErrorMessage = "必填欄位")]
         [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd}")]
 
 
         [DisplayName("部門名稱")] //新增時，取得部門名稱，轉換成部門ID，存進資料庫
-        public int CDepartmentId
-        {
-            get
-            {
+        public int CDepartmentId { get {
                 iv_Leave.CDepartmentId = MyHR.TUserDepartments.Where(n => n.CDepartment == CDepartmentName).Select(n => n.CDepartmentId).FirstOrDefault();
-                return iv_Leave.CDepartmentId;
-            }
-            set { iv_Leave.CDepartmentId = value; }
-        }
-
+                return iv_Leave.CDepartmentId; } set { iv_Leave.CDepartmentId = value; } }
         [Required(ErrorMessage = "必填欄位")]
-        [DisplayName("申請日")]
-        public string CApplyDate { get { return iv_Leave.CApplyDate; } set { iv_Leave.CApplyDate = value; } } 
-        
+              [DisplayName("申請日")]
+        public string CApplyDate { get { return DateTime.Parse(iv_Leave.CApplyDate).ToString("yyyy/MM/dd"); } set { iv_Leave.CApplyDate = value; } }
         [DisplayName("申請類別")]
         [Required(ErrorMessage = "必填欄位")]
         public int CLeaveCategory { get { return iv_Leave.CLeaveCategory; } set { iv_Leave.CLeaveCategory = value; } }
-
         [DisplayName("請假起始日")]
-        public string CLeaveStartTime { get { return iv_Leave.CLeaveStartTime; } set { iv_Leave.CLeaveStartTime = value; } }
-
+        [Required(ErrorMessage = "必填欄位")]
+        [DisplayFormat(DataFormatString = "{0:yyyy/MM/dd tt h:mm}")]
+        public string CLeaveStartTime { get { return DateTime.Parse(iv_Leave.CLeaveStartTime).ToString("yyyy/MM/dd - HH:mm"); } set { iv_Leave.CLeaveStartTime = value; } }
         [DisplayName("請假結束日")]
-        public string CLeaveEndTime { get { return iv_Leave.CLeaveEndTime; } set { iv_Leave.CLeaveEndTime = value; } }
-
+        [Required(ErrorMessage = "必填欄位")]
+        //[DisplayFormat(DataFormatString = "{0:yyyy/MM/dd tt h:mm}")]
+        public string CLeaveEndTime { get { return DateTime.Parse(iv_Leave.CLeaveEndTime).ToString("yyyy/MM/dd - HH:mm"); } set { iv_Leave.CLeaveEndTime = value; } }
         [DisplayName("請假原由")]
         [Required(ErrorMessage = "必填欄位")]
 

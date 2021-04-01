@@ -52,7 +52,7 @@
         </td>*@
     <td id="Leave_DepId">
         @*@Html.DisplayFor(modelItem => item.CDepartmentId)*@
-        @Enum.GetName(typeof(eDepartmentEnum), item.CDepartmentId)
+        @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
     </td>
     <td style="display:none">
         @Html.DisplayFor(modelItem => item.CEmployeeId)

@@ -1,46 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
 using MyHR_Web.MyClass;
-using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
-{  //現在版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    public class HomeController : Controller
+{
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
-            return View();
-        }
-        public IActionResult BulletInList()
-        {
-            return View();
-        }
-        public IActionResult Profile()
-        {            
-            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
-            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
-            ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
-            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
-            return View();
-        }
         public IActionResult Login()
         {
+            if (HttpContext.Session.GetObject<TUser>(CDictionary.Current_User) != null) //session 存在就跳回首頁
+                return RedirectToAction("Index", "Home");
             //if (string.IsNullOrEmpty(HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE)))
             //{
             //    Random rm = new Random();
@@ -54,7 +29,6 @@ namespace MyHR_Web.Controllers
             return PartialView();
 
         }
-        
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
@@ -67,18 +41,20 @@ namespace MyHR_Web.Controllers
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
 
 
-			string Account = Request.Form["txtAccount"].ToString();
+            string Account = Request.Form["txtAccount"].ToString();
             string Psd = Request.Form["txtPassword"].ToString();
 
-            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))            
-			{
+            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
+            {
             }
             else
             {
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                            c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
+
                 if (user != null)
                 {
+                    HttpContext.Session.SetObject<TUser>(CDictionary.Current_User, user);
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
@@ -101,43 +77,11 @@ namespace MyHR_Web.Controllers
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
 
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "Home");
                 }
             }
 
             return PartialView();
-        }
-
-
-        public IActionResult Logout()
-        {
-            HttpContext.Session.Clear();
-
-            return RedirectToAction("Login", "Home");
-        }
-
-        public IActionResult Calendar()
-        {
-            ViewData["events"] = new[]
-            {
-                new CalendarEvent{ Id=1, Title="hang out with Jack", StartDate="2021-03-07"},
-                new CalendarEvent{ Id=2, Title="zoom meeting(TSMC project)", StartDate= "2021-03-25"}
-            };
-            return View();
-        }
-        public IActionResult ToDoList()
-        {
-            return View();
-        }
-        public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
 }

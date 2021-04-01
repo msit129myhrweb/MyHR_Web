@@ -1,9 +1,7 @@
 ﻿
-@{
-    ViewData["Title"] = "SalaryList";
-}
+@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
+@{ ViewData["Title"] = "SalaryList"; }
 
-@*<h1>SalaryList</h1>*@
 <div class="content-wrapper">
     <section class="content-header">
 
@@ -21,33 +19,186 @@
                     color: #FFFFFF;
                     padding-left: 10px;
                 }
+
+                .Salary-box {
+                    border: 2px groove black;
+                    text-align: center;
+                    font-size: 20px;
+                    width: 60%;
+                    margin: 0px auto;
+                    padding: 0px;
+                    /*  font-family:新細明體;
+                    text-decoration:none*/
+                }
             </style>
         </header>
 
 
-        <h2>薪資系統</h2>
+        @foreach (var item in Model)
+        {
 
-        <fieldset>
-            <legend>給一般員工看</legend>
+<h2>薪資系統</h2>
+                <div class="Salary-box">
+                    <br />
 
-            @Html.ActionLink("出缺勤查詢", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
-            @Html.ActionLink("薪資查詢", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+                    <div style="font-size:30px">Hello Work 科技股份有限公司</div>
+                    <div style="font-size:30px">2021-09<i>薪資袋(單)</i></div>
 
-        </fieldset>
+                    <br />
+                    <div class="container" style="width:80%">
+                        <div style="background-color:papayawhip ;padding:15px; border-radius:10px">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">工號 :<label>@Html.DisplayFor(modelItem => item.CEmployeeId)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">部門 :<label>@Html.DisplayFor(modelItem => item.CDepartment)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">銀行 :  <label>004 台灣銀行</label></label>
+                                </div>
 
 
-        <fieldset>
-            <legend>人資權限使用者</legend>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">姓名 :<label>@Html.DisplayFor(modelItem => item.CEmployeeName)</label></label>
+                                </div>
 
-            @Html.ActionLink("發送線上薪資條", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
-            @Html.ActionLink("匯出Excel", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">職稱 :<label>@Html.DisplayFor(modelItem => item.CJobTitle)</label></label>
+                                </div>
 
-        </fieldset>
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">發放日期 :  <label> xxxx/04/06 Fake</label></label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="container" style="width:80%">
+                        <div style="padding:15px; text-align:left">
+
+
+                            <label class=" col-lg-12 control-label" style="text-align:left; font-size:25px; background-color:lightsalmon; display:inline">薪資結構</label>
+
+
+                            @*這行存在的意義全無，只是不小心有了他排版完美*@
+
+                            <div class="row" style=">
+                                <div class="col"> </div>
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">基本薪資 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$@Html.DisplayFor(modelItem => item.CJobTitleSalary) </label>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12" style="text-align:left">加項</label>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">差旅費 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+                            </div>
 
 
 
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label" style="text-align:left">扣項</label>
+                                </div>
+                            </div>
+                            <hr />
 
-        <img src="~/theme/imgs/ForSalary.png" />
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">請假扣款 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+                            </div>
 
 
-        <br /><br />
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">遲到扣款 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+                            </div>
+
+                            <hr style=" height: 1px; border: none; background-color: #282828" />
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">應發金額 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">應扣金額 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+
+                            </div>
+
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">實發金額 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">$______ </label>
+                                </div>
+
+                            </div>
+
+                            <br />
+                            <br />
+                            <br />
+                        </div>
+
+                    </div>
+                                    <br />
+                                                    <br />
+                                                                    <br />}

@@ -41,9 +41,9 @@
                                      alt="User profile picture">
                             </div>
 
-                            <h3 class="profile-username text-center">張庭庭</h3>
+                            <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
 
-                            <p class="text-muted text-center">經理</p>
+                            <p class="text-muted text-center">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
 
 
                         </div>
@@ -60,14 +60,14 @@
                             <strong><i class="fas fa-book mr-1"></i> 部門</strong>
 
                             <p class="text-muted">
-                                總務部門
+                                @ViewData["CURRENT_LOGINED_USERDEPARTMENT"]
                             </p>
 
                             <hr>
 
                             <strong><i class="fas fa-map-marker-alt mr-1"></i>職位</strong>
 
-                            <p class="text-muted">經理</p>
+                            <p class="text-muted">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
 
                             <hr>
 

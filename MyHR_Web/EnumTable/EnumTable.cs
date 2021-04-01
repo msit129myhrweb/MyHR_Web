@@ -1,4 +1,4 @@
-﻿public enum eDepartmentEnum
+﻿public enum eDepartment
 {
     NONE,
     管理部,
@@ -32,7 +32,8 @@ public enum eLeaveCategory
     生理假,
     喪假,
     特休
-}public enum eLostAndFoundCategory
+}
+public enum eLostAndFoundCategory
 {
     NONE,
     個人物品,

@@ -12,7 +12,7 @@ namespace MyHR_Web.Controllers
         dbMyCompanyContext db = new dbMyCompanyContext();
         protected int getUserDepartmentId()
         {
-            return GetSessionString(CDictionary.CURRENT_LOGINED_UserEpartmentId).TryToInt().GetValueOrDefault();
+            return GetSessionString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID).TryToInt().GetValueOrDefault();
         }
         /// <summary>
         /// 取得UserID
@@ -20,7 +20,7 @@ namespace MyHR_Web.Controllers
         /// <returns></returns>
         protected int getUserId()
         {
-            return GetSessionString(CDictionary.LOGIN_USERID).TryToInt().GetValueOrDefault();
+            return GetSessionString(CDictionary.CURRENT_LOGINED_USERID).TryToInt().GetValueOrDefault();
         }
         private string GetSessionString(string key)
         {

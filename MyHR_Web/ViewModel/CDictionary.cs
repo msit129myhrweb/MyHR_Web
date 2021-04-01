@@ -11,11 +11,10 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_USERID = "CURRENT_LOGINED_USERID";
         public static readonly string CURRENT_LOGINED_USERDEPARTMENT = "CURRENT_LOGINED_USERDEPARTMENT";
         public static readonly string CURRENT_LOGINED_USERDEPARTMENTID = "CURRENT_LOGINED_USERDEPARTMENTID";
-        public static readonly string CURRENT_LOGINED_UserEpartmentId = "CURRENT_LOGINED_UserEpartmentId";
         public static readonly string CURRENT_LOGINED_USERJOBTITLE = "CURRENT_LOGINED_USERJOBTITLE";
         public static readonly string LOGIN_AUTHTICATION_CODE = "LOGIN_AUTHTICATION_CODE";
         public static readonly string LOGIN_USERPHONE = "LOGIN_USERPHONE";
-        public static readonly string LOGIN_USERID = "LOGIN_USERID"; 
+
         public static readonly string CURRENT_LOGINED_USERENNAME = "CURRENT_LOGINED_USERENNAME";
         public static readonly string CURRENT_LOGINED_PASSWORD = "CURRENT_LOGINED_PASSWORD";
         public static readonly string CURRENT_LOGINED_OBD = "CURRENT_LOGINED_OBD";
@@ -23,6 +22,7 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_GENDER = "CURRENT_LOGINED_GENDER";
         public static readonly string CURRENT_LOGINED_EMAIL = "CURRENT_LOGINED_EMAIL";
         public static readonly string CURRENT_LOGINED_ADDRESS = "CURRENT_LOGINED_ADDRESS";
+       
         public static readonly string CURRENT_LOGINED_SUPERVISOR = "CURRENT_LOGINED_SUPERVISOR";
         public static readonly string CURRENT_LOGINED_BRD = "CURRENT_LOGINED_BRD";
         public static readonly string CURRENT_LOGINED_PHONE = "CURRENT_LOGINED_PHONE";
@@ -30,7 +30,10 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_EMERGENCY_CONT = "CURRENT_LOGINED_EMERGENCY_CONT";
         public static readonly string CURRENT_LOGINED_OB_STATUS = "CURRENT_LOGINED_OB_STATUS";
         public static readonly string CURRENT_LOGINED_ACC_ENABLE = "CURRENT_LOGINED_ACC_ENABLE";
-        public static readonly string CURRENT_USER = "CURRENT_USER";
+
+        public static readonly string Current_User = "Current_User";// For Seession TUser
+
+
 
     }
 }
