@@ -38,6 +38,7 @@ namespace MyHR_Web.Models
         public int COnBoardStatusId { get; set; }
         public byte? CAccountEnable { get; set; }
 
+        public virtual TUserDepartment CDepartment { get; set; }
         public virtual TUserJobTitle CJobTitle { get; set; }
         public virtual TUserOnBoardStatus COnBoardStatus { get; set; }
         public virtual ICollection<TAbsence> TAbsences { get; set; }
