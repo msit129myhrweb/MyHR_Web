@@ -1,4 +1,4 @@
-﻿@model MyHR_Web.Models.TTravelExpenseApplication
+﻿@model MyHR_Web.ViewModel.CTravelViewModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -23,6 +23,8 @@
             </style>
         </header>
         <h2>差旅費系統</h2>
+        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+
         <dl class="row">
             <dt class="col-sm-2">
                 @Html.DisplayNameFor(model => model.CApplyNumber)
@@ -82,7 +84,5 @@
 
         <form asp-action="Delete">
             <input type="submit" value="刪除" class="btn btn-danger" /> |
-            @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-
         </form>
 </div>

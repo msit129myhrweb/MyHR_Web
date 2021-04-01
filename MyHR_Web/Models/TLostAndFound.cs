@@ -15,7 +15,7 @@ namespace MyHR_Web.Models
         public int CPropertyCategoryId { get; set; }
         public string CPropertyPhoto { get; set; }
         public string CProperty { get; set; }
-        public string CLostAndFoundDate { get; set; }
+        public DateTime? CLostAndFoundDate { get; set; }
         public string CLostAndFoundSpace { get; set; }
         public string CtPropertyDescription { get; set; }
         public int CPropertyCheckStatusId { get; set; }

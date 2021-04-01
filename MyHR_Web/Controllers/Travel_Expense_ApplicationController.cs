@@ -93,9 +93,9 @@ namespace MyHR_Web.Controllers
                         where travel.CDepartmentId == DepId
                         select travel;
             }
-            List<CTravelViewModel> list = new List<CTravelViewModel>();
+            List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
             foreach (TTravelExpenseApplication item in table)
-                list.Add(new CTravelViewModel(item));
+                list.Add(new Travel_Expense_ApplicationViewModel(item));
 
             return View(list);
         }
@@ -117,7 +117,7 @@ namespace MyHR_Web.Controllers
                 TTravelExpenseApplication travel = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == capplyNum);
                 if (travel != null)
                 {
-                    return View(new CTravelViewModel(travel));
+                    return View(new Travel_Expense_ApplicationViewModel(travel));
                 }
             }
             return RedirectToAction("List");
