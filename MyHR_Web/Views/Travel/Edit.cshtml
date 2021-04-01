@@ -28,7 +28,9 @@
             </style>
         </header>
         <h2>差旅費系統</h2>
-        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+       
+        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
 
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="col-md-4">
@@ -43,12 +45,10 @@
                             {
                                 if (d.CDepartmentId == Model.CDepartmentId)
                                 {
-                                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
+                <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
                                 else
                                 {
-                                    <option value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
+                <option value="@d.CDepartmentId">@d.CDepartment</option>}
                             }
                         </select>
                         <span asp-validation-for="CDepartmentId" class="text-danger"></span>
@@ -92,9 +92,9 @@
 
                     @if (Model.CEmployeeId == 12)
                     {
-                        <script>
-                            console.log(456);
-                        </script>
+        <script>
+            console.log(456);
+        </script>
                         <div class="form-group">
                             <label asp-for="CCheckStatus" class="control-label"></label>
                             <select name="CCheckStatus" class="form-control">
@@ -102,41 +102,34 @@
                                 {
                                     if (d.CCheckStatusId == Model.CCheckStatus)
                                     {
-                                        <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
+                <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option> }
                                     else
                                     {
-                                        <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
+                <option value="@d.CCheckStatusId">@d.CCheckStatus</option>}
                                 }
                             </select>
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
-                        </div>
-                    }
-                    else
-                    {
+                        </div> }
+                                    else
+                                    {
                         <script>
                             console.log(123);
                         </script>
-                        <div class="form-group">
-                            <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
-                            <select type="hidden" readonly="readonly" name="CCheckStatus" class="form-control" style="display:none">
-                                @foreach (var d in status)
-                                {
-                                    if (d.CCheckStatusId == Model.CCheckStatus)
-                                    {
-                                        <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
-                                    else
-                                    {
-                                        <option value="@d.CCheckStatusId">@d.CCheckStatus</option>
-                                    }
-                                }
-                            </select>
-                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
-                        </div>
-
-                    }
+                                        <div class="form-group">
+                                            <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
+                                            <select type="hidden" readonly="readonly" name="CCheckStatus" class="form-control" style="display:none">
+                                                @foreach (var d in status)
+                                                {
+                                                    if (d.CCheckStatusId == Model.CCheckStatus)
+                                                    {
+                                <option selected="selected" value="@d.CCheckStatusId">@d.CCheckStatus</option> }
+                                                    else
+                                                    {
+                                <option value="@d.CCheckStatusId">@d.CCheckStatus</option>}
+                                                }
+                                            </select>
+                                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+                                        </div>}
 
                     <div class="form-group">
                         <input type="submit" value="修改" class="btn btn-primary" />

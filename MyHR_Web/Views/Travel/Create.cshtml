@@ -28,7 +28,9 @@
     <section class="content-header">
 
         <h2>差旅費系統</h2>
-        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+      
+        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+
         <div class="row" style="width:50%;margin:0px auto;padding:0px;">
             <div class="card">
                 <div class="card-header">
@@ -43,12 +45,10 @@
                                 {
                                     if (d.CDepartmentId == Model.CDepartmentId)
                                     {
-                                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                                    }
+                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
                                     else
                                     {
-                                        <option value="@d.CDepartmentId">@d.CDepartment</option>
-                                    }
+                    <option value="@d.CDepartmentId">@d.CDepartment</option>}
                                 }
                             </select>
                             <span asp-validation-for="CDepartmentId" class="text-danger"></span>
@@ -95,8 +95,7 @@
                             <select type="hidden" name="CCheckStatus" readonly="readonly" style="display:none" class="form-control">
                                 @foreach (var c in status)
                                 {
-                                    <option value="@c.CCheckStatusId">@c.CCheckStatus</option>
-                                }
+                    <option value="@c.CCheckStatusId">@c.CCheckStatus</option>}
                             </select>
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                         </div>

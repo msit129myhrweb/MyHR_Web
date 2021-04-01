@@ -42,7 +42,7 @@
         <h2>差旅費系統</h2>
 
         @Html.ActionLink("差旅費申請", "Create", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
-        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
 
         <br /><br />
         <form method="post">
@@ -65,7 +65,7 @@
 
                     <div class="row">
                         <div class="col">
-                            <p class="font-weight-bold">
+                            @*<p class="font-weight-bold">
                                 審核狀態:
                                 <select class="travel_Distinguish" id="travel_Statues">
                                     <option value="" disabled selected>請選擇</option>
@@ -75,7 +75,7 @@
 }
 
                                 </select>
-                            </p>
+                            </p>*@
                         </div>
 
                     </div>
@@ -96,15 +96,15 @@
                     <table table class="table table-bordered table-hover">
                         <thead>
                             <tr style="text-align:center">
-                                <th>
+                                @*<th>
                                     @Html.DisplayNameFor(model => model.CApplyNumber)
-                                </th>
+                                </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CDepartmentId)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CEmployeeId)
-                                </th>
+                                @*<th>
+            @Html.DisplayNameFor(model => model.CEmployeeId)
+        </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CEmployeeName)
                                 </th>
@@ -126,22 +126,24 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CCheckStatus)
                                 </th>
-                                <th></th>
+                                <th>
+                                    修改/刪除
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var item in Model)
                             {
                 <tr>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.CApplyNumber)
-                    </td>
+                    </td>*@
                     <td>
                         @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.CEmployeeId)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.CEmployeeName)
                     </td>
