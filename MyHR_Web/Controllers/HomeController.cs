@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
@@ -53,7 +54,7 @@ namespace MyHR_Web.Controllers
             return PartialView();
 
         }
-                
+        
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
@@ -66,17 +67,16 @@ namespace MyHR_Web.Controllers
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
 
 
-            string Account = Request.Form["txtAccount"].ToString();
+			string Account = Request.Form["txtAccount"].ToString();
             string Psd = Request.Form["txtPassword"].ToString();
 
-            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
-            {
+            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))            
+			{
             }
             else
             {
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                            c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
-
                 if (user != null)
                 {
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
