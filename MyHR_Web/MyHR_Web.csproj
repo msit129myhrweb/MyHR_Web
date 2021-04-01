@@ -15,6 +15,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Absence\Create.cshtml" />
+    <None Include="Views\Absence\List.cshtml" />
+    <None Include="Views\Covid_19\Covid_19.cshtml" />
+    <None Include="Views\Home\BulletInList.cshtml" />
+    <None Include="Views\Home\Calendar.cshtml" />
+    <None Include="Views\Home\Index - 複製.cshtml" />
+    <None Include="Views\Home\Index.cshtml" />
+    <None Include="Views\Home\Login - 複製.cshtml" />
+    <None Include="Views\Home\Login.cshtml" />
+    <None Include="Views\Home\Privacy.cshtml" />
+    <None Include="Views\Home\Profile.cshtml" />
+    <None Include="Views\Home\ToDoList.cshtml" />
+    <None Include="Views\LeaveApplication\List.cshtml" />
+    <None Include="Views\Leave\Edit.cshtml" />
+    <None Include="Views\Leave\LeaveCreate.cshtml" />
+    <None Include="Views\Leave\LeaveList.cshtml" />
+    <None Include="Views\Leave\Mutiple_search.cshtml" />
+    <None Include="Views\Repair\RepairCreate.cshtml" />
+    <None Include="Views\Repair\RepairList.cshtml" />
+    <None Include="Views\Salary\ConfirmPassword.cshtml" />
+    <None Include="Views\Salary\SalaryList.cshtml" />
+    <None Include="Views\TravelExpense\Create.cshtml" />
+    <None Include="Views\TravelExpense\List.cshtml" />
+    <None Include="Views\Travel_Expense_Application\Detail.cshtml" />
+    <None Include="Views\Travel_Expense_Application\List.cshtml" />
+    <None Include="Views\WuCha\WuChaList.cshtml" />
+    <None Include="Views\WuCha\WuChaList2.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.Design" Version="1.1.6" />
