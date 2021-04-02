@@ -113,7 +113,8 @@ namespace MyHR_Web.Controllers
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
                 return View(pmodel);
             }
-            
+           
+
             string photoName = Guid.NewGuid().ToString() + ".jpg";
             using (var photo = new FileStream(
                 iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
@@ -168,6 +169,8 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
+            string photoName = Guid.NewGuid().ToString() + ".jpg";
+            tf.CPropertyPhoto = "../images/" + photoName;
 
             var result = new CPropertyViewModel
             {
@@ -187,7 +190,7 @@ namespace MyHR_Web.Controllers
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
             ViewBag.category = db.TLostAndFoundCategories.ToList();
-            
+           
             return View(result);
         }
         [HttpPost]
