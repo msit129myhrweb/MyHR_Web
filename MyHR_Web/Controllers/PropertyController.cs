@@ -36,7 +36,7 @@ namespace MyHR_Web.Controllers
             }
             if (enddate.HasValue)
             {
-                tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
+                tl = tl.Where(e => e.CLostAndFoundDate <= enddate.Value);
             }
 
             var propertytable = from p in tl
@@ -159,6 +159,7 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Edit(int? id)
         {
+           
             if (id.HasValue == false)
             {
                 return RedirectToAction("List");
@@ -196,7 +197,8 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
-                if (ModelState.IsValid == false)
+            //無法修改 及圖片
+            if (ModelState.IsValid == false)
                 {
                     ViewBag.Departments = db.TUserDepartments.ToList();
                     ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();

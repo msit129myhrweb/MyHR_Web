@@ -32,7 +32,7 @@ namespace MyHR_Web.Controllers
             }
             if (endDate.HasValue)
             {
-                tt = tt.Where(e => e.CApplyDate < endDate.Value);
+                tt = tt.Where(e => e.CApplyDate <= endDate.Value);
             }
 
             if (getUserDepartmentId() == 6)     //設觀看權限顯示畫面

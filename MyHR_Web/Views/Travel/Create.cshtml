@@ -1,12 +1,10 @@
 ﻿@model MyHR_Web.ViewModel.CTravelViewModel
 @using Microsoft.AspNetCore.Http;
 
-@{
-    ViewData["Title"] = "Create";
+@{ ViewData["Title"] = "Create";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TCheckStatus> status = ViewBag.Status;
-    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-}
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME"); }
 
 
 <style>
@@ -23,98 +21,109 @@
         padding-left: 10px;
     }
 </style>
+
+
 <div class="content-wrapper">
 
     <section class="content-header">
 
         <h2>差旅費系統</h2>
-
+    </section>
         @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
-        <form asp-action="Create">
-            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
-                <div class="card-header">
-                   
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <input type="hidden" asp-for="CApplyNumber" />
-                        <div class="form-group">
-                            <label asp-for="CDepartmentId" class="control-label"></label>
-                            <input type="hidden" name="CDepartmentId" value="@Model.CDepartmentId" />
-                            <select class="form-control" disabled>
-                                @foreach (var d in departs)
-                                {
-                                    if (d.CDepartmentId == Model.CDepartmentId)
+
+    
+    <hr />
+    <section class="content">
+        <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
+            <div class="card">
+                <div class="card-header p-2">
+                    <div class="card-body">
+                        <form asp-action="Create">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CApplyNumber" />
+                            <div class="form-group">
+                                <label asp-for="CDepartmentId" class="control-label"></label>
+                                <input type="hidden" name="CDepartmentId" value="@Model.CDepartmentId" />
+                                <select class="form-control" disabled>
+                                    @foreach (var d in departs)
                                     {
-                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
-                                    else
-                                    {
-                    <option value="@d.CDepartmentId">@d.CDepartment</option>}
-                                }
-                            </select>
-                            <span asp-validation-for="CDepartmentId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CEmployeeId" class="control-label"></label>
-                            <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="CEmployeeId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CEmployeeName" class="control-label"></label>
-                            <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="CEmployeeName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CReason" class="control-label"></label>
-                            <input asp-for="CReason" class="form-control" />
-                            <span asp-validation-for="CReason" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CApplyDate" class="control-label"></label>
-                            <input asp-for="CApplyDate" type="date" readonly="readonly" class="form-control" />
-                            <span asp-validation-for="CApplyDate" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CTravelStartTime" class="control-label"></label>
-                            <input asp-for="CTravelStartTime" type="date" class="form-control" />
-                            <span asp-validation-for="CTravelStartTime" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CTravelEndTime" class="control-label"></label>
-                            <input asp-for="CTravelEndTime" type="date" class="form-control" />
-                            <span asp-validation-for="CTravelEndTime" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CAmont" class="control-label"></label>
-                            <input asp-for="CAmont" class="form-control" />
-                            <span asp-validation-for="CAmont" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
-                            <input type="hidden" asp-for="CCheckStatus" disabled readonly="readonly" />
-                            <select type="hidden" name="CCheckStatus" readonly="readonly" style="display:none" class="form-control">
-                                @foreach (var c in status)
-                                {
-                    <option value="@c.CCheckStatusId">@c.CCheckStatus</option>}
-                            </select>
-                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <div class="card-footer">
-                                <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-danger" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="List" />
-                                <i>@*nothing*@</i><i>@*nothing*@</i>
-                                <input type="submit" value="新增" class="btn btn-primary float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
-
+                                        if (d.CDepartmentId == Model.CDepartmentId)
+                                        {
+                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+ }
+                    else
+                    {
+    <option value="@d.CDepartmentId">@d.CDepartment</option>
+}
+}
+                                </select>
+                                <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
-                        </div>
-                    </form>
-                
-            
+                            <div class="form-group">
+                                <label asp-for="CEmployeeId" class="control-label"></label>
+                                <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
+                                <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmployeeName" class="control-label"></label>
+                                <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
+                                <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CReason" class="control-label"></label>
+                                <input asp-for="CReason" class="form-control" />
+                                <span asp-validation-for="CReason" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CApplyDate" class="control-label"></label>
+                                <input asp-for="CApplyDate" type="date" readonly="readonly" class="form-control" />
+                                <span asp-validation-for="CApplyDate" class="text-danger"></span>
+                            </div>
 
-      
+                            <div class="form-group">
+                                <label asp-for="CTravelStartTime" class="control-label"></label>
+                                <input asp-for="CTravelStartTime" type="date" class="form-control" />
+                                <span asp-validation-for="CTravelStartTime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CTravelEndTime" class="control-label"></label>
+                                <input asp-for="CTravelEndTime" type="date" class="form-control" />
+                                <span asp-validation-for="CTravelEndTime" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CAmont" class="control-label"></label>
+                                <input asp-for="CAmont" class="form-control" />
+                                <span asp-validation-for="CAmont" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CCheckStatus" class="control-label" style="display:none"></label>
+                                <input type="hidden" asp-for="CCheckStatus" disabled readonly="readonly" />
+                                <select type="hidden" name="CCheckStatus" readonly="readonly" style="display:none" class="form-control">
+                                    @foreach (var c in status)
+                                    {
+                        <option value="@c.CCheckStatusId">@c.CCheckStatus</option>
+}
+                                </select>
+                                <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+                            </div>
+
+                            <br />
+                            <div>
+
+                                <input type="submit" value="新增" class="btn btn-info" , style="filter: grayscale(50%)" />
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <br />
+        </div>
+
+
     </section>
 </div>
-
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
