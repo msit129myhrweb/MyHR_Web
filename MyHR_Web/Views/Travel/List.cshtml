@@ -1,9 +1,11 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.CTravelViewModel>
+@using Microsoft.AspNetCore.Http;
 
 @{ ViewData["Title"] = "List";
     DateTime? startDate = ViewBag.StartDate;
     DateTime? endDate = ViewBag.EndDate;
-    var status = ViewBag.Status; }
+    var status = ViewBag.Status;
+    string userid = Context.Session.GetString("CURRENT_LOGINED_USERID"); }
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -45,51 +47,52 @@
         @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
 
         <br /><br />
-        <form method="post">
-            <div class="container">
-                <div style="background-color:papayawhip ;padding:20px; border-radius:10px">
+              <form method="post">
+                  <div class="container">
+                      <div style="background-color:papayawhip ;padding:20px; border-radius:10px">
 
-                    <i>查詢條件</i>
-                    <div class="row">
-                        <div class="col">
-                            <label class=" col-lg-12 control-label">
-                                申請日期(起) :<input name="startDate" type="date" value="@startDate?.ToString("yyyy-MM-dd")" />
-                            </label>
-                        </div>
-                        <div class="col">
-                            <label class=" col-lg-12 control-label">
-                                申請日期(迄) :<input name="endDate" type="date" value="@endDate?.ToString("yyyy-MM-dd")" />
-                            </label>
-                        </div>
-                    </div>
+                          <i>查詢條件</i>
+                          <div class="row">
+                              <div class="col">
+                                  <label class=" col-lg-12 control-label">
+                                      申請日期(起) :<input name="startDate" type="date" value="@startDate?.ToString("yyyy-MM-dd")" />
+                                  </label>
+                              </div>
+                              <div class="col">
+                                  <label class=" col-lg-12 control-label">
+                                      申請日期(迄) :<input name="endDate" type="date" value="@endDate?.ToString("yyyy-MM-dd")" />
+                                  </label>
+                                 
+                                  @Html.ActionLink("重新查詢", "List", new { }, new { @class = "btn btn-success float-right", style = "filter: grayscale(50%)" })
+                                  <br />
 
-                    <div class="row">
-                        <div class="col">
-                            @*<p class="font-weight-bold">
-                                審核狀態:
-                                <select class="travel_Distinguish" id="travel_Statues">
-                                    <option value="" disabled selected>請選擇</option>
-                                    @for (int i = 0; i < status.Count; i++)
-                                    {
-                        <option value="@status[i].cCheckStatusId">@status[i].cCheckStatus</option>
-}
+                                  <input type="submit" value="查詢" class="btn btn-primary float-right" style="filter: grayscale(50%)" />
+                              </div>
+                              
+                          </div>
 
-                                </select>
-                            </p>*@
-                        </div>
+                          <!--<div class="row">
+                              <div class="col">-->
+                                  @*<p class="font-weight-bold">
+                                                        審核狀態:
+                                                        <select class="travel_Distinguish" id="travel_Statues">
+                                                            <option value="" disabled selected>請選擇</option>
+                                                            @for (int i = 0; i < status.Count; i++)
+                                                            {
+                                                <option value="@status[i].cCheckStatusId">@status[i].cCheckStatus</option>
+                        }
 
-                    </div>
+                                                        </select>
+                                                    </p>*@
+                              <!--</div>
 
-                    <div class="row">
+                          </div>-->
 
-                        <div class="col">
+                      </div>
 
-                            <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success float-right" style="filter: grayscale(50%)" />
-                        </div>
-                        <input type="submit" value="查詢" class="btn btn-outline-secondary" />
-                    </div>
+                  </div>
 
-        </form>
+              </form>
         <div id="travel_table">
             <div class="card">
                 <div class="card-header">
@@ -97,14 +100,14 @@
                         <thead>
                             <tr style="text-align:center">
                                 @*<th>
-                                    @Html.DisplayNameFor(model => model.CApplyNumber)
-                                </th>*@
+                                        @Html.DisplayNameFor(model => model.CApplyNumber)
+                                    </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CDepartmentId)
                                 </th>
                                 @*<th>
-            @Html.DisplayNameFor(model => model.CEmployeeId)
-        </th>*@
+                                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                                    </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CEmployeeName)
                                 </th>
@@ -134,16 +137,16 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                <tr>
+                <tr style="text-align:center">
                     @*<td>
-                        @Html.DisplayFor(modelItem => item.CApplyNumber)
-                    </td>*@
+                            @Html.DisplayFor(modelItem => item.CApplyNumber)
+                        </td>*@
                     <td>
                         @Enum.GetName(typeof(eDepartment), item.CDepartmentId)
                     </td>
                     @*<td>
-                        @Html.DisplayFor(modelItem => item.CEmployeeId)
-                    </td>*@
+                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                        </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.CEmployeeName)
                     </td>
@@ -165,10 +168,17 @@
                     <td>
                         @Enum.GetName(typeof(eCheckStatusEnum), item.CCheckStatus)
                     </td>
-                    <td>
-                        @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
-                        @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
-                    </td>
+                    @if (userid == item.CEmployeeId.ToString())
+                    {
+    <td>
+        @Html.ActionLink("修改", "Edit", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+        @Html.ActionLink("刪除", "Delete", "Travel", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
+    </td> }
+                    else
+                    {
+
+    <td></td>
+}
                 </tr>}
                         </tbody>
                     </table>
