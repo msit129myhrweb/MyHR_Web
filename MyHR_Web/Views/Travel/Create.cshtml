@@ -28,11 +28,12 @@
     <section class="content-header">
 
         <h2>差旅費系統</h2>
-        @Html.ActionLink("返回差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        <div class="row" style="width:50%;margin:0px auto;padding:0px;">
-            <div class="card">
+
+        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+        <form asp-action="Create">
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
                 <div class="card-header">
-                    <form asp-action="Create">
+                   
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="CApplyNumber" />
                         <div class="form-group">
@@ -43,12 +44,10 @@
                                 {
                                     if (d.CDepartmentId == Model.CDepartmentId)
                                     {
-                                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                                    }
+                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
                                     else
                                     {
-                                        <option value="@d.CDepartmentId">@d.CDepartment</option>
-                                    }
+                    <option value="@d.CDepartmentId">@d.CDepartment</option>}
                                 }
                             </select>
                             <span asp-validation-for="CDepartmentId" class="text-danger"></span>
@@ -95,19 +94,24 @@
                             <select type="hidden" name="CCheckStatus" readonly="readonly" style="display:none" class="form-control">
                                 @foreach (var c in status)
                                 {
-                                    <option value="@c.CCheckStatusId">@c.CCheckStatus</option>
-                                }
+                    <option value="@c.CCheckStatusId">@c.CCheckStatus</option>}
                             </select>
                             <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" value="新增" class="btn btn-primary" />
+                            <div class="card-footer">
+                                <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-danger" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="List" />
+                                <i>@*nothing*@</i><i>@*nothing*@</i>
+                                <input type="submit" value="新增" class="btn btn-primary float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                            </div>
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
+                
+            
+
+      
     </section>
 </div>
 
