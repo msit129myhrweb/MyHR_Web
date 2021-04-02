@@ -4,6 +4,8 @@
 @{ ViewData["Title"] = "List";
     DateTime? startDate = ViewBag.StartDate;
     DateTime? endDate = ViewBag.EndDate;
+    DateTime? travelstart = ViewBag.travelstart;
+    DateTime? travelend = ViewBag.travelend;
     var status = ViewBag.Status;
     string userid = Context.Session.GetString("CURRENT_LOGINED_USERID"); }
 
@@ -47,7 +49,18 @@
                         <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
 
                     </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">
+                            出差日期(起) :
+                        </label><input name="travelstart" type="date" value="@travelstart?.ToString("yyyy-MM-dd")" />
 
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">
+                            出差日期(迄) :
+                        </label><input name="travelend" type="date" value="@travelend?.ToString("yyyy-MM-dd")" />
+
+                    </div>
                     <br />
                     <div class="row">
                         <div class="col-md-offset-5 position:absolute bottom">
