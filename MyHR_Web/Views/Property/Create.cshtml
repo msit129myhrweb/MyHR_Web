@@ -33,7 +33,7 @@
         <h2>失物招領系統</h2>
         @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
 
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div class="card" style="width:60%;margin:0px auto;padding:0px;">
                 <div class="card-header">
 
@@ -57,13 +57,13 @@
                             {
                                 if (d.CDepartmentId == Model.CDeparmentId)
                                 {
-                <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
- }
-            else
-            {
-    <option value="@d.CDepartmentId">@d.CDepartment</option>
-}
-}
+                                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+                                }
+                                else
+                                {
+                                    <option value="@d.CDepartmentId">@d.CDepartment</option>
+                                }
+                            }
                         </select>
                         <span asp-validation-for="CDeparmentId" class="text-danger"></span>
 
@@ -78,8 +78,8 @@
                         <select asp-for="CPropertySubjectId" class="form-control">
                             @foreach (var s in subject)
                             {
-                <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
-}
+                                <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
+                            }
                         </select>
                         <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                     </div>
@@ -88,8 +88,8 @@
                         <select asp-for="CPropertyCategoryId" class="form-control">
                             @foreach (var d in category)
                             {
-                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
-}
+                                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+                            }
                         </select>
                         <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                     </div>
@@ -125,16 +125,21 @@
                         <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
                             @foreach (var c in status)
                             {
-                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-}
+                                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+                            }
                         </select>
                         <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="新增" class="btn btn-primary" />
+                        <div class="card-footer">
+                            <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-danger" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="List" />
+                            <i>@*nothing*@</i><i>@*nothing*@</i>
+                            <input type="submit" value="新增" class="btn btn-primary float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                        </div>
                     </div>
-        </form>
+</form>
         
 </div>
             </div>

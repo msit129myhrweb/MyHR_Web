@@ -80,13 +80,13 @@
 
             <table table class="table table-bordered table-hover">
                 <thead>
-                    <tr>
+                    <tr style="text-align:center">
                         @*<th>
                             @Html.DisplayNameFor(model => model.CPropertyId)
                         </th>*@
-                        <th>
+                        @*<th>
                             @Html.DisplayNameFor(model => model.CEmployeeId)
-                        </th>
+                        </th>*@
                         <th>
                             @Html.DisplayNameFor(model => model.CEmployeeName)
                         </th>
@@ -126,13 +126,13 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                <tr>
+                <tr  style="text-align:center">
                     @*<td>
                         @Html.DisplayFor(modelItem => item.CPropertyId)
                     </td>*@
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.CEmployeeId)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.CEmployeeName)
                     </td>
@@ -149,7 +149,7 @@
                         @Enum.GetName(typeof(eLostAndFoundCategory), item.CPropertyCategoryId)
                     </td>
                     <td>
-                        <img src="@item.CPropertyPhoto" width="100" height="150" />
+                        <img src="@item.CPropertyPhoto" width="100" height="100" />
                         @*@Html.DisplayFor(modelItem => item.CPropertyPhoto)*@
                     </td>
                     <td>
@@ -171,7 +171,7 @@
                     {
                 <td>
                     @Html.ActionLink("修改", "Edit", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-success ", @style = "filter: grayscale(50%)", @type = "button" })
-                    @Html.ActionLink("刪除", "Delete", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-danger float-right", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
+                    @Html.ActionLink("刪除", "Delete", "Property", new { id = item.CPropertyId }, new { @class = "btn btn-danger ", @style = "filter: grayscale(50%)", @type = "button", onclick = "return confirm('確定要刪除嗎?')" })
                 </td>
                     }
                     else

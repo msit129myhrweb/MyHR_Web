@@ -100,7 +100,12 @@
                         </div>
 
                         <div class="form-group">
-                            <input type="submit" value="新增" class="btn btn-primary" />
+                            <div class="card-footer">
+                                <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-danger" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="List" />
+                                <i>@*nothing*@</i><i>@*nothing*@</i>
+                                <input type="submit" value="新增" class="btn btn-primary float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                            </div>
                         </div>
                     </form>
                 
