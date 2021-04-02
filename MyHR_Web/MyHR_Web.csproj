@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Login\Login - 複製.cshtml" />
     <Content Remove="Views\Travel\_Create.cshtml" />
     <Content Remove="Views\Travel\_Delete.cshtml" />
     <Content Remove="Views\Travel\_Edit.cshtml" />
@@ -19,6 +20,8 @@
     <None Include="Views\Absence\Create.cshtml" />
     <None Include="Views\Absence\List.cshtml" />
     <None Include="Views\Covid_19\Covid_19.cshtml" />
+    <None Include="Views\employee\employeeList.cshtml" />
+    <None Include="Views\employee\register.cshtml" />
     <None Include="Views\Home\BulletInList.cshtml" />
     <None Include="Views\Home\Calendar.cshtml" />
     <None Include="Views\Home\Index - 複製.cshtml" />
@@ -34,6 +37,7 @@
     <None Include="Views\Leave\LeaveCreate.cshtml" />
     <None Include="Views\Leave\LeaveList.cshtml" />
     <None Include="Views\Leave\Mutiple_search.cshtml" />
+    <None Include="Views\Login\Login - 複製.cshtml" />
     <None Include="Views\Login\Login.cshtml" />
     <None Include="Views\Repair\RepairCreate.cshtml" />
     <None Include="Views\Repair\RepairList.cshtml" />

@@ -31,27 +31,32 @@
             <div class="card">
                 <div class="card-header p-2">
                     <div class="card-body">
-
-                        <form asp-action="RepairCreate">
+                        <form asp-action="RepairCreate" method="post" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <div>
+                            <div style="display:none">
                                 <label asp-for="CRepairNumber" class="control-label"></label>
                                 <input asp-for="CRepairNumber" class="form-control" />
                                 <span asp-validation-for="CRepairNumber" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CEmployeeId" class="control-label"></label>
-                                <input asp-for="CEmployeeId" class="form-control" />
+                                <input   asp-for="CEmployeeId" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERID"]" />                                
                                 <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                             </div>
+                            
+
                             <div>
                                 <label asp-for="CAppleDate" class="control-label"></label>
-                                <input asp-for="CAppleDate" class="form-control" />
+                                <input type="date" asp-for="CAppleDate" class="form-control"   />
                                 <span asp-validation-for="CAppleDate" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CRepairCategory" class="control-label"></label>
-                                <input asp-for="CRepairCategory" class="form-control" />
+                                @*<input asp-for="CRepairCategory" class="form-control" />*@
+                            <select asp-for="CRepairCategory" class="form-control" >
+                                <option value="資訊修繕">資訊修繕</option>
+                                <option value="總務修繕">總務修繕</option>
+                            </select>
                                 <span asp-validation-for="CRepairCategory" class="text-danger"></span>
                             </div>
                             <div>
@@ -66,12 +71,12 @@
                             </div>
                             <div>
                                 <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" />
+                                <input asp-for="CPhone" class="form-control" value="@ViewData["CURRENT_LOGINED_PHONE"]" />
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
-                            <div>
+                            <div style="display:none">
                                 <label asp-for="CRepairStatus" class="control-label"></label>
-                                <input asp-for="CRepairStatus" class="form-control" />
+                                <input asp-for="CRepairStatus" class="form-control" value="0" />
                                 <span asp-validation-for="CRepairStatus" class="text-danger"></span>
                             </div>
                             <br />
@@ -90,10 +95,6 @@
 
 
     </section>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 
