@@ -1,158 +1,159 @@
 ﻿@model MyHR_Web.ViewModel.CPropertyViewModel
 @using Microsoft.AspNetCore.Http;
 
-@{
-    ViewData["Title"] = "Edit";
-    List<TUserDepartment> departs = ViewBag.Departments;
-    List<TLostAndFoundCategory> category = ViewBag.category;
-    List<TLostAndFoundCheckStatus> status = ViewBag.check;
-    List<TLostAndFoundSubject> subject = ViewBag.subject;
-    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-}
+@{ ViewData["Title"] = "Edit";
+                List<TUserDepartment> departs = ViewBag.Departments;
+                List<TLostAndFoundCategory> category = ViewBag.category;
+                List<TLostAndFoundCheckStatus> status = ViewBag.check;
+                List<TLostAndFoundSubject> subject = ViewBag.subject;
+                string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME"); }
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
 
 <div class="content-wrapper">
     <section class="content-header">
-        <header>
-            <style>
-                h2 {
-                    background-color: #cbb2ae;
-                    border-left: 5px solid #808080;
-                    font-family: "微软雅黑", "宋体", "黑体", Arial;
-                    font-size: 25px;
-                    height: 80px;
-                    line-height: 80px;
-                    font-weight: bold;
-                    text-shadow: 2px 2px 3px #222222;
-                    color: #FFFFFF;
-                    padding-left: 10px;
-                }
-            </style>
-        </header>
         <h2>失物招領系統</h2>
         @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        <div class="row" style="width:50%;margin:0px auto;padding:0px;">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="CPropertyId" value="@Model.CPropertyId" />
-                <div class="form-group">
-                    <label asp-for="CEmployeeId" class="control-label"></label>
-                    <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="CEmployeeId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CEmployeeName" class="control-label"></label>
-                    <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="CEmployeeName" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CDeparmentId" readonly="readonly" class="control-label"></label>
-                    <select class="form-control" disabled>
-                        @foreach (var d in departs)
-                        {
-                            if (d.CDepartmentId == Model.CDeparmentId)
-                            {
-                                <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                            }
-                            else
-                            {
-                                <option value="@d.CDepartmentId">@d.CDepartment</option>
-                            }
-                        }
-                    </select>
-                    <span asp-validation-for="CDeparmentId" class="text-danger"></span>
 
-                </div>
-                <div class="form-group">
-                    <label asp-for="CPhone" class="control-label"></label>
-                    <input asp-for="CPhone" class="form-control" readonly="readonly" />
-                    <span asp-validation-for="CPhone" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CPropertySubjectId" class="control-label"></label>
-                    <select asp-for="CPropertySubjectId" class="form-control">
-                        @foreach (var s in subject)
-                        {
-                            if (s.CPropertySubjectId == Model.CPropertySubjectId)
-                            {
-                                <option selected value="@s.CPropertySubjectId">@s.CPropertySubject</option>
-                            }
-                            else
-                            {
-                                <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
-                            }
+        <div class="row">
 
-                        }
-                    </select>
-                    <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CPropertyCategoryId" class="control-label"></label>
-                    <select asp-for="CPropertyCategoryId" class="form-control">
-                        @foreach (var d in category)
-                        {
-                            if (d.CPropertyCategoryId == Model.CPropertyCategoryId)
-                            {
-                                <option selected value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
-                            }
-                            else
-                            {
-                                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
-                            }
-                        }
-                    </select>
-                    <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CPropertyPhoto" class="control-label"></label>
-                    <input type="file" name="image" />
-                    <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CProperty" class="control-label"></label>
-                    <input asp-for="CProperty" class="form-control" />
-                    <span asp-validation-for="CProperty" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CLostAndFoundDate" class="control-label"></label>
-                    <input asp-for="CLostAndFoundDate" class="form-control" type="date" readonly="readonly" />
-                    <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CLostAndFoundSpace" class="control-label"></label>
-                    <input asp-for="CLostAndFoundSpace" class="form-control" />
-                    <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CtPropertyDescription" class="control-label"></label>
-                    <input asp-for="CtPropertyDescription" class="form-control" />
-                    <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
-                </div>
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                <div class="card-header">
+                    <form asp-action="Edit">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" asp-for="CPropertyId" value="@Model.CPropertyId" />
+                        <div class="form-group">
+                            <label asp-for="CEmployeeId" class="control-label"></label>
+                            <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CEmployeeName" class="control-label"></label>
+                            <input asp-for="CEmployeeName" value="@userName" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CDeparmentId" readonly="readonly" class="control-label"></label>
+                            <select class="form-control" disabled>
+                                @foreach (var d in departs)
+                                {
+                                    if (d.CDepartmentId == Model.CDeparmentId)
+                                    {
+                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+ }
+                else
+                {
+    <option value="@d.CDepartmentId">@d.CDepartment</option>
+}
+}
+                            </select>
+                            <span asp-validation-for="CDeparmentId" class="text-danger"></span>
 
-                <div class="form-group">
-                    <label type="hidden" asp-for="CPropertyCheckStatusId" class="control-label" style="display:none"></label>
-                    <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
-                        @foreach (var c in status)
-                        {
-                            if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
-                            {
-                                <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                            }
-                            else
-                            {
-                                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                            }
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPhone" class="control-label"></label>
+                            <input asp-for="CPhone" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CPhone" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertySubjectId" class="control-label"></label>
+                            <select asp-for="CPropertySubjectId" class="form-control">
+                                @foreach (var s in subject)
+                                {
+                                    if (s.CPropertySubjectId == Model.CPropertySubjectId)
+                                    {
+                    <option selected value="@s.CPropertySubjectId">@s.CPropertySubject</option>
+ }
+                else
+                {
+    <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
+}
 
-                        }
-                    </select>
-                    <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+}
+                            </select>
+                            <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertyCategoryId" class="control-label"></label>
+                            <select asp-for="CPropertyCategoryId" class="form-control">
+                                @foreach (var d in category)
+                                {
+                                    if (d.CPropertyCategoryId == Model.CPropertyCategoryId)
+                                    {
+                    <option selected value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+ }
+                else
+                {
+    <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+}
+}
+                            </select>
+                            <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CPropertyPhoto" class="control-label"></label>
+                            <input type="file" name="image" />
+                            <span asp-validation-for="CPropertyPhoto" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CProperty" class="control-label"></label>
+                            <input asp-for="CProperty" class="form-control" />
+                            <span asp-validation-for="CProperty" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLostAndFoundDate" class="control-label"></label>
+                            <input asp-for="CLostAndFoundDate" class="form-control" type="date" readonly="readonly" />
+                            <span asp-validation-for="CLostAndFoundDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CLostAndFoundSpace" class="control-label"></label>
+                            <input asp-for="CLostAndFoundSpace" class="form-control" />
+                            <span asp-validation-for="CLostAndFoundSpace" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="CtPropertyDescription" class="control-label"></label>
+                            <input asp-for="CtPropertyDescription" class="form-control" />
+                            <span asp-validation-for="CtPropertyDescription" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label type="hidden" asp-for="CPropertyCheckStatusId" class="control-label" style="display:none"></label>
+                            <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
+                                @foreach (var c in status)
+                                {
+                                    if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
+                                    {
+                    <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+ }
+                else
+                {
+    <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+}
+
+}
+                            </select>
+                            <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" value="修改" class="btn btn-primary" />
+                        </div>
+                    </form>
                 </div>
-
-
-                <div class="form-group">
-                    <input type="submit" value="修改" class="btn btn-primary" />
-                </div>
-            </form>
-        </div>
     </section>
 </div>
 

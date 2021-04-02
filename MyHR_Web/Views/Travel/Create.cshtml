@@ -28,13 +28,12 @@
     <section class="content-header">
 
         <h2>差旅費系統</h2>
-      
-        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
 
-        <div class="row" style="width:50%;margin:0px auto;padding:0px;">
-            <div class="card">
+        @Html.ActionLink("差旅費查詢", "List", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
+        <form asp-action="Create">
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
                 <div class="card-header">
-                    <form asp-action="Create">
+                   
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="hidden" asp-for="CApplyNumber" />
                         <div class="form-group">
@@ -104,9 +103,10 @@
                             <input type="submit" value="新增" class="btn btn-primary" />
                         </div>
                     </form>
-                </div>
-            </div>
-        </div>
+                
+            
+
+      
     </section>
 </div>
 

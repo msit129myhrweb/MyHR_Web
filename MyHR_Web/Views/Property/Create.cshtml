@@ -1,14 +1,15 @@
 ﻿@model MyHR_Web.ViewModel.CPropertyViewModel
 @using Microsoft.AspNetCore.Http;
 
-@{
+@{ 
     ViewData["Title"] = "Create";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
     string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-}
+   // string userPhone = Context.Session.GetString("LOGIN_USERPHONE");
+    }
 
 <style>
     h2 {
@@ -25,14 +26,17 @@
     }
 </style>
 
+
 <div class="content-wrapper">
 
     <section class="content-header">
         <h2>失物招領系統</h2>
         @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        <div class="card" style="width:50%;margin:0px auto;padding:0px;">
-            <div class="card-header">
-                <form asp-action="Create" enctype="multipart/form-data">
+
+        <form asp-action="Create">
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                <div class="card-header">
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="CPropertyId" value="@Model.CPropertyId" />
                     <div class="form-group">
@@ -53,13 +57,13 @@
                             {
                                 if (d.CDepartmentId == Model.CDeparmentId)
                                 {
-                                    <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
-                                else
-                                {
-                                    <option value="@d.CDepartmentId">@d.CDepartment</option>
-                                }
-                            }
+                <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+ }
+            else
+            {
+    <option value="@d.CDepartmentId">@d.CDepartment</option>
+}
+}
                         </select>
                         <span asp-validation-for="CDeparmentId" class="text-danger"></span>
 
@@ -74,8 +78,8 @@
                         <select asp-for="CPropertySubjectId" class="form-control">
                             @foreach (var s in subject)
                             {
-                                <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
-                            }
+                <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>
+}
                         </select>
                         <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                     </div>
@@ -84,8 +88,8 @@
                         <select asp-for="CPropertyCategoryId" class="form-control">
                             @foreach (var d in category)
                             {
-                                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
-                            }
+                <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+}
                         </select>
                         <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                     </div>
@@ -121,8 +125,8 @@
                         <select type="hidden" name="CPropertyCheckStatusId" readonly="readonly" style="display:none" class="form-control">
                             @foreach (var c in status)
                             {
-                                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
-                            }
+                <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+}
                         </select>
                         <span asp-validation-for="CPropertyCheckStatusId" class="text-danger"></span>
                     </div>
@@ -130,9 +134,11 @@
                     <div class="form-group">
                         <input type="submit" value="新增" class="btn btn-primary" />
                     </div>
-                </form>
+        </form>
+        
+</div>
             </div>
-        </div>
+        
     </section>
 </div>
 
