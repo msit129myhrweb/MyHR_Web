@@ -75,7 +75,7 @@ namespace MyHR_Web.Models
                     .HasColumnName("cOn");
 
                 entity.Property(e => e.CStatus)
-                    .HasMaxLength(10)
+                    .HasMaxLength(20)
                     .HasColumnName("cStatus");
 
                 entity.HasOne(d => d.CEmployee)

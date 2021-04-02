@@ -1,0 +1,99 @@
+﻿@model MyHR_Web.ViewModel.CTravelViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <header>
+            <style>
+                h2 {
+                    background-color: #cbb2ae;
+                    border-left: 5px solid #808080;
+                    font-family: "微软雅黑", "宋体", "黑体", Arial;
+                    font-size: 25px;
+                    height: 80px;
+                    line-height: 80px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px 3px #222222;
+                    color: #FFFFFF;
+                    padding-left: 10px;
+                }
+            </style>
+        </header>
+        <h2>差旅費系統</h2>
+        @Html.ActionLink("差旅費一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
+
+        <div class="row" style="width:50%;margin:0px auto;padding:0px;">
+            <div class="col-md-4">
+                <form asp-action="Edit" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-group">
+                        <label asp-for="CDepartmentName" class="control-label"></label>
+                        <input asp-for="CDepartmentName" class="form-control" value="@ViewData["LOGINED_USERDEPARTMENT"]"  />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CEmployeeId" class="control-label"></label>
+                        <input asp-for="CEmployeeId" class="form-control" value="@ViewData["LOGIN_USERID"]" />
+                        <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CReason" class="control-label"></label>
+                        <input asp-for="CReason" class="form-control" />
+                        <span asp-validation-for="CReason" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CApplyDate" class="control-label"></label>
+                        <input asp-for="CApplyDate" class="form-control" type="date"/>
+                        <span asp-validation-for="CApplyDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CTravelStartTime" class="control-label"></label>
+                        <input asp-for="CTravelStartTime" class="form-control" type="date"/>
+                        <span asp-validation-for="CTravelStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CTravelEndTime" class="control-label"></label>
+                        <input asp-for="CTravelEndTime" class="form-control" type="date"/>
+                        <span asp-validation-for="CTravelEndTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CAmont" class="control-label"></label>
+                        <input asp-for="CAmont" class="form-control" />
+                        <span asp-validation-for="CAmont" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" typeof="text">
+                        <label asp-for="CCheckStatusName" class="control-label"></label>
+                        <select asp-for="CCheckStatusName" id="t差旅費下拉選單" class="form-control" />
+                        <span asp-validation-for="CCheckStatusName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="修改" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+</div>
+<script>
+    var travelcheck;
+    $.ajax({
+        url: "@Url.Action("tcheckStatus", "Travel")",
+        type: "Get",
+        success: function (tchecks) {
+            txt = "";
+            console.log(tchecks);
+            for (let i = 0; i < tchecks.length; i++) {
+                txt += "<option value='" + tchecks[i].cCheckStatusID + "'>" + tchecks[i].cCheckStatus + "</option>";
+            }
+          
+            document.getElementById("t差旅費下拉選單").innerHTML = txt;
+        }
+    });
+</script>
+
+
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }

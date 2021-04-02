@@ -1,7 +1,9 @@
-﻿@using Microsoft.AspNetCore.Http;
+@using Microsoft.AspNetCore.Http;
 @{ 
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
     int jobTitle = int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERJOBTITLEID"));
+    int login_ureid = int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERID"));
+
 }
 
 <!DOCTYPE html>
@@ -184,6 +186,35 @@
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
     with font-awesome or any other icon font library -->
+
+                        @if (login_ureid == 1)
+                        {
+                            @*員工管理*@
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-user-cog"></i>
+                                    <p>
+                                        員工管理
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>註冊新員工</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>員工清單</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        } 
+                        
                         @*打卡*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Absence" asp-action="List" class="nav-link">
@@ -193,7 +224,7 @@
                         </li>
                         @*簽核*@
                         @{
-                            if (jobTitle <3)
+                            if (jobTitle < 3)
                             {
                                 <li class="nav-item">
                                     <a href="#" class="nav-link">
@@ -286,29 +317,31 @@
                             </a>
                         </li>
                         @*差旅*@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-plane-departure"></i>
-                                <p>
-                                    差旅
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="Edit">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>差旅費申請</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="List">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>差旅費查詢</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-plane-departure"></i>
+                            <p>
+                                差旅
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="Create">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>差旅費申請</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Travel" asp-action="List">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>差旅費查詢</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
 
                         @*員工福利專區*@
                         <li class="nav-item">
@@ -340,9 +373,20 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" asp-area="" asp-controller="Property" asp-action="List">
-                                                <p>失物領回</p>
+                                                <p>失物查詢</p>
                                             </a>
                                         </li>
+                                        @if (login_ureid == 7)
+                                        {
+
+                                            <li class="nav-item">
+                                                <a class="nav-link" asp-area="" asp-controller="PCheckStatus" asp-action="List">
+                                                    <p>失物領回</p>
+                                                </a>
+                                            </li>
+                                        }
+
+
                                     </ul>
                                 </li>
                             </ul>

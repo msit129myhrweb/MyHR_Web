@@ -162,7 +162,8 @@ namespace MyHR_Web.Controllers
                 if (a.COn.Value.Month.ToString().Length < 2)
                 {
                     string addMonth = "0" + a.COn.Value.Month.ToString();
-                    a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id) && x.COn.Value.Year.ToString() == year && addMonth == month && x.COn.Value.Day.ToString() == day);
+                    a = db.TAbsences.FirstOrDefault(x =>  x.COn.Value.Year.ToString() == year&&int.Parse(id) ==2&& addMonth == month && x.COn.Value.Day.ToString() == day);
+                
                 }
                 else
                     a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id) && x.COn.Value.Year.ToString() == year && a.COn.Value.Month.ToString() == month && x.COn.Value.Day.ToString() == day);

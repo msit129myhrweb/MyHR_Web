@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
+
 using System.IO;
-using MyHR_Web.MyClass;
+
 
 namespace MyHR_Web.Controllers
 {  //現在版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        private dbMyCompanyContext db = new dbMyCompanyContext();
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -33,17 +37,84 @@ namespace MyHR_Web.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult ViewPhoto(int id)
+        {
+            var photo = db.TUsers.FirstOrDefault(u => u.CEmployeeId == id);
+            MemoryStream ms = new MemoryStream(photo.CPhoto);
+            return new FileStreamResult(ms, "image/JPG");
+        }
+
+
         public IActionResult Profile()
         {            
+
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
-			ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
-            return View();
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData["USERID"] = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            int userid = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            var table = from u in db.TUsers
+                        where u.CEmployeeId == userid
+                        select u;
+            //return View(table);
+
+            List<TUserViewModel> list = new List<TUserViewModel>();
+            foreach (TUser i in table)
+                list.Add(new TUserViewModel(i));
+            return View(list);
         }
-        [HttpPost]
-        public async Task<IActionResult> Profile(TUser user, List<IFormFile> CPhoto)
+
+
+        public IActionResult ProfileEdit(int? id)
         {
+            ViewData["USERID"] = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
+
+
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+            ViewData[CDictionary.CURRENT_LOGINED_USERENNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERENNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_PASSWORD] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_PASSWORD);
+            ViewData[CDictionary.CURRENT_LOGINED_OBD] = (HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_OBD));
+            ViewData[CDictionary.CURRENT_LOGINED_BBD] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_BBD);
+            ViewData[CDictionary.CURRENT_LOGINED_GENDER] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_GENDER);
+            ViewData[CDictionary.CURRENT_LOGINED_EMAIL] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_EMAIL);
+            ViewData[CDictionary.CURRENT_LOGINED_ADDRESS] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_ADDRESS);
+            ViewData[CDictionary.CURRENT_LOGINED_SUPERVISOR] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_SUPERVISOR);
+            ViewData[CDictionary.CURRENT_LOGINED_BRD] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_BRD);
+            ViewData[CDictionary.CURRENT_LOGINED_PHONE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_PHONE);
+            ViewData[CDictionary.CURRENT_LOGINED_EMERGENCY_PER] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_EMERGENCY_PER);
+            ViewData[CDictionary.CURRENT_LOGINED_EMERGENCY_CONT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT);
+            ViewData[CDictionary.CURRENT_LOGINED_OB_STATUS] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_OB_STATUS);
+            ViewData[CDictionary.CURRENT_LOGINED_ACC_ENABLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE);
+            if (id != null)
+            {
+
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == id);
+
+                if (u != null)
+                {
+                    return View(new TUserViewModel(u));
+
+                }
+
+            }
+            return RedirectToAction("Profile");
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> ProfileEdit(TUser user, TUserViewModel user_vm, List<IFormFile> CPhoto)
+        {
+
+
             user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
 
             foreach (var item in CPhoto)
@@ -56,15 +127,74 @@ namespace MyHR_Web.Controllers
                         user.CPhoto = stream.ToArray();
                     }
                 }
-                dbMyCompanyContext db = new dbMyCompanyContext();
+
                 if (user != null)
                 {
                     db.Update(user);
                     db.SaveChanges();
                 }
             }
+            //return View();
+            if (user_vm != null)
+            {
+
+                TUser u = db.TUsers.FirstOrDefault(p => p.CEmployeeId == user_vm.CEmployeeId);
+                if (u != null)
+                {
+                    u.CEmployeeEnglishName = user_vm.CEmployeeEnglishName;
+                    u.CPassWord = user_vm.CPassWord;
+                    u.CGender = user_vm.CGender;
+                    u.CEmail = user_vm.CEmail;
+                    u.CAddress = user_vm.CAddress;
+                    u.CBirthday = (DateTime)user_vm.CBirthday;
+                    u.CPhone = user_vm.CPhone;
+                    u.CEmergencyPerson = user_vm.CEmergencyPerson;
+                    u.CEmergencyContact = user_vm.CEmergencyContact;
+                    u.CAccountEnable = user_vm.CAccountEnable;
+                    db.SaveChanges();
+                }
+            }
+            return RedirectToAction("Profile");
+        }
+
+        public IActionResult AccEnable()
+        {
+
+            ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
+            ViewData[CDictionary.CURRENT_LOGINED_USERJOBTITLE] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
+            ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+
             return View();
         }
+
+
+        [HttpPost]
+        public IActionResult AccEnable(CLoginViewModel p, TUserViewModel _user)
+        {
+            if (p.txtAccount != null && p.txtPassword != null)
+            {
+
+                if (_user != null)
+                {
+
+                    TUser u = db.TUsers.FirstOrDefault(u => u.CEmployeeId == int.Parse(p.txtAccount) && u.CPassWord == p.txtPassword);
+                    if (u != null)
+                    {
+                        u.CAccountEnable = 1;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        ViewBag.Message = "錯誤的帳號或密碼";
+                    }
+                }
+            }
+            return RedirectToAction("Login");
+
+
+        }
+
 
         public IActionResult Login()
         {
@@ -81,7 +211,7 @@ namespace MyHR_Web.Controllers
             return PartialView();
 
         }
-                
+        
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
@@ -94,19 +224,19 @@ namespace MyHR_Web.Controllers
             //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
 
 
-            string Account = Request.Form["txtAccount"].ToString();
+			string Account = Request.Form["txtAccount"].ToString();
             string Psd = Request.Form["txtPassword"].ToString();
 
-            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))
-            {
+            if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))            
+			{
             }
             else
             {
                 TUser user = (new dbMyCompanyContext()).TUsers.FirstOrDefault(c =>
                            c.CEmployeeId.Equals(Int32.Parse(p.txtAccount)) && c.CPassWord.Equals(p.txtPassword));
-
                 if (user != null)
                 {
+
                     HttpContext.Session.SetObject<TUser>(CDictionary.Current_User, user);
                     HttpContext.Session.SetString("Today", DateTime.Now.ToString("yyyy/MM/dd"));
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERNAME, user.CEmployeeName);
@@ -114,7 +244,6 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLEID,user.CJobTitleId.ToString());
-
 
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
@@ -131,7 +260,7 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OB_STATUS, ((eOnBoard)user.COnBoardStatusId).ToString());
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
-
+                    HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
 
                     return RedirectToAction("Index");
                 }

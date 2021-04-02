@@ -22,13 +22,13 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
              var table = MyHR.TUsers
-              .Include(c => c.CDepartment)
+              .Include(c => c.CDepartmentId)
               .Include(c => c.CJobTitle)
               .Where(c => c.CEmployeeId == UserID)
               .Select(c=>new CSalaryViewModel
             {
                 CEmployeeName = c.CEmployeeName,
-                CDepartment = c.CDepartment.CDepartment,
+                  CDepartment = c.CDepartmentId.ToString(),
                 CEmployeeId = c.CEmployeeId,
                 CJobTitle = c.CJobTitle.CJobTitle,
                 CJobTitleSalary = c.CJobTitle.CJobTitleSalary
