@@ -67,6 +67,7 @@ namespace MyHR_Web.ViewModel
             get { return iv_repair.CAppleDate; }
             set { iv_repair.CAppleDate = (DateTime)value; }
         }
+
         [Required(ErrorMessage = "必填欄位")]
         [DisplayName("報修類別")]
         public string CRepairCategory

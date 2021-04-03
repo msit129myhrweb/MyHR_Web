@@ -37,8 +37,8 @@
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label asp-for="CPhoto" class="control-label"></label>
-                                <img class="profile-user-img img-fluid img-thumbnail"
+                                <label asp-for="CPhoto" class="control-label"></label><br/>
+                                <img class="profile-user-img img-fluid img-circle"
                                      src="/Home/ViewPhoto?id=@ViewData["USERID"]"
                                      alt="@ViewData["CURRENT_LOGINED_USERNAME"]"
                                      style="width:200px;height:200px;" />

@@ -12,11 +12,7 @@ namespace MyHR_Web.Views.Home
 {
     public class RepairController : Controller
     {
-        //public IActionResult DropDownList()
-        //{
-       
-        //    return View();
-        //}
+     
 
         public IActionResult RepairList()
         {
@@ -130,6 +126,8 @@ namespace MyHR_Web.Views.Home
             return View(list);
             //return View(table);
         }
+       
+     
         public IActionResult RepairCreate()
         {
            
@@ -141,12 +139,14 @@ namespace MyHR_Web.Views.Home
         [HttpPost]
         public IActionResult RepairCreate(CReairViewModel cReair)
         {
-           
-            dbMyCompanyContext db = new dbMyCompanyContext();
-            db.TRepairs.Add(cReair.repair);
-            db.SaveChanges();
-            return RedirectToAction("RepairList");
+         
+            
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                db.TRepairs.Add(cReair.repair);
+                db.SaveChanges();
+            
 
+            return RedirectToAction("RepairList");
 
         }
 

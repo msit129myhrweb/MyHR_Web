@@ -58,6 +58,46 @@ namespace MyHR_Web.Controllers
 
 
         }
+
+
+
+        public JsonResult updateall(string x)
+        {
+            string a = x;
+            string[] ids = a.Split('\\', '"', '[', ',', ']');
+
+            List<int> list = new List<int>();
+            foreach (var item in ids)
+            {
+
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+
+            }
+            foreach (var i in list)
+            {
+                
+                TUser u = db.TUsers.FirstOrDefault(u => u.CEmployeeId == i);
+                if (u != null)
+                {
+                    u.CByeByeDay = DateTime.Today;
+                    u.COnBoardStatusId = 2;
+                    u.CAccountEnable = 0;
+                    db.SaveChanges();
+                }
+
+            }
+
+            return Json(new { result = true, msg = "成功" });
+
+
+
+        }
+
+
+        //用URL下載檔案
         [HttpGet]
         public string Export()
         {
@@ -135,16 +175,12 @@ namespace MyHR_Web.Controllers
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             
-
-            //todo wz
             //檔案會到wwwroot\theme
-            string sWebRootFolder = iv_host.WebRootPath;
+            //string sWebRootFolder = iv_host.WebRootPath;
 
             //檔案會到wwwroot\ExcelFile，但會報錯
-            //string sWebRootFolder=iv_host.WebRootPath + @"\wwwroot\ExcelFile\";
-            //todo wz
-
-
+            string sWebRootFolder=iv_host.WebRootPath + @"\ExcelFile\";
+           
             string sFileName = $"User_{DateTime.Now.ToString("yyyyMMddHHssfff")}.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
             using (ExcelPackage package = new ExcelPackage(file))
@@ -205,13 +241,13 @@ namespace MyHR_Web.Controllers
                     ws.Cells[row, 4].Value =  item.CPassWord;
                     ws.Cells[row, 5].Value =  item.CGender;
                     ws.Cells[row, 6].Value =  item.CEmail;
-                    ws.Cells[row, 7].Value =  item.COnBoardDay.ToString();
-                    ws.Cells[row, 8].Value =  item.CByeByeDay.ToString();
+                    ws.Cells[row, 7].Value =  Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.COnBoardDay));
+                    ws.Cells[row, 8].Value =  Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CByeByeDay));
                     ws.Cells[row, 9].Value =  item.CAddress;
                     ws.Cells[row, 10].Value = (eDepartment)item.CDepartmentId;
                     ws.Cells[row, 11].Value = (eJobTitle)item.CJobTitleId;
                     ws.Cells[row, 12].Value = item.CSupervisor;
-                    ws.Cells[row, 13].Value = item.CBirthday.ToString();
+                    ws.Cells[row, 13].Value = Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CBirthday));
                     ws.Cells[row, 14].Value = item.CPhone;
                     ws.Cells[row, 15].Value = item.CEmergencyPerson;
                     ws.Cells[row, 16].Value = item.CEmergencyContact;
@@ -222,7 +258,8 @@ namespace MyHR_Web.Controllers
 
                 package.Save(); //Save the workbook.
             }
-            return File(sFileName, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            var fs = System.IO.File.OpenRead(file.ToString());
+            return File(fs, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
         
         }
 
