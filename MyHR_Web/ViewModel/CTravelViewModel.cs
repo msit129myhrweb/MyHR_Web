@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace MyHR_Web.ViewModel
 {
     public class CTravelViewModel
-    { 
+    {
         [DisplayName("差旅費編號")]
         public int CApplyNumber { get; set; }
 
@@ -25,7 +25,7 @@ namespace MyHR_Web.ViewModel
         [Required(ErrorMessage = "原因是必填欄位")]
         [DisplayName("原因")]
         public string CReason { get; set; }
-       
+
         [DisplayName("申請日期")]
         public DateTime? CApplyDate { get; set; }
         [Required(ErrorMessage = "出差開始時間是必填欄位")]
@@ -39,7 +39,6 @@ namespace MyHR_Web.ViewModel
         public decimal CAmont { get; set; }
         [DisplayName("審核狀態")]
         public int CCheckStatus { get; set; }
-
 
     }
 }
