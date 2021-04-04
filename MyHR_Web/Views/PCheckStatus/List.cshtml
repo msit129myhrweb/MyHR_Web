@@ -24,7 +24,7 @@
 </style>
 <div class="content-wrapper">
     <section class="content-header">
-        <h2>失物招領系統</h2>
+        <h2>失物領回系統</h2>
     </section>
     <section class="content">
 
@@ -34,29 +34,29 @@
             <form method="post">
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <div class="col-md-6 form-group">
+                       
                             <label class="col-lg-3 control-label">
                             申請日期(起) : 
                             </label> <input type="date" name="startdate" value="@startdate?.ToString("yyyy-MM-dd")" />
 
                         </div>
-                    </div>
-                    <div class="row">
+
                         <div class="col-md-6 form-group">
                             <label class="col-lg-3 control-label">
                                 申請日期(迄) :
                             </label><input type="date" name="enddate" value="@enddate?.ToString("yyyy-MM-dd")" />
                             <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-
                         </div>
-
-                        <br />
+                </div>
+                       
                         <div class="row">
                             <div class="col-md-offset-5 position:absolute bottom">
                                 <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success " style="filter: grayscale(50%)" />
                                 @Html.ActionLink("重新查詢", "List", new { }, new { @class = "btn btn-success ", style = "filter: grayscale(50%)" })
                             </div>
                         </div>
+                       
+                   
 </form>
         </div>
         <hr /><br />

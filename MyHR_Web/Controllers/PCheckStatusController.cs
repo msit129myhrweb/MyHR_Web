@@ -14,7 +14,6 @@ namespace MyHR_Web.Controllers
         List<CPropertyViewModel> plist = new List<CPropertyViewModel>();
         public IActionResult List(DateTime? startdate = null, DateTime? enddate = null)
         {
-            //todo 樣式沒搞定
             ViewBag.stardate = startdate;
             ViewBag.enddate = enddate;
             
