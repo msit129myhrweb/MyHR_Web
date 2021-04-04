@@ -170,9 +170,7 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
-            tf.CPropertyPhoto = "../images/" + photoName;
-
+         
             var result = new CPropertyViewModel
             {
                 CLostAndFoundDate = tf.CLostAndFoundDate,
@@ -218,16 +216,6 @@ namespace MyHR_Web.Controllers
                 entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
                 entity.CtPropertyDescription = pmodel.CtPropertyDescription;
                 entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
-
-                string photoName = Guid.NewGuid().ToString() + ".jpg";
-                using (var photo = new FileStream(
-                    iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
-                    FileMode.Create))
-                {
-                    pmodel.image.CopyTo(photo);
-                }
-
-                pmodel.CPropertyPhoto = "../images/" + photoName;
                 entity.CPropertyPhoto = pmodel.CPropertyPhoto;
 
                 db.SaveChanges();
