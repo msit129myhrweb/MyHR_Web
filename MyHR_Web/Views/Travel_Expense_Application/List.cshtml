@@ -82,35 +82,36 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr style="text-align:center">
-                                <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
-                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
-                                <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
-                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
-                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))</td>
-                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))</td>
-                                <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
-                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
-                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
-                                @{
-                                    if (item.CCheckStatus == 1)
-                                    {
-                                        <td>
-                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
-                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)", @type = "button" })
-                                        </td>
-                                    }
-                                    else
-                                    {
-                                        <td>
-                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button" })
-                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary disabled", @style = "filter: grayscale(50%)", @type = "button" })
-                                        </td>
-                                    }
+                        <tr style="text-align:center">
+                            <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
+                            @*<td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                            <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))</td>
+                            <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                            <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
+                            @{
+                                if (item.CCheckStatus == 1)
+                                {
+                                    <td>
+                                        @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+                                        @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)", @type = "button" })
+                                    </td>
                                 }
-                            </tr>
+                                else
+                                {
+                                    <td>
+                                        @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                        @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                    </td>
+                                }
+                            }
+                        </tr>
                         }
                     </tbody>
                 </table>
