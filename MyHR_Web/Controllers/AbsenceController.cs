@@ -15,108 +15,31 @@ namespace MyHR_Web.Controllers
     public class AbsenceController : Controller
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
+        DateTime Coff = DateTime.Today.AddHours(18); //下班時間18:00
+        DateTime Con = DateTime.Today.AddHours(9); //上班時間9:00
+        DateTime now = DateTime.Now;
         #region 上下班打卡
         public IActionResult List()
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-            #region 判斷打卡狀態
 
-            DateTime off = DateTime.Today.AddHours(18); //下班時間18:00
-            DateTime on = DateTime.Today.AddHours(9); //上班時間9:00
+
 
             var time = from t in db.TAbsences.AsEnumerable()
                        where t.CEmployeeId == userId
-                       select new
-                       {
-                           t.CApplyNumber,
-                           t.COn,
-                           t.COff
-                       };
-            List<CAbsenceViewModel> alist = new List<CAbsenceViewModel>();
+                       select t;
+
+            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in time)
             {
-                CAbsenceViewModel obj = new CAbsenceViewModel()
-                {
-                    CApplyNumber=item.CApplyNumber,
-                    COn = item.COn,
-                    COff = item.COff
-                };
-                alist.Add(obj);
-            }
-            List<CAbsenceViewModel> aL = new List<CAbsenceViewModel>();
-            foreach (var item in alist)
-            {
-                int num = item.CApplyNumber;
-                DateTime? a = item.COn;
-                DateTime? b = item.COff;
-                CAbsenceViewModel aVM = new CAbsenceViewModel();
-                if (a == null ||b == null)
-                {
-                    aVM.CApplyNumber = num;
-                    aVM.COn = a;
-                    aVM.COff = b;
-                    aVM.status = "異常"; 
-                }
-                else
-                {
-                    a = item.COn.Value;
-                    b = item.COff.Value;
-
-                    if (a < on && b > off)
-                    {
-                        aVM.CApplyNumber = num;
-                        aVM.COn = a;
-                        aVM.COff = b;
-                        aVM.status = "準時";
-                    }
-                    else if (a > on && b > off)
-                    {
-                        aVM.CApplyNumber = num;
-                        aVM.COn = a;
-                        aVM.COff = b;
-                        aVM.status = "遲到";
-                    }
-                    else if (a < on && b < off)
-                    {
-                        aVM.CApplyNumber = num;
-                        aVM.COn = a;
-                        aVM.COff = b;
-                        aVM.status = "早退";
-                    }
-                    else if (a > on && b < off)
-                    {
-                        aVM.CApplyNumber = num;
-                        aVM.COn = a;
-                        aVM.COff = b;
-                        aVM.status = "遲到早退";
-                    }
-                }
-                aL.Add(aVM);
-            }
-            #endregion
-
-            var table = from absence in db.TAbsences.AsEnumerable()
-                        join a_vm in aL on absence.CApplyNumber equals a_vm.CApplyNumber
-                        where absence.CEmployeeId== userId
-                        select new {
-                            absence.COn,
-                            absence.COff,
-                            a_vm.status
-                        };
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-
-            foreach (var item in table)
-            {
-                CAbsenceViewModel newObj = new CAbsenceViewModel()
+                CAbsenceViewModel avm = new CAbsenceViewModel()
                 {
                     COn=item.COn,
                     COff=item.COff,
-                    status=item.status
+                    CSatus=item.CStatus
                 };
-                    list.Add(newObj);
+                list.Add(avm);
             }
-                
-
             return View(list);
         }
 
@@ -127,17 +50,31 @@ namespace MyHR_Web.Controllers
             var date = ids[2];
             var time = ids[4];
             var on = date + " " + time;
-            
 
-            TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
-            if (a==null)//今天已打卡
+            TAbsence a = db.TAbsences.FirstOrDefault(z => z.COn.Value.Date == DateTime.Today && z.CEmployeeId == int.Parse(id));
+            TAbsence ab = db.TAbsences.FirstOrDefault(z => z.COff.Value.Date == DateTime.Today && z.CEmployeeId == int.Parse(id));
+            if (a==null && ab==null)//今天未打卡
             {
-                TAbsence b = new TAbsence()
+                if (now < Con)
                 {
-                    CEmployeeId = int.Parse(id),
-                    COn = DateTime.Parse(on),
-                };
-                db.TAbsences.Add(b);
+                    TAbsence b = new TAbsence()
+                    {
+                        CEmployeeId = int.Parse(id),
+                        COn = DateTime.Parse(on),
+                        CStatus = "準時"
+                    };
+                    db.TAbsences.Add(b);
+                }
+                else if (now > Con)
+                {
+                    TAbsence b = new TAbsence()
+                    {
+                        CEmployeeId = int.Parse(id),
+                        COn = DateTime.Parse(on),
+                        CStatus = "遲到"
+                    };
+                    db.TAbsences.Add(b);
+                }
                 db.SaveChanges();
             }
             return Json(c);
@@ -155,46 +92,114 @@ namespace MyHR_Web.Controllers
             var day = ymd[2];
 
             var on = date + " " + time;
-            TAbsence a = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == int.Parse(id) && z.COn.Value.Date == DateTime.Today);
+            TAbsence a = db.TAbsences.FirstOrDefault(z => z.COn.Value.Date == DateTime.Today && z.CEmployeeId == int.Parse(id));
+            TAbsence ab = db.TAbsences.FirstOrDefault(z => z.COn.Value.Date == DateTime.Today && z.CEmployeeId == int.Parse(id));
 
             if (a!=null)//有打上班卡
             {
-                if (a.COn.Value.Month.ToString().Length < 2)
-                {
-                    string addMonth = "0" + a.COn.Value.Month.ToString();
-                    a = db.TAbsences.FirstOrDefault(x =>  x.COn.Value.Year.ToString() == year&&int.Parse(id) ==2&& addMonth == month && x.COn.Value.Day.ToString() == day);
-                
-                }
-                else
-                    a = db.TAbsences.FirstOrDefault(x => x.CEmployeeId == int.Parse(id) && x.COn.Value.Year.ToString() == year && a.COn.Value.Month.ToString() == month && x.COn.Value.Day.ToString() == day);
+                string y = a.COn.Value.Year.ToString();
+                string m = a.COn.Value.Month.ToString();
+                string d = a.COn.Value.Day.ToString();
+                double aonTime = a.COn.Value.TimeOfDay.TotalSeconds;//上班卡的時間(秒數)
+                double ConTime = Con.TimeOfDay.TotalSeconds;//九點(秒數)
 
-                if (a.COn.Value.Month.ToString().Length < 2)
+                if (m.Length < 2 && d.Length <2)
                 {
-                    string addMonth = "0" + a.COn.Value.Month.ToString();
-
-                    string ON = a.COn.Value.Year.ToString() + "-" + addMonth + "-" + a.COn.Value.Day.ToString();
+                     m = "0" + a.COn.Value.Month.ToString();
+                     y = a.COn.Value.Year.ToString();
+                     d = "0" + a.COn.Value.Day.ToString();
+                    string ON = y + "-" + m + "-" + d;
                     if (date == ON)
                     {
-                        a.COff = DateTime.Parse(on);
-                        db.SaveChanges();
+                        if (aonTime > ConTime)
+                        {
+                            a.CStatus = "遲到";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                        else if (aonTime < ConTime)
+                        {
+                            a.CStatus = "準時";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
                     }
                 }
-                else
+                else if (m.Length < 2 && d.Length > 2)
                 {
-                    string ON = a.COn.Value.Year.ToString() + "-" + a.COn.Value.Month.ToString() + "-" + a.COn.Value.Day.ToString();
+                    m = "0" + a.COn.Value.Month.ToString();
+                    y = a.COn.Value.Year.ToString();
+                    d = a.COn.Value.Day.ToString();
+                    string ON = y + "-" + m + "-" + d;
                     if (date == ON)
                     {
-                        a.COff = DateTime.Parse(on);
-                        db.SaveChanges();
+                        if (aonTime > ConTime)
+                        {
+                            a.CStatus = "遲到";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                        else if (aonTime < ConTime)
+                        {
+                            a.CStatus = "準時";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                else if (m.Length > 2 && d.Length < 2)
+                {
+                    m = a.COn.Value.Month.ToString();
+                    y = a.COn.Value.Year.ToString();
+                    d = "0" + a.COn.Value.Day.ToString();
+                    string ON = y + "-" + m + "-" + d;
+                    if (date == ON)
+                    {
+                        if (aonTime > ConTime)
+                        {
+                            a.CStatus = "遲到";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                        else if (aonTime < ConTime)
+                        {
+                            a.CStatus = "準時";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                    }
+                }
+                else if (m.Length > 2 && d.Length > 2)
+                {
+                    m = a.COn.Value.Month.ToString();
+                    y = a.COn.Value.Year.ToString();
+                    d = a.COn.Value.Day.ToString();
+
+                    string ON = y + "-" + m + "-" + d;
+                    if (date == ON)
+                    {
+                        if (aonTime > ConTime)
+                        {
+                            a.CStatus = "遲到";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
+                        else if (aonTime < ConTime)
+                        {
+                            a.CStatus = "準時";
+                            a.COff = DateTime.Parse(on);
+                            db.SaveChanges();
+                        }
                     }
                 }
             }
-            else//沒打上班卡
+            else if (a==null && ab==null)//沒打上班卡
             {
                 TAbsence b = new TAbsence()
                 {
                     CEmployeeId = int.Parse(id),
-                    COff = DateTime.Parse(on)
+                    COff = DateTime.Parse(on),
+                    CStatus ="異常"
                 };
                 db.TAbsences.Add(b);
                 db.SaveChanges();
@@ -205,18 +210,18 @@ namespace MyHR_Web.Controllers
 
         #endregion
 
-        #region Edit
-        public IActionResult Edit(int? userId)//上班或下班未打卡
+        #region Edit補登打卡
+        public IActionResult Edit(int? applyNum )
         {
-            if (userId!=null)
+            if (applyNum != null)
             {
-                TAbsence absence = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId);
+                TAbsence absence = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
                 if (absence!=null)
                 {
-                    return View(new CAbsenceViewModel(absence));
+                    return View(new CAbsenceViewModel(absence,null,null));
                 }
             }
-            return RedirectToAction("List");
+            return View();
         }
         [HttpPost]
         public IActionResult Edit(CAbsenceViewModel absenceEdit)
@@ -233,27 +238,18 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
-            return RedirectToAction("List");
+            return View();
         }
         #endregion
 
-
-
-
-
         public string Clock()//打卡
         {
-            var t = from clock in db.TAbsences
-                    let x = DateTime.Today.ToString("yyyy-MM-dd")
-                    where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
-                    select clock;
-            return "";
-
-        }
-        public string showClockStatus()
-        {
-
+            //var t = from clock in db.TAbsences
+            //        let x = DateTime.Today.ToString("yyyy-MM-dd")
+            //        where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
+            //        select clock;
             return "";
         }
+
     }
 }

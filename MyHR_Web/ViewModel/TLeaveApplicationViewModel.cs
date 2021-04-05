@@ -41,11 +41,11 @@ namespace MyHR_Web.ViewModel
         [DisplayName("申請單號")]
         public int CApplyNumber { get { return iv_Leave.CApplyNumber; } set { iv_Leave.CApplyNumber = value; } }
 
-        [DisplayName("員工名稱")] //取得ID值，轉換成員工名稱
+        [DisplayName("員工姓名")] //取得ID值，轉換成員工名稱
         public string CEmployeeName { get {
                 iv_User.CEmployeeName = MyHR.TUsers.Where(n => n.CEmployeeId == CEmployeeId).Select(n => n.CEmployeeName).FirstOrDefault();
                 return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
-        [DisplayName("員工名稱")]
+        [DisplayName("員工編號")]
         public int CEmployeeId { get { return iv_Leave.CEmployeeId; } set { iv_Leave.CEmployeeId = value; } }
         
 

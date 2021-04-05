@@ -9,7 +9,6 @@
 <html>
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
-    <script src="~/js/Absence.js"></script>
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -77,7 +76,7 @@
                                             <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
                                             <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
                                         </div>
-                                        <a asp-action="Create" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
+                                        <a asp-action="Edit" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
                                     </h3>
                                 </div>
                                 <div class="card-body">
@@ -86,18 +85,27 @@
                                             <tr>
                                                 <th>@Html.DisplayNameFor(model => model.COn)</th>
                                                 <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                                <th>@Html.DisplayNameFor(model => model.status)</th>
+                                                <th>@Html.DisplayNameFor(model => model.CSatus)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                         <tbody>
                                             @foreach (var item in Model)
                                             {
-                                                <tr>
-                                                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                                                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                                    <td id="status" name="status">@Html.DisplayFor(modelItem => item.status)</td>
-                                                </tr>
+                                            <tr>
+                                                <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                                <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                                                @{
+                                                    if (item.CSatus == "異常")
+                                                    {
+                                                        <td id="status" name="status">@Html.ActionLink($"{item.CSatus}", "Edit", new { applyNum = item.CApplyNumber })</td>
+                                                    }
+                                                    else 
+                                                    { 
+                                                        <td id="status" name="status">@Html.DisplayFor(modelItem => item.CSatus)</td>
+                                                    }
+                                                }
+                                            </tr>
                                             }
                                         </tbody>
                                     </table>
@@ -116,17 +124,64 @@
 </html>
 
 <script>
-    var onTime = document.getElementsByName("example2").row[1].cell[0].firstChild.value;
-    var offTime = document.getElementsByName("example2").row[1].cell[1].firstChild.value;
-    console.log(onTime);
-    console.log(offTime);
-    //if (onTime.innerHTML) {
+    //var onTime = document.getElementsByName("example2").row[1].cell[0].firstChild.value;
+    //var offTime = document.getElementsByName("example2").row[1].cell[1].firstChild.value;
+    //console.log(onTime);
+    //console.log(offTime);
+    ////if (onTime.innerHTML) {
 
-    //}
-    var status = onTime - offTime;
-    
+    ////}
+    //var status = onTime - offTime;
+
+    /*list*/
+    function ShowTime() {
+        var NowDate = new Date();
+        var d = NowDate.getDay();
+        var dayNames = new Array("星期⽇", "星期⼀", "星期⼆", "星期三", "星期四", "星期五", "星期六");
+        document.getElementById('showbox').innerHTML = '⽬前時間：' + NowDate.toLocaleString() + '（' +
+            dayNames[d] + '）';
+        setTimeout('ShowTime()', 1000);
+    }
 
 
+    function showHistory() {
+        $.ajax({
+            url: "/Absence/List",
+            type: "GET",
+            success: function (data) {
+                var txt = "<table  id='example2' class='table table - bordered table - hover'><tr><th>上班<th>下班<th>狀態";
+                var ons = data.getElementById("#on");
+                var offs = data.getElementById("#off");
+                var status = data.getElementById("#status");
+                for (var i = 0; i < ons.length; i++) {
+                    txt += "<tr><td>" + ons[i].firstChild.nodeValue;
+                    txt += "<td>" + offs[i].firstChild.nodeValue;
+                    txt += "<td>" + status[i].firstChild.nodeValue;
+                }
+                $("#showClock").html(txt);
+            }
+        });
+    }
+
+
+    //page load error
+    $(function () {
+        
+        var d = new Date();
+        var now = d.setHours(d.getHours() + 0);//當前時間的million second
+        var offTime = d.setHours(d.getHours() + 18);//當日18時的million second
+            
+        if (now < offTime) {
+            document.getElementById("off").setAttribute("disabled", "disabled");
+        }
+        else {
+            document.getElementById("off").removeAttribute("disabled");
+        };
+        } 
+    ); 
+
+
+    //小日曆
         $(document).ready(function () {
             var red = ["2017-08-02", "2017-08-04", "2017-08-06"];
             var yellow = ["2017-08-09"];
@@ -171,6 +226,7 @@
             }, false)
         }, false);*@
 
+    //打上班卡
         function clockOn() {
             var id = @a;
             var now = new Date();
@@ -189,6 +245,7 @@
 
         };
 
+    //打下班卡
         function clockOff() {
             var id = @a;
             var now = new Date();

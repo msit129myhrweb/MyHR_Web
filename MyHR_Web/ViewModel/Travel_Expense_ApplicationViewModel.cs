@@ -23,18 +23,12 @@ namespace MyHR_Web.ViewModel
             iv_User = u;
         }
 
-        //其實不需要---------------------------------------------------
-        public Travel_Expense_ApplicationViewModel(TTravelExpenseApplication t)
-        {
-            iv_travel = t;
-        }
-        //------------------------------------------------------------
         public Travel_Expense_ApplicationViewModel()
         {
             iv_travel = new TTravelExpenseApplication();
             iv_User = new TUser();
         }
-        [DisplayName("差旅費編號")]
+        [DisplayName("出差單號")]
         public int CApplyNumber
         {
             get { return iv_travel.CApplyNumber; }
@@ -48,7 +42,7 @@ namespace MyHR_Web.ViewModel
             set { iv_travel.CDepartmentId = value; }
         }
         [Required(ErrorMessage = "員編是必填欄位")]
-        [DisplayName("員編")]
+        [DisplayName("員工編號")]
         public int CEmployeeId
         {
             get { return iv_travel.CEmployeeId; }
@@ -69,21 +63,21 @@ namespace MyHR_Web.ViewModel
             set { iv_travel.CApplyDate = value; }
         }
         [Required(ErrorMessage = "出差開始時間是必填欄位")]
-        [DisplayName("出差開始時間")]
+        [DisplayName("起始時間")]
         public DateTime? CTravelStartTime
         {
             get { return iv_travel.CTravelStartTime; }
             set { iv_travel.CTravelStartTime = value; }
         }
         [Required(ErrorMessage = "出差結束時間是必填欄位")]
-        [DisplayName("出差結束時間")]
+        [DisplayName("結束時間")]
         public DateTime? CTravelEndTime
         {
             get { return iv_travel.CTravelEndTime; }
             set { iv_travel.CTravelEndTime = value; }
         }
         [Required(ErrorMessage = "差旅費是必填欄位")]
-        [DisplayName("差旅費")]
+        [DisplayName("申請費用")]
         public decimal CAmont
         {
             get { return iv_travel.CAmont; }

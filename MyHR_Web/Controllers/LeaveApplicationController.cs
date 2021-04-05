@@ -19,10 +19,10 @@ namespace MyHR_Web.Controllers
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
 
-            List<TLeave> leaveCate = getLeaveCategory();
+            List<TLeave> leaveCate = getLeaveCategory();//取得資料庫的類別
             ViewBag.leaveCategory = leaveCate;
 
-            List<TCheckStatus> checkSta = getCheckStatus();
+            List<TCheckStatus> checkSta = getCheckStatus();//取的資料庫的審核狀態
             ViewBag.leaveStatus = checkSta;
 
             if (!string.IsNullOrEmpty(Request.ContentType))
@@ -425,7 +425,47 @@ namespace MyHR_Web.Controllers
 
         public IActionResult date_search(int? cate, int? status, DateTime? start, DateTime? end)
         {
-            return PartialView();
+            int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
+
+            var table = DB.TLeaveApplications.Join(DB.TUsers,
+                l => l.CEmployeeId,
+                u => u.CEmployeeId,
+                (l, u) => new {
+                    CEmployeeId = l.CEmployeeId,
+                    CApplyNumber = l.CApplyNumber,
+                    CApplyDate = l.CApplyDate,
+                    CLeaveCategory = l.CLeaveCategory,
+                    CLeaveStartTime = l.CLeaveStartTime,
+                    CLeaveEndTime = l.CLeaveEndTime,
+                    CCheckStatus = l.CCheckStatus,
+                    CReason = l.CReason,
+                    employeeName = u.CEmployeeName,
+                    CDepartmentId=u.CDepartmentId
+                }).OrderBy(l => l.CApplyDate).AsEnumerable().Where(sc=>
+                sc.CDepartmentId==DepId &&
+                (cate!=null?sc.CLeaveCategory==cate:true)&&
+                (status!=null?sc.CCheckStatus==status:true)&&
+                (start!=null? DateTime.Parse(sc.CApplyDate)>=start:true)&&
+                (end!=null? DateTime.Parse(sc.CApplyDate)<=end:true)).ToList();
+
+            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+            foreach (var item in table)
+            {
+                TLeaveApplicationViewModel leaObj = new TLeaveApplicationViewModel()
+                {
+                    CApplyNumber = item.CApplyNumber,
+                    CEmployeeId = item.CEmployeeId,
+                    employeeName=item.employeeName,
+                    CApplyDate = item.CApplyDate,
+                    CLeaveCategory = item.CLeaveCategory,
+                    CLeaveStartTime = item.CLeaveStartTime,
+                    CLeaveEndTime = item.CLeaveEndTime,
+                    CReason = item.CReason,
+                    CCheckStatus = item.CCheckStatus
+                };
+                list.Add(leaObj);
+            }
+            return PartialView("date_search",list);
         }
 
         #region Edit

@@ -20,7 +20,7 @@ namespace MyHR_Web.Controllers
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
             List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
            
-            List<TCheckStatus> checkSta = getCheckStatus();
+            List<TCheckStatus> checkSta = getCheckStatus();//取得資料庫的審核狀態
             ViewBag.travelStatus = checkSta;
 
 
@@ -380,9 +380,46 @@ namespace MyHR_Web.Controllers
             }
         }
 
-        public IActionResult dateSearch(int? status, DateTime? start, DateTime? end)
+        public IActionResult date_search(int? status, DateTime? start, DateTime? end)
         {
-            return PartialView();
+            int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
+
+            var table = DB.TTravelExpenseApplications
+                .Join(DB.TUsers, t => t.CEmployeeId, u => u.CEmployeeId, (t, u) => new {
+                    CApplyDate=t.CApplyDate,
+                    CEmployeeId=t.CEmployeeId,
+                    CAmont=t.CAmont,
+                    CCheckStatus=t.CCheckStatus,
+                    CTravelStartTime=t.CTravelStartTime,
+                    CTravelEndTime=t.CTravelEndTime,
+                    CReason=t.CReason,
+                    CApplyNumber=t.CApplyNumber,
+                    CEmployeeName=u.CEmployeeName,
+                    CDepartmentId=u.CDepartmentId
+                }).OrderBy(t=>t.CApplyDate).Where(sc=>
+                sc.CDepartmentId==DepId&&
+                (status!=null?sc.CCheckStatus==status:true)&&
+                (start!=null?sc.CApplyDate>=start:true)&&
+                (end!=null?sc.CApplyDate<=end:true)).ToList();
+
+            List<Travel_Expense_ApplicationViewModel> list = new List<Travel_Expense_ApplicationViewModel>();
+            foreach (var item in table)
+            {
+                Travel_Expense_ApplicationViewModel traObj = new Travel_Expense_ApplicationViewModel()
+                {
+                    employeeName = item.CEmployeeName,
+                    CApplyNumber = item.CApplyNumber,
+                    CApplyDate = item.CApplyDate,
+                    CTravelStartTime = item.CTravelStartTime,
+                    CTravelEndTime = item.CTravelEndTime,
+                    CAmont = item.CAmont,
+                    CReason = item.CReason,
+                    CEmployeeId = item.CEmployeeId,
+                    CCheckStatus = item.CCheckStatus
+                };
+                list.Add(traObj);
+            }
+            return PartialView("date_search",list);
         }
         #region Edit
         //勾選通過
