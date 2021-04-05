@@ -40,7 +40,7 @@
 
                         <form asp-action="Edit" enctype="multipart/form-data">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <input type="hidden" asp-for="CPropertyId" value="@Model.CPropertyId" />
+                            <input type="hidden" asp-for="CPropertyId" />
                             <div class="form-group">
                                 <label asp-for="CEmployeeId" class="control-label"></label>
                                 <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />

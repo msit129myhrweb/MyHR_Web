@@ -71,42 +71,10 @@ namespace MyHR_Web.Controllers
             }
             return View(plist);
         }
-        public IActionResult Edit(int? id)
+      
+        public IActionResult pUdate(int? id)
         {
-            if (id != null)
-            {
-                TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == id);
-
-                if (tlaf != null)
-                {
-                    tlaf.CPropertyCheckStatusId = 2;
-                    db.SaveChanges();
-                }
-
-            }
-            return RedirectToAction("List");
-        }
-
-        [HttpPost]
-        public IActionResult Edit(CPropertyViewModel tlaf)
-        {
-            
-            if (tlaf != null)
-            {
-
-                TLostAndFound c = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == tlaf.CPropertyId);
-                if (c != null)
-                {
-                    c.CPropertyCheckStatusId = tlaf.CPropertyCheckStatusId;
-
-                    db.SaveChanges();
-                }
-            }
-            return RedirectToAction("List");
-        }
-        public IActionResult pUpdate(int? id)
-        {
-            //todo 已領取功能
+          
             if(id != null)
             {
                 TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == id);

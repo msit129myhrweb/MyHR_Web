@@ -173,6 +173,7 @@ namespace MyHR_Web.Controllers
          
             var result = new CPropertyViewModel
             {
+                CPropertyId=tf.CPropertyId,
                 CLostAndFoundDate = tf.CLostAndFoundDate,
                 CEmployeeId = tf.CEmployeeId,
                 CLostAndFoundSpace = tf.CLostAndFoundSpace,
@@ -195,7 +196,7 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
-            //無法修改 及圖片
+           
             if (ModelState.IsValid == false)
                 {
                     ViewBag.Departments = db.TUserDepartments.ToList();
@@ -204,22 +205,33 @@ namespace MyHR_Web.Controllers
                     ViewBag.category = db.TLostAndFoundCategories.ToList();
                     return View(pmodel);
                 }
+
                 var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
 
                 if (entity == null)
                 {
                     return RedirectToAction("List");
                 }
+
                 entity.CProperty = pmodel.CProperty;
                 entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
                 entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
                 entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
                 entity.CtPropertyDescription = pmodel.CtPropertyDescription;
                 entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
-                entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+
+            string photoName = Guid.NewGuid().ToString() + ".jpg";
+            using (var photo = new FileStream(
+                iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
+                FileMode.Create))
+            {
+                pmodel.image.CopyTo(photo);
+            }
+            pmodel.CPropertyPhoto = "../images/" + photoName;
+            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
 
                 db.SaveChanges();
                 return RedirectToAction("List");
-            }
+         }
     }
 }

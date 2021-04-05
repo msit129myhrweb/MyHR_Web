@@ -191,6 +191,7 @@ namespace MyHR_Web.Controllers
 
             var result = new CTravelViewModel 
             { 
+                
                 CAmont = et.CAmont,
                 CApplyNumber = et.CApplyNumber,
                 CCheckStatus = et.CCheckStatus,
