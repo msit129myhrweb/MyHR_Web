@@ -40,15 +40,21 @@ namespace MyHR_Web.ViewModel
             get { return iv_absence.CEmployeeId; }
             set { iv_absence.CEmployeeId = value; }
         }
+        [DisplayName("日期")]
 
+        public DateTime? CDate
+        {
+            get { return iv_absence.CDate; }
+            set { iv_absence.CDate = value; }
+        }
         [DisplayName("上班")]
-        public DateTime? COn 
+        public TimeSpan? COn 
         {
             get { return iv_absence.COn; }
             set { iv_absence.COn = value; }
         }
         [DisplayName("下班")]
-        public DateTime? COff 
+        public TimeSpan? COff 
         {
             get { return iv_absence.COff; }
             set { iv_absence.COff = value; } 

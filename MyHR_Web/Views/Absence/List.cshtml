@@ -89,7 +89,7 @@
                                 <tr style="text-align:center">
                                     <th>序</th>
                                     <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
-                                    <th>日期</th>
+                                    <th>@Html.DisplayNameFor(model => model.CDate)</th>
                                     <th>星期</th>
                                     <th>@Html.DisplayNameFor(model => model.COn)</th>
                                     <th>@Html.DisplayNameFor(model => model.COff)</th>
@@ -105,32 +105,10 @@
                                 <tr style="text-align:center">
                                     <td>@count</td>
                                     <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
-
-                                    @{
-                                        if (item.COn == null && item.COff != null)
-                                        {
-                                            <td>@Convert.ToString(string.Format("{0:yyyy-MM-dd}", item.COff))</td>
-                                            <td>@Convert.ToString(string.Format("{0:ddd}", item.COff))</td>
-                                        }
-                                        else if (item.COn != null && item.COff == null)
-                                        {
-                                            <td>@Convert.ToString(string.Format("{0:yyyy-MM-dd}", item.COn))</td>
-                                            <td>@Convert.ToString(string.Format("{0:ddd}", item.COn))</td>
-                                        }
-                                        else
-                                        {
-                                            <td>@Convert.ToString(string.Format("{0:yyyy-MM-dd}", item.COn))</td>
-                                            <td>@Convert.ToString(string.Format("{0:ddd}", item.COn))</td>
-                                        }
-                                        //else if (item.COn == null && item.COff == null)//如未打卡
-                                        //{
-                                        //<td>@Convert.ToString(string.Format("{0:yyyy-MM-dd}", item.COn))</td>
-                                        //<td>@Convert.ToString(string.Format("{0:ddd}", item.COn))</td>
-                                        //}
-
-                                    }
-                                    <td id="on" name="on">@Convert.ToString(string.Format("{0:hh:mm:ss}", item.COn))</td>
-                                    <td id="off" name="off">@Convert.ToString(string.Format("{0:hh:mm:ss}", item.COff))</td>
+                                    <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
+                                    <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
+                                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
                                     @{
                                         if (item.CSatus == "異常")
                                         {
@@ -233,22 +211,22 @@
     $(".absence").change(function () {
         var sDate = $("#sDate").val();
         var eDate = $("#eDate").val();
-        var options = document.getElementsByName("options");
-        var opVal = "";
-        for (var i = 0; i < options.length; i++) {
-            var elem = options.item(i);
-            if (elem.checked) {
-                opVal = elem.value;
-                break;
-            }
-        }
-        /*console.log(sDate + "/" + eDate + "/" + opVal);*/
+        //var options = document.getElementsByName("options");
+        //var opVal = "";
+        //for (var i = 0; i < options.length; i++) {
+        //    var elem = options.item(i);
+        //    if (elem.checked) {
+        //        opVal = elem.value;
+        //        break;
+        //    }
+        //}
+        console.log(sDate + "/" + eDate );
 
         $.ajax({
             type: "get",
             dataType: "html",
             url: "/Absence/date_search",
-            date: { sDate: sDate, eDate: eDate, opVal: opVal },
+            data: { sDate: sDate, eDate: eDate},
             success: function (data) {
                 console.log("a");
                 $("#absence_table").html(data);
