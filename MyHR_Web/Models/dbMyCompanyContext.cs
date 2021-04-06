@@ -74,8 +74,9 @@ namespace MyHR_Web.Models
                     .HasColumnType("datetime")
                     .HasColumnName("cOn");
 
+
                 entity.Property(e => e.CStatus)
-                     .HasMaxLength(20)
+                    .HasMaxLength(20)
                     .HasColumnName("cStatus");
 
 
@@ -360,8 +361,6 @@ namespace MyHR_Web.Models
                     .HasMaxLength(50)
                     .HasColumnName("cLeaveEndTime");
 
-                entity.Property(e => e.CLeaveHours).HasColumnName("cLeaveHours");
-
                 entity.Property(e => e.CLeaveStartTime)
                     .IsRequired()
                     .HasMaxLength(50)
@@ -411,6 +410,7 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CLostAndFoundDate)
                     .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cLostAndFoundDate");
 
                 entity.Property(e => e.CLostAndFoundSpace)
@@ -574,6 +574,7 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CApplyDate)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cApplyDate");
 
                 entity.Property(e => e.CCheckStatus)
@@ -592,11 +593,13 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.CTravelEndTime)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cTravelEndTime");
 
                 entity.Property(e => e.CTravelStartTime)
                     .IsRequired()
                     .HasMaxLength(50)
+                    .HasColumnType("date")
                     .HasColumnName("cTravelStartTime");
 
                 entity.HasOne(d => d.CCheckStatusNavigation)

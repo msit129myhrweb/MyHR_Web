@@ -16,7 +16,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
     {
         dbMyCompanyContext MyHR = new dbMyCompanyContext();
 
-     
+
 
         public IActionResult ConfirmPassword()
         {
@@ -27,7 +27,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
         public IActionResult ConfirmPassword(CSalaryLoginViewModel p)
         {
 
-            int UserId =int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            int UserId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
 
             string Password1 = Request.Form["Password"].ToString();
@@ -45,12 +45,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
                     if (user != null)
                     {
-                        
-                        if(UserId == 7)
+
+                        if (UserId == 7)
                         {
                             return RedirectToAction("SalaryList_supervisor");
                         }
-                        
+
                         return RedirectToAction("SalaryList");
                     }
                     else
@@ -68,9 +68,9 @@ namespace MyCompany_.NetCore_Janna.Controllers
             var table = MyHR.TUsers
              .Include(c => c.CDepartment)
              .Include(c => c.CJobTitle)
-             .Include(c=>c.TLeaveApplications)
-             .Include(c=>c.TTravelExpenseApplications)
-             .Include(c=>c.TAbsences)
+             .Include(c => c.TLeaveApplications)
+             .Include(c => c.TTravelExpenseApplications)
+             .Include(c => c.TAbsences)
              .Where(c => c.CEmployeeId == UserID).AsEnumerable()
              .Select(c => new CSalaryViewModel
              {
@@ -79,10 +79,10 @@ namespace MyCompany_.NetCore_Janna.Controllers
                  CEmployeeId = c.CEmployeeId,
                  CJobTitle = c.CJobTitle.CJobTitle,
                  CJobTitleSalary = c.CJobTitle.CJobTitleSalary,
-                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c=>DateTime.Parse(c.CTravelStartTime).Month == (DateTime.Now.Date.Month)-1 && c.CCheckStatus == 2).Sum(n=>(n.CAmont))
+                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) - 1 && c.CCheckStatus == 2).Sum(n => (n.CAmont))
                  //CLeaveHours = c.TLeaveApplications.Sum(c=>c.CLeaveHours),
                  //CLeaveHours = c.TLeaveApplications.Where(c=>DateTime.Parse(c.CLeaveStartTime).Month == DateTime.Now.Date.Month).Sum(c => c.CLeaveHours),
-                
+
              });
 
             //List<CSalaryViewModel> T = new List<CSalaryViewModel>();
@@ -105,14 +105,14 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month)-1 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
-                         orderby i.CLeaveCategory
-                         group i by i.CLeaveCategory into g
-                         select new
-                         {
-                             Category = g.Key,
-                             CategoryCount = g.Sum(n => n.CLeaveHours),
-                         }).ToList();  
+                          where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) - 1 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
+                          orderby i.CLeaveCategory
+                          group i by i.CLeaveCategory into g
+                          select new
+                          {
+                              Category = g.Key,
+                              CategoryCount = g.Sum(n => n.CLeaveHours),
+                          }).ToList();
 
             List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
@@ -122,10 +122,10 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     CSalary_LeaveCate = item.Category,
                     CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount,null) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, null) //各個假別要付的錢
 
                 };
-                T.Add(obj);  
+                T.Add(obj);
                 ViewBag.Leave = T;     //這邊算完是放入ViewBag傳送過去的...糟糕
             }
 
@@ -135,18 +135,18 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //------------------------------------------------------------------以下為了取得遲到項目的碼 (30分鐘內44塊錢  一小時內 97)
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                        where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.COn.Value.Month == (DateTime.Now.Date.Month)-1)  
-                        group i by i.CStatus into g
-                        select new
-                        {
-                            countLate = g.Count(),
-                            below30 = g.Count(c => c.COn.Value.Minute < 30),
-                            up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
+                         where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.COn.Value.Month == (DateTime.Now.Date.Month) - 1)
+                         group i by i.CStatus into g
+                         select new
+                         {
+                             countLate = g.Count(),
+                             below30 = g.Count(c => c.COn.Value.Minute < 30),
+                             up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
 
-                            moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
-                            moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 97
+                             moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
+                             moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 97
 
-                        };
+                         };
 
             List<CSalaryViewModel> T2 = new List<CSalaryViewModel>();
 
@@ -171,8 +171,8 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         public IActionResult Detail(int? Id) //主管導入詳細資料的薪資單
         {
-            
-           
+
+
             var table = MyHR.TUsers
              .Include(c => c.CDepartment)
              .Include(c => c.CJobTitle)
@@ -187,7 +187,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                  CEmployeeId = c.CEmployeeId,
                  CJobTitle = c.CJobTitle.CJobTitle,
                  CJobTitleSalary = c.CJobTitle.CJobTitleSalary,
-                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => DateTime.Parse(c.CTravelStartTime).Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(n => (n.CAmont))
+                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(n => (n.CAmont))
                  //CLeaveHours = c.TLeaveApplications.Sum(c=>c.CLeaveHours),
                  //CLeaveHours = c.TLeaveApplications.Where(c=>DateTime.Parse(c.CLeaveStartTime).Month == DateTime.Now.Date.Month).Sum(c => c.CLeaveHours),
 
@@ -214,7 +214,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     CSalary_LeaveCate = item.Category,
                     CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount,Id) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, Id) //各個假別要付的錢
 
                 };
                 T.Add(obj);
@@ -263,27 +263,27 @@ namespace MyCompany_.NetCore_Janna.Controllers
             var table = MyHR.TUsers
                    .Include(c => c.CDepartment)
                    .Include(c => c.CJobTitle)
-                   .Include(c=>c.TTravelExpenseApplications)
-                   .Include(c=>c.TAbsences)
+                   .Include(c => c.TTravelExpenseApplications)
+                   .Include(c => c.TAbsences)
                    .OrderByDescending(c => c.CDepartmentId)
                    .ThenBy(c => c.CJobTitleId)
-                   
-                   .Where(C=>C.COnBoardStatusId ==1).AsEnumerable()
+
+                   .Where(C => C.COnBoardStatusId == 1).AsEnumerable()
                    .Select(c => new CSalaryViewModel
                    {
-                       
+
                        CDepartment = c.CDepartment.CDepartment,
-                       CDepartmentId=c.CDepartment.CDepartmentId,
+                       CDepartmentId = c.CDepartment.CDepartmentId,
                        CEmployeeName = c.CEmployeeName,
                        CEmployeeId = c.CEmployeeId,
                        CJobTitle = c.CJobTitle.CJobTitle,
                        Month_Salary = c.CJobTitle.CJobTitleSalary,
-                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => DateTime.Parse(c.CTravelStartTime).Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c=>c.CAmont),
-                       CAmont_TAbsense =c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus =="遲到").Count(c => c.COn.Value.Minute < 30) * 44 + c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute<59)*97
-                      
-                       
-                       
-                       
+                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                       CAmont_TAbsense = c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minute < 30) * 44 + c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 97
+
+
+
+
                        //CAmont_TAbsense =c.TAbsences.Where(c=>c.CStatus=="'遲到'" && c.COn.Value.Month == DateTime.Now.Date.Month).Count(c.TAbsences.Count(c => c.COn.Value.Minute < 30) + c.TAbsences.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 96),
 
                        //CAmont_TAbsense = c.TAbsences.Count(c => c.COn.Value.Minute < 30) * 44 + c.TAbsences.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59)*89,
@@ -312,7 +312,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     //CSalary_LeaveCate = item.Category,
                     //CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount,null) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, null) //各個假別要付的錢
 
                 };
                 T.Add(obj);
@@ -322,7 +322,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //------------------------------------------------------------------遲到
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                         where (i.CStatus.Contains("遲到") && i.COn.Value.Month == DateTime.Now.Date.Month-1)   //為啥 =="'遲到'"不行
+                         where (i.CStatus.Contains("遲到") && i.COn.Value.Month == DateTime.Now.Date.Month - 1)   //為啥 =="'遲到'"不行
                          group i by new { i.CStatus, i.CEmployeeId } into g
                          select new
                          {
@@ -358,12 +358,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
             return View(table.ToList());
         }
-      
-        public int Leave_Shouldtopay(int LeaveCate, int LeaveHours , int? Id)  //計算各個假別必須扣除的總數
+
+        public int Leave_Shouldtopay(int LeaveCate, int LeaveHours, int? Id)  //計算各個假別必須扣除的總數
         {
             int UserID = 0;
 
-            if( Id != null)
+            if (Id != null)
             {
                 UserID = (int)Id;
             }
@@ -380,7 +380,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             int HoursWage = (MonthWage / 30 / 8);
 
 
-            if(LeaveCate == 1) /*病假*/
+            if (LeaveCate == 1) /*病假*/
             {
                 Leave_Sum = LeaveHours * 0.5 * HoursWage;
             }
@@ -399,7 +399,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             else if (LeaveCate == 5)/*特休*/
             {
                 Leave_Sum = LeaveHours * 0 * HoursWage;
-            }     
+            }
             return (int)Leave_Sum;
 
         }
@@ -455,7 +455,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
             if (id != null)
             {
-                UserID =(int)id;
+                UserID = (int)id;
                 Month = DateTime.Now.Date.Month;
             }
             else
@@ -470,17 +470,17 @@ namespace MyCompany_.NetCore_Janna.Controllers
                         select new
                         {
                             countLate = g.Count(),
-                            below30 = g.Count(c=>c.COn.Value.Minute < 30),
-                            up30 = g.Count(c=>c.COn.Value.Minute>30 && c.COn.Value.Minute<59),
+                            below30 = g.Count(c => c.COn.Value.Minute < 30),
+                            up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
 
-                            moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) *44,
-                            moneyup30 =  g.Count(c=>c.COn.Value.Minute>30 && c.COn.Value.Minute<59)*96
-      
+                            moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
+                            moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 96
+
                         };
 
             List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
-           foreach(var item in table)
+            foreach (var item in table)
             {
                 CSalaryViewModel obj = new CSalaryViewModel()
                 {
@@ -495,12 +495,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 T.Add(obj);
             }
 
-            return PartialView("Count_Absense",T);
+            return PartialView("Count_Absense", T);
         }
 
 
 
- 
+
 
 
     }

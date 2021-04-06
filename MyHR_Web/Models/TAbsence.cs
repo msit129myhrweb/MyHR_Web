@@ -11,9 +11,8 @@ namespace MyHR_Web.Models
         public int CEmployeeId { get; set; }
         public DateTime? COn { get; set; }
         public DateTime? COff { get; set; }
+        public string CStatus { get; set; }
 
-
-        public string CStatus {get; set;}
         public virtual TUser CEmployee { get; set; }
     }
 }

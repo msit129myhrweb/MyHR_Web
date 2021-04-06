@@ -41,66 +41,66 @@
 
         <h2>請假系統/查詢</h2>
 
-        @*<button type="button" class="btn btn-block btn-info btn-lg">Info</button>*@
+        <p>
+            @Html.ActionLink("請假申請", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+        </p>
 
-        @Html.ActionLink("請假申請", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
-        @Html.ActionLink("請假查詢", "LeaveCreate", new { }, new { @class = "btn  btn-info btn-lg", style = "filter: grayscale(50%)" })
 
-        <br /><br />
-        <form method="post">
-            <div class="container">
-                <div style="background-color:papayawhip ;padding:20px; border-radius:10px;text-align:left">
+        <br />
+        @*//-------------------------------------------*@
 
-                    <i>子分類查詢</i>
-                    <div class="row">
-                        <div class="col">
-                            <label class=" col-lg-12 control-label">請假日期(起) :  <input type="date" class="Leave_Distinguish" id="Leave_Startday" /></label>
-                        </div>
-                        <div class="col">
-                            <label class=" col-lg-12 control-label">請假日期(迄) :  <input type="date" class="Leave_Distinguish" id="Leave_Endday" /></label>
-                        </div>
+    
+        <div style="background-color:white ;padding:20px; border-radius:10px">
+            <h3>查詢條件</h3>
 
+
+            @*//------------------------------------*@
+
+            <form method="post">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假日期(起) :</label>
+                        <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <p class="font-weight-bold">
-                                請假類別:
-                                <select class="Leave_Distinguish" id="Leave_Cate">
-                                    <option value="" disabled selected>請選擇</option>
-                                    @for (int i = 0; i < Leave_Cate.Count; i++)
-                                    {
-                        <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
-}
-                                </select>
-                            </p>
-                        </div>
-                        <div class="col">
-
-                            <p class="font-weight-bold">
-                                審核狀態:
-                                <select class="Leave_Distinguish" id="Leave_Statues">
-                                    <option value="" disabled selected>請選擇</option>
-                                    @for (int i = 0; i < Leave_Status.Count; i++)
-                                    {
-                                        <option value="@Leave_Status[i].CCheckStatusId">@Leave_Status[i].CCheckStatus</option>
-                                    }
-                                </select>
-                            </p>
-                        </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假日期(迄) :</label>
+                        <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
                     </div>
-                    <div class="row">
-                        <div class="col">
-                            <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success float-right" style="filter: grayscale(50%)" />
-                        </div>
-
-                    </div>
-                    @*<div class="col"></div> 有要塞三行可開  *@
                 </div>
-            </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假類別:</label>
+                        <select class="Leave_Distinguish" id="Leave_Cate">
+                            <option value="" disabled selected>請選擇</option>
+                            @for (int i = 0; i < Leave_Cate.Count; i++)
+                            {
+                                <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+                            }
+                        </select>
+                    </div>
 
-            <br />
-        </form>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">審核狀態:</label>
+                        <select class="Leave_Distinguish" id="Leave_Statues">
+                            <option value="" disabled selected>請選擇</option>
+                            @for (int i = 0; i < Leave_Status.Count; i++)
+                            {
+                                <option value="@Leave_Status[i].CCheckStatusId">@Leave_Status[i].CCheckStatus</option>
+                            }
+                        </select>
+                    </div>
 
+                    <div class="col-md-6 form-group">
+                        <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
+
+                    </div>
+                </div>
+               
+            </form>
+        </div>
+
+        <br />
+   
         <div id="Leave_table">
             <div class="card">
                 <div class="card-header">
@@ -108,8 +108,8 @@
                         <thead>
                             <tr style="text-align:center">
                                 @*<th>
-            @Html.DisplayNameFor(model => model.CApplyNumber)
-        </th>*@
+                                    @Html.DisplayNameFor(model => model.CApplyNumber)
+                                </th>*@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CDepartmentId)
                                 </th>
@@ -146,61 +146,61 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                @if (item.CEmployeeId == ViewBag.Name)
-                {
-                            <tr style="text-align:center">
-                                @*<td>
-            @Html.DisplayFor(modelItem => item.CApplyNumber)
-        </td>*@
+                                @if (item.CEmployeeId == ViewBag.Name)
+                                {
+                                    <tr style="text-align:center">
+                                        @*<td>
+                                            @Html.DisplayFor(modelItem => item.CApplyNumber)
+                                        </td>*@
 
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CDepartmentName)
-                                </td>
-                                <td style="display:none">
-                                    @Html.DisplayFor(modelItem => item.CDepartmentId)
-                                    @*@Enum.GetName(typeof(eDepartment), item.CDepartmentId)*@
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CDepartmentName)
+                                        </td>
+                                        <td style="display:none">
+                                            @Html.DisplayFor(modelItem => item.CDepartmentId)
+                                            @*@Enum.GetName(typeof(eDepartment), item.CDepartmentId)*@
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                        </td>
 
-                                <td style="display:none">
-                                    @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                </td>
+                                        <td style="display:none">
+                                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                                        </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CApplyDate)
-                                </td>
-                                <td>
-                                    @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveStartTime)
-                                    @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveEndTime)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CReason)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CLeaveHours)
-                                </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CApplyDate)
+                                        </td>
+                                        <td>
+                                            @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CLeaveStartTime)
+                                            @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CLeaveEndTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CReason)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CLeaveHours)
+                                        </td>
 
-                                <td>
-                                    @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
-                                    @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
-                                </td>
-                                <td>
-                                    @{ if (@item.CCheckStatus == 1)
-                                        {
-                            @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
-                            @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
-                                </td>
-                            </tr>
-}}
+                                        <td>
+                                            @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
+                                            @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
+                                        </td>
+                                        <td>
+                                            @{ if (@item.CCheckStatus == 1)
+                                                {
+                                                    @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
+                                                    @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
+                                        </td>
+                                    </tr>
+                                }}
                         </tbody>
                     </table>
                 </div>

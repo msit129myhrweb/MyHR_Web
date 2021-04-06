@@ -7,41 +7,147 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using prjCoreDemo.ViewModel;
+using MyHR_Web.MyClass;
 
 namespace MyHR_Web.Controllers
 {
-    public class TravelController : Controller
+    
+    public class TravelController : BaseController
     {
-        //public JsonResult loadtravelcbb()
-        //{
-        //    var check = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
+        dbMyCompanyContext db = new dbMyCompanyContext();
+        List<CTravelViewModel> tlist = new List<CTravelViewModel>();
 
-        //                join c in (new dbMyCompanyContext()).TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
-        //                select new
-        //                {
-        //                    checktest = c.CCheckStatus
-        //                };
-        //    return Json(check);           
-        //}
-        public IActionResult List()
+        public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
-            var table = from t in (new dbMyCompanyContext()).TTravelExpenseApplications
-                        select t;
-            List<CTravelViewModel> list = new List<CTravelViewModel>();
-            foreach (TTravelExpenseApplication p in table)
-                list.Add(new CTravelViewModel(p));
-            return View(list);
-            
+            ViewBag.StartDate = startDate;   //時間查詢
+            ViewBag.EndDate = endDate;
+            ViewBag.Status = db.TCheckStatuses.ToList();
+            IQueryable<TTravelExpenseApplication> tt = db.TTravelExpenseApplications.AsQueryable();
+
+            if(startDate.HasValue)          //時間有值
+            {
+                tt = tt.Where(e => e.CApplyDate >= startDate.Value);
+            }
+            if (endDate.HasValue)
+            {
+                tt = tt.Where(e => e.CApplyDate < endDate.Value);
+            }
+
+            if (getUserDepartmentId() == 6)     //設觀看權限顯示畫面
+            {
+                var traveltable = from t in tt
+                                  join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
+                                  join u in db.TUsers on t.CEmployeeId equals u.CEmployeeId
+                                  select new
+                                  {
+                                      CApplyNumber = t.CApplyNumber,
+                                      CDepartmentId = t.CDepartmentId,
+                                      CEmployeeId = t.CEmployeeId,
+                                      CEmployeeName = u.CEmployeeName,
+                                      CReason = t.CReason,
+                                      CApplyDate = t.CApplyDate,
+                                      CTravelStartTime = t.CTravelStartTime,
+                                      CTravelEndTime = t.CTravelEndTime,
+                                      CAmont = t.CAmont,
+                                      CCheckStatus = c.CCheckStatusId
+                                  };
+                foreach (var titem in traveltable)
+                {
+                    CTravelViewModel ctlvm = new CTravelViewModel()
+                    {
+                        CApplyNumber = titem.CApplyNumber,
+                        CDepartmentId = titem.CDepartmentId,
+                        CEmployeeId = titem.CEmployeeId,
+                        CEmployeeName =titem.CEmployeeName,
+                        CReason = titem.CReason,
+                        CApplyDate = titem.CApplyDate,
+                        CTravelStartTime = titem.CTravelStartTime,
+                        CTravelEndTime = titem.CTravelEndTime,
+                        CAmont = titem.CAmont,
+                        CCheckStatus = titem.CCheckStatus
+                    };
+                    tlist.Add(ctlvm);
+                }
+                return View(tlist);
+            }
+            else
+            {
+                var traveltable = from t in tt
+                                  join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
+                                  join u in db.TUsers on t.CEmployeeId equals u.CEmployeeId
+                                  where t.CEmployeeId == getUserId()
+                                  select new
+                                  {
+                                      CApplyNumber = t.CApplyNumber,
+                                      CDepartmentId = t.CDepartmentId,
+                                      CEmployeeId = t.CEmployeeId,
+                                      CEmployeeName = u.CEmployeeName,
+                                      CReason = t.CReason,
+                                      CApplyDate = t.CApplyDate,
+                                      CTravelStartTime = t.CTravelStartTime,
+                                      CTravelEndTime = t.CTravelEndTime,
+                                      CAmont = t.CAmont,
+                                      CCheckStatus = c.CCheckStatusId
+                                  };
+               
+                foreach (var titem in traveltable)
+                {
+                    CTravelViewModel ctlvm = new CTravelViewModel()
+                    {
+                        CApplyNumber = titem.CApplyNumber,
+                        CDepartmentId = titem.CDepartmentId,
+                        CEmployeeId = titem.CEmployeeId,
+                        CEmployeeName = titem.CEmployeeName,
+                        CReason = titem.CReason,
+                        CApplyDate = titem.CApplyDate,
+                        CTravelStartTime = titem.CTravelStartTime,
+                        CTravelEndTime = titem.CTravelEndTime,
+                        CAmont = titem.CAmont,
+                        CCheckStatus = titem.CCheckStatus
+                    };
+                    tlist.Add(ctlvm);
+                }
+                return View(tlist);
+            }   
         }
         public IActionResult Create()
         {
-            return View();
+            ViewBag.Departments = db.TUserDepartments.ToList();     
+            ViewBag.Status = db.TCheckStatuses.ToList();
+            DateTime now = DateTime.UtcNow.AddHours(8).Date;
+            return View(new CTravelViewModel
+            {
+                CEmployeeName = getUserName(),
+                CDepartmentId = getUserDepartmentId(),
+                CEmployeeId = getUserId(),
+                CTravelEndTime = now,
+                CTravelStartTime = now,
+                CApplyDate = now
+            });
         }
         [HttpPost]
-        public IActionResult Create(CTravelViewModel t)
+        public IActionResult Create(CTravelViewModel model)
         {
-            dbMyCompanyContext db = new dbMyCompanyContext();
-            db.TTravelExpenseApplications.Add(t.travel);
+            if(ModelState.IsValid == false)
+            {
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.Status = db.TCheckStatuses.ToList();
+                return View(model);
+            }
+            
+            db.TTravelExpenseApplications.Add(new TTravelExpenseApplication 
+            {
+                CAmont = model.CAmont,
+                CApplyDate = DateTime.UtcNow.AddHours(8),
+                CCheckStatus = model.CCheckStatus,
+                CDepartmentId = model.CDepartmentId,
+                CEmployeeId = model.CEmployeeId,
+                CReason = model.CReason,
+                CTravelEndTime = model.CTravelEndTime,
+                CTravelStartTime = model.CTravelStartTime
+            });
             db.SaveChanges();
             return RedirectToAction("List");
         }
@@ -49,7 +155,6 @@ namespace MyHR_Web.Controllers
         {
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
                 TTravelExpenseApplication d = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
 
                 if (d != null)
@@ -62,39 +167,60 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Edit(int? id)
         {
-            if (id != null)
+            if(id.HasValue == false)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication d = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == id);
-
-                if (d != null)
-                {
-                    return View(new CTravelViewModel(d));
-                }
+                return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+
+            TTravelExpenseApplication et = db.TTravelExpenseApplications.Where(e => e.CApplyNumber == id).FirstOrDefault();
+
+            if(et == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            var result = new CTravelViewModel 
+            { 
+                CAmont = et.CAmont,
+                CApplyNumber = et.CApplyNumber,
+                CCheckStatus = et.CCheckStatus,
+                CDepartmentId = et.CDepartmentId,
+                CEmployeeId = et.CEmployeeId,
+                CReason = et.CReason,
+                CTravelEndTime = et.CTravelEndTime,
+                CTravelStartTime = et.CTravelStartTime
+            };
+
+            ViewBag.Departments = db.TUserDepartments.ToList();
+            ViewBag.Status = db.TCheckStatuses.ToList();
+            
+            return View(result);
         }
         [HttpPost]
-        public ActionResult Edit(CTravelViewModel t_travelEdit)
+        public ActionResult Edit(CTravelViewModel model)
         {
-            if (t_travelEdit != null)
+            if (ModelState.IsValid == false)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TTravelExpenseApplication l_product被修改 = db.TTravelExpenseApplications.FirstOrDefault(t => t.CApplyNumber == t_travelEdit.CApplyNumber);
-
-                if (l_product被修改 != null)
-                {
-                    l_product被修改.CEmployeeId = t_travelEdit.CEmployeeId;
-                    l_product被修改.CDepartmentId = t_travelEdit.CDepartmentId;
-                    l_product被修改.CReason = t_travelEdit.CReason;
-                    l_product被修改.CApplyDate = t_travelEdit.CApplyDate;
-                    l_product被修改.CTravelStartTime = t_travelEdit.CTravelStartTime;
-                    l_product被修改.CTravelEndTime = t_travelEdit.CTravelEndTime;
-                    l_product被修改.CAmont = t_travelEdit.CAmont;
-                    l_product被修改.CCheckStatus = t_travelEdit.CCheckStatus;
-                    db.SaveChanges();
-                }
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.Status = db.TCheckStatuses.ToList();
+                
+                return View(model);
             }
+        
+            var entity = db.TTravelExpenseApplications.Where(e => e.CApplyNumber == model.CApplyNumber).FirstOrDefault();
+
+            if(entity == null)
+            {
+                return RedirectToAction("List");
+            }
+
+            entity.CAmont = model.CAmont;
+            entity.CReason = model.CReason;
+            entity.CTravelEndTime = model.CTravelEndTime;
+            entity.CTravelStartTime = model.CTravelStartTime;
+            entity.CCheckStatus = model.CCheckStatus;
+          
+            db.SaveChanges();
             return RedirectToAction("List");
         }
     }

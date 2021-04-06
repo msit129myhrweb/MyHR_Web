@@ -26,72 +26,83 @@
     <section class="content">
 
         <p>
-            <a asp-action="Create" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>
+            @*<a asp-action="RepairCreate" class="btn btn-info" style="filter: grayscale(50%)">新增報修</a>*@
+            @Html.ActionLink("新增報修", "RepairCreate", new { }, new { @type = "button", @class = "btn btn-info", style = "filter: grayscale(50%)" })
         </p>
 
         <div style="background-color:white ;padding:20px; border-radius:10px">
             <h3>查詢條件</h3>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label class="col-lg-3 control-label">維修單號:</label>
 
-                    <input type="text" />
 
+            @*//------------------------------------*@
+
+            <form method="post">
+                <div class="row">
+
+
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">維修單號:</label>
+                        <input type="text" name="repairnumber" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修申請日期(起) :</label>
+                        <input type="date" name="repairdateStart" />
+
+                    </div>
                 </div>
-                <div class="col-md-6 form-group">
-                    <label class="col-lg-3 control-label">報修申請日期(起) :</label>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修申請日期(迄) :</label>
 
-                    <input type="date" />
+                        <input type="date" name="repairdateEnd" />
 
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">報修內容:</label>
+
+                        <input type="text" name="repaircontent" />
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label"> 狀態 :</label>
+
+                        <select>
+                            <option name="repairstatus1">審核中</option>
+                            <option name="repairstatus2">通過</option>
+                            <option name="repairstatus3">退件</option>
+                        </select>
+
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6 form-group">
-                    <label class="col-lg-3 control-label">報修申請日期(迄) :</label>
-
-                    <input type="date" />
-
-                </div>
-                <div class="col-md-6 form-group">
-                    <label class="col-lg-3 control-label">報修內容:</label>
-
-                    <input type="text" />
-
-                </div>
-                <div class="col-md-6 form-group">
-                    <label class="col-lg-3 control-label"> 狀態 :</label>
-
-                    <select>
-                        <option>審核中</option>
-                        <option>通過</option>
-                        <option>退件</option>
-                    </select>
-
-                </div>
-                <div class="col-md-6 form-group">
-                    <input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-offset-5">
-                    <input type="button" id="AllPass" value="一鍵通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                    <input type="button" id="AllFail" value="一鍵退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                </div>
-            </div>
-
+                @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                {
+                    <div class="row">
+                        <div class="col-md-offset-5">
+                            <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />
+                        </div>
+                    </div>
+                }
+                </form>
 
 
         </div>
         <hr /><br />
 
         <table table class="table table-bordered table-hover">
+
             <thead @*class="table-primary"*@>
                 <tr style="text-align:center">
+                    <th>
+                        <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" />
+                    </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CRepairNumber)
                     </th>
                     <th>
-                        @Html.DisplayNameFor(model => model.CEmployeeId)
+                        申請者
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.CAppleDate)
@@ -112,123 +123,141 @@
                         @Html.DisplayNameFor(model => model.CRepairStatus)
                     </th>
                     <th style="text-align:center">
-                        編輯 |詳細 |刪除
+                        編輯|刪除
                     </th>
-                    <th style="text-align:center">
-                        審核
-                    </th>
+                    @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                    {
+                        <th style="text-align:center">
+                            審核
+                        </th>                       
+                    }
+                    
+
                 </tr>
             </thead>
             <tbody>
-                @*@foreach (var item in Model) {*@
-                <tr style="text-align:center">
-                    @*<td>
-                            @Html.DisplayFor(modelItem => item.CRepairNumber)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CEmployeeId)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CAppleDate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CRepairCategory)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CLocation)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CContentofRepair)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CPhone)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CRepairStatus)
-                        </td>*@
-                    @*<td>
-                            @Html.ActionLink("編輯", "Edit", new {   }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                            @Html.ActionLink("詳細", "Details", new {   }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                            @Html.ActionLink("刪除", "Delete", "Customer", new { },
-                            new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
-                        </td>*@
-                    <td>
-                        20210101001
-                    </td>
-                    <td>
-                        F107008
-                    </td>
-                    <td>
-                        2021/01/01
-                    </td>
-                    <td>
-                        資訊
-                    </td>
-                    <td>
-                        研發二部
-                    </td>
-                    <td>
-                        辦公室機房冒黑煙
-                    </td>
-                    <td>
-                        0970123456
-                    </td>
-                    <td>
-                        審核中
-                    </td>
-                    <td style="text-align:center">
-                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
-                        new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
-                    </td>
-                    <th>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
-                            <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                        </div>
-                    </th>
-                </tr>
+                @foreach (var item in Model)
+                {
+
                 <tr style="text-align:center">
                     <td>
-                        20210101002
+                        @{ if (item.CRepairStatus == 0)
+                            {
+                                <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CRepairNumber)" id="CheckboxGroup" />}
+                        }
                     </td>
                     <td>
-                        F107008
+                        
+                        @Html.DisplayFor(modelItem => item.CRepairNumber)
+                    </td>
+                    <td style="display:none">
+                        @Html.DisplayFor(modelItem => item.CEmployeeId)
                     </td>
                     <td>
-                        2021/01/05
+                        @Html.DisplayFor(modelItem => item.CEmployeeName)
                     </td>
                     <td>
-                        總務
+                        @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
+                        @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CAppleDate))
                     </td>
                     <td>
-                        3樓樓梯間
+                        @Html.DisplayFor(modelItem => item.CRepairCategory)
                     </td>
                     <td>
-                        燈泡一閃一閃
+                        @Html.DisplayFor(modelItem => item.CLocation)
                     </td>
                     <td>
-                        0970123456
+                        @Html.DisplayFor(modelItem => item.CContentofRepair)
                     </td>
                     <td>
-                        審核中
+                        @Html.DisplayFor(modelItem => item.CPhone)
                     </td>
-                    <td style="text-align:center">
-                        @Html.ActionLink("編輯", "Edit", new { }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("詳細", "Details", new { }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-                        @Html.ActionLink("刪除", "Delete", "Customer", new { },
-                        new { onclick = "return confirm('確定要刪除嗎?')", @class = "btn btn-danger", @style = "filter: grayscale(50%)" })
+                    <td>
+                        @Enum.GetName(typeof(eCheck), item.CRepairStatus)
                     </td>
-                    <th>
-                        <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                            <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off" checked>通過</label>
-                            <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
-                        </div>
-                    </th>
+                    <td>
+                        @{ if (item.CRepairStatus == 0)
+                            {
+                                @Html.ActionLink("修改", "RepairEdit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
+                        }
+                    </td>
+
+
+
+                    @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                    {
+                        <td>
+                            @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                        </td>
+                        @*<td>
+                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                    <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">通過</label>
+                    <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">退件</label>
+                </div>
+            </td>*@
+                    }
+
+
+
                 </tr>
-                @*}*@
+                    
+                }
             </tbody>
         </table>
     </section>
 </div>
+
+@*參考網址：https://pjchender.blogspot.com/2015/04/jquery_29.html?m=1*@
+<script>
+    $(document).ready(function () {
+        $("#CheckAll").click(function () {
+            if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                })
+            } else {
+                $("input[name='Checkbox[]']").each(function () {
+                    $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                })
+            }
+        })
+    })
+
+ 
+    var result = "";
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("AllPass").addEventListener("click", function () {
+             result = [];
+            var checks = document.getElementsByName("Checkbox[]");
+
+            for (var i = 0; i < checks.length; i++) {
+                var check = checks.item(i);
+
+                if (check.checked) {
+                    result.push(check.value);
+                }
+            }
+           /* window.alert(result.toString()); *//* console.log(typeof (result));  object */
+
+            $.post(
+                    "@Url.Action("updateall")",
+                    { "x": JSON.stringify(result) },
+                    function (result) {
+                        /*console.log(result);*/
+                    },"json"
+            ) 
+            setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 500)
+        }, false);
+    } , false);
+     
+
+    $.getJSON = function (url, data, callback) {
+        $.post(url, data, callback, "json")
+    }
+
+
+
+</script>
