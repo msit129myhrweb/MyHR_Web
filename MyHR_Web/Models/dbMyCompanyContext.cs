@@ -64,15 +64,19 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CApplyNumber).HasColumnName("cApplyNumber");
 
+                entity.Property(e => e.CDate)
+                    .HasColumnType("date")
+                    .HasColumnName("cDate");
+
                 entity.Property(e => e.CEmployeeId).HasColumnName("cEmployeeID");
 
-                entity.Property(e => e.COff)
-                    .HasColumnType("datetime")
-                    .HasColumnName("cOff");
+                entity.Property(e => e.COff).HasColumnName("cOff");
 
-                entity.Property(e => e.COn)
-                    .HasColumnType("datetime")
-                    .HasColumnName("cOn");
+                entity.Property(e => e.COn).HasColumnName("cOn");
+
+                entity.Property(e => e.CStatus)
+                    .HasMaxLength(20)
+                    .HasColumnName("cStatus");
 
                 entity.HasOne(d => d.CEmployee)
                     .WithMany(p => p.TAbsences)
@@ -353,6 +357,8 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("cLeaveEndTime");
+
+                entity.Property(e => e.CLeaveHours).HasColumnName("cLeaveHours");
 
                 entity.Property(e => e.CLeaveStartTime)
                     .IsRequired()

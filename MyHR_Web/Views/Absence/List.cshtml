@@ -1,109 +1,242 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
+﻿@using Microsoft.AspNetCore.Http;
+@using prjCoreDemo.ViewModel;;
+@{string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);}
+
+@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
 @{
     ViewData["Title"] = "List";
 }
-<html>
+
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
-    <script type="text/javascript" src="~/js/Absence.js"></script>
-    <script>
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 
-        @*$.ajax({
-            url: "@Url.Action("Create", "Absence")",
-            type: "POST",
-            data: dataObject,
-            datatype: "json",
-            success: 
-
-        })*@
-        function showHistory() {
-            $.ajax({
-                url: "/Absence/List",
-                type: "GET",
-                success: function (data) {
-                    var txt = "<table  id='example2' class='table table - bordered table - hover'><tr><th>上班<th>下班<th>狀態";
-                    var ons = data.getElementById("#on");
-                    var offs = data.getElementById("#off");
-                    var status = data.getElementById("#status");
-                    for (var i = 0; i < ons.length; i++) {
-                        txt += "<tr><td>" + ons[i].firstChild.nodeValue;
-                        txt += "<td>" + offs[i].firstChild.nodeValue;
-                        txt += "<td>" + status[i].firstChild.nodeValue;
-                    }
-                    $("#showClock").html(txt);
-                }
-            });
+    <style>
+        #absence_table {
+            float: left;
+            width: 98%;
+            margin-left: 10px;
         }
-    </script>
+
+        #left {
+            width: 30%;
+            float: left;
+        }
+
+        #right {
+            width: 69%;
+            float: right;
+        }
+        /*        #calendar{
+            float:right;
+            width:38%;
+            margin-left:10px;
+        }*/
+    </style>
 </head>
-<body>
-    <div class="content-wrapper">
-        <section class="content-header">
-            <h2>打卡</h2>
-        </section>
-        <section class="content">
-            <div class="clock">
-                <button type="button" class="button" onclick="onClock()" style="filter: grayscale(50%)">上班</button><br /><br />
-                <button type="button" class="button" onclick="offClock()" style="filter: grayscale(50%)">下班</button><br /><br />
-                <input type="button" class="btn btn-info" id="history" style="filter: grayscale(50%)" onclick="showHistory()" value="打卡記錄查詢"></input><br /><br />
-                <input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定"></input><br /><br />
-                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定"></input>
-            </div>
-            <div class="content-wrapper">
-                <body onload="ShowTime()">
-                    <form id="form1" runat="server" class="nowTime">
-                        <div id="showbox"></div>
-                        <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
-                    </form>
-                </body>
-
-                <div style="display:none" class="container-fluid">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                查詢條件<br />
-                                起 :&nbsp <input type="date" />&nbsp迄 : &nbsp<input type="date" />&nbsp<input type="button" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                    <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off">當天</label>
-                                    <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
-                                    <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off">當月</label>
-                                </div>
-                                    <a asp-action="Create" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>
-                            </h3>
-                        </div>
-                        <div class="card-body">
-                            <table id="example2" class="table table-bordered table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>@Html.DisplayNameFor(model => model.COn)</th>
-                                        <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                        <th>狀態</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                <tbody>
-                                    @foreach (var item in Model)
-                                    {
-                                        <tr>
-                                            <td id="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                                            <td id="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                            <td id="status">@ViewData["clockStatus"]</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="content-wrapper">
+    <section class="content-header">
+        <h2>打卡</h2>
+    </section>
+    <section class="content">
+        <div id="left">
+            <body onload="ShowTime()">
+                <form id="form1" runat="server" class="nowTime" style="background-color:white ;padding:20px; border-radius:10px">
+                    ⽬前時間&nbsp:&nbsp<br /><div id="showbox"></div>
+                    <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
+                </form>
+            </body>
+            <br />
+            <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
+            <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+            @*<input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定" /><br /><br />
+                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定" /><br /><br />*@
+            @*<a asp-action="Edit" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>*@
         </div>
-            </div>
-        </section>
-    </div>
-</body>
-</html>
+        <div id="right">
+            <section class="content">
+                <form method="post">
+                    <div style="background-color:white ;padding:20px; border-radius:10px">
+                        <h3>查詢條件</h3>
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="col-lg-3 control-label">起&nbsp:&nbsp</label>
+                                <input type="date" name="sDate" id="sDate" class="absence" />
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="col-lg-3 control-label">迄&nbsp:&nbsp</label>
+                                <input type="date" name="eDate" id="eDate" class="absence" />
+                            </div>
+                        </div>
+                        @*<div class="row">
+                                <div class="col-md-6 form-group">
+                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                        <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off" class="absence"value="1">當天</label>
+                                        <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" class="absence" checked value="2">當週</label>
+                                        <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off" class="absence"value="3">當月</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                                </div>
+                            </div>*@
+                    </div>
+                    <hr />
+                    <div id="absence_table">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr style="text-align:center">
+                                    <th>序</th>
+                                    <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CDate)</th>
+                                    <th>星期</th>
+                                    <th>@Html.DisplayNameFor(model => model.COn)</th>
+                                    <th>@Html.DisplayNameFor(model => model.COff)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CSatus)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{int count = 0; }
+                                @foreach (var item in Model)
+                                {
+                                    count++;
 
+                                    <tr style="text-align:center">
+                                        <td>@count</td>
+                                        <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                                        <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
+                                        <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
+                                        <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                        <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                                        @{
+                                            if (item.CSatus == "異常")
+                                            {
+                                                <td id="status" name="status">@Html.ActionLink($"{item.CSatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                            }
+                                            else
+                                            {
+                                                <td id="status" name="status">@Html.DisplayFor(modelItem => item.CSatus)</td>
+                                            }
+                                        }
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </section>
+</div>
+
+<script>
+    //目前時間顯示
+    function ShowTime() {
+        var NowDate = new Date();
+        var d = NowDate.getDay();
+        var dayNames = new Array("星期⽇", "星期⼀", "星期⼆", "星期三", "星期四", "星期五", "星期六");
+        document.getElementById('showbox').innerHTML = NowDate.toLocaleString() + '（' +
+            dayNames[d] + '）';
+        setTimeout('ShowTime()', 1000);
+    }
+
+    //未六點不可打下班卡
+    $(function () {
+
+        var d = new Date();
+        var now = d.getHours();   //當前時間的小時
+        d.setHours(18);//當日18時的million second
+        var offTime = d.getHours();
+        if (now <= offTime) {
+            document.getElementById("off").setAttribute("disabled", "disabled");
+        }
+        else {
+            document.getElementById("off").removeAttribute("disabled");
+        };
+        }
+    );
+
+    //判斷昨天是否有打卡
+    @*$(function () {
+        var d = new Date();
+        d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
+        var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+        var data ="," + ysd + ",";
+        $.post(
+            "@Url.Action("yesterdayVal")",
+            { "ysd": JSON.stringify(data) },
+            function () { },"json"
+        )
+
+        console.log(ysd);
+    })*@
+
+    //打上班卡
+        function clockOn() {
+            var id = @a;
+            var now = new Date();
+            var date = now.toISOString().substr(0,10);
+            var nowtime = now.toLocaleString('chinese', { hour12: false });
+            var data = id + "," + date+","+ nowtime ;
+
+            $.post(
+                "@Url.Action("getClockString_on")",
+                { "c": JSON.stringify(data) },
+                function (data) {
+                }, "json"
+            )
+            var content = document.getElementById("showClock");
+            content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+        };
+
+    //打下班卡
+        function clockOff() {
+            var id = @a;
+            var now = new Date();
+            var date = now.toISOString().substr(0,10);
+            var nowtime = now.toLocaleString('chinese', { hour12: false });
+            var data = id + "," + date+","+ nowtime ;
+
+            $.post(
+                "@Url.Action("getClockString_off")",
+                { "c": JSON.stringify(data) },
+                function (data) {
+                }, "json"
+            )
+            var content = document.getElementById("showClock");
+            content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+        };
+
+    $(".absence").change(function () {
+        var sDate = $("#sDate").val();
+        var eDate = $("#eDate").val();
+        //var options = document.getElementsByName("options");
+        //var opVal = "";
+        //for (var i = 0; i < options.length; i++) {
+        //    var elem = options.item(i);
+        //    if (elem.checked) {
+        //        opVal = elem.value;
+        //        break;
+        //    }
+        //}
+        console.log(sDate + "/" + eDate );
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/date_search",
+            data: { sDate: sDate, eDate: eDate},
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+</script>
 
