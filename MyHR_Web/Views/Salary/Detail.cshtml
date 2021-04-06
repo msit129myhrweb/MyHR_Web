@@ -95,7 +95,7 @@
                     <br />
 
                     <div style="font-size:30px">Hello Work 科技股份有限公司</div>
-                    <div style="font-size:30px">2021-04<i>薪資單</i></div>
+                    <div style="font-size:30px">2021-<font id="month">04</font><i>薪資單</i></div>
 
                     <br />
                     <div class="container" style="width:80%">
@@ -312,7 +312,9 @@
     
 
     let USERID = $("#UserID").html().trim();
+   
     console.log(USERID); //取得ID
+  
 
     $("#Ajax_LeavePay").hover(function () {
         console.log("123");
@@ -320,7 +322,7 @@
             type: "get",
             dataType: "html",
             url: "/Salary/Count_Leave",
-            data: {id:USERID},
+            data: { id: USERID},
             success: function (data) {
                 console.log("有進去");
                 $("#ForLeave").html(data);
@@ -339,7 +341,7 @@
             type: "get",
             dataType: "html",
             url: "/Salary/Count_Absense",
-            data: { id: USERID },
+            data: { id: USERID},
             success: function (data) {
                 console.log("有進去");
                 $("#ForLate").html(data);

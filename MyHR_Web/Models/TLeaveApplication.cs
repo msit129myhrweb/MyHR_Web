@@ -16,7 +16,7 @@ namespace MyHR_Web.Models
         public string CLeaveEndTime { get; set; }
         public string CReason { get; set; }
         public int CCheckStatus { get; set; }
-        public int? CLeaveHours { get; set; }
+        public int CLeaveHours { get; set; }
 
         public virtual TCheckStatus CCheckStatusNavigation { get; set; }
         public virtual TUserDepartment CDepartment { get; set; }

@@ -48,7 +48,7 @@
 
         @{
             var Dept = Model.Select(c =>c.CDepartmentId).Distinct().ToList();  //因為現在管理部沒人 所以...只有5個
-            for (int i = 1; i < Dept.Count+2; i++)
+            for (int i = 1; i < Dept.Count+1; i++)
             {
 
                 <div id="Leave_table">
@@ -116,22 +116,22 @@
                                         </td>
 
                                         <td>
-
+                                            @Html.DisplayFor(modelItem => item.CAmont_Leave)
                                             @*@{ int LeaveMoney = 0;
 
-                                                if(ViewBag.Leave == null)
-                                                {
-                                                    LateMoney = 0;
-                                                }
-                                                else
-                                                {
-                                                    foreach (var a in ViewBag.Leave)
-                                                    {
-                                                        LeaveMoney += a.Leave_HaveToPay;
-                                                    }
-                                                }
-                                                 }
-                                            @LeaveMoney*@
+            if(ViewBag.Leave == null)
+            {
+                LateMoney = 0;
+            }
+            else
+            {
+                foreach (var a in ViewBag.Leave)
+                {
+                    LeaveMoney += a.Leave_HaveToPay;
+                }
+            }
+             }
+        @LeaveMoney*@
                                         </td>
                                         <td>
                                             @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
