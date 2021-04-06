@@ -256,7 +256,7 @@ namespace MyHR_Web.Controllers
 
             if (ab==null)
             {
-                if (day == DayOfWeek.Sunday || day == DayOfWeek.Saturday)//判斷是否為六日
+                if (day != DayOfWeek.Sunday || day != DayOfWeek.Saturday)//判斷是否為六日
                 {
                     TAbsence absence = new TAbsence()
                     {
@@ -269,24 +269,16 @@ namespace MyHR_Web.Controllers
             }
             return Json(ysd);
         }
-        public string Clock()//打卡
-        {
-            //var t = from clock in db.TAbsences
-            //        let x = DateTime.Today.ToString("yyyy-MM-dd")
-            //        where clock.CEmployeeId.ToString() == ViewData[CDictionary.CURRENT_LOGINED_USERID].ToString()
-            //        select clock;
-            return "";
-        }
         public IActionResult date_search(DateTime? sDate,DateTime? eDate,int? opVal)
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
             var time = db.TAbsences
-                .Where(a => (sDate != null ? a.COn.Value.Date >= sDate : true) &&
+                .Where(a => a.CEmployeeId==userId&&
+                      (sDate != null ? a.COn.Value.Date >= sDate : true) &&
                       (sDate != null ? a.COff.Value.Date >= sDate : true) &&
                       (eDate != null ? a.COn.Value.Date <= eDate : true) &&
-                      (eDate != null ? a.COff.Value.Date <= eDate : true)&&
-                      (opVal!=null?a.COn.Value.Date==))
+                      (eDate != null ? a.COff.Value.Date <= eDate : true))
                 .OrderBy(a=>(a.COn!=null?a.COn:a.COff)).ToList();
 
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
@@ -301,8 +293,6 @@ namespace MyHR_Web.Controllers
                 };
                 list.Add(avm);
             }
-
-
             return PartialView("date_search",list);
         }
 
