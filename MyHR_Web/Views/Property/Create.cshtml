@@ -56,9 +56,9 @@
                                 <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="CDeparmentId" class="control-label"></label>
-                                <input type="hidden" name="CDeparmentId" class="form-control" value="@Model.CDeparmentId" />
-                                <select class="form-control" disabled>
+                                <label asp-for="CDeparmentId" class="control-label" style="display:none"></label>
+                                <input type="hidden" name="CDeparmentId" class="form-control" value="@Model.CDeparmentId" readonly="readonly" style="display:none" />
+                                <select class="form-control"readonly="readonly" style="display:none">
                                     @foreach (var d in departs)
                                     {
                                         if (d.CDepartmentId == Model.CDeparmentId)
