@@ -44,11 +44,12 @@ namespace MyHR_Web.Controllers
                                 join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
                                 join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
                                 join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
+                                join t in db.TUsers on p.CDeparmentId equals t.CDepartmentId
                                 select new
                                 {
                                     CPropertyId = p.CPropertyId,
-                                    CDeparmentId = p.CDeparmentId,
-                                    CEmployeeId = p.CEmployeeId,
+                                    CDeparmentId = t.CDepartmentId,
+                                    CEmployeeId = u.CEmployeeId,
                                     CEmployeeName = u.CEmployeeName,
                                     CPhone = p.CPhone,
                                     CPropertySubjectId = d.CPropertySubjectId,
@@ -175,13 +176,13 @@ namespace MyHR_Web.Controllers
             {
                 CPropertyId=tf.CPropertyId,
                 CLostAndFoundDate = tf.CLostAndFoundDate,
-                CEmployeeId = tf.CEmployeeId,
+                CEmployeeId = getUserId(),
                 CLostAndFoundSpace = tf.CLostAndFoundSpace,
                 CPropertyCheckStatusId = tf.CPropertyCheckStatusId,
                 CPhone = getUserPhone(),
                 CPropertySubjectId = tf.CPropertySubjectId,
                 CtPropertyDescription = tf.CtPropertyDescription,
-                CDeparmentId = tf.CDeparmentId,
+                CDeparmentId = getUserDepartmentId(),
                 CPropertyCategoryId = tf.CPropertyCategoryId,
                 CProperty=tf.CProperty,
                 CPropertyPhoto=tf.CPropertyPhoto
@@ -213,12 +214,17 @@ namespace MyHR_Web.Controllers
                     return RedirectToAction("List");
                 }
 
-                entity.CProperty = pmodel.CProperty;
-                entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
-                entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
-                entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
-                entity.CtPropertyDescription = pmodel.CtPropertyDescription;
-                entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+            entity.CDeparmentId = pmodel.CDeparmentId;
+            entity.CEmployeeId = pmodel.CEmployeeId;
+            entity.CPropertyId = pmodel.CPropertyId;
+            entity.CProperty = pmodel.CProperty;
+            entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
+            entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
+            entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
+            entity.CtPropertyDescription = pmodel.CtPropertyDescription;
+            entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+            entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
+            entity.CPhone = pmodel.CPhone;
 
             string photoName = Guid.NewGuid().ToString() + ".jpg";
             using (var photo = new FileStream(
@@ -230,8 +236,8 @@ namespace MyHR_Web.Controllers
             pmodel.CPropertyPhoto = "../images/" + photoName;
             entity.CPropertyPhoto = pmodel.CPropertyPhoto;
 
-                db.SaveChanges();
-                return RedirectToAction("List");
+            db.SaveChanges();
+            return RedirectToAction("List");
          }
     }
 }

@@ -47,10 +47,12 @@
                                     {
                                         if (d.CDepartmentId == Model.CDepartmentId)
                                         {
-                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
+                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option>
+                                        }
                                         else
                                         {
-                        <option value="@d.CDepartmentId">@d.CDepartment</option>}
+                        <option value="@d.CDepartmentId">@d.CDepartment</option>
+                                         }
                                     }
                                 </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
