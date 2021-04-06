@@ -6,7 +6,9 @@
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
-    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME"); }
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+   
+    }
 
 <style>
     h2 {
@@ -52,7 +54,7 @@
                                 <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="CDeparmentId" readonly="readonly" class="control-label"></label>
+                                <label asp-for="CDeparmentId" readonly="readonly" class="control-label" ></label>
                                 <select class="form-control" name="CDeparmentId" disabled>
                                     @foreach (var d in departs)
                                     {

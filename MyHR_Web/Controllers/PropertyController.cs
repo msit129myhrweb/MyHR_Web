@@ -175,17 +175,18 @@ namespace MyHR_Web.Controllers
             {
                 CPropertyId=tf.CPropertyId,
                 CLostAndFoundDate = tf.CLostAndFoundDate,
-                CEmployeeId = getUserId(),
+                CEmployeeId = tf.CEmployeeId,
                 CLostAndFoundSpace = tf.CLostAndFoundSpace,
                 CPropertyCheckStatusId = tf.CPropertyCheckStatusId,
                 CPhone = getUserPhone(),
                 CPropertySubjectId = tf.CPropertySubjectId,
                 CtPropertyDescription = tf.CtPropertyDescription,
-                CDeparmentId = getUserDepartmentId(),
+                CDeparmentId = tf.CDeparmentId,
                 CPropertyCategoryId = tf.CPropertyCategoryId,
                 CProperty=tf.CProperty,
                 CPropertyPhoto=tf.CPropertyPhoto
             };
+
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
@@ -196,9 +197,9 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
-           
+
             if (ModelState.IsValid == false)
-                {
+            {
                 ViewBag.Departments = db.TUserDepartments.ToList();
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
@@ -206,7 +207,7 @@ namespace MyHR_Web.Controllers
                 return View(pmodel);
             }
 
-                var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
+            var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
 
                 if (entity == null)
                 {
