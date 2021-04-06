@@ -274,7 +274,7 @@ namespace MyHR_Web.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Login");
         }
 
         public IActionResult Calendar()
