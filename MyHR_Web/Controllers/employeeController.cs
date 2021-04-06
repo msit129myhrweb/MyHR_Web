@@ -331,10 +331,10 @@ namespace MyHR_Web.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> employeeEdit(TUser user, TUserViewModel Tuser_vm, List<IFormFile> CPhoto)
+        public async Task<IActionResult> employeeEdit(TUser user, TUserViewModel Tuser_vm, List<IFormFile> CPhoto, int id)
         {
-            user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
-
+            //user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);//取一個在session中的TUser物件(可抓到id)
+             user.CEmployeeId = id;
             foreach (var item in CPhoto)
             {
                 if (item.Length > 0)

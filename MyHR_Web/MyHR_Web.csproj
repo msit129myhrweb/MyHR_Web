@@ -14,6 +14,7 @@
     <Content Remove="Views\Travel\_Create.cshtml" />
     <Content Remove="Views\Travel\_Delete.cshtml" />
     <Content Remove="Views\Travel\_Edit.cshtml" />
+    <Content Remove="wwwroot\ExcelFile\活頁簿1.csv" />
   </ItemGroup>
 
   <ItemGroup>
