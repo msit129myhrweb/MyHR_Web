@@ -1,0 +1,371 @@
+﻿
+@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
+    }
+
+<div class="content-wrapper">
+    <section class="content-header">
+
+        <header>
+            <style>
+                h2 {
+                    background-color: #cbb2ae;
+                    border-left: 5px solid #808080;
+                    font-family: "微软雅黑", "宋体", "黑体", Arial;
+                    font-size: 25px;
+                    height: 80px;
+                    line-height: 80px;
+                    font-weight: bold;
+                    text-shadow: 2px 2px 3px #222222;
+                    color: #FFFFFF;
+                    padding-left: 10px;
+                }
+
+                .Salary-box {
+                    border: 2px groove black;
+                    text-align: center;
+                    font-size: 20px;
+                    width: 70%;
+                    margin: 0px auto;
+                    padding: 0px;
+                    /*  font-family:新細明體;
+                    text-decoration:none*/
+                }
+
+                section {
+                    display: block;
+                }
+
+                body {
+                    line-height: 1;
+                }
+
+                ol, ul {
+                    list-style: none;
+                }
+
+                blockquote, q {
+                    quotes: none;
+                }
+
+                    blockquote: before, blockquote : after,
+                    q: before, q: after {
+                        content: '';
+                        content: none;
+                    }
+
+                table {
+                    border-collapse: collapse;
+                    border-spacing: 0;
+                }
+
+                #block_top {
+                    position: sticky;
+                    top: 0px;
+                    height: 60px;
+                    background-color: #24282D;
+                }
+
+                #float_block {
+                    position: absolute;
+                    top: 20px;
+                    left: 0px;
+                    width: 400px;
+                    height: 300px;
+                    color: #0366D6;
+                    background: #FFFFFF;
+                    border: #696969 1px solid;
+                    display: none;
+                }
+
+                #icon {
+                    position: relative;
+                }
+
+                    #icon:hover #float_block {
+                        display: block;
+                    }
+            </style>
+        </header>
+
+
+        @foreach (var item in Model)
+        {
+
+                <div class="Salary-box">
+                    <br />
+
+                    <div style="font-size:30px">Hello Work 科技股份有限公司</div>
+                    <div style="font-size:30px">2021-04<i>薪資單</i></div>
+
+                    <br />
+                    <div class="container" style="width:80%">
+                        <div style="background-color:papayawhip ;padding:15px; border-radius:10px">
+
+                            <div class="row">
+                                <div class="col">
+                                    <label  class=" col-lg-12 control-label">工號 :<label id="UserID">@Html.DisplayFor(modelItem => item.CEmployeeId)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">部門 :<label>@Html.DisplayFor(modelItem => item.CDepartment)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">銀行 :  <label>004 台灣銀行</label></label>
+                                </div>
+
+
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">姓名 :<label>@Html.DisplayFor(modelItem => item.CEmployeeName)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">職稱 :<label>@Html.DisplayFor(modelItem => item.CJobTitle)</label></label>
+                                </div>
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">發放日期 :  <label> xxxx/04/06 Fake</label></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container" style="width:80%">
+                        <div style="padding:15px; text-align:left">
+
+
+                            <label class=" col-lg-12 control-label" style="text-align:left; font-size:25px; background-color:lightsalmon; display:inline">薪資結構</label>
+
+
+                            @*這行存在的意義全無，只是不小心有了他排版完美*@
+
+                            <div class="row" style=">
+                                <div class="col"> </div>
+                            </div>
+
+
+                            <div class="row">
+
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">基本薪資 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label id="Month_Salary" class=" col-lg-12 control-label">@Html.DisplayFor(modelItem => item.CJobTitleSalary) </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12" style="text-align:left">加項</label>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">差旅費 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label id="Month_TravelPay" class=" col-lg-12 control-label">@Html.DisplayFor(modelItem => item.CAmont_Travel) </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label" style="text-align:left">扣項</label>
+                                </div>
+                            </div>
+                            <hr />
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">請假扣款 </label>
+                                </div>
+
+
+                                <div class="col">
+                                    <label id="Month_Leave" class=" col-lg-12 control-label">
+                                        @*$@Html.DisplayFor(modelItem => item.CLeaveHours)*@
+
+                                        @{ int count = 0;
+
+                                            if(ViewBag.Leave ==null)
+                                            {
+                                                count = 0;
+                                            }
+                                            else
+                                            {
+                                                foreach (var a in ViewBag.Leave)
+                                                {
+                                                    count += a.Leave_HaveToPay;
+
+                                                }
+
+                                            } }
+
+                                        @count
+
+                                        @*<div id="block_top">*@
+                                        <div id="icon" style="float:right">
+                                            <i id="Ajax_LeavePay" class="fas fa-clipboard-list" style="font-size:20px;"></i>
+                                            <div id="float_block">
+                                                <div id="ForLeave">
+                                                    放置: Count_Leave.cshtml
+                                                </div>
+                                            </div>
+                                            @*</div>*@
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">遲到扣款 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label id="Month_Late" class=" col-lg-12 control-label">
+                                        @{ int LateMoney = 0;
+
+                                            if(ViewBag.Late == null)
+                                            {
+                                                LateMoney = 0;
+                                            }
+                                            else
+                                            {
+                                                foreach (var a in ViewBag.Late)
+                                                {
+                                                    LateMoney = a.CAmont_TAbsense;
+                                                }
+                                            }
+
+                                            }
+
+                                        @LateMoney
+
+                                        <div id="icon" style="float:right">
+                                            <i id="Ajax_LatePay" class="fas fa-times-circle" style="font-size:20px;"></i>
+                                            <div id="float_block">
+                                                <div id="ForLate">
+                                                    放置: Count_Absense.cshtml
+                                                </div>
+
+                                            </div>
+                                            @*</div>*@
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <hr style=" height: 1px; border: none; background-color: #282828" />
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">應發金額 </label>
+                                </div>
+
+                                <div class="col">
+                                    <label id="Salary_payable" class=" col-lg-12 control-label" style="white-space: pre">$______ </label>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">應扣金額 </label>
+                                </div>
+                                <div class="col">
+                                    <label id="Salary_Sub" class=" col-lg-12 control-label" style="white-space: pre">$______ </label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <label class=" col-lg-12 control-label">實發金額 </label>
+                                </div>
+                                <div class="col">
+                                    <label id="Salary_Netincome" class=" col-lg-12 control-label" style="white-space: pre">$______ </label>
+                                </div>
+                            </div>
+                            <br />
+                            <br />
+                        </div>
+                    </div>
+                                    <br />
+                                                    <br />}
+
+</section>
+</div>
+
+
+
+<script src="~/js/accounting.js"></script>
+<script>
+
+    
+
+    let USERID = $("#UserID").html().trim();
+    console.log(USERID); //取得ID
+
+    $("#Ajax_LeavePay").hover(function () {
+        console.log("123");
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Salary/Count_Leave",
+            data: {id:USERID},
+            success: function (data) {
+                console.log("有進去");
+                $("#ForLeave").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+
+
+    $("#Ajax_LeavePay").hover(function () {
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Salary/Count_Absense",
+            data: { id: USERID },
+            success: function (data) {
+                console.log("有進去");
+                $("#ForLate").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+    $(function () {
+
+        let Month_Salary = $("#Month_Salary").html().trim();
+        let Month_TravelPay = $("#Month_TravelPay").html().trim();
+        let Month_Leave = $("#Month_Leave").html().trim();
+        let Month_Late = $("#Month_Late").html().trim();
+
+        console.log(Month_Salary);
+        console.log(Month_Leave);
+        console.log(Month_Late);
+
+        var AddSum = parseInt(Month_Salary) + parseInt(Month_TravelPay);
+        var SubSum = parseInt(Month_Leave) + parseInt(Month_Late);
+        var Netincome = AddSum - SubSum;
+
+        $("#Salary_payable").html(accounting.formatMoney(AddSum));
+        $("#Salary_Sub").html(accounting.formatMoney(SubSum));
+        $("#Salary_Netincome").html(accounting.formatMoney(Netincome));
+    })</script>

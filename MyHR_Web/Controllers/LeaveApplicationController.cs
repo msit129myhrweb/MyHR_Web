@@ -17,7 +17,7 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {        
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+  List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
 
             List<TLeave> leaveCate = getLeaveCategory();
             ViewBag.leaveCategory = leaveCate;
