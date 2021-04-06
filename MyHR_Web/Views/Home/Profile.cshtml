@@ -16,15 +16,11 @@
     }
 </style>
 
-<!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
     <section class="content-header">
         <h2>個人資料</h2>
 
     </section>
-
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row">
@@ -43,17 +39,12 @@
 
                             <p class="text-muted text-center">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
 
-
                         </div>
-                        <!-- /.card-body -->
                     </div>
-                    <!-- /.card -->
-                    <!-- About Me Box -->
                     <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">關於我</h3>
                         </div>
-                        <!-- /.card-header -->
                         <div class="card-body">
                             <strong><i class="fas fa-book mr-1"></i> 部門</strong>
 
@@ -68,8 +59,6 @@
                             <p class="text-muted">@ViewData["CURRENT_LOGINED_USERJOBTITLE"]</p>
 
                             <hr>
-
-                           
                         </div>
                         <!-- /.card-body -->
                     </div>
@@ -90,12 +79,12 @@
                                     <form asp-action="RepairEdit">
                                         @foreach (var item in Model)
                                         {
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeName)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmployeeName)>
-                                                </div>
-                                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeName)</label>
+                                <div class="col-sm-10">
+                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmployeeName)>
+                                </div>
+                            </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CEmployeeEnglishName)</label>
                                                 <div class="col-sm-10">
@@ -103,126 +92,115 @@
 
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CPassWord)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPassWord)>
-                                                </div>
-                                            </div>
+                                                            <div class="form-group row">
+                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CPassWord)</label>
+                                                                <div class="col-sm-10">
+                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPassWord)>
+                                                                </div>
+                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.COnBoardDay)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.COnBoardDay)>
-                                                </div>
-                                            </div>
+                                                                            <div class="form-group row">
+                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.COnBoardDay)</label>
+                                                                                <div class="col-sm-10">
+                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.COnBoardDay)>
+                                                                                </div>
+                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CByeByeDay)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CByeByeDay)>
-                                                </div>
-                                            </div>
+                                                                                            <div class="form-group row">
+                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CByeByeDay)</label>
+                                                                                                <div class="col-sm-10">
+                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CByeByeDay)>
+                                                                                                </div>
+                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CGender)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CGender)>
-                                                </div>
-                                            </div>
+                                                                                                            <div class="form-group row">
+                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CGender)</label>
+                                                                                                                <div class="col-sm-10">
+                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CGender)>
+                                                                                                                </div>
+                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmail)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmail)>
-                                                </div>
-                                            </div>
+                                                                                                                            <div class="form-group row">
+                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmail)</label>
+                                                                                                                                <div class="col-sm-10">
+                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmail)>
+                                                                                                                                </div>
+                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAddress)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CAddress)>
-                                                </div>
-                                            </div>
+                                                                                                                                            <div class="form-group row">
+                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAddress)</label>
+                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CAddress)>
+                                                                                                                                                </div>
+                                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CDepartmentId)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CDepartmentId)>
-                                                </div>
-                                            </div>
+                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CDepartmentId)</label>
+                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CDepartmentId)>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CJobTitleId)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CJobTitleId)>
-                                                </div>
-                                            </div>
+                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CJobTitleId)</label>
+                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CJobTitleId)>
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CSupervisor)</label>
+                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CSupervisor)>
+                                                                                                                                                                                                </div>
+                                                                                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CSupervisor)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CSupervisor)>
-                                                </div>
-                                            </div>
+                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.CBirthday)</label>
+                                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CBirthday)>
+                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CPhone)</label>
+                                                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPhone)>
+                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.CBirthday)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CBirthday)>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">@Html.DisplayNameFor(model => model.CPhone)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CPhone)>
-                                                </div>
-                                            </div>
+                                                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyPerson)</label>
+                                                                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyPerson)>
+                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                            </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyPerson)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyPerson)>
-                                                </div>
-                                            </div>
+                                                                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyContact)</label>
+                                                                                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyContact)>
+                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                                                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAccountEnable)</label>
+                                                                                                                                                                                                                                                                                <div class="col-sm-10">
+                                                                                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Enum.GetName(typeof(eAccount), item.CAccountEnable)>
+                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                            <div class="form-group row">
+                                                                                                                                                                                                                                                                                                <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.COnBoardStatusId)</label>
+                                                                                                                                                                                                                                                                                                <div class="col-sm-10">
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CEmergencyContact)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Html.DisplayFor(modelItem => item.CEmergencyContact)>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label"> @Html.DisplayNameFor(model => model.CAccountEnable)</label>
-                                                <div class="col-sm-10">
-                                                    <input class="form-control" readonly="readonly" value=@Enum.GetName(typeof(eAccount), item.CAccountEnable)>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">  @Html.DisplayNameFor(model => model.COnBoardStatusId)</label>
-                                                <div class="col-sm-10">
-
-                                                    <input class="form-control" readonly="readonly" value=@Enum.GetName(typeof(eOnBoard), item.COnBoardStatusId)>
-                                                </div>
-                                            </div>
-                                            @Html.ActionLink("編輯", "ProfileEdit", new { id = item.CEmployeeId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
-
-                                        }
+                                                                                                                                                                                                                                                                                                    <input class="form-control" readonly="readonly" value=@Enum.GetName(typeof(eOnBoard), item.COnBoardStatusId)>
+                                                                                                                                                                                                                                                                                                </div>
+                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                            @Html.ActionLink("編輯", "ProfileEdit", new { id = item.CEmployeeId }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })}
                                     </form>
                                 </div>
-
                             </div>
-                            <!-- /.tab-content -->
-                        </div><!-- /.card-body -->
+                        </div>
                     </div>
-                    <!-- /.card -->
                 </div>
-                <!-- /.col -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 </div>
-

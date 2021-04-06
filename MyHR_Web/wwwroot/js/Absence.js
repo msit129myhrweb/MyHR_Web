@@ -29,29 +29,38 @@ function ShowTime() {
 //        }
 //    })
 //})
-function onClock() {
-    var req = new XMLHttpRequest();
-    req.open("get", "/Absence/List");
-    req.onload = function () {
-        var now = new Date();
-        var nowtime = now.toLocaleString();
-        var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\您已打卡成功!\下班別忘記打卡!";
-    };
-    req.send();
-}
+//function onClock() {
+//    $.ajax({
+//        url: "/Absence/Create",
+//        data: "{'CEmployeeId'=id,COn=d}",
+//        type: "POST",
+//        success: function () {
+//            var now = new Date();
+//            var nowtime = now.toLocaleString();
+//            var content = document.getElementById("showClock");
+//            content.innerHTML = nowtime + "\n您已打卡成功!\n下班別忘記打卡!";
 
-function offClock() {
-    var req = new XMLHttpRequest();
-    req.open("get", "/Absence/List");
-    req.onload = function () {
-        var now = new Date();
-        var nowtime = now.toLocaleString();
-        var content = document.getElementById("showClock");
-        content.innerHTML = nowtime + "\您已打卡成功!\今天辛苦你了,趕快回家休息吧~";
-    };
-    req.send();
-}
+//        }
+//    })
+
+//}
+
+//function offClock() {
+//    var req = new XMLHttpRequest();
+//    req.open("POST", "/Absence/List");
+//    req.onload = function () {
+//        var now = new Date();
+//        var nowtime = now.toLocaleString();
+//        //判斷是否為下班時間
+//        var content = document.getElementById("showClock");
+//        content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
+//    //    window.alert("現在並非下班時間，仍要打卡?");
+//    //    var content = document.getElementById("showClock");
+//    //    content.innerHTML = nowtime + "\n您已打卡成功!\n今天辛苦你了,趕快回家休息吧~";
+//    };
+//    req.send();
+
+//}
 
 function showHistory() {
     $.ajax({
@@ -89,24 +98,3 @@ function showHistory() {
 //}, false)
 
 
-//$(document).ready(function () {
-//    $("#btnOn").click(function () {
-//        var id = $("#id").value();
-//        let d = new date();
-
-
-        
-//        if (id!=null) {
-//            $.ajax({
-//                type: "POST",
-//                url: "",
-//                async: false,
-//                data: "{CEmployeeId=id,COn=d}",
-//                success: function () {
-                    
-//                }
-
-//            })
-//        }
-//    })
-//})

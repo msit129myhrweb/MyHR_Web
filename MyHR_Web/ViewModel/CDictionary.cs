@@ -13,8 +13,7 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_USERDEPARTMENTID = "CURRENT_LOGINED_USERDEPARTMENTID";
         public static readonly string CURRENT_LOGINED_USERJOBTITLE = "CURRENT_LOGINED_USERJOBTITLE";
         public static readonly string LOGIN_AUTHTICATION_CODE = "LOGIN_AUTHTICATION_CODE";
-        
-
+        public static readonly string CURRENT_LOGINED_USERJOBTITLEID = "CURRENT_LOGINED_USERJOBTITLEID";
         public static readonly string CURRENT_LOGINED_USERENNAME = "CURRENT_LOGINED_USERENNAME";
         public static readonly string CURRENT_LOGINED_PASSWORD = "CURRENT_LOGINED_PASSWORD";
         public static readonly string CURRENT_LOGINED_OBD = "CURRENT_LOGINED_OBD";
@@ -32,8 +31,5 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_ACC_ENABLE = "CURRENT_LOGINED_ACC_ENABLE";
 
         public static readonly string Current_User = "Current_User";// For Seession TUser
-
-
-
     }
 }
