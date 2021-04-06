@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @{ 
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+    int login_ureid = int.Parse(Context.Session.GetString("CURRENT_LOGINED_USERID"));
 
 }
 
@@ -280,6 +281,22 @@
                                 <p>薪資系統</p>
                             </a>
                         </li>
+
+                        @{ 
+                            if(login_ureid == 7)
+                            {
+                                @: <li class="nav-item">
+                            <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
+                                <i class="fas fa-money-bill-alt"></i>
+                                <p>薪資系統/FOR總務主管</p>
+                            </a>
+                        
+                            }
+
+
+                        }
+                       
+
                         @*差旅*@
                         <li class="nav-item">
                             <a href="#" class="nav-link">
@@ -356,7 +373,7 @@
                                 <p>行事曆</p>
                             </a>
                         </li>
-                        
+
                         @*登出*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">

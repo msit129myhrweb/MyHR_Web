@@ -3,7 +3,8 @@
     ViewData["Title"] = "Count_Leave";
     var List_PayOfLeave = ViewBag.PayOfLeave;
 }
-<h2>本月請假紀錄</h2>
+<h2 style="background-color:cadetblue">3月請假紀錄</h2>
+
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -20,9 +21,9 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.CSalary_LeaveCateCount)
                             </th>
-                            <th style="display:none">
+                            @*<th style="display:none">
                                 @Html.DisplayNameFor(model => model.CSalary_LeavePercent)
-                            </th>
+                            </th>*@
                             <th>
                                 @Html.DisplayNameFor(model => model.Leave_HaveToPay)
                             </th>
@@ -41,9 +42,9 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CSalary_LeaveCateCount)
                                 </td>
-                                <td style="display:none">
+                                @*<td style="display:none">
                                     @Html.DisplayFor(modelItem => item.CSalary_LeavePercent)
-                                </td>
+                                </td>*@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Leave_HaveToPay)
                                 </td>
@@ -72,40 +73,3 @@
         <!-- /.card -->
     </div>
 </div>
-
-@*<div class="card">
-    <div class="card-header">
-        <table table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CSalary_LeaveCate)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CSalary_LeaveCateName)
-                    <th>
-                        @Html.DisplayNameFor(model => model.CSalary_LeaveCateCount)
-                    </th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr style="text-align:center">
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CSalary_LeaveCate)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CSalary_LeaveCateName)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.CSalary_LeaveCateCount)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-
-        </table>
-    </div>
-</div>*@

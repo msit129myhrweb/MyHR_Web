@@ -14,6 +14,8 @@ namespace MyHR_Web.ViewModel
         
           //TUser
         public int CEmployeeId { get; set; }
+
+        [DisplayName("員工姓名")]
         public string CEmployeeName { get; set; }
         public string CEmployeeEnglishName { get; set; }
         public string CPassWord { get; set; }
@@ -22,11 +24,12 @@ namespace MyHR_Web.ViewModel
         //TDepartment
 
         public int CDepartmentId { get; set; }
+        [DisplayName("部門")]
         public string CDepartment { get; set; }
 
 
         //TJobtitle
-
+        [DisplayName("職位")]
         public string CJobTitle { get; set; }
         public int CJobTitleSalary { get; set; }
 
@@ -36,10 +39,29 @@ namespace MyHR_Web.ViewModel
 
         //TTravel
         
-        public int CAmont { get; set; }
+        public int CAmont_Travel { get; set; }
+
+
+        
 
 
 
+        //TAbsense
+        [DisplayName("本月請假總扣款")]
+        public int CAmont_TAbsense { get; set; }
+
+        [DisplayName("本月請假總時數")]
+        public int CountTotalLate { get; set; }
+
+        [DisplayName("遲到30分鐘")]
+        public int Count_Latebelow30 { get; set; }
+
+        [DisplayName("遲到59分鐘")]
+        public int Count_Lateup30 { get; set; }
+
+        public int CAmont_Latebelow30 { get; set; }
+       
+        public int CAmont_Lateup30 { get; set; }
 
 
         //自己創造 Salary
@@ -60,43 +82,46 @@ namespace MyHR_Web.ViewModel
         [DisplayName("當月請假總時數")]
         public int CSalary_LeaveCateCount { get; set; }
 
-        [DisplayName("%")]
-        public double CSalary_LeavePercent
-        {
-            get 
-            {
-                double _CSalary_LeavePercent;
+        //[DisplayName("%")]
+        //public double CSalary_LeavePercent
+        //{
+        //    get 
+        //    {
+        //        double _CSalary_LeavePercent;
 
-                switch (CSalary_LeaveCate)
-                {
-                    case 1:
-                        _CSalary_LeavePercent = 0.5;
-                        break;
-                    case 2:
-                        _CSalary_LeavePercent = 1;
-                        break;
-                    case 3:
-                        _CSalary_LeavePercent = 0.5;
-                        break;
-                    case 4:
-                        _CSalary_LeavePercent = 0;
-                        break;
-                    case 5:
-                        _CSalary_LeavePercent = 0;
-                        break;
+        //        switch (CSalary_LeaveCate)
+        //        {
+        //            case 1:
+        //                _CSalary_LeavePercent = 0.5;
+        //                break;
+        //            case 2:
+        //                _CSalary_LeavePercent = 1;
+        //                break;
+        //            case 3:
+        //                _CSalary_LeavePercent = 0.5;
+        //                break;
+        //            case 4:
+        //                _CSalary_LeavePercent = 0;
+        //                break;
+        //            case 5:
+        //                _CSalary_LeavePercent = 0;
+        //                break;
 
-                    default:
-                        _CSalary_LeavePercent = 0;
-                        break;
-                }
-                 return _CSalary_LeavePercent;
-            }
-            set { CSalary_LeavePercent = value; }
-        }
+        //            default:
+        //                _CSalary_LeavePercent = 0;
+        //                break;
+        //        }
+        //         return _CSalary_LeavePercent;
+        //    }
+        //    set { CSalary_LeavePercent = value; }
+        //}
 
         [DisplayName("扣款明細")]
         public int Leave_HaveToPay { get; set; }
 
+
+        [DisplayName("當月應付薪水")]
+        public int Month_Salary { get; set; }
        
         
        

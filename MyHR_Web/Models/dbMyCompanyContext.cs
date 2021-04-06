@@ -74,6 +74,12 @@ namespace MyHR_Web.Models
                     .HasColumnType("datetime")
                     .HasColumnName("cOn");
 
+                entity.Property(e => e.CStatus)
+                     .HasMaxLength(20)
+                    .HasColumnName("cStatus");
+
+
+
                 entity.HasOne(d => d.CEmployee)
                     .WithMany(p => p.TAbsences)
                     .HasForeignKey(d => d.CEmployeeId)
