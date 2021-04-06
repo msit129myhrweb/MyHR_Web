@@ -1,5 +1,8 @@
 ﻿@model MyHR_Web.Models.TUser
 
+@{
+    ViewData["Title"] = "Login";
+}
 @{ ViewData["Title"] = "Login"; }
 <!DOCTYPE html>
 <html lang="en">
@@ -31,11 +34,20 @@
                     <div class="login-space">
                         <div class="login">
                             <form asp-action="Login">
+                                <div class="group"> <label for="user" class="label">帳號</label> <input id="user" name="txtAccount" type="text" class="input" placeholder="輸入帳號" autocomplete="off"> </div>
+                                <div class="group"> <label for="pass" class="label">密碼</label> <input id="pass" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼"> </div>                                <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span>保持登入</label> </div>
+
+
+
+                                <div class="group"> <input type="submit" class="button" style="filter: grayscale(50%)" value="登入"></a> </div>
+
 
                                 @*<div class="group"> <label for="user" class="label">帳號</label> <input id="user" name="txtAccount" type="text" class="input" placeholder="輸入帳號" autocomplete="off"> </div>
         <div class="group"> <label for="pass" class="label">密碼</label> <input id="pass" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼"> </div>                                <div class="group"> <input id="check" type="checkbox" class="check" checked> <label for="check"><span class="icon"></span>保持登入</label> </div>*@
-                                <div class="group"> <label for="user" class="label">帳號</label> <input id="txtAccount" name="txtAccount" type="text" class="input" placeholder="輸入帳號"> </div>
-                                <div class="group"> <label for="pass" class="label">密碼</label> <input id="txtPassword" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼"> </div>
+                                <div class="group"> <label for="user" class="label">帳號</label> <input id="txtAccount" name="txtAccount" type="text" class="input" placeholder="輸入帳號" autocomplete="off"> </div>
+                                <div class="group"> <label for="pass" class="label">密碼</label> <input id="txtPassword" name="txtPassword" type="password" class="input" data-type="password" placeholder="輸入密碼" autocomplete="off"> </div>
+
+
 
                                 @*<div class="group"> <input type="submit" class="button" style="filter: grayscale(50%)" value="登入"> </div>*@
                                 <div class="group"> <input type="submit" id="btnlogin" name="btnlogin" class="button" style="filter: grayscale(50%)" value="登入"> </div>
@@ -46,6 +58,12 @@
 
 
                         <div class="sign-up-form">
+                            <div class="group"> <label for="user" class="label">帳號</label> <input id="user" type="text" class="input" placeholder="建立帳號"> </div>
+                            <div class="group"> <label for="pass" class="label">密碼</label> <input id="pass" type="password" class="input" data-type="password" placeholder="輸入密碼"> </div>
+                            <div class="group"> <label for="pass" class="label">確認密碼</label> <input id="pass" type="password" class="input" data-type="password" placeholder="再次輸入密碼"> </div>
+                            <div class="group"> <label for="pass" class="label">信箱</label> <input id="pass" type="text" class="input" placeholder="輸入信箱"> </div>
+                            <div class="group"> <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><input type="submit" class="button" style="filter: grayscale(50%)" value="註冊"> </a></div>
+                            <div class="hr"></div>
                             <form asp-action="AccEnable">
 
                                 <div class="group"> <label for="username" class="label">帳號</label> <input asp-for="CEmployeeId" id="txtAccount" name="txtAccount" type="text" class="input"> </div>
@@ -78,8 +96,10 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
     <script>
         $(document).keyup(function (e) {
+            if (e.shiftKey && e.keyCode == 49 ) { //Shift + 1
             if (e.shiftKey && e.keyCode == 49) { //Shift + 1
                 $("#user").val(1);
+                $("#pass").val(789);                
                 $("#pass").val(789);
             }
             else if (e.shiftKey && e.keyCode == 50) { //Shift + 2
@@ -90,6 +110,7 @@
                 $("#user").val(5);
                 $("#pass").val(456);
             }
+            else  if (e.shiftKey && e.keyCode == 52) { //Shift + 4
             else if (e.shiftKey && e.keyCode == 52) { //Shift + 4
                 $("#user").val(7);
                 $("#pass").val(123);
@@ -119,6 +140,8 @@
                 $("#pass").val(123);
             }
         });
+
+
 
 
         $("#btnlogin").click(function () {

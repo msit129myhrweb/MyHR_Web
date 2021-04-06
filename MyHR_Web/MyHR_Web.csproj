@@ -18,7 +18,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Absence\Create.cshtml" />
     <None Include="Views\Absence\List.cshtml" />
     <None Include="Views\Covid_19\Covid_19.cshtml" />
     <None Include="Views\employee\employeeList.cshtml" />
@@ -54,7 +53,6 @@
     <None Include="Views\WuCha\WuChaList.cshtml" />
     <None Include="Views\WuCha\WuChaList2.cshtml" />
     <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="wwwroot\js\Absence.js" />
     <None Include="wwwroot\js\bootstrap.min.js" />
     <None Include="wwwroot\js\jquery-2.2.3.min.js" />
     <None Include="wwwroot\js\jquery.mycart.js" />
@@ -1819,6 +1817,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>

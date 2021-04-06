@@ -21,10 +21,12 @@ namespace MyHR_Web.Controllers
 
         public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
         {
-            ViewBag.StartDate = startDate;
+            ViewBag.StartDate = startDate;   //時間查詢
             ViewBag.EndDate = endDate;
+            ViewBag.Status = db.TCheckStatuses.ToList();
             IQueryable<TTravelExpenseApplication> tt = db.TTravelExpenseApplications.AsQueryable();
-            if(startDate.HasValue)
+
+            if(startDate.HasValue)          //時間有值
             {
                 tt = tt.Where(e => e.CApplyDate >= startDate.Value);
             }
@@ -32,7 +34,8 @@ namespace MyHR_Web.Controllers
             {
                 tt = tt.Where(e => e.CApplyDate < endDate.Value);
             }
-            if (getUserDepartmentId() == 6)
+
+            if (getUserDepartmentId() == 6)     //設觀看權限顯示畫面
             {
                 var traveltable = from t in tt
                                   join c in db.TCheckStatuses on t.CCheckStatus equals c.CCheckStatusId
@@ -111,7 +114,7 @@ namespace MyHR_Web.Controllers
         }
         public IActionResult Create()
         {
-            ViewBag.Departments = db.TUserDepartments.ToList();
+            ViewBag.Departments = db.TUserDepartments.ToList();     
             ViewBag.Status = db.TCheckStatuses.ToList();
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
             return View(new CTravelViewModel
@@ -169,10 +172,7 @@ namespace MyHR_Web.Controllers
                 return RedirectToAction("List");
             }
 
-            TTravelExpenseApplication et = 
-                db.TTravelExpenseApplications
-                .Where(e => e.CApplyNumber == id)
-                .FirstOrDefault();
+            TTravelExpenseApplication et = db.TTravelExpenseApplications.Where(e => e.CApplyNumber == id).FirstOrDefault();
 
             if(et == null)
             {
@@ -207,9 +207,7 @@ namespace MyHR_Web.Controllers
                 return View(model);
             }
         
-            var entity = db.TTravelExpenseApplications
-                .Where(e => e.CApplyNumber == model.CApplyNumber)
-                .FirstOrDefault();
+            var entity = db.TTravelExpenseApplications.Where(e => e.CApplyNumber == model.CApplyNumber).FirstOrDefault();
 
             if(entity == null)
             {

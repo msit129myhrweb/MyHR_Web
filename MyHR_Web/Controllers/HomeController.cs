@@ -245,6 +245,7 @@ namespace MyHR_Web.Controllers
 
             if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))            
 			{
+                
             }
             else
             {
@@ -259,6 +260,8 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT, ((eDepartment)user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID, (user.CDepartmentId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLEID,user.CJobTitleId.ToString());
+
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD, user.CPassWord);
@@ -274,7 +277,7 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OB_STATUS, ((eOnBoard)user.COnBoardStatusId).ToString());
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
-                    HttpContext.Session.SetString(CDictionary.LOGIN_USERPHONE, user.CPhone);
+                   
 
                     return RedirectToAction("Index");
                 }
@@ -288,7 +291,7 @@ namespace MyHR_Web.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Login");
         }
 
         public IActionResult Calendar()

@@ -1,103 +1,211 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.CTravelViewModel>
+﻿@model IEnumerable<MyHR_Web.ViewModel.Travel_Expense_ApplicationViewModel>
 
 @{
     ViewData["Title"] = "List";
+    var Status = ViewBag.travelStatus;
 }
 <head>
-    <style>
-        h2 {
-            background-color: #cbb2ae;
-            border-left: 5px solid #808080;
-            font-family: "微软雅黑", "宋体", "黑体", Arial;
-            font-size: 25px;
-            height: 80px;
-            line-height: 80px;
-            font-weight: bold;
-            text-shadow: 2px 2px 3px #222222;
-            color: #FFFFFF;
-            padding-left: 10px;
-        }
-
-    </style>
-
+    <link href="~/css/Absence.css" rel="stylesheet" />
 </head>
-<form method="post" >
+<form method="post">
     <div class="content-wrapper">
         <section class="content-header">
             <h2>出差申請單審核</h2>
         </section>
         <section class="content">
-            <div class="container-fluid">
+            <div style="background-color:white ;padding:20px; border-radius:10px">
+                <h3>查詢條件</h3>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    查詢條件<br />
-                                    起 :&nbsp<input type="date" />&nbsp迄 :&nbsp<input type="date" />
-                                    狀態 :
-                                    <select>
-                                        <option>審核中</option>
-                                        <option>通過</option>
-                                        <option>退件</option>
-                                    </select>&nbsp&nbsp<br />
-                                    單號搜尋&nbsp:&nbsp<input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />&nbsp&nbsp
-                                    員編搜尋&nbsp:&nbsp<input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />&nbsp&nbsp
-                                    姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
-                                    事由搜尋&nbsp:&nbsp<input type="text" name="txtReason" placeholder="輸入事由" autocomplete="off" />&nbsp<input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /><br />
-                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                                    <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                                </h3>
-                            </div>
-                            <div class="card-body">
-                                <table id="example2" class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
-                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
-                                            <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CEmployeeId) 姓名</th>
-                                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CTravelStartTime)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CTravelEndTime)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CAmont)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
-                                            <th>審核</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td><input type="checkbox" name="Checkbox[]" value="核取方塊" id="CheckboxGroup1_0"/></td>
-                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CApplyNumber) 姓名</td>
-                                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CTravelStartTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CTravelEndTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
-                                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
-                                                <td>
-                                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                                        <label class="btn btn-outline-success"><input type="radio" name="options" id="option1" autocomplete="off">@Html.ActionLink("通過", "Edit", new { id=item.CApplyNumber })</label>
-                                                        <label class="btn btn-outline-secondary"><input type="radio" name="options" id="option2" autocomplete="off">@Html.ActionLink("退件", "Edit", new { id = item.CApplyNumber })</label>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">出差申請日期(起)&nbsp:&nbsp</label>
+                        <input type="date" name="sDate" id="sDate" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">出差申請日期(迄)&nbsp:&nbsp</label>
+                        <input type="date" name="eDate" id="eDate" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">出差單號&nbsp:&nbsp</label>
+                        <input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">員工編號&nbsp:&nbsp</label>
+                        <input type="text" name="txtId" placeholder="輸入編號" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
+                        <input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">審核狀態&nbsp:&nbsp</label>
+                        <select class="travel_" id="travel_Status">
+                            @for (int i = 0; i < Status.Count; i++)
+                            {
+                                <option value="@Status[i].CCheckStatusId">@Status[i].CCheckStatus</option>
+                            }
+                        </select>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />&nbsp&nbsp&nbsp
+                        <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                    </div>
+                    <div class="col-md-6 form-group">
                     </div>
                 </div>
             </div>
+            <hr />
+            <div id="travel_table">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                            <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
+                            <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
+                            <th>@Html.DisplayNameFor(model => model.employeeName)</th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.CTravelStartTime)</th>
+                            <th>@Html.DisplayNameFor(model => model.CTravelEndTime)</th>
+                            <th>@Html.DisplayNameFor(model => model.CAmont)</th>
+                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
+                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
+                            <th>審核</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr style="text-align:center">
+                            <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
+                            @*<td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>*@
+                            <td>@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                            <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelStartTime))</td>
+                            <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CTravelEndTime))</td>
+                            <td>@Html.DisplayFor(modelItem => item.CAmont)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                            <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
+                            @{
+                                if (item.CCheckStatus == 1)
+                                {
+                                    <td>
+                                        @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+                                        @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)", @type = "button" })
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td>
+                                        @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                        @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                    </td>
+                                }
+                            }
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </section>
     </div>
-
 </form>
+<script>
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+        })
+
+        /*勾選通過*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllPass").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                $.post(
+                    "@Url.Action("getPassString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 300)
+            }, false);
+        }, false);
+
+        /*勾選退件*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllFail").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                $.post(
+                    "@Url.Action("getFailString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                    window.location.assign(window.location.href)
+                 }, 300)
+            }, false);
+        }, false);
+
+
+    $(".travel_").change(function () {
+        var Status = $("#travel_Status").val()
+        var sDate= $("#sDate").val()
+        var eDate= $("#eDate").val()
+        console.log(Status);
+        console.log(sDate);
+        console.log(eDate);
+
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Travel_Expense_Application/date_search",
+            data: { status: Status, start: sDate, end: eDate },
+            success: function (data) {
+                console.log("test");
+                $("#travel_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+</script>

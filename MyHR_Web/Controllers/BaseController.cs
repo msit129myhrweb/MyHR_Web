@@ -28,7 +28,7 @@ namespace MyHR_Web.Controllers
         }
         protected string getUserPhone()
         {
-            return GetSessionString(CDictionary.LOGIN_USERPHONE);
+            return GetSessionString(CDictionary.CURRENT_LOGINED_PHONE);
         }
         protected string getUserName()
         {

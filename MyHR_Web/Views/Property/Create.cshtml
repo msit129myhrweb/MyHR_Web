@@ -1,14 +1,15 @@
 ﻿@model MyHR_Web.ViewModel.CPropertyViewModel
 @using Microsoft.AspNetCore.Http;
 
-@{
+@{ 
     ViewData["Title"] = "Create";
     List<TUserDepartment> departs = ViewBag.Departments;
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
     string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-}
+   // string userPhone = Context.Session.GetString("LOGIN_USERPHONE");
+    }
 
 <style>
     h2 {
@@ -25,14 +26,17 @@
     }
 </style>
 
+
 <div class="content-wrapper">
 
     <section class="content-header">
         <h2>失物招領系統</h2>
         @Html.ActionLink("返回失物招領一覽表", "List", new { }, new { @type = "button", @class = "btn btn-secondary", @style = "filter: grayscale(50%)" })
-        <div class="card" style="width:50%;margin:0px auto;padding:0px;">
-            <div class="card-header">
-                <form asp-action="Create" enctype="multipart/form-data">
+
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                <div class="card-header">
+
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="CPropertyId" value="@Model.CPropertyId" />
                     <div class="form-group">
@@ -128,11 +132,18 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="新增" class="btn btn-primary" />
+                        <div class="card-footer">
+                            <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-danger" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="List" />
+                            <i>@*nothing*@</i><i>@*nothing*@</i>
+                            <input type="submit" value="新增" class="btn btn-primary float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                        </div>
                     </div>
-                </form>
+</form>
+        
+</div>
             </div>
-        </div>
+        
     </section>
 </div>
 
