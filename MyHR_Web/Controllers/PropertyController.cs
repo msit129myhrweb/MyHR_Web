@@ -107,7 +107,6 @@ namespace MyHR_Web.Controllers
         { 
             if (ModelState.IsValid == false)
             {
-                
                 ViewBag.Departments = db.TUserDepartments.ToList();
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
@@ -200,13 +199,12 @@ namespace MyHR_Web.Controllers
            
             if (ModelState.IsValid == false)
                 {
-                ViewBag.Departments = getUserDepartmentId();
-                // ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.Departments = db.TUserDepartments.ToList();
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
-                    ViewBag.subject = db.TLostAndFoundSubjects.ToList();
-                    ViewBag.category = db.TLostAndFoundCategories.ToList();
-                    return View(pmodel);
-                }
+                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+                ViewBag.category = db.TLostAndFoundCategories.ToList();
+                return View(pmodel);
+            }
 
                 var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
 
