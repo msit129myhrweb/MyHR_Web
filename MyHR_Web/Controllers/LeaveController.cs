@@ -13,7 +13,7 @@ using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
 {
-    public class LeaveController : Controller
+    public class LeaveController : FilterController
     {
         dbMyCompanyContext MyHr = new dbMyCompanyContext();
 
@@ -50,7 +50,9 @@ namespace MyHR_Web.Controllers
                             CLeaveStartTime = i.CLeaveStartTime,
                             CLeaveEndTime = i.CLeaveEndTime,
                             CReason = i.CReason,
-                            CCheckStatus = i.CCheckStatus
+                            CCheckStatus = i.CCheckStatus,
+                            CLeaveHours=i.CLeaveHours
+                            
                         };
 
             return View(table);
@@ -219,6 +221,7 @@ namespace MyHR_Web.Controllers
                         _revised.CLeaveStartTime = T.CLeaveStartTime;
                         _revised.CLeaveEndTime = T.CLeaveEndTime;
                         _revised.CReason = T.CReason;
+                        _revised.CLeaveHours = T.CLeaveHours;
 
                         MyHr.SaveChanges();
                     }
@@ -296,7 +299,10 @@ namespace MyHR_Web.Controllers
                     CLeaveStartTime = d.CLeaveStartTime,
                     CLeaveEndTime = d.CLeaveEndTime,
                     CReason = d.CReason,
-                    CCheckStatus = d.CCheckStatus
+                    CCheckStatus = d.CCheckStatus,
+                    CLeaveHours = d.CLeaveHours,
+                    
+                    
                 }).OrderBy(du => du.CApplyDate).AsEnumerable().Where(du =>
                 (cate != null ? du.CLeaveCategory == cate:true) &&
                 (status != null ? du.CCheckStatus == status : true) &&
@@ -321,7 +327,8 @@ namespace MyHR_Web.Controllers
                     CLeaveStartTime = item.CLeaveStartTime,
                     CLeaveEndTime = item.CLeaveEndTime,
                     CReason = item.CReason,
-                    CCheckStatus = item.CCheckStatus
+                    CCheckStatus = item.CCheckStatus,
+                    CLeaveHours = item.CLeaveHours
 
                 };
                 T.Add(obj);
