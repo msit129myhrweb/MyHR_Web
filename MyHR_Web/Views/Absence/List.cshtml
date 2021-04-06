@@ -93,7 +93,7 @@
                                     <th>星期</th>
                                     <th>@Html.DisplayNameFor(model => model.COn)</th>
                                     <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                    <th>@Html.DisplayNameFor(model => model.CSatus)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CStatus)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,13 +110,13 @@
                                     <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
                                     <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
                                     @{
-                                        if (item.CSatus == "異常")
+                                        if (item.CStatus == "異常")
                                         {
-                                            <td id="status" name="status">@Html.ActionLink($"{item.CSatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
                                         }
                                         else
                                         {
-                                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CSatus)</td>
+                                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
                                         }
                                     }
                                 </tr>
@@ -158,7 +158,7 @@
     );
 
     //判斷昨天是否有打卡
-    @*$(function () {
+    $(function () {
         var d = new Date();
         d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
         var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -170,7 +170,7 @@
         )
         
         console.log(ysd);
-    })*@
+    })
 
     //打上班卡
         function clockOn() {

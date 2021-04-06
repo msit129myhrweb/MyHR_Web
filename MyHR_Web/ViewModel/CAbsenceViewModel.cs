@@ -60,7 +60,7 @@ namespace MyHR_Web.ViewModel
             set { iv_absence.COff = value; } 
         }
         [DisplayName("狀態")]
-        public string CSatus 
+        public string CStatus
         {
             get {return iv_absence.CStatus; }
             set {iv_absence.CStatus=value; } 

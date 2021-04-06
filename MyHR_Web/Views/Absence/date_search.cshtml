@@ -12,7 +12,7 @@
                 <th>星期</th>
                 <th>@Html.DisplayNameFor(model => model.COn)</th>
                 <th>@Html.DisplayNameFor(model => model.COff)</th>
-                <th>@Html.DisplayNameFor(model => model.CSatus)</th>
+                <th>@Html.DisplayNameFor(model => model.CStatus)</th>
             </tr>
         </thead>
         <tbody>
@@ -51,13 +51,13 @@
                     <td id="on" name="on">@Convert.ToString(string.Format("{0:hh:mm:ss}", item.COn))</td>
                     <td id="off" name="off">@Convert.ToString(string.Format("{0:hh:mm:ss}", item.COff))</td>
                     @{
-                        if (item.CSatus == "異常")
+                        if (item.CStatus == "異常")
                         {
-                            <td id="status" name="status">@Html.ActionLink($"{item.CSatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
                         }
                         else
                         {
-                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CSatus)</td>
+                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
                         }
                     }
                 </tr>
