@@ -44,11 +44,10 @@ namespace MyHR_Web.Controllers
                                 join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
                                 join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
                                 join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
-                                join t in db.TUsers on p.CDeparmentId equals t.CDepartmentId
                                 select new
                                 {
                                     CPropertyId = p.CPropertyId,
-                                    CDeparmentId = t.CDepartmentId,
+                                    CDeparmentId = p.CDeparmentId,
                                     CEmployeeId = u.CEmployeeId,
                                     CEmployeeName = u.CEmployeeName,
                                     CPhone = p.CPhone,
@@ -108,7 +107,8 @@ namespace MyHR_Web.Controllers
         { 
             if (ModelState.IsValid == false)
             {
-                ViewBag.Departments = db.TUserDepartments.ToList();
+                
+                 ViewBag.Departments = db.TUserDepartments.ToList();
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
@@ -200,8 +200,9 @@ namespace MyHR_Web.Controllers
            
             if (ModelState.IsValid == false)
                 {
-                    ViewBag.Departments = db.TUserDepartments.ToList();
-                    ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+                ViewBag.Departments = getUserDepartmentId();
+                // ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                     ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                     ViewBag.category = db.TLostAndFoundCategories.ToList();
                     return View(pmodel);
@@ -226,15 +227,19 @@ namespace MyHR_Web.Controllers
             entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
             entity.CPhone = pmodel.CPhone;
 
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
-            using (var photo = new FileStream(
-                iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
-                FileMode.Create))
+            if (entity.CPropertyPhoto != null)
             {
-                pmodel.image.CopyTo(photo);
+                string photoName = Guid.NewGuid().ToString() + ".jpg";
+                using (var photo = new FileStream(
+                    iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
+                    FileMode.Create))
+                {
+                    pmodel.image.CopyTo(photo);
+                }
+                pmodel.CPropertyPhoto = "../images/" + photoName;
+                entity.CPropertyPhoto = pmodel.CPropertyPhoto;
             }
-            pmodel.CPropertyPhoto = "../images/" + photoName;
-            entity.CPropertyPhoto = pmodel.CPropertyPhoto;
+
 
             db.SaveChanges();
             return RedirectToAction("List");
