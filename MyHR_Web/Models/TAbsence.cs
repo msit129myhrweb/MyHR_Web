@@ -9,8 +9,9 @@ namespace MyHR_Web.Models
     {
         public int CApplyNumber { get; set; }
         public int CEmployeeId { get; set; }
-        public DateTime? COn { get; set; }
-        public DateTime? COff { get; set; }
+        public DateTime? CDate { get; set; }
+        public TimeSpan? COn { get; set; }
+        public TimeSpan? COff { get; set; }
         public string CStatus { get; set; }
 
         public virtual TUser CEmployee { get; set; }

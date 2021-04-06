@@ -135,16 +135,16 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //------------------------------------------------------------------以下為了取得遲到項目的碼 (30分鐘內44塊錢  一小時內 97)
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                         where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.COn.Value.Month == (DateTime.Now.Date.Month) - 1)
+                         where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == (DateTime.Now.Date.Month) - 1)
                          group i by i.CStatus into g
                          select new
                          {
                              countLate = g.Count(),
-                             below30 = g.Count(c => c.COn.Value.Minute < 30),
-                             up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
+                             below30 = g.Count(c => c.COn.Value.Minutes < 30),
+                             up30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
 
-                             moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
-                             moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 97
+                             moneybelow30 = g.Count(c => c.COn.Value.Minutes < 30) * 44,
+                             moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97
 
                          };
 
@@ -223,16 +223,16 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //------------------------------------------------------------------以下為了取得遲到項目的碼
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                         where (i.CEmployeeId == Id && i.CStatus.Contains("遲到") && i.COn.Value.Month == (DateTime.Now.Date.Month))   //為啥 =="'遲到'"不行
+                         where (i.CEmployeeId == Id && i.CStatus.Contains("遲到") && i.CDate.Value.Month == (DateTime.Now.Date.Month))   //為啥 =="'遲到'"不行
                          group i by i.CStatus into g
                          select new
                          {
                              countLate = g.Count(),
-                             below30 = g.Count(c => c.COn.Value.Minute < 30),
-                             up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
+                             below30 = g.Count(c => c.COn.Value.Minutes < 30),
+                             up30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
 
-                             moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
-                             moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 96
+                             moneybelow30 = g.Count(c => c.COn.Value.Minutes < 30) * 44,
+                             moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 96
 
                          };
             //var table3SQL = table3.ToQueryString();
@@ -279,7 +279,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                        CJobTitle = c.CJobTitle.CJobTitle,
                        Month_Salary = c.CJobTitle.CJobTitleSalary,
                        CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c => c.CAmont),
-                       CAmont_TAbsense = c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minute < 30) * 44 + c.TAbsences.Where(p => p.COn.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 97
+                       CAmont_TAbsense = c.TAbsences.Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences.Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到").Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97
 
 
 
@@ -322,7 +322,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //------------------------------------------------------------------遲到
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                         where (i.CStatus.Contains("遲到") && i.COn.Value.Month == DateTime.Now.Date.Month - 1)   //為啥 =="'遲到'"不行
+                         where (i.CStatus.Contains("遲到") && i.CDate.Value.Month == DateTime.Now.Date.Month - 1)   //為啥 =="'遲到'"不行
                          group i by new { i.CStatus, i.CEmployeeId } into g
                          select new
                          {
@@ -465,16 +465,16 @@ namespace MyCompany_.NetCore_Janna.Controllers
             }
 
             var table = from i in MyHR.TAbsences   //計算遲到總數
-                        where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.COn.Value.Month == Month)
+                        where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == Month)
                         group i by i.CStatus into g
                         select new
                         {
                             countLate = g.Count(),
-                            below30 = g.Count(c => c.COn.Value.Minute < 30),
-                            up30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59),
+                            below30 = g.Count(c => c.CDate.Value.Minute < 30),
+                            up30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
 
-                            moneybelow30 = g.Count(c => c.COn.Value.Minute < 30) * 44,
-                            moneyup30 = g.Count(c => c.COn.Value.Minute > 30 && c.COn.Value.Minute < 59) * 96
+                            moneybelow30 = g.Count(c => c.COn.Value.Minutes < 30) * 44,
+                            moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 96
 
                         };
 
