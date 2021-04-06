@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Absence\Create.cshtml" />
     <None Include="Views\Absence\List.cshtml" />
     <None Include="Views\Covid_19\Covid_19.cshtml" />
     <None Include="Views\employee\employeeList.cshtml" />
@@ -53,7 +52,6 @@
     <None Include="Views\WuCha\WuChaList.cshtml" />
     <None Include="Views\WuCha\WuChaList2.cshtml" />
     <None Include="wwwroot\fonts\glyphicons-halflings-regular.woff2" />
-    <None Include="wwwroot\js\Absence.js" />
     <None Include="wwwroot\js\bootstrap.min.js" />
     <None Include="wwwroot\js\jquery-2.2.3.min.js" />
     <None Include="wwwroot\js\jquery.mycart.js" />

@@ -229,6 +229,7 @@ namespace MyHR_Web.Controllers
 
             if (string.IsNullOrEmpty(Account) || string.IsNullOrEmpty(Psd))            
 			{
+                
             }
             else
             {
@@ -274,7 +275,7 @@ namespace MyHR_Web.Controllers
         {
             HttpContext.Session.Clear();
 
-            return RedirectToAction("Login", "Home");
+            return RedirectToAction("Login", "Login");
         }
 
         public IActionResult Calendar()

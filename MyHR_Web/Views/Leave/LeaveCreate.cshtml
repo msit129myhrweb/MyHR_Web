@@ -3,134 +3,380 @@
 
 @Html.ValidationMessage("CReason")
 
-@{ 
-
-    string Session_name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+@{ string Session_name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
     string Session_Id = Context.Session.GetString("CURRENT_LOGINED_USERID");
     string Session_department = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENT");
     string Session_Today = Context.Session.GetString("Today");
-    var Leave_Cate = ViewBag.LeaveCate;
-
+    var Leave_Cate = ViewBag.LeaveCate; }
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
     }
-    <style>
-        h2 {
-            background-color: #cbb2ae;
-            border-left: 5px solid #808080;
-            font-family: "微软雅黑", "宋体", "黑体", Arial;
-            font-size: 25px;
-            height: 80px;
-            line-height: 80px;
-            font-weight: bold;
-            text-shadow: 2px 2px 3px #222222;
-            color: #FFFFFF;
-            padding-left: 10px;
-        }
-    </style>
+</style>
 
 
-    <div class="content-wrapper">
+<div class="content-wrapper">
 
-        <section class="content-header">
-            <h2>請假申請</h2>
+    <section class="content-header">
+        <h2>請假申請</h2>
 
-            <hr />
-            @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
-            @*<div class="card">*@
-            @*<div class="card-header p-2">
-                <div class="card-body">*@
+        <hr />
+        @*<div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">*@
+        @*<div class="card">*@
+        @*<div class="card-header p-2">
+            <div class="card-body">*@
+        <table>
+            <h4>請假規則</h4>
+            <div>1，開始時間小於9點從9點開始</div>
+            <div>2，結束時間大於18點算到18點</div>
+            <div>3，開始時間-結束時間跨越12 -13點請假小時數初始化一個小時</div>
+            <div>4，按一天8小時這算成請假天數</div>
+            <div>5，不滿一個小時按一個小時算</div>
+        </table>
 
+        <form asp-action="LeaveCreate">
 
-            <form asp-action="LeaveCreate">
+            @*<div class="table table-bordered table-hover" style="width:50%;margin:0px auto;padding:0px;">*@
 
-                @*<div class="table table-bordered table-hover" style="width:50%;margin:0px auto;padding:0px;">*@
+            @*寬度維持視窗一半，並且置中*@
+            @*style="vertical-align:auto">*@
+            @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
 
-                @*寬度維持視窗一半，並且置中*@
-                @*style="vertical-align:auto">*@
-                @*<fieldset style="width:50%; background-color:aquamarine;align-content:center">*@
+            <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+                <div class="card-header">
 
-                <div class="card" style="width:60%;margin:0px auto;padding:0px;">
-                    <div class="card-header">
-
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-
-                        <div class="form-group">@*用這欄位自動帶入ID*@
-                            <label asp-for="CDepartmentName" class="control-label"></label>
-                            <input asp-for="CDepartmentName" value="@Session_department" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="CDepartmentName" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="CUserName" class="control-label"></label>
-                            <input asp-for="CUserName" value="@Session_name" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="CUserName" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group" style="display:none"> @*隱藏*@
-                            <label asp-for="CEmployeeId" class="control-label"></label>
-                            <input asp-for="CEmployeeId" value="@Session_Id" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="CEmployeeId" class="text-danger"></span>
-                        </div>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
 
-                        <div class="form-group">
-                            <label asp-for="CApplyDate" class="control-label"></label>
-                            <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" id="Leave-ApplyDate" readonly="readonly" />
-                            <span asp-validation-for="CApplyDate" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CLeaveCategoryName" class="control-label"></label>
-                            <select asp-for="CLeaveCategoryName" class="form-control" id="Leave-Category">
-                                @*<input asp-for="CLeaveCategory" class="form-control" id="Leave-Category" />*@
-                                @*<option value="" disabled="disabled">請選擇要申請的假別</option>*@
-                                @for (int i = 0; i < Leave_Cate.Count; i++)
-                                {
-                            <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+                    <div class="form-group">
+                        @*用這欄位自動帶入ID*@
+                        <label asp-for="CDepartmentName" class="control-label"></label>
+                        <input asp-for="CDepartmentName" value="@Session_department" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CDepartmentName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="CUserName" class="control-label"></label>
+                        <input asp-for="CUserName" value="@Session_name" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CUserName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group" style="display:none">
+                        @*隱藏*@
+                        <label asp-for="CEmployeeId" class="control-label"></label>
+                        <input asp-for="CEmployeeId" value="@Session_Id" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CEmployeeId" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="CApplyDate" class="control-label"></label>
+                        <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" id="Leave-ApplyDate" readonly="readonly" />
+                        <span asp-validation-for="CApplyDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CLeaveCategoryName" class="control-label"></label>
+                        <select asp-for="CLeaveCategoryName" class="form-control" id="Leave-Category">
+                            @*<input asp-for="CLeaveCategory" class="form-control" id="Leave-Category" />*@
+                            @*<option value="" disabled="disabled">請選擇要申請的假別</option>*@
+                            @for (int i = 0; i < Leave_Cate.Count; i++)
+                            {
+                <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
 }
 
-                            </select>
-                            <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group ">
-                            <label asp-for="CLeaveStartTime" class="control-label"></label>
-                            <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control" id="Leave_Start" min="2021-03-22T08:30" />
-                            <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CLeaveEndTime" class="control-label"></label>
-                            <input type="datetime-local" asp-for="CLeaveEndTime" class="form-control" id="Leave_End" />
-                            <span asp-validation-for="CLeaveEndTime" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="CReason" class="control-label"></label>
-                            <input asp-for="CReason" class="form-control" />
-                            <span asp-validation-for="CReason" class="text-danger"></span>
-                        </div>
-                        <div class="form-group" style="display:none">
-                            <label asp-for="CCheckStatus" class="control-label"></label>
-                            <input asp-for="CCheckStatus" value="1" class="form-control" />
-                            <span asp-validation-for="CCheckStatus" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <div class="card-footer">
-                                <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-default btn-lg" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="LeaveList" />
-                                <i>@*nothing*@</i><i>@*nothing*@</i>
-                                <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
-
-                            </div>
-                        </div>
-
+                        </select>
+                        <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
                     </div>
+                    <div class="form-group ">
+                        <label asp-for="CLeaveStartTime" class="control-label"></label>
+                        <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control event" id="Leave_Start" min="2021-03-22T08:30" />
+                        <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="CLeaveEndTime" class="control-label"></label>
+                        <input type="datetime-local" asp-for="CLeaveEndTime" class="form-control event" id="Leave_End" readonly="readonly" />
+                        <span asp-validation-for="CLeaveEndTime" class="text-danger"></span>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label asp-for="CLeaveHours" class="control-label">請假時數計算/(小時):(以扣除假日時數)</label>
+                        <input type="text" id="Leave_Cal"  asp-for="CLeaveHours" class="form-control" readonly="readonly" />
+                        <span asp-validation-for="CLeaveHours" class="text-danger"></span>
+                    </div>
+
+             
+
+                    <div class="form-group">
+                        <label asp-for="CReason" class="control-label"></label>
+                        <input asp-for="CReason" class="form-control" />
+                        <span asp-validation-for="CReason" class="text-danger"></span>
+                    </div>
+                    <div class="form-group" style="display:none">
+                        <label asp-for="CCheckStatus" class="control-label"></label>
+                        <input asp-for="CCheckStatus" value="1" class="form-control" />
+                        <span asp-validation-for="CCheckStatus" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <div class="card-footer">
+                            <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-default btn-lg" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="LeaveList" />
+                            <i>@*nothing*@</i><i>@*nothing*@</i>
+                            <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+
+                        </div>
+                    </div>
+
                 </div>
-            </form>
-        </section>
-    </div>
-
-    <script type="text/javascript">
-
+            </div>
+        </form>
+    </section>
+</div>
 
 
-    </script>
+@*const picker = document.getElementById('date1');
+picker.addEventListener('input', function(e){
+  var day = new Date(this.value).getUTCDay();
+  if([6,0].includes(day)){
+    e.preventDefault();
+    this.value = '';
+    alert('Weekends not allowed');
+  }
+});*@
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>   @*moment.js*@
+
+<script>
+
+   start = $("#Leave_Start").val();
+   end = $("#Leave_End").val();
+
+    document.addEventListener("DOMContentLoaded", function () {    //不能選取假日
+        document.getElementById('Leave_Start').addEventListener("input", AvoidHoilday);
+        document.getElementById('Leave_End').addEventListener("input", AvoidHoilday);
+    })
+
+
+    function AvoidHoilday(e) {
+        var day = new Date(this.value).getUTCDay();
+        if ([6, 0].includes(day)) {
+            e.preventDefault();
+            this.value = '';
+            alert('假日不可選取');
+        }
+    }
+
+
+
+    var x = $("#Leave_Start").val();
+    if (x != false) {
+        $("#Leave_End").removeAttr("readonly");
+    }
+
+    $("#Leave_Start").change(function () {
+        $("#Leave_End").removeAttr("readonly");
+
+
+        var start = $("#Leave_Start").val();
+        var end = $("#Leave_End").val();
+        var hours = diffTime(start, end);
+        $("#Leave_Cal").val(hours); //請假總計(以時計算)
+
+
+
+
+    });
+
+
+
+    $("#Leave_End").change(function () {
+
+        var start = $("#Leave_Start").val();
+        var end = $("#Leave_End").val();
+        var a1 = moment(moment(start).format("YYYY,MM,DD"));
+        var a2 = moment(moment(end).format("YYYY,MM,DD"));
+
+
+        var hours = diffTime(start, end); //1天8小時為上限，計算請假總"時"數(包含假日)
+        var diffDay = a2.diff(a1, 'days'); //計算日期區間總天數 (要包括當天嗎?+1??)
+        var Holiday = countHoliday(start, diffDay); //計算區間內有幾次假日
+        console.log("假日總天" + Holiday);
+
+        if (hours < 0) {   //如果請假時數是負的顯示0。
+            $("#Leave_Cal").val(0);
+        }
+        else {
+
+            if (Holiday === 0) {                //★總時數 - 跨假日的時數 = 總請假時數
+                $("#Leave_Cal").val(hours);
+            }
+            else {
+                hours = hours - (Holiday * 8);
+                $("#Leave_Cal").val(hours);
+            }
+
+        }
+      
+
+
+         //請假總計(以時計算)
+  /*      console.log("h"+ hours);*/
+
+        
+
+       
+       
+       
+       
+
+
+      /*  Refreence：https://blog.csdn.net/weixin_38703170/article/details/82591471*/
+
+    })
+
+ //=================================================== 
+
+    function countHoliday(sDay, diffDay) {
+
+        var sDay = moment(moment(sDay).format("YYYY-MM-DD"));
+        var weekEnds = 0;
+        for (var i = 0; i < diffDay; i++) {
+
+            if (sDay.day() == 0 || sDay.day() == 6) {
+                weekEnds++;
+            }
+            sDay = moment(sDay).add(1, 'days').format("YYYY-MM-DD");
+            sDay = moment(moment(sDay));  //要在轉換成moment一次，才能使用.day()方法。
+        }
+        return parseInt(weekEnds);
+       
+
+    }
+
+
+
+
+
+
+    const formatTime = function (time) {
+        let y = time.getFullYear()
+        let m = time.getMonth() + 1
+        let d = time.getDate()
+        let h = time.getHours()
+        let mm = time.getMinutes()
+        return {
+            year: y,
+            month: m,
+            day: d,
+            hours: h,
+            minutes: mm
+        }
+    }
+    const diffTime = function (begin_time, endtime) { // 返回间隔时间
+        if (!begin_time || !endtime) {
+            return '';
+        }
+        const oneHours = 60 * 60 * 1000;
+        // 返回间隔时间
+        begin_time = new Date(begin_time);
+        endtime = new Date(endtime);
+        let s_time = formatTime(begin_time);
+        let e_time = formatTime(endtime);
+        let diff_day =
+            (+new Date(`${e_time.year}/${e_time.month}/${e_time.day}`) -
+                +new Date(`${s_time.year}/${s_time.month}/${s_time.day}`)) /
+            (24 * oneHours);
+        let diff_hours; // 间隔小时
+
+        if (s_time.hours < 9) {
+            // 开始小时早于9点，从9点起算
+            s_time.hours = 9;
+            s_time.minutes = 0;
+        }
+
+        if (s_time.hours >= 12 && s_time.hours < 13) {
+            // 开始时间在中午，从13点算
+            s_time.hours = 13;
+            s_time.minutes = 0;
+        }
+        if (e_time.hours >= 12 && e_time.hours < 13) {
+            // 结束时间在中午，从13点算
+            e_time.hours = 13;
+            e_time.minutes = 0;
+        }
+        if (e_time.hours >= 18) {
+            // 结束时间晚于18点，到18点止
+            e_time.hours = 18;
+            e_time.minutes = 0;
+        }
+
+        if (diff_day < 1) {
+            // 不跨天
+            diff_hours =
+                (+new Date(
+                    `2019/01/01 ${e_time.hours}:${e_time.minutes}:00`
+                ) -
+                    new Date(
+                        `2019/01/01 ${s_time.hours}:${s_time.minutes}:00`
+                    )) /
+                oneHours;
+            diff_hours =
+                s_time.hours < 12 && e_time.hours >= 13
+                    ? diff_hours - 1
+                    : diff_hours;
+            if (s_time.hours >= 18 || e_time.hours < 9) {
+                diff_hours = 0;
+            }
+        } else {
+            // 跨天
+            // 开始天请假时间:小时
+            let s_diff_time =
+                (+new Date(`2019/01/01 18:00:00`) -
+                    new Date(
+                        `2019/01/01 ${s_time.hours}:${s_time.minutes}:00`
+                    )) /
+                oneHours;
+            // 结束天请假时间
+            let e_diff_time =
+                (+new Date(
+                    `2019/01/01 ${e_time.hours}:${e_time.minutes}:00`
+                ) -
+                    new Date(`2019/01/01 09:00:00`)) /
+                oneHours;
+
+            s_diff_time = s_time.hours >= 18 ? 0 : s_diff_time;
+            e_diff_time = e_time.hours < 9 ? 0 : e_diff_time;
+            diff_hours = s_diff_time + e_diff_time;
+            diff_hours = s_time.hours < 12 ? diff_hours - 1 : diff_hours;
+            diff_hours = e_time.hours >= 13 ? diff_hours - 1 : diff_hours;
+            diff_hours = (diff_day - 1) * 8 + diff_hours;
+        }
+        return +Math.ceil(diff_hours).toFixed(3);
+    }
+
+
+
+    //計算幾天周末
+
+
+
+
+</script>
+
+
+
+
+
+
+
 
 
 

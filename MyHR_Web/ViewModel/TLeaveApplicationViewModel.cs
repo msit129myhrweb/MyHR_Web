@@ -41,11 +41,11 @@ namespace MyHR_Web.ViewModel
         [DisplayName("申請單號")]
         public int CApplyNumber { get { return iv_Leave.CApplyNumber; } set { iv_Leave.CApplyNumber = value; } }
 
-        [DisplayName("員工名稱")] //取得ID值，轉換成員工名稱
+        [DisplayName("員工姓名")] //取得ID值，轉換成員工名稱
         public string CEmployeeName { get {
                 iv_User.CEmployeeName = MyHR.TUsers.Where(n => n.CEmployeeId == CEmployeeId).Select(n => n.CEmployeeName).FirstOrDefault();
                 return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
-        [DisplayName("員工名稱")]
+        [DisplayName("員工編號")]
         public int CEmployeeId { get { return iv_Leave.CEmployeeId; } set { iv_Leave.CEmployeeId = value; } }
         
 
@@ -77,6 +77,9 @@ namespace MyHR_Web.ViewModel
         public string CReason { get { return iv_Leave.CReason; } set { iv_Leave.CReason = value; } }
         [DisplayName("狀態")]
         public int CCheckStatus { get { return iv_Leave.CCheckStatus; } set { iv_Leave.CCheckStatus = value; } }
+        
+        [DisplayName("請假時數")]
+        public int? CLeaveHours { get { return iv_Leave.CLeaveHours; } set { iv_Leave.CLeaveHours = value; } }
 
         //public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         //public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
