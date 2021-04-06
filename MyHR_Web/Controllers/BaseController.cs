@@ -14,10 +14,7 @@ namespace MyHR_Web.Controllers
         {
             return GetSessionString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID).TryToInt().GetValueOrDefault();
         }
-        /// <summary>
-        /// 取得UserID
-        /// </summary>
-        /// <returns></returns>
+       
         protected int getUserId()
         {
             return GetSessionString(CDictionary.CURRENT_LOGINED_USERID).TryToInt().GetValueOrDefault();
