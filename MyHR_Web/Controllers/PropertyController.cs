@@ -226,8 +226,7 @@ namespace MyHR_Web.Controllers
             entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
             entity.CPhone = pmodel.CPhone;
 
-            if (entity.CPropertyPhoto != null)
-            {
+            
                 string photoName = Guid.NewGuid().ToString() + ".jpg";
                 using (var photo = new FileStream(
                     iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
@@ -237,8 +236,6 @@ namespace MyHR_Web.Controllers
                 }
                 pmodel.CPropertyPhoto = "../images/" + photoName;
                 entity.CPropertyPhoto = pmodel.CPropertyPhoto;
-            }
-
 
             db.SaveChanges();
             return RedirectToAction("List");
