@@ -65,7 +65,7 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
-            
+
             return RedirectToAction("List");
         }
 
@@ -84,6 +84,7 @@ namespace MyHR_Web.Controllers
                 }
 
             }
+
             foreach (var i in list)
             {
                 TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == i);
@@ -96,8 +97,6 @@ namespace MyHR_Web.Controllers
             }
 
             return Json(new { result = true, msg = "成功" });
-
-
         }
     }
 }
