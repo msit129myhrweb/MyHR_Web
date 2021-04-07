@@ -44,15 +44,25 @@
             <body onload="ShowTime()">
                 <form id="form1" runat="server" class="nowTime" style="background-color:white ;padding:20px; border-radius:10px">
                     ⽬前時間&nbsp:&nbsp<br /><div id="showbox"></div>
-                    <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
+                    <div id="showClock">@*<p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p>*@</div>
                 </form>
             </body>
             <br />
-            <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
-            <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+            <div>
+                <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button>&nbsp&nbsp<button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+            </div>
             @*<input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定" /><br /><br />
             <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定" /><br /><br />*@
             @*<a asp-action="Edit" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>*@
+            <div style="background-color:white ;padding:20px; border-radius:10px">
+                <p id="tip">溫馨小提醒&nbsp:&nbsp</p><hr />
+                <p id="tips">
+                    1.&nbsp上下班皆需打卡<br />
+                    2.&nbsp10:00(含)以後遲到需請假<br />
+                    3.&nbsp若有異常需補打卡<br />
+                    4.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
+                </p>
+            </div>
         </div>
         <div id="right">
             <section class="content">
@@ -143,7 +153,7 @@
 
     //未六點不可打下班卡
     $(function () {
-        
+
         var d = new Date();
         var now = d.getHours();   //當前時間的小時
         d.setHours(18);//當日18時的million second
@@ -154,40 +164,57 @@
         else {
             document.getElementById("off").removeAttribute("disabled");
         };
-        } 
+        }
     );
 
     //判斷昨天是否有打卡
-    $(function () {
+    document.addEventListener("DOMContentLoaded", function () {
         var d = new Date();
         d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
         var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-        var data ="," + ysd + ",";
-        $.post(
-            "@Url.Action("yesterdayVal")",
-            { "ysd": JSON.stringify(data) },
-            function () { },"json"
-        )
-        
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/yesterdayVal",
+            data: { ysd: ysd },
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+
         console.log(ysd);
-    })
+
+    }, false);
+
 
     //打上班卡
         function clockOn() {
             var id = @a;
             var now = new Date();
             var date = now.toISOString().substr(0,10);
-            var nowtime = now.toLocaleString('chinese', { hour12: false });
-            var data = id + "," + date+","+ nowtime ;
 
-            $.post(
-                "@Url.Action("getClockString_on")",
-                { "c": JSON.stringify(data) },
-                function (data) {
-                }, "json"
-            )
-            var content = document.getElementById("showClock");
-            content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_on",
+                data: { id: @a, date: date},
+                success: function (data) {
+                    console.log("a");
+                    $("#absence_table").html(data);
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+
+            //var content = document.getElementById("showClock");
+            //content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+
         };
 
     //打下班卡
@@ -195,31 +222,28 @@
             var id = @a;
             var now = new Date();
             var date = now.toISOString().substr(0,10);
-            var nowtime = now.toLocaleString('chinese', { hour12: false });
-            var data = id + "," + date+","+ nowtime ;
 
-            $.post(
-                "@Url.Action("getClockString_off")",
-                { "c": JSON.stringify(data) },
-                function (data) {
-                }, "json"
-            )
-            var content = document.getElementById("showClock");
-            content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_off",
+                data: { id: @a, date: date},
+                success: function (data) {
+                    console.log("a");
+                    $("#absence_table").html(data);
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+            //var content = document.getElementById("showClock");
+            //content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+
         };
 
     $(".absence").change(function () {
         var sDate = $("#sDate").val();
         var eDate = $("#eDate").val();
-        //var options = document.getElementsByName("options");
-        //var opVal = "";
-        //for (var i = 0; i < options.length; i++) {
-        //    var elem = options.item(i);
-        //    if (elem.checked) {
-        //        opVal = elem.value;
-        //        break;
-        //    }
-        //}
         console.log(sDate + "/" + eDate );
 
         $.ajax({
