@@ -17,7 +17,7 @@ namespace MyHR_Web.ViewModel
             iv_interview = i;
         }
         public CInterviewListViewModel()
-        {
+        {             
             iv_interview = new TInterView();
         }
         [DisplayName("編號")]

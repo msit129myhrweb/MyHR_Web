@@ -1,4 +1,6 @@
 ﻿@model MyHR_Web.ViewModel.CInterviewListViewModel;
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
 
 <h2>面試資料修改</h2>
 <hr />
@@ -15,7 +17,7 @@
                     <span asp-validation-for="CInterVieweeId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" style="display:none">
+                <div class="form-group" style="display:none">                    
                     <label asp-for="CInterVieweeGender" class="control-label"></label>
                     <input asp-for="CInterVieweeGender" class="form-control" />
                     <span asp-validation-for="CInterVieweeGender" class="text-danger"></span>
@@ -47,60 +49,59 @@
 
                 <div class="form-group">
                     <label asp-for="CAddress" class="control-label"></label>
-                    <input type="datetime" asp-for="CAddress" class="form-control" />
+                    <input asp-for="CAddress" class="form-control" />
                     <span asp-validation-for="CAddress" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CBirthday" class="control-label"></label>
-                    <input type="datetime" asp-for="CBirthday" class="form-control" />
+                    <input asp-for="CBirthday" class="form-control" />
                     <span asp-validation-for="CBirthday" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CAge" class="control-label"></label>
-                    <input type="datetime" asp-for="CAge" class="form-control" />
+                    <input asp-for="CAge" class="form-control" />
                     <span asp-validation-for="CAge" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CEducation" class="control-label"></label>
-                    <input type="datetime" asp-for="CEducation" class="form-control" />
+                    <input asp-for="CEducation" class="form-control" />
                     <span asp-validation-for="CEducation" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CInterViewDate" class="control-label"></label>
-                    <input type="datetime" asp-for="CInterViewDate" class="form-control" />
+                    <input asp-for="CInterViewDate" class="form-control" />
                     <span asp-validation-for="CInterViewDate" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CDepartmentName" class="control-label"></label>
-                    <input type="datetime" asp-for="CDepartmentName" class="form-control" />
+                    <input asp-for="CDepartmentName" class="form-control" />
                     <span asp-validation-for="CDepartmentName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CJobTitleName" class="control-label"></label>
-                    <input type="datetime" asp-for="CJobTitleName" class="form-control" />
+                    <input asp-for="CJobTitleName" class="form-control" />
                     <span asp-validation-for="CJobTitleName" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CStatus" class="control-label"></label>
-                    <input type="datetime" asp-for="CStatus" class="form-control" />
+                    <input asp-for="CStatus" class="form-control" />
                     <span asp-validation-for="CStatus" class="text-danger"></span>
                 </div>
 
+                
                 <div class="card-footer">
                     <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="List" />
-                    <input type="submit" value="確認修改" class="btn btn-info btn-lg float-right" onclick="return(confirm('確定要修改?'))" , style="filter: grayscale(50%)" />                            
+                @*    <input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit('@(JsonSerializer.Serialize(Model))')" , style="filter: grayscale(50%)" />*@
+                    <input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit()" , style="filter: grayscale(50%)" />
                 </div>
-            </form>
+            </form>       
         </div>
-    </div>
-    <div>
-
     </div>
 </div>

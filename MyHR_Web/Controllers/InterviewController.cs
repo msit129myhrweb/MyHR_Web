@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
 {
-    public class InterviewController : Controller
+    public class InterviewController : FilterController
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
         public IActionResult Index()
@@ -56,11 +57,19 @@ namespace MyHR_Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(CInterviewListViewModel I)
+        public IActionResult Edit(string I)
         {
             if (I != null)
             {
+                CInterviewListViewModel2 T = JsonConvert.DeserializeObject<CInterviewListViewModel2>(I);
+                TInterView table = myHR.TInterViews.FirstOrDefault(n => n.CInterVieweeId == T.CInterVieweeId);
 
+                if (table != null)
+                {
+                    table.CInterVieweeName = T.CInterVieweeName;
+
+                    myHR.SaveChanges();
+                }
             }
             return RedirectToAction("List");
         }

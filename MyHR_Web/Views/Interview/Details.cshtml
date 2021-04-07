@@ -2,7 +2,7 @@
 
 <div class="card-blue">
     <div class="card-header">
-        <h3 class="card-title">@Model.Select(n => n.name).FirstOrDefault().ToString();</h3>
+        <h3 class="card-title">@Model.Select(n => n.name).FirstOrDefault().ToString()</h3>
 
         <div class="card-tools">
             <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -14,11 +14,11 @@
         </div>
     </div>
     <div class="card-body">
-        @Model.Select(n => n.process).FirstOrDefault().ToString();
+        @Model.Select(n => n.process).FirstOrDefault().ToString()
     </div>
     <!-- /.card-body -->
     <div class="card-footer">
-        @Model.Select(n => n.departname).FirstOrDefault().ToString();
+        @Model.Select(n => n.departname).FirstOrDefault().ToString()
     </div>
     <!-- /.card-footer-->
 </div>

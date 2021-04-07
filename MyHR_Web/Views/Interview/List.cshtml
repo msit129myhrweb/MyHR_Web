@@ -48,9 +48,9 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h2>面試系統</h2>
-
-        @Html.ActionLink("返回面試清單", "List", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+        <div onclick="location.href='/Interview/List';">
+            <h2>面試系統</h2>
+        </div>
 
         <br /><br />
               <div id="tabpage">
@@ -61,7 +61,7 @@
                   <div style="background-color:white ;padding:20px; border-radius:10px">
                       <h3>查詢條件</h3>
                       <form method="post">
-                          <div class="row">
+                          @*<div class="row">
                               <div class="col-md-6 form-group">
                                   <label class="col-lg-3 control-label">請假日期(起) :</label>
                                   <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
@@ -70,7 +70,7 @@
                                   <label class="col-lg-3 control-label">請假日期(迄) :</label>
                                   <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
                               </div>
-                          </div>
+                          </div>*@
                           <div class="row">
                               <div class="col-md-6 form-group">
                                   <label class="col-lg-3 control-label">狀態:</label>
@@ -354,5 +354,23 @@
                 alert("error:" + msg);
             }
         })
+    }
+
+    function editSubmit(obj) {        
+        var result = confirm("確認修改?");        
+        if (result) {
+            $.ajax({
+                type: "post",
+                dataType: "html",
+                url: "/Interview/Edit",
+                data: { i: obj },
+                success: function (data) {
+                    console.log("edit");                    
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            });
+        }
     }
 </script>
