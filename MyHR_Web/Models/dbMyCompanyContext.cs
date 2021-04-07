@@ -79,8 +79,6 @@ namespace MyHR_Web.Models
                     .HasMaxLength(20)
                     .HasColumnName("cStatus");
 
-
-
                 entity.HasOne(d => d.CEmployee)
                     .WithMany(p => p.TAbsences)
                     .HasForeignKey(d => d.CEmployeeId)
