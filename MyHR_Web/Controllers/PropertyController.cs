@@ -36,7 +36,7 @@ namespace MyHR_Web.Controllers
             }
             if (enddate.HasValue)
             {
-                tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
+                tl = tl.Where(e => e.CLostAndFoundDate <= enddate.Value);
             }
 
             var propertytable = from p in tl
@@ -48,7 +48,7 @@ namespace MyHR_Web.Controllers
                                 {
                                     CPropertyId = p.CPropertyId,
                                     CDeparmentId = p.CDeparmentId,
-                                    CEmployeeId = p.CEmployeeId,
+                                    CEmployeeId = u.CEmployeeId,
                                     CEmployeeName = u.CEmployeeName,
                                     CPhone = p.CPhone,
                                     CPropertySubjectId = d.CPropertySubjectId,
@@ -159,6 +159,7 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Edit(int? id)
         {
+           
             if (id.HasValue == false)
             {
                 return RedirectToAction("List");
@@ -169,11 +170,10 @@ namespace MyHR_Web.Controllers
             {
                 return RedirectToAction("List");
             }
-            string photoName = Guid.NewGuid().ToString() + ".jpg";
-            tf.CPropertyPhoto = "../images/" + photoName;
-
+         
             var result = new CPropertyViewModel
             {
+                CPropertyId=tf.CPropertyId,
                 CLostAndFoundDate = tf.CLostAndFoundDate,
                 CEmployeeId = tf.CEmployeeId,
                 CLostAndFoundSpace = tf.CLostAndFoundSpace,
@@ -186,6 +186,7 @@ namespace MyHR_Web.Controllers
                 CProperty=tf.CProperty,
                 CPropertyPhoto=tf.CPropertyPhoto
             };
+
             ViewBag.Departments = db.TUserDepartments.ToList();
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
@@ -196,26 +197,36 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
-                if (ModelState.IsValid == false)
-                {
-                    ViewBag.Departments = db.TUserDepartments.ToList();
-                    ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
-                    ViewBag.subject = db.TLostAndFoundSubjects.ToList();
-                    ViewBag.category = db.TLostAndFoundCategories.ToList();
-                    return View(pmodel);
-                }
-                var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
+
+            if (ModelState.IsValid == false)
+            {
+                ViewBag.Departments = db.TUserDepartments.ToList();
+                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
+                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
+                ViewBag.category = db.TLostAndFoundCategories.ToList();
+                return View(pmodel);
+            }
+
+            var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
 
                 if (entity == null)
                 {
                     return RedirectToAction("List");
                 }
+               
+
+                entity.CDeparmentId = pmodel.CDeparmentId;
+                entity.CEmployeeId = pmodel.CEmployeeId;
+                entity.CPropertyId = pmodel.CPropertyId;
                 entity.CProperty = pmodel.CProperty;
                 entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
                 entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
                 entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
                 entity.CtPropertyDescription = pmodel.CtPropertyDescription;
                 entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+                entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
+                entity.CPhone = pmodel.CPhone;
+
 
                 string photoName = Guid.NewGuid().ToString() + ".jpg";
                 using (var photo = new FileStream(
@@ -224,12 +235,13 @@ namespace MyHR_Web.Controllers
                 {
                     pmodel.image.CopyTo(photo);
                 }
-
                 pmodel.CPropertyPhoto = "../images/" + photoName;
                 entity.CPropertyPhoto = pmodel.CPropertyPhoto;
 
                 db.SaveChanges();
                 return RedirectToAction("List");
-            }
+                 
+          
+         }
     }
 }
