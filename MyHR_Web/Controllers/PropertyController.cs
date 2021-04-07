@@ -22,6 +22,16 @@ namespace MyHR_Web.Controllers
             iv_host = p;
         }
 
+        private string uploadImage(IFormFile image)  //儲存照片
+        {
+            string photoName = $"{Guid.NewGuid()}.jpg";
+            using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName, FileMode.Create))
+            {
+                image.CopyTo(photo);
+            }
+            return "/images/" + photoName;
+        }
+
         public IActionResult List(DateTime? startdate = null, DateTime? enddate = null)
         {
             ViewBag.stardate = startdate;
@@ -207,18 +217,6 @@ namespace MyHR_Web.Controllers
 
             db.SaveChanges();
             return RedirectToAction("List");
-
-
-        }
-
-        private string uploadImage(IFormFile image)
-        {
-            string photoName = $"{Guid.NewGuid()}.jpg";
-            using (var photo = new FileStream(iv_host.ContentRootPath + @"\wwwroot\images\" + photoName, FileMode.Create))
-            {
-                image.CopyTo(photo);
-            }
-            return "/images/" + photoName;
         }
     }
 }
