@@ -71,66 +71,53 @@ namespace MyHR_Web.Controllers
             }
             return View(plist);
         }
-        public IActionResult Edit(int? id)
+      
+        public IActionResult pUdate(int? id)
         {
-            if (id.HasValue == false)
+          
+            if(id != null)
             {
-                return RedirectToAction("List");
+                TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == id);
+
+                if (tlaf != null)
+                {
+                    tlaf.CPropertyCheckStatusId = 2;
+                    db.SaveChanges();
+                }
             }
-            TLostAndFound tf = db.TLostAndFounds.Where(e => e.CPropertyId == id).FirstOrDefault();
-
-            if (tf == null)
-            {
-                return RedirectToAction("List");
-            }
-
-            var result = new CPropertyViewModel
-            {
-                CLostAndFoundDate = tf.CLostAndFoundDate,
-                CEmployeeId = tf.CEmployeeId,
-                CLostAndFoundSpace = tf.CLostAndFoundSpace,
-                CPropertyCheckStatusId = tf.CPropertyCheckStatusId,
-                CPhone = getUserPhone(),
-                CPropertySubjectId = tf.CPropertySubjectId,
-                CtPropertyDescription = tf.CtPropertyDescription,
-                CDeparmentId = tf.CDeparmentId,
-                CPropertyCategoryId = tf.CPropertyCategoryId,
-                CProperty = tf.CProperty,
-                CPropertyPhoto = tf.CPropertyPhoto
-            };
-            ViewBag.Departments = db.TUserDepartments.ToList();
-            ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
-            ViewBag.subject = db.TLostAndFoundSubjects.ToList();
-            ViewBag.category = db.TLostAndFoundCategories.ToList();
-
-            return View(result);
+            
+            return RedirectToAction("List");
         }
-        [HttpPost]
-        public ActionResult Edit(CPropertyViewModel pmodel)
+
+        public JsonResult updateall(string x)
         {
+            string a = x;
+            string[] ids = a.Split('\\', '"', '[', ',', ']');
 
-            if (ModelState.IsValid == false)
+            List<int> list = new List<int>();
+            foreach (var item in ids)
             {
-                ViewBag.Departments = db.TUserDepartments.ToList();
-                ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
-                ViewBag.subject = db.TLostAndFoundSubjects.ToList();
-                ViewBag.category = db.TLostAndFoundCategories.ToList();
-                return View(pmodel);
+
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+
             }
-            var entity = db.TLostAndFounds.Where(e => e.CPropertyId == pmodel.CPropertyId).FirstOrDefault();
-
-            if (entity == null)
+            foreach (var i in list)
             {
-                return RedirectToAction("List");
+                TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == i);
+                
+                if (tlaf != null)
+                {
+                    tlaf.CPropertyCheckStatusId = 2;
+                    db.SaveChanges();
+                }
             }
-            else
-            {
-                entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
 
-                db.SaveChanges();
-                return RedirectToAction("List");
-            }          
-         
+            return Json(new { result = true, msg = "成功" });
+
+
         }
     }
 }

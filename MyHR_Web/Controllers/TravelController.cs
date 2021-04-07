@@ -19,10 +19,12 @@ namespace MyHR_Web.Controllers
         dbMyCompanyContext db = new dbMyCompanyContext();
         List<CTravelViewModel> tlist = new List<CTravelViewModel>();
 
-        public IActionResult List(DateTime? startDate = null,DateTime? endDate = null)
+        public IActionResult List(DateTime? startDate = null,DateTime? endDate = null,DateTime? travelstart=null, DateTime? travelend = null)
         {
             ViewBag.StartDate = startDate;   //時間查詢
             ViewBag.EndDate = endDate;
+            ViewBag.travelstart = travelstart;
+            ViewBag.travelend = travelend;
             ViewBag.Status = db.TCheckStatuses.ToList();
             IQueryable<TTravelExpenseApplication> tt = db.TTravelExpenseApplications.AsQueryable();
 
@@ -32,7 +34,15 @@ namespace MyHR_Web.Controllers
             }
             if (endDate.HasValue)
             {
-                tt = tt.Where(e => e.CApplyDate < endDate.Value);
+                tt = tt.Where(e => e.CApplyDate <= endDate.Value);
+            }
+            if (travelstart.HasValue)
+            {
+                tt = tt.Where(e => e.CTravelStartTime >= travelstart.Value);
+            }
+            if (travelend.HasValue)
+            {
+                tt = tt.Where(e => e.CTravelEndTime <= travelend.Value);
             }
 
             if (getUserDepartmentId() == 6)     //設觀看權限顯示畫面
@@ -181,6 +191,7 @@ namespace MyHR_Web.Controllers
 
             var result = new CTravelViewModel 
             { 
+                
                 CAmont = et.CAmont,
                 CApplyNumber = et.CApplyNumber,
                 CCheckStatus = et.CCheckStatus,
