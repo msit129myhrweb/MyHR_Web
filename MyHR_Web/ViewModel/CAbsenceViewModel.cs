@@ -76,6 +76,5 @@ namespace MyHR_Web.ViewModel
         //    }
         //    set { CDepartment = value; }
         //}
-
     }
 }

@@ -1,0 +1,172 @@
+﻿@model MyHR_Web.ViewModel.TUserViewModel
+
+@{
+    List<TUserDepartment> userDepartments = ViewBag.CDepartmentId;
+    List<TUserJobTitle> userJobTitles = ViewBag.CJobTitleId;
+    List<TUserOnBoardStatus> userOnBoardStatuses = ViewBag.COnBoardStatusId;
+    ViewData["Title"] = "employeeEdit";
+}
+
+<style>
+    h2 {
+        background-color: #cbb2ae;
+        border-left: 5px solid #808080;
+        font-family: "微软雅黑", "宋体", "黑体", Arial;
+        font-size: 25px;
+        height: 80px;
+        line-height: 80px;
+        font-weight: bold;
+        text-shadow: 2px 2px 3px #222222;
+        color: #FFFFFF;
+        padding-left: 10px;
+    }
+</style>
+
+
+<div class="content-wrapper">
+
+    <section class="content-header">
+        <h2>員工修改</h2>
+    </section>
+
+    <hr />
+    <section class="content">
+        <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
+            <div class="card">
+                <div class="card-header p-2">
+                    <div class="card-body">
+                        <form method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label asp-for="CPhoto" class="control-label"></label><br/>
+                                <img class="profile-user-img img-fluid img-circle"
+                                     src="/Home/ViewPhoto?id=@ViewData["USERID"]"
+                                     alt="@ViewData["CURRENT_LOGINED_USERNAME"]"
+                                     style="width:200px;height:200px;" />
+                                <span asp-validation-for="CPhoto" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" id="files" asp-for="CPhoto" />
+                            </div>
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="hidden" asp-for="CEmployeeId" />
+                            <div class="form-group">
+                                <label asp-for="CEmployeeName" class="control-label"></label>
+                                <input asp-for="CEmployeeName" class="form-control" />
+                                <span asp-validation-for="CEmployeeName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmployeeEnglishName" class="control-label"></label>
+                                <input asp-for="CEmployeeEnglishName" class="form-control" />
+                                <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CPassWord" class="control-label"></label>
+                                <input asp-for="CPassWord" class="form-control" />
+                                <span asp-validation-for="CPassWord" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="COnBoardDay" class="control-label"></label>
+                                <input asp-for="COnBoardDay" class="form-control" type="date" />
+                                <span asp-validation-for="COnBoardDay" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CByeByeDay" class="control-label"></label>
+                                <input asp-for="CByeByeDay" class="form-control" type="date" />
+                                <span asp-validation-for="CByeByeDay" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CGender" class="control-label"></label>
+                                <select asp-for="CGender" class="form-control">
+                                    <option value="女">女</option>
+                                    <option value="男">男</option>
+                                </select>
+                                <span asp-validation-for="CGender" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmail" class="control-label"></label>
+                                <input asp-for="CEmail" class="form-control" />
+                                <span asp-validation-for="CEmail" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CAddress" class="control-label"></label>
+                                <input asp-for="CAddress" class="form-control" />
+                                <span asp-validation-for="CAddress" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CDepartmentId" class="control-label"></label>
+                                <select asp-for="CDepartmentId" class="form-control">
+                                    @foreach (var d in userDepartments)
+                                    {
+                                        <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+
+                                    }
+                                </select>
+                                <span asp-validation-for="CDepartmentId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CJobTitleId" class="control-label"></label>
+                                <select asp-for="CJobTitleId" class="form-control" style="color:black">
+                                    @foreach (var j in userJobTitles)
+                                    {
+                                        <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
+                                    }
+                                </select>
+                                <span asp-validation-for="CJobTitleId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CSupervisor" class="control-label"></label>
+                                <input asp-for="CSupervisor" class="form-control" />
+                                <span asp-validation-for="CSupervisor" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CBirthday" class="control-label"></label>
+                                <input asp-for="CBirthday" class="form-control" type="date" />
+                                <span asp-validation-for="CBirthday" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CPhone" class="control-label"></label>
+                                <input asp-for="CPhone" class="form-control" />
+                                <span asp-validation-for="CPhone" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmergencyPerson" class="control-label"></label>
+                                <input asp-for="CEmergencyPerson" class="form-control" />
+                                <span asp-validation-for="CEmergencyPerson" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CEmergencyContact" class="control-label"></label>
+                                <input asp-for="CEmergencyContact" class="form-control" />
+                                <span asp-validation-for="CEmergencyContact" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="COnBoardStatusId" class="control-label"></label>
+                                <select asp-for="COnBoardStatusId" class="form-control">
+                                    @foreach (var status in userOnBoardStatuses)
+                                    {
+                                        <option value="@status.COnBoardStatusId" class="input">@status.COnBoardStatus</option>
+
+                                    }
+                                </select>
+                                <span asp-validation-for="COnBoardStatusId" class="text-danger"></span>
+                            </div>
+                            <div class="form-group">
+                                <label asp-for="CAccountEnable" class="control-label"></label>
+                                <select asp-for="CAccountEnable" class="form-control">
+                                    <option value="" style="display: none">請選擇</option>
+                                    <option value="0">不啟用</option>
+                                    <option value="1">啟用</option>
+                                </select>
+                                <span asp-validation-for="CAccountEnable" class="text-danger"></span>
+                            </div>
+                            <button type="submit" class="btn btn-success" , style="filter: grayscale(50%)">儲存</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <br />
+        </div>
+    </section>
+
+    </div>
+
