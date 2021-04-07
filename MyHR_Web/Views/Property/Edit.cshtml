@@ -54,17 +54,17 @@
                                 <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label asp-for="CDeparmentId" readonly="readonly" class="control-label" ></label>
-                                <select class="form-control" name="CDeparmentId" disabled>
-                                    @foreach (var d in departs)
+                                <label asp-for="CDeparmentId" readonly="readonly" class="control-label" style="display:none"></label>
+                                <select class="form-control" name="CDeparmentId" readonly="readonly" style="display:none" />
+                                @foreach (var d in departs)
+                                {
+                                    if (d.CDepartmentId == Model.CDeparmentId)
                                     {
-                                        if (d.CDepartmentId == Model.CDeparmentId)
-                                        {
-                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
-                                        else
-                                        {
-                        <option value="@d.CDepartmentId">@d.CDepartment</option>}
-                                    }
+                                        <option selected="selected" value="@d.CDepartmentId">@d.CDepartment</option> }
+                                    else
+                                    {
+                                        <option value="@d.CDepartmentId">@d.CDepartment</option>}
+                                }
                                 </select>
                                 <span asp-validation-for="CDeparmentId" class="text-danger"></span>
 
@@ -74,21 +74,22 @@
                                 <input asp-for="CPhone" class="form-control" readonly="readonly" />
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
-                            <div class="form-group">
-                                <label asp-for="CPropertySubjectId" class="control-label"></label>
-                                <select asp-for="CPropertySubjectId" class="form-control">
-                                    @foreach (var s in subject)
+                          
+                          <div class="form-group">
+                             <label asp-for="CPropertySubjectId" class="control-label"></label>
+                             <select asp-for="CPropertySubjectId" class="form-control">
+                                @foreach (var s in subject)
+                                {
+                                    if (s.CPropertySubjectId == Model.CPropertySubjectId)
                                     {
-                                        if (s.CPropertySubjectId == Model.CPropertySubjectId)
-                                        {
-                        <option selected value="@s.CPropertySubjectId">@s.CPropertySubject</option> }
-                                        else
-                                        {
-                        <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>}
+                                         <option selected value="@s.CPropertySubjectId">@s.CPropertySubject</option> }
+                                    else
+                                    {
+                                         <option value="@s.CPropertySubjectId">@s.CPropertySubject</option>}
 
-                                    }
-                                </select>
-                                <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
+                                     }
+                            </select>
+                                     <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPropertyCategoryId" class="control-label"></label>
@@ -97,10 +98,12 @@
                                     {
                                         if (d.CPropertyCategoryId == Model.CPropertyCategoryId)
                                         {
-                        <option selected value="@d.CPropertyCategoryId">@d.CPropertyCategory</option> }
+                                            <option selected value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+ }
                                         else
                                         {
-                        <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>}
+                                            <option value="@d.CPropertyCategoryId">@d.CPropertyCategory</option>
+}
                                     }
                                 </select>
                                 <span asp-validation-for="CPropertyCategoryId" class="text-danger"></span>
@@ -138,10 +141,12 @@
                                     {
                                         if (c.CPropertyCheckStatusId == Model.CPropertyCheckStatusId)
                                         {
-                        <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option> }
+                                            <option selected value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+ }
                                         else
                                         {
-                        <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>}
+                                            <option value="@c.CPropertyCheckStatusId">@c.CPropertyCheckStatus</option>
+}
 
                                     }
                                 </select>

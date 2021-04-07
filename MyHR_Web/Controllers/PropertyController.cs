@@ -213,20 +213,21 @@ namespace MyHR_Web.Controllers
                 {
                     return RedirectToAction("List");
                 }
+               
 
-            entity.CDeparmentId = pmodel.CDeparmentId;
-            entity.CEmployeeId = pmodel.CEmployeeId;
-            entity.CPropertyId = pmodel.CPropertyId;
-            entity.CProperty = pmodel.CProperty;
-            entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
-            entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
-            entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
-            entity.CtPropertyDescription = pmodel.CtPropertyDescription;
-            entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
-            entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
-            entity.CPhone = pmodel.CPhone;
+                entity.CDeparmentId = pmodel.CDeparmentId;
+                entity.CEmployeeId = pmodel.CEmployeeId;
+                entity.CPropertyId = pmodel.CPropertyId;
+                entity.CProperty = pmodel.CProperty;
+                entity.CPropertyCategoryId = pmodel.CPropertyCategoryId;
+                entity.CLostAndFoundSpace = pmodel.CLostAndFoundSpace;
+                entity.CPropertySubjectId = pmodel.CPropertyCheckStatusId;
+                entity.CtPropertyDescription = pmodel.CtPropertyDescription;
+                entity.CPropertyCheckStatusId = pmodel.CPropertyCheckStatusId;
+                entity.CLostAndFoundDate = pmodel.CLostAndFoundDate;
+                entity.CPhone = pmodel.CPhone;
 
-            
+
                 string photoName = Guid.NewGuid().ToString() + ".jpg";
                 using (var photo = new FileStream(
                     iv_host.ContentRootPath + @"\wwwroot\images\" + photoName,
@@ -237,8 +238,10 @@ namespace MyHR_Web.Controllers
                 pmodel.CPropertyPhoto = "../images/" + photoName;
                 entity.CPropertyPhoto = pmodel.CPropertyPhoto;
 
-            db.SaveChanges();
-            return RedirectToAction("List");
+                db.SaveChanges();
+                return RedirectToAction("List");
+                 
+          
          }
     }
 }
