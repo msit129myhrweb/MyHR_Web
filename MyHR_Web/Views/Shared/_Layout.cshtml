@@ -185,34 +185,34 @@
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
 
                         @if (login_ureid == 1)
                         {
                             @*員工管理*@
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
-                                <i class="fas fa-user-cog"></i>
-                                <p>
-                                    員工系統/查詢
-                                </p>
-                            </a>
-                            @*<ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>註冊新員工</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>員工清單</p>
-                                    </a>
-                                </li>
-                            </ul>*@
-                        </li>
-                    } @*打卡*@
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                                    <i class="fas fa-user-cog"></i>
+                                    <p>
+                                        員工系統/查詢
+                                    </p>
+                                </a>
+                                @*<ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>註冊新員工</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>員工清單</p>
+                        </a>
+                    </li>
+                </ul>*@
+                            </li>
+                        } @*打卡*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Absence" asp-action="List" class="nav-link">
                                 <i class="fas fa-clock"></i>
@@ -249,28 +249,28 @@
                             }
                         }
                         @*報修*@
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Repair" asp-action="RepairList" class="nav-link">
-                            <i class="fas fa-tools"></i>
-                            <p>
-                                報修系統/查詢
-                            </p>
-                        </a>
-                        @*<ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a asp-area="" asp-controller="Repair" asp-action="RepairCreate" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>報修申請</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a asp-area="" asp-controller="Repair" asp-action="RepairList" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>報修狀態查詢</p>
-                                </a>
-                            </li>
-                        </ul>*@
-                    </li>
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Repair" asp-action="RepairList" class="nav-link">
+                                <i class="fas fa-tools"></i>
+                                <p>
+                                    報修系統/查詢
+                                </p>
+                            </a>
+                            @*<ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Repair" asp-action="RepairCreate" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>報修申請</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Repair" asp-action="RepairList" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>報修狀態查詢</p>
+                    </a>
+                </li>
+            </ul>*@
+                        </li>
                         @*請假*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Leave" asp-action="LeaveList" class="nav-link">
@@ -278,26 +278,26 @@
                                 <p>請假系統/查詢</p>
                             </a>
                             @*<ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Leave" asp-action="LeaveCreate" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>假單申請</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Leave" asp-action="LeaveList" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>假單查詢</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="~/theme/index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>申請假單修改/刪除</p>
-                                        <span class="right badge badge-success">New</span>
-                                    </a>
-                                </li>
-                            </ul>*@
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Leave" asp-action="LeaveCreate" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>假單申請</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="Leave" asp-action="LeaveList" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>假單查詢</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="~/theme/index2.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>申請假單修改/刪除</p>
+                        <span class="right badge badge-success">New</span>
+                    </a>
+                </li>
+            </ul>*@
                         </li>
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Interview" asp-action="Index" class="nav-link">
@@ -313,88 +313,94 @@
                             </a>
                         </li>
 
-                        @{ 
-                            if(login_ureid == 7)
+                        @{
+                            if (login_ureid == 7)
                             {
                                 @: <li class="nav-item">
-                            <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
-                                <i class="fas fa-money-bill-alt"></i>
-                                <p>薪資系統/FOR總務主管</p>
-                            </a>
-                        
-                            }
+                                    <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
+                                        <i class="fas fa-money-bill-alt"></i>
+                                        <p>薪資系統/FOR總務主管</p>
+                                    </a>
+
+                                }
 
 
                         }
-                       
+
 
                         @*差旅*@
 
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Travel" asp-action="List" class="nav-link">
-                                <i class="far fa-calendar-alt"></i>
-                                <p>差旅費系統/查詢</p>
-                            </a>
-                        </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Travel" asp-action="List" class="nav-link">
+                            <i class="far fa-calendar-alt"></i>
+                            <p>差旅費系統/查詢</p>
+                        </a>
+                    </li>
 
 
-                        @*員工福利專區*@
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-hand-holding-heart"></i>
-                                <p>
-                                    員工福利專區
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
+                    @*員工福利專區*@
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <p>
+                                員工福利專區
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="WuCha" asp-action="WuChaList2" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>WuCha</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a asp-area="" asp-controller="Property" asp-action="List" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>失物登記/查詢</p>
+                                </a>
+                            </li>
+                            @if (login_ureid == 7)
+                            {
+
                                 <li class="nav-item">
-                                    <a asp-area="" asp-controller="WuCha" asp-action="WuChaList2" class="nav-link">
+                                    <a asp-area="" asp-controller="PCheckStatus" asp-action="List" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>WuCha</p>
+                                        <p>失物領回</p>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a asp-area="" asp-controller="Property" asp-action="List" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>失物登記/查詢</p>
-                                    </a>
-                                </li>
-                                @if (login_ureid == 7)
-                                {
+                            }
+                        </ul>
+                    </li>
 
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="PCheckStatus" asp-action="List" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>失物領回</p>
-                                        </a>
-                                    </li>
-                                }
-                            </ul>
-                        </li>
-
-                        @*疫情新聞*@
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Covid_19" asp-action="Covid_19" class="nav-link">
-                                <i class="fas fa-shield-virus"></i>
-                                <p>疫情新聞</p>
-                            </a>
-                        </li>
-                        @*行事曆*@
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Home" asp-action="calendar" class="nav-link">
-                                <i class="far fa-calendar-alt"></i>
-                                <p>行事曆</p>
-                            </a>
-                        </li>
-
-                        @*登出*@
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <p>登出</p>
-                            </a>
-                        </li>
+                    @*疫情新聞*@
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Covid_19" asp-action="Covid_19" class="nav-link">
+                            <i class="fas fa-shield-virus"></i>
+                            <p>疫情新聞</p>
+                        </a>
+                    </li>
+                    @*行事曆*@
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="calendar" class="nav-link">
+                            <i class="far fa-calendar-alt"></i>
+                            <p>行事曆</p>
+                        </a>
+                    </li>
+                    @*行事曆*@
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Calendar" asp-action="Calendar" class="nav-link">
+                            <i class="far fa-calendar-alt"></i>
+                            <p>行事曆calendar</p>
+                        </a>
+                    </li>
+                    @*登出*@
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <p>登出</p>
+                        </a>
+                    </li>
 
                     </ul>
                 </nav>
