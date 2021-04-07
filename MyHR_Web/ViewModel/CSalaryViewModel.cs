@@ -33,6 +33,8 @@ namespace MyHR_Web.ViewModel
         public string CJobTitle { get; set; }
         public int CJobTitleSalary { get; set; }
 
+        public int CJobTitleId { get; set; }
+
         //TLeaveApplication
 
         public int? CLeaveHours { get; set; } 

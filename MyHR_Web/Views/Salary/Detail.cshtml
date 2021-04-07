@@ -193,7 +193,7 @@
 
                                         @{ int count = 0;
 
-                                            if(ViewBag.Leave ==null)
+                                            if (ViewBag.Leave == null)
                                             {
                                                 count = 0;
                                             }
@@ -223,6 +223,9 @@
                                 </div>
                             </div>
 
+                            <br />
+                            <br />
+                            <br />
 
                             <div class="row">
                                 <div class="col">
@@ -233,7 +236,7 @@
                                     <label id="Month_Late" class=" col-lg-12 control-label">
                                         @{ int LateMoney = 0;
 
-                                            if(ViewBag.Late == null)
+                                            if (ViewBag.Late == null)
                                             {
                                                 LateMoney = 0;
                                             }
@@ -245,9 +248,12 @@
                                                 }
                                             }
 
-                                            }
+                                        }
 
                                         @LateMoney
+
+
+
 
                                         <div id="icon" style="float:right">
                                             <i id="Ajax_LatePay" class="fas fa-times-circle" style="font-size:20px;"></i>

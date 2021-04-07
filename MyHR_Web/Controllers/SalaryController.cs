@@ -10,13 +10,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+
 namespace MyCompany_.NetCore_Janna.Controllers
 {
     public class SalaryController : Controller
     {
         dbMyCompanyContext MyHR = new dbMyCompanyContext();
-
-
 
         public IActionResult ConfirmPassword()
         {
@@ -124,7 +123,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     CSalary_LeaveCate = item.Category,
                     CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, null) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
 
                 };
                 T.Add(obj);
@@ -171,7 +170,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
 
-        public IActionResult Detail(int? Id) //主管導入詳細資料的薪資單 檢視當月
+        public IActionResult Detail(int Id) //主管導入詳細資料的薪資單 檢視當月
         {
 
 
@@ -216,7 +215,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     CSalary_LeaveCate = item.Category,
                     CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, Id) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
 
                 };
                 T.Add(obj);
@@ -251,6 +250,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 T2.Add(obj);
                 ViewBag.Late = T2;
             }
+
 
             return View(table.ToList());
         }
@@ -309,12 +309,24 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 CSalaryViewModel obj = new CSalaryViewModel()
                 {
                    
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, null) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
 
                 };
                 T.Add(obj);
                 ViewBag.Leave = T;     //這邊算完是放入ViewBag傳送過去的...糟糕
             }
+
+
+            //傳送部門下拉是選單
+            var Dept = MyHR.TUserDepartments.Distinct().ToList();
+            ViewBag.DEPT = Dept;
+
+            //傳送職位下拉是選單
+
+            var JobTitle = MyHR.TUserJobTitles.Distinct().ToList();
+            ViewBag.JOBTITLE = JobTitle;
+
+
 
             return View(table.ToList());
         }
@@ -349,22 +361,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
         //    return Leave_Sum;
         //}
 
-
-    
-
-
-        public int Leave_Shouldtopay(int LeaveCate, int LeaveHours, int? Id)  //計算各個假別必須扣除的總數
+        public int Leave_Shouldtopay(int LeaveCate, int LeaveHours)  //計算各個假別必須扣除的總數
         {
-            int UserID = 0;
-
-            if (Id != null)
-            {
-                UserID = (int)Id;
-            }
-            else
-            {
-                UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
-            }
+            
+            
+            int UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
+            
             double Leave_Sum = 0;
             int MonthWage = (from i in MyHR.TUsers               //取出每人的本薪
                              join j in MyHR.TUserJobTitles
@@ -436,7 +438,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 {
                     CSalary_LeaveCate = item.Category,
                     CSalary_LeaveCateCount = (int)item.CategoryCount,
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, null) //各個假別要付的錢
+                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
                 };
                 T.Add(obj);
             }
@@ -497,7 +499,46 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
 
+        public IActionResult Mutiple_search(int? DEPT, int? TITLE)
+        {
 
+
+            var table = MyHR.TUsers
+                   .Include(c => c.CDepartment)
+                   .Include(c => c.CJobTitle)
+                   .Include(c => c.TTravelExpenseApplications)
+                   .Include(c => c.TAbsences)
+                   .Include(c => c.TLeaveApplications)
+                   .OrderByDescending(c => c.CDepartmentId)
+                   .ThenBy(c => c.CJobTitleId)
+                   .Where(C => C.COnBoardStatusId == 1).AsEnumerable()
+                   .Select(c => new CSalaryViewModel
+                   {
+
+                       CDepartment = c.CDepartment.CDepartment,
+                       CDepartmentId = c.CDepartment.CDepartmentId,
+                       CEmployeeName = c.CEmployeeName,
+                       CEmployeeId = c.CEmployeeId,
+                       CJobTitle = c.CJobTitle.CJobTitle,
+                       CJobTitleId = c.CJobTitle.CJobTitleId,
+                       Month_Salary = c.CJobTitle.CJobTitleSalary,
+                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                       CAmont_TAbsense = c.TAbsences
+                       .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
+                       .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
+                       .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
+                   }).Where(a =>
+                   (DEPT != null ? a.CDepartmentId == DEPT : true) &&
+                   (TITLE != null ? a.CJobTitleId == TITLE : true)).ToList();
+                   
+ 
+            return PartialView("Mutiple_search", table);
+
+
+        }
 
 
 
