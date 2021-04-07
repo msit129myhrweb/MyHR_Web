@@ -5,6 +5,7 @@
     string Id = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
     string Name = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
     string Dep = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENT");
+    int applyNum = ViewBag.absence;
 }
 @{ ViewData["Title"] = "Edit";}
 
@@ -34,11 +35,11 @@
                     <div class="card-body">
                         <form asp-action="Edit">
                             <input asp-for="CApplyNumber" style="display:none" />
-                            <div class="form-group">
+                            @*<div class="form-group">
                                 <label asp-for="CDepartment" class="control-label"></label>
                                 <input asp-for="CDepartment" class="form-control" readonly="readonly" value="@Dep"/>
                                 <span asp-validation-for="CDepartment" class="text-danger"></span>
-                            </div>
+                            </div>*@
                             <div class="form-group">
                                 <label asp-for="CEmployeeId" class="control-label"></label>
                                 <input asp-for="CEmployeeId" class="form-control" value="@Id" readonly="readonly" />
@@ -50,16 +51,33 @@
                                 <span asp-validation-for="employeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <label class="control-label">日期</label>
-                                <input type="date" class="form-control" id="date"/>
+                                <label asp-for="CDate" class="control-label"></label>
+                                <input type="date" asp-for="CDate" class="form-control" id="date" readonly="readonly"/>
                                 <span class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label class="control-label">補登時段</label>
-                                <select class="form-control" id="when">
-                                    <option asp-for="COn" value="1">上班</option>
-                                    <option asp-for="COn" value="2">下班</option>
-                                </select>
+                                @{
+                                    dbMyCompanyContext db = new dbMyCompanyContext();
+                                    var ab_on = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum && a.CEmployeeId == int.Parse(Id) && a.COn != null ) ;
+                                    var ab_off = db.TAbsences.FirstOrDefault(a=> a.CApplyNumber == applyNum && a.CEmployeeId == int.Parse(Id) && a.COff!=null);
+                                    if (ab_on == null && ab_off == null)//上下班補打卡
+                                    {
+                                        <select class="form-control" id="when">
+                                            <option asp-for="COn" value="上班">上班</option>
+                                            <option asp-for="COn" value="下班">下班</option>
+                                        </select>
+                                    }
+                                    else if (ab_on == null && ab_off != null)//補上班卡
+                                    {
+                                        <input asp-for="COn" class="form-control" id="ab_" value="上班" readonly="readonly"/>
+                                    }
+                                    else if (ab_on != null && ab_off == null)//補下班卡
+                                    {
+                                        <input asp-for="COff" class="form-control" id="ab_" value="下班" readonly="readonly"/>
+                                    }
+                                }
+                                <span class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <input type="submit" value="取消" onclick="return (confirm('尚未完成補登作業，確定要離開此頁面?'))" asp-action="List" class="btn btn-default" , style="filter: grayscale(50%)" />
@@ -75,9 +93,18 @@
 </div>
 <script>
     function Edit() {
+        var applyNum=@applyNum;
         var id = @Id;
         var date = $("#date").val();
-        var when = $("#when option:selected").val();
+        var option = $("#when option:selected").val();
+        var ab_onOroff = $("#ab_").val();
+        var when = "";
+        if (option != null) {
+            when = option;
+        }
+        else {
+            when = ab_onOroff;
+        }
         console.log(id);
         console.log(date);
         console.log(when);
@@ -86,10 +113,10 @@
             type: "post",
             dataType: "html",
             url: "/Absence/Edit",
-            data: { id: id, date: date, when: when },
+            data: { applyNum: applyNum, id: id, date: date, when: when },
             success: function (data) {
                 console.log("test");
-                //$("#absence_table").html(data);
+                $("#absence_table").html(data);
             },
             error: function (msg) {
                 alert("error:" + msg);
