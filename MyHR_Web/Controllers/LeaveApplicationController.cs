@@ -15,9 +15,9 @@ namespace MyHR_Web.Controllers
         dbMyCompanyContext DB = new dbMyCompanyContext();
 
         public IActionResult List()
-        {        
+        {
             int DepId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID));
-  List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
+            List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
 
             List<TLeave> leaveCate = getLeaveCategory();//取得資料庫的類別
             ViewBag.leaveCategory = leaveCate;
@@ -38,6 +38,7 @@ namespace MyHR_Web.Controllers
                             join user in DB.TUsers on leave.CEmployeeId equals user.CEmployeeId
                             where leave.CDepartmentId == DepId &&
                                   leave.CApplyNumber.ToString().Contains(AppNum)
+                            orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -74,10 +75,11 @@ namespace MyHR_Web.Controllers
                 else if (string.IsNullOrEmpty(AppNum) && !string.IsNullOrEmpty(Id) && string.IsNullOrEmpty(Name))
                 {
                     var table = from leave in DB.TLeaveApplications
-                            join user in DB.TUsers 
-                            on leave.CEmployeeId equals user.CEmployeeId
-                            where leave.CDepartmentId == DepId &&
-                                  leave.CEmployeeId.ToString().Contains(Id)
+                                join user in DB.TUsers
+                                on leave.CEmployeeId equals user.CEmployeeId
+                                where leave.CDepartmentId == DepId &&
+                                      leave.CEmployeeId.ToString().Contains(Id)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -118,6 +120,7 @@ namespace MyHR_Web.Controllers
                                 on leave.CEmployeeId equals user.CEmployeeId
                                 where leave.CDepartmentId == DepId &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -160,6 +163,7 @@ namespace MyHR_Web.Controllers
                                 where leave.CDepartmentId == DepId &&
                                       leave.CApplyNumber.ToString().Contains(AppNum)&&
                                       leave.CEmployeeId.ToString().Contains(Id)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -200,6 +204,7 @@ namespace MyHR_Web.Controllers
                                 where leave.CDepartmentId == DepId &&
                                       leave.CApplyNumber.ToString().Contains(AppNum)&&
                                       user.CEmployeeName.Contains(Name)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -240,6 +245,7 @@ namespace MyHR_Web.Controllers
                                 where leave.CDepartmentId == DepId &&
                                       leave.CEmployeeId.ToString().Contains(Id)&&
                                       user.CEmployeeName.Contains(Name)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -282,6 +288,7 @@ namespace MyHR_Web.Controllers
                                       leave.CApplyNumber.ToString().Contains(AppNum) &&
                                       leave.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -321,6 +328,7 @@ namespace MyHR_Web.Controllers
                                 join user in DB.TUsers
                                 on leave.CEmployeeId equals user.CEmployeeId
                                 where leave.CDepartmentId == DepId
+                                orderby leave.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -356,21 +364,23 @@ namespace MyHR_Web.Controllers
             //全部皆為空白
             else
             {
-                var table =from leave in DB.TLeaveApplications
-                        join user in DB.TUsers
-                        on leave.CEmployeeId equals user.CEmployeeId
-                        where leave.CDepartmentId == DepId
-                        select new {
-                            user.CEmployeeName,
-                            leave.CApplyDate,
-                            leave.CApplyNumber,
-                            leave.CCheckStatus,
-                            leave.CLeaveCategory,
-                            leave.CLeaveStartTime,
-                            leave.CLeaveEndTime,
-                            leave.CEmployeeId,
-                            leave.CReason
-                        };
+                var table = from leave in DB.TLeaveApplications
+                            join user in DB.TUsers
+                            on leave.CEmployeeId equals user.CEmployeeId
+                            where leave.CDepartmentId == DepId
+                            orderby leave.CApplyDate descending
+                            select new
+                            {
+                                user.CEmployeeName,
+                                leave.CApplyDate,
+                                leave.CApplyNumber,
+                                leave.CCheckStatus,
+                                leave.CLeaveCategory,
+                                leave.CLeaveStartTime,
+                                leave.CLeaveEndTime,
+                                leave.CEmployeeId,
+                                leave.CReason
+                            };
 
                 foreach (var item in table)
                 {
@@ -441,7 +451,7 @@ namespace MyHR_Web.Controllers
                     CReason = l.CReason,
                     employeeName = u.CEmployeeName,
                     CDepartmentId=u.CDepartmentId
-                }).OrderBy(l => l.CApplyDate).AsEnumerable().Where(sc=>
+                }).OrderByDescending(l => l.CApplyDate).AsEnumerable().Where(sc=>
                 sc.CDepartmentId==DepId &&
                 (cate!=null?sc.CLeaveCategory==cate:true)&&
                 (status!=null?sc.CCheckStatus==status:true)&&

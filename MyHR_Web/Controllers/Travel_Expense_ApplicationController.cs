@@ -38,6 +38,7 @@ namespace MyHR_Web.Controllers
                                 join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
                                       travel.CApplyNumber.ToString().Contains(AppNum)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -74,6 +75,7 @@ namespace MyHR_Web.Controllers
                                 join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
                                       travel.CEmployeeId.ToString().Contains(Id)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -110,6 +112,7 @@ namespace MyHR_Web.Controllers
                                 join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -147,6 +150,7 @@ namespace MyHR_Web.Controllers
                                 where travel.CDepartmentId == DepId &&
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
                                       travel.CEmployeeId.ToString().Contains(Id)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -184,6 +188,7 @@ namespace MyHR_Web.Controllers
                                 where travel.CDepartmentId == DepId &&
                                       travel.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -221,6 +226,7 @@ namespace MyHR_Web.Controllers
                                 where travel.CDepartmentId == DepId &&
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -259,6 +265,7 @@ namespace MyHR_Web.Controllers
                                       travel.CApplyNumber.ToString().Contains(AppNum) &&
                                       travel.CEmployeeId.ToString().Contains(Id) &&
                                       user.CEmployeeName.Contains(Name)
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -294,6 +301,7 @@ namespace MyHR_Web.Controllers
                     var table = from travel in DB.TTravelExpenseApplications
                                 join user in DB.TUsers on travel.CEmployeeId equals user.CEmployeeId
                                 where travel.CDepartmentId == DepId
+                                orderby travel.CApplyDate descending
                                 select new
                                 {
                                     user.CEmployeeName,
@@ -331,6 +339,7 @@ namespace MyHR_Web.Controllers
                             join user in DB.TUsers
                             on travel.CEmployeeId equals user.CEmployeeId
                             where travel.CDepartmentId == DepId
+                            orderby travel.CApplyDate descending
                             select new
                             {
                                 user.CEmployeeName,
@@ -396,7 +405,7 @@ namespace MyHR_Web.Controllers
                     CApplyNumber=t.CApplyNumber,
                     CEmployeeName=u.CEmployeeName,
                     CDepartmentId=u.CDepartmentId
-                }).OrderBy(t=>t.CApplyDate).Where(sc=>
+                }).OrderByDescending(t=>t.CApplyDate).Where(sc=>
                 sc.CDepartmentId==DepId&&
                 (status!=null?sc.CCheckStatus==status:true)&&
                 (start!=null?sc.CApplyDate>=start:true)&&

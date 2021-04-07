@@ -20,17 +20,15 @@
             width: 98%;
             margin-left: 10px;
         }
-
         #left {
             width: 30%;
             float: left;
         }
-
-        #right {
-            width: 69%;
-            float: right;
+        #right{
+            width:69%;
+            float:right;
         }
-        /*        #calendar{
+/*        #calendar{
             float:right;
             width:38%;
             margin-left:10px;
@@ -46,44 +44,54 @@
             <body onload="ShowTime()">
                 <form id="form1" runat="server" class="nowTime" style="background-color:white ;padding:20px; border-radius:10px">
                     ⽬前時間&nbsp:&nbsp<br /><div id="showbox"></div>
-                    <div id="showClock"><p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p></div>
+                    <div id="showClock">@*<p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p>*@</div>
                 </form>
             </body>
             <br />
-            <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button><br /><br />
-            <button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+            <div>
+                <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button>&nbsp&nbsp<button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
+            </div>
             @*<input type="button" class="btn btn-info" id="setFace" style="filter: grayscale(50%)" value="人臉辨識打卡設定" /><br /><br />
-                <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定" /><br /><br />*@
+            <input type="button" class="btn btn-info" id="setQR" style="filter: grayscale(50%)" value="QR Code打卡設定" /><br /><br />*@
             @*<a asp-action="Edit" class="btn btn-warning" style="filter: grayscale(50%)">補登打卡紀錄</a>*@
+            <div style="background-color:white ;padding:20px; border-radius:10px">
+                <p id="tip">溫馨小提醒&nbsp:&nbsp</p><hr />
+                <p id="tips">
+                    1.&nbsp上下班皆需打卡<br />
+                    2.&nbsp10:00(含)以後遲到需請假<br />
+                    3.&nbsp若有異常需補打卡<br />
+                    4.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
+                </p>
+            </div>
         </div>
         <div id="right">
             <section class="content">
-                <form method="post">
-                    <div style="background-color:white ;padding:20px; border-radius:10px">
-                        <h3>查詢條件</h3>
-                        <div class="row">
+                    <form method="post">
+                        <div style="background-color:white ;padding:20px; border-radius:10px">
+                            <h3>查詢條件</h3>
+                            <div class="row">
+                                <div class="col-md-6 form-group">
+                                    <label class="col-lg-3 control-label">起&nbsp:&nbsp</label>
+                                    <input type="date" name="sDate" id="sDate" class="absence" />
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="col-lg-3 control-label">迄&nbsp:&nbsp</label>
+                                    <input type="date" name="eDate" id="eDate" class="absence" />
+                                </div>
+                            </div>
+                            @*<div class="row">
                             <div class="col-md-6 form-group">
-                                <label class="col-lg-3 control-label">起&nbsp:&nbsp</label>
-                                <input type="date" name="sDate" id="sDate" class="absence" />
+                                <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
+                                    <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off" class="absence"value="1">當天</label>
+                                    <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" class="absence" checked value="2">當週</label>
+                                    <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off" class="absence"value="3">當月</label>
+                                </div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label class="col-lg-3 control-label">迄&nbsp:&nbsp</label>
-                                <input type="date" name="eDate" id="eDate" class="absence" />
+                                <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
                             </div>
+                        </div>*@
                         </div>
-                        @*<div class="row">
-                                <div class="col-md-6 form-group">
-                                    <div class="btn-group btn-group-toggle" data-toggle="buttons" style="filter: grayscale(50%)">
-                                        <label class="btn btn-info active"><input type="radio" name="options" id="option1" autocomplete="off" class="absence"value="1">當天</label>
-                                        <label class="btn btn-info"><input type="radio" name="options" id="option2" autocomplete="off" class="absence" checked value="2">當週</label>
-                                        <label class="btn btn-info"><input type="radio" name="options" id="option3" autocomplete="off" class="absence"value="3">當月</label>
-                                    </div>
-                                </div>
-                                <div class="col-md-6 form-group">
-                                    <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
-                                </div>
-                            </div>*@
-                    </div>
                     <hr />
                     <div id="absence_table">
                         <table id="example2" class="table table-bordered table-hover">
@@ -95,7 +103,7 @@
                                     <th>星期</th>
                                     <th>@Html.DisplayNameFor(model => model.COn)</th>
                                     <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                    <th>@Html.DisplayNameFor(model => model.CSatus)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CStatus)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -103,31 +111,31 @@
                                 @foreach (var item in Model)
                                 {
                                     count++;
-
-                                    <tr style="text-align:center">
-                                        <td>@count</td>
-                                        <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
-                                        <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
-                                        <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
-                                        <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                                        <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                        @{
-                                            if (item.CSatus == "異常")
-                                            {
-                                                <td id="status" name="status">@Html.ActionLink($"{item.CSatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
-                                            }
-                                            else
-                                            {
-                                                <td id="status" name="status">@Html.DisplayFor(modelItem => item.CSatus)</td>
-                                            }
+                                    
+                                <tr style="text-align:center">
+                                    <td>@count</td>
+                                    <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                                    <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
+                                    <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
+                                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                                    @{
+                                        if (item.CStatus == "異常")
+                                        {
+                                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
                                         }
-                                    </tr>
+                                        else
+                                        {
+                                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
+                                        }
+                                    }
+                                </tr>
                                 }
                             </tbody>
                         </table>
                     </div>
                 </form>
-            </section>
+                </section>
         </div>
     </section>
 </div>
@@ -160,36 +168,53 @@
     );
 
     //判斷昨天是否有打卡
-    @*$(function () {
+    document.addEventListener("DOMContentLoaded", function () {
         var d = new Date();
         d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
         var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-        var data ="," + ysd + ",";
-        $.post(
-            "@Url.Action("yesterdayVal")",
-            { "ysd": JSON.stringify(data) },
-            function () { },"json"
-        )
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/yesterdayVal",
+            data: { ysd: ysd },
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
 
         console.log(ysd);
-    })*@
+
+    }, false);
+
 
     //打上班卡
         function clockOn() {
             var id = @a;
             var now = new Date();
             var date = now.toISOString().substr(0,10);
-            var nowtime = now.toLocaleString('chinese', { hour12: false });
-            var data = id + "," + date+","+ nowtime ;
 
-            $.post(
-                "@Url.Action("getClockString_on")",
-                { "c": JSON.stringify(data) },
-                function (data) {
-                }, "json"
-            )
-            var content = document.getElementById("showClock");
-            content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_on",
+                data: { id: @a, date: date},
+                success: function (data) {
+                    console.log("a");
+                    $("#absence_table").html(data);
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+
+            //var content = document.getElementById("showClock");
+            //content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+
         };
 
     //打下班卡
@@ -197,31 +222,28 @@
             var id = @a;
             var now = new Date();
             var date = now.toISOString().substr(0,10);
-            var nowtime = now.toLocaleString('chinese', { hour12: false });
-            var data = id + "," + date+","+ nowtime ;
 
-            $.post(
-                "@Url.Action("getClockString_off")",
-                { "c": JSON.stringify(data) },
-                function (data) {
-                }, "json"
-            )
-            var content = document.getElementById("showClock");
-            content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_off",
+                data: { id: @a, date: date},
+                success: function (data) {
+                    console.log("a");
+                    $("#absence_table").html(data);
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+            //var content = document.getElementById("showClock");
+            //content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+
         };
 
     $(".absence").change(function () {
         var sDate = $("#sDate").val();
         var eDate = $("#eDate").val();
-        //var options = document.getElementsByName("options");
-        //var opVal = "";
-        //for (var i = 0; i < options.length; i++) {
-        //    var elem = options.item(i);
-        //    if (elem.checked) {
-        //        opVal = elem.value;
-        //        break;
-        //    }
-        //}
         console.log(sDate + "/" + eDate );
 
         $.ajax({
@@ -239,4 +261,3 @@
         })
     });
 </script>
-
