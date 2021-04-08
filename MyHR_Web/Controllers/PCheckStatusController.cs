@@ -11,7 +11,7 @@ namespace MyHR_Web.Controllers
     public class PCheckStatusController : BaseController
     {
         dbMyCompanyContext db = new dbMyCompanyContext();
-        List<CPropertyViewModel> plist = new List<CPropertyViewModel>();
+        
         public IActionResult List(DateTime? startdate = null, DateTime? enddate = null)
         {
             ViewBag.stardate = startdate;
@@ -26,50 +26,30 @@ namespace MyHR_Web.Controllers
             {
                 tl = tl.Where(e => e.CLostAndFoundDate < enddate.Value);
             }
-            
-            var propertytable = from p in tl
-                                join d in db.TLostAndFoundSubjects on p.CPropertyCheckStatusId equals d.CPropertySubjectId
-                                join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
-                                join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
-                                join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
-                                select new
-                                {
-                                    CPropertyId = p.CPropertyId,
-                                    CDeparmentId = p.CDeparmentId,
-                                    CEmployeeId = p.CEmployeeId,
-                                    CEmployeeName=u.CEmployeeName,
-                                    CPhone = p.CPhone,
-                                    CPropertySubjectId = d.CPropertySubjectId,
-                                    CPropertyCategoryId = e.CPropertyCategoryId,
-                                    CPropertyPhoto = p.CPropertyPhoto,
-                                    CProperty = p.CProperty,
-                                    CLostAndFoundDate = p.CLostAndFoundDate,
-                                    CLostAndFoundSpace = p.CLostAndFoundSpace,
-                                    CtPropertyDescription = p.CtPropertyDescription,
-                                    CPropertyCheckStatusId = f.CPropertyCheckStatusId
-                                };
 
-            foreach (var pitem in propertytable)
-            {
-                CPropertyViewModel cvm = new CPropertyViewModel()
-                {
-                    CPropertyId = pitem.CPropertyId,
-                    CDeparmentId = pitem.CDeparmentId,
-                    CEmployeeId = pitem.CEmployeeId,
-                    CEmployeeName =pitem.CEmployeeName,
-                    CPhone = pitem.CPhone,
-                    CPropertySubjectId = pitem.CPropertySubjectId,
-                    CPropertyCategoryId = pitem.CPropertyCategoryId,
-                    CPropertyPhoto = pitem.CPropertyPhoto,
-                    CProperty = pitem.CProperty,
-                    CLostAndFoundDate = pitem.CLostAndFoundDate,
-                    CLostAndFoundSpace = pitem.CLostAndFoundSpace,
-                    CtPropertyDescription = pitem.CtPropertyDescription,
-                    CPropertyCheckStatusId = pitem.CPropertyCheckStatusId
-                };
-                plist.Add(cvm);
-            }
-            return View(plist);
+            var propertytable = (from p in tl
+                                 join d in db.TLostAndFoundSubjects on p.CPropertySubjectId equals d.CPropertySubjectId
+                                 join e in db.TLostAndFoundCategories on p.CPropertyCategoryId equals e.CPropertyCategoryId
+                                 join f in db.TLostAndFoundCheckStatuses on p.CPropertyCheckStatusId equals f.CPropertyCheckStatusId
+                                 join u in db.TUsers on p.CEmployeeId equals u.CEmployeeId
+                                 select new CPropertyViewModel
+                                 {
+                                     CPropertyId = p.CPropertyId,
+                                     CDeparmentId = p.CDeparmentId,
+                                     CEmployeeId = u.CEmployeeId,
+                                     CEmployeeName = u.CEmployeeName,
+                                     CPhone = p.CPhone,
+                                     CPropertySubjectId = d.CPropertySubjectId,
+                                     CPropertyCategoryId = e.CPropertyCategoryId,
+                                     CPropertyPhoto = p.CPropertyPhoto,
+                                     CProperty = p.CProperty,
+                                     CLostAndFoundDate = p.CLostAndFoundDate,
+                                     CLostAndFoundSpace = p.CLostAndFoundSpace,
+                                     CtPropertyDescription = p.CtPropertyDescription,
+                                     CPropertyCheckStatusId = f.CPropertyCheckStatusId
+                                 }).ToList();
+
+            return View(propertytable);
         }
       
         public IActionResult pUdate(int? id)
@@ -85,7 +65,7 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
-            
+
             return RedirectToAction("List");
         }
 
@@ -104,6 +84,7 @@ namespace MyHR_Web.Controllers
                 }
 
             }
+
             foreach (var i in list)
             {
                 TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == i);
@@ -116,8 +97,6 @@ namespace MyHR_Web.Controllers
             }
 
             return Json(new { result = true, msg = "成功" });
-
-
         }
     }
 }
