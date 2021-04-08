@@ -1,0 +1,376 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.CInterviewListViewModel>
+
+@{
+    ViewData["Title"] = "List";
+    var status = ViewBag.InterViewStatus;
+    var dept = ViewBag.Dept;
+}
+
+<header>
+    <style>
+        #popupcontent {
+            position: absolute;
+            visibility: hidden;
+            overflow: hidden;
+            border: 1px solid #CCC;
+            background-color: #F9F9F9;
+            border: 1px solid #333;
+            padding: 5px;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col {
+            flex-grow: 1;
+            margin: 15px;
+            text-align: center;
+            font-size: 20px;
+            font-family: 微軟正黑體;
+            font-weight: normal;
+        }
+
+        h2 {
+            background-color: #cbb2ae;
+            border-left: 5px solid #808080;
+            font-family: "微软雅黑", "宋体", "黑体", Arial;
+            font-size: 25px;
+            height: 80px;
+            line-height: 80px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px #222222;
+            color: #FFFFFF;
+            padding-left: 10px;
+        }
+    </style>
+</header>
+
+<div class="content-wrapper">
+    <section class="content-header">
+        <div onclick="location.href='/Interview/List';">
+            <h2>面試系統</h2>
+        </div>
+
+        <br /><br />
+              <div id="tabpage">
+                  @*<p>
+                      <a asp-action="Create">Create New</a>
+                  </p>*@
+
+                  <div style="background-color:white ;padding:20px; border-radius:10px">
+                      <h3>查詢條件</h3>
+                      <form method="post">
+                          @*<div class="row">
+                              <div class="col-md-6 form-group">
+                                  <label class="col-lg-3 control-label">請假日期(起) :</label>
+                                  <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
+                              </div>
+                              <div class="col-md-6 form-group">
+                                  <label class="col-lg-3 control-label">請假日期(迄) :</label>
+                                  <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
+                              </div>
+                          </div>*@
+                          <div class="row">
+                              <div class="col-md-6 form-group">
+                                  <label class="col-lg-3 control-label">狀態:</label>
+                                  <select class="filter" id="Filter_Status">
+                                      <option value="" disabled selected>請選擇</option>
+                                      @for (int i = 0; i < status.Count; i++)
+                                      {
+                                          <option value="@status[i].InterViewStatusId">@status[i].InterViewStatus</option>
+                                      }
+                                  </select>
+                              </div>
+
+                              <div class="col-md-6 form-group">
+                                  <label class="col-lg-3 control-label">部門:</label>
+                                  <select class="filter" id="Filter_Dept">
+                                      <option value="" disabled selected>請選擇</option>
+                                      @for (int i = 0; i < dept.Count; i++)
+                                      {
+                                          <option value="@dept[i].CDepartmentId">@dept[i].CDepartment</option>
+                                      }
+                                  </select>
+                              </div>
+
+                              <div class="col-md-6 form-group">
+                                  <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
+
+                              </div>
+                          </div>
+
+                      </form>
+                  </div>
+
+                  <div id="idInterview">
+                      <div class="card">
+                          <table class="table table-bordered table-hover">
+                              <thead>
+                                  <tr style="text-align:center">
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CInterVieweeId)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CInterVieweeGender)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CInterVieweeName)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CEmployeeEnglishName)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CPhone)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CEmail)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CAddress)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CBirthday)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CAge)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CPhoto)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CEducation)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CInterViewDate)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CDepartmentName)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CJobTitleName)
+                                      </th>
+                                      <th>
+                                          @Html.DisplayNameFor(model => model.CStatus)
+                                      </th>
+                                      <th></th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  @foreach (var item in Model)
+                                  {
+                                      <tr>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CInterVieweeId)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CInterVieweeGender)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CInterVieweeName)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CEmployeeEnglishName)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CPhone)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CEmail)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CAddress)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CBirthday)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CAge)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CPhoto)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CEducation)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CInterViewDate)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CDepartmentName)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CJobTitleName)
+                                          </td>
+                                          <td>
+                                              @Html.DisplayFor(modelItem => item.CStatus)
+                                          </td>
+
+                                          <td>
+                                              @*<a class="btn btn-success" onclick="showModal(@item.CInterVieweeId)">Edit</a>*@
+                                              @*<a href="#edit" class="btn btn-success" data-toggle="modal" data-orderId="@item.CInterVieweeId">Edit</a>*@
+                                              @*<a asp-action="Edit" asp-route-id="@item.CInterVieweeId" class="btn btn-success">編輯</a>*@
+                                              <a class="btn btn-success" onclick="edit(@item.CInterVieweeId)">編輯</a>
+                                              <a class="btn btn-secondary" onclick="detail(@item.CInterVieweeId)">歷程</a>
+                                              <a asp-action="Delete" asp-route-id="@item.CInterVieweeId" class="btn btn-danger" onclick="return (confirm('確認刪除?'))">刪除</a>
+                                          </td>
+                                      </tr>
+                                  }
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+
+                  @*<a href="#edit" data-toggle="modal" class="btn btn-success btn-xs" data-orderId="需要傳遞的值">修改</a>*@
+
+                  <div class="modal" tabindex="-1" role="dialog" id="edit">
+                      <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title">Modal title</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                  <form class="form-horizontal" id="updateDeptFom">
+                                      <div class="form-group">
+                                          <label for="updateId" class="control-label col-md-2">Id</label>
+                                          <div class="col-md-10">
+                                              <input class="form-control" type="text" id="updateDeptId" name="id" readonly />
+                                          </div>
+                                      </div>
+                                      <div class="form-group">
+                                          <label for="updateName" class="control-label col-md-2">部門名稱</label>
+                                          <div class="col-md-10">
+                                              <input class="form-control" type="text" id="updateDeptName" name="name" />
+                                          </div>
+                                      </div>
+                                  </form>
+                              </div>
+                              <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                  <button type="button" class="btn btn-primary">Save changes</button>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  @* start *@
+                  @*<a data-toggle="modal" data-id="ISBN564541" title="Add this item" class="open-AddBookDialog btn btn-primary" href="#addBookDialog">test</a>*@
+
+                  <div class="modal hide" id="addBookDialog">
+                      <div class="modal-header">
+                          <button class="close" data-dismiss="modal">×</button>
+                          <h3>Modal header</h3>
+                      </div>
+                      <div class="modal-body">
+                          <p>some content</p>
+                          <input type="text" name="bookId" id="bookId" value="" />
+                      </div>
+                  </div>
+                  @* end *@
+              </div>
+    </section>
+</div>
+
+<script>
+    
+    $(document).on("click", ".open-AddBookDialog", function () {
+        var myBookId = $(this).data('id');       
+        // As pointed out in comments, 
+        // it is superfluous to have to manually call the modal.
+        // $('#addBookDialog').modal('show');
+    });
+
+    function updateDpet() {
+        // 初始化部門修改信息下拉列表
+        $('#updateDeptMd').on('show.bs.modal', function (e) {
+            var id = $(e.relatedTarget).data('orderid'); //根據上面a標籤中傳遞的data-orderid取值,這裏也可以通過data-id取值
+            //var data =  $('#updateDeptMd').data(); 也可以直接取data對象再取值
+            console.log(id);
+            // 到後臺獲取部門信息
+            $.ajax({
+                url: '/dept/queryId',
+                type: 'POST',
+                data: { id: id },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data);
+                    /*查詢empId*/
+                    $('#updateDeptId').val(data.id);
+                    $("#updateDeptName").val(data.name);
+                },
+                error: function () {
+                    alert('出錯了');
+                }
+            });
+        });
+    }
+
+    $(".filter").change(function () {
+        cate = $("#Filter_Status").val();
+        dept = $("#Filter_Dept").val();
+        console.log(cate);
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Interview/Filter",
+            data: { cate: cate , dept: dept},
+            success: function (data) {
+                console.log("ajax");
+                $("#idInterview").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+    function detail(id) {
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Interview/Details",
+            data: { id: id },
+            success: function (data) {
+                console.log("detail");
+                $('#tabpage').html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    }
+
+    function edit(id) {
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Interview/Edit",
+            data: { id: id },
+            success: function (data) {
+                console.log("edit");
+                $('#tabpage').html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    }
+
+    function editSubmit(obj) {        
+        var result = confirm("確認修改?");        
+        if (result) {
+            $.ajax({
+                type: "post",
+                dataType: "html",
+                url: "/Interview/Edit",
+                data: { i: obj },
+                success: function (data) {
+                    console.log("edit");                    
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            });
+        }
+    }
+</script>
