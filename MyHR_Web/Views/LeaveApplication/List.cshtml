@@ -7,7 +7,6 @@
 }
 <head>
     <link href="~/css/Absence.css" rel="stylesheet" />
-
 </head>
 <form method="post">
     <div class="content-wrapper">
@@ -15,93 +14,116 @@
             <h2>請假申請單審核</h2>
         </section>
         <section class="content">
-            <div class="container-fluid">
+            <div style="background-color:white ;padding:20px; border-radius:10px">
+                <h3>查詢條件</h3>
                 <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">
-                                    查詢條件<br />
-                                    申請日查詢&nbsp&nbsp起&nbsp:&nbsp <input type="date" name="sDate" id="sDate"/>&nbsp迄&nbsp:&nbsp<input type="date" name="eDate" id="eDate"/>
-                                    審核狀態 :
-                                    <select class="leave_" id="leave_Status">
-                                        @for (int i = 0; i < Status.Count; i++)
-                                        {
-                                            <option value="@Status[i].CCheckStatusId">@Status[i].CCheckStatus</option>
-                                        }
-                                    </select>&nbsp&nbsp
-                                    假別 :
-                                    <select class="leave_" id="leave_Category">
-                                        @for (int i = 0; i < Category.Count; i++)
-                                        {
-                                            <option value="@Category[i].CLeaveId">@Category[i].CLeaveCategory</option>
-                                        }
-                                    </select>&nbsp&nbsp<br />
-                                    單號搜尋&nbsp:&nbsp<input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />&nbsp&nbsp
-                                    員編搜尋&nbsp:&nbsp<input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />&nbsp&nbsp
-                                    姓名搜尋&nbsp:&nbsp<input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />&nbsp&nbsp
-                                    <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /><br />
-                                    <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />
-                                    <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
-                                </h3>
-                            </div>
-                            <div class="card-body" id="Leave_table">
-                                <table id="example2" class="table table-bordered table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
-                                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
-                                            <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
-                                            <th>@Html.DisplayNameFor(model => model.employeeName)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CLeaveStartTime)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CLeaveEndTime)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CLeaveCategory)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
-                                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
-                                            <th>審核</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model)
-                                        {
-                                            <tr>
-                                                <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
-                                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
-                                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
-                                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
-                                                <td>@Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)</td>
-                                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
-                                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
-                                                @{
-                                                    if (item.CCheckStatus == 1)
-                                                    {
-                                                        <td>
-                                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
-                                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)", @type = "button" })
-                                                        </td>
-                                                    }
-                                                    else
-                                                    {
-                                                        <td>
-                                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button" })
-                                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary disabled", @style = "filter: grayscale(50%)", @type = "button" })
-                                                        </td>
-                                                    }
-                                                }
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假申請日期(起)&nbsp:&nbsp</label>
+                        <input type="date" name="sDate" id="sDate" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假申請日期(迄)&nbsp:&nbsp</label>
+                        <input type="date" name="eDate" id="eDate" />
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假單號&nbsp:&nbsp</label>
+                        <input type="text" name="txtAppNum" placeholder="輸入單號" autocomplete="off" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">員工編號&nbsp:&nbsp</label>
+                        <input type="text" name="txtId" placeholder="輸入員編" autocomplete="off" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
+                        <input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">審核狀態&nbsp:&nbsp</label>
+                        <select class="leave_" id="leave_Status">
+                            <option value="" disabled selected>請選擇</option>
+                            @for (int i = 0; i < Status.Count; i++)
+                            {
+                                <option value="@Status[i].CCheckStatusId">@Status[i].CCheckStatus</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <input type="button" id="AllPass" value="勾選通過" class="btn btn-success" style="filter: grayscale(50%)" />&nbsp&nbsp&nbsp
+                        <input type="button" id="AllFail" value="勾選退件" class="btn btn-secondary" style="filter: grayscale(50%)" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">假別&nbsp:&nbsp</label>
+                        <select class="leave_" id="leave_Category">
+                            <option value="" disabled selected>請選擇</option>
+                            @for (int i = 0; i < Category.Count; i++)
+                            {
+                                <option value="@Category[i].CLeaveId">@Category[i].CLeaveCategory</option>
+                            }
+                        </select>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+                        <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" /><br />
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div id="Leave_table">
+                <table id="example2" class="table table-bordered table-hover">
+                    <thead>
+                        <tr style="text-align:center">
+                            <th><input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" /></th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                            <th style="display:none">@Html.DisplayNameFor(model => model.CDepartmentId)</th>
+                            <th>@Html.DisplayNameFor(model => model.CEmployeeId)</th>
+                            <th>@Html.DisplayNameFor(model => model.employeeName)</th>
+                            <th>@Html.DisplayNameFor(model => model.CApplyDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.CLeaveStartTime)</th>
+                            <th>@Html.DisplayNameFor(model => model.CLeaveEndTime)</th>
+                            <th>@Html.DisplayNameFor(model => model.CLeaveCategory)</th>
+                            <th>@Html.DisplayNameFor(model => model.CReason)</th>
+                            <th>@Html.DisplayNameFor(model => model.CCheckStatus)</th>
+                            <th>審核</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr style="text-align:center">
+                                <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
+                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
+                                <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
+                                <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
+                                <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CApplyDate))</td>
+                                <td>@Html.DisplayFor(modelItem => item.CLeaveStartTime)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CLeaveEndTime)</td>
+                                <td>@Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)</td>
+                                <td>@Html.DisplayFor(modelItem => item.CReason)</td>
+                                <td>@Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)</td>
+                                @{
+                                    if (item.CCheckStatus == 1)
+                                    {
+                                        <td>
+                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)", @type = "button" })
+                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary", @style = "filter: grayscale(50%)", @type = "button" })
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td>
+                                            @Html.ActionLink("通過", "pass", new { id = item.CApplyNumber }, new { @class = "btn btn-success disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                            @Html.ActionLink("退件", "fail", new { id = item.CApplyNumber }, new { @class = "btn btn-secondary disabled", @style = "filter: grayscale(50%)", @type = "button" })
+                                        </td>
+                                    }
+                                }
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
@@ -145,6 +167,7 @@
         }, false);
         }, false);
 
+
         /*勾選退件*/
         document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("AllFail").addEventListener("click", function () {
@@ -170,18 +193,22 @@
     }, false);
 
     $(".leave_").change(function () {
-        var Cate = $("#Leave_Cate").val()
-        var Status = $("#Leave_Statues").val()
+        var Cate = $("#leave_Category").val()
+        var Status = $("#leave_Status").val()
         var sDate = $("#sDate").val()
         var eDate = $("#eDate").val()
+        //console.log(Cate);
+        //console.log(Status);
+        //console.log(sDate);
+        //console.log(eDate);
 
         $.ajax({
             type: "get",
             dataType: "html",
-            url: "/LeaveApplication/dateSearch",
+            url: "/LeaveApplication/date_search",
             data: { cate: Cate, status: Status, start: sDate, end: eDate },
             success: function (data) {
-                console.log("有進去");
+                //console.log("test");
                 $("#Leave_table").html(data);
             },
             error: function (msg) {

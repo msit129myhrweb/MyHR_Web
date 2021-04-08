@@ -9,7 +9,7 @@
     }
     else if (e.shiftKey && e.keyCode == 51) { //Shift + 3
         $("#txtAccount").val(5);
-        $("#txtPassword").val(456);
+        $("#txtPassword").val(5245);
     }
     else  if (e.shiftKey && e.keyCode == 52) { //Shift + 4
         $("#txtAccount").val(7);

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
+@{
+    ViewData["date_search"] = "date_search";
+}
+<div id="absence_table">
+    <table id="example2" class="table table-bordered table-hover">
+        <thead>
+            <tr style="text-align:center">
+                <th>序</th>
+                <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.CDate)</th>
+                <th>星期</th>
+                <th>@Html.DisplayNameFor(model => model.COn)</th>
+                <th>@Html.DisplayNameFor(model => model.COff)</th>
+                <th>@Html.DisplayNameFor(model => model.CStatus)</th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int count = 0; }
+            @foreach (var item in Model)
+            {
+                count++;
+
+                <tr style="text-align:center">
+                    <td>@count</td>
+                    <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                    <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
+                    <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
+                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                    @{
+                        if (item.CStatus == "異常")
+                        {
+                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                        }
+                        else
+                        {
+                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
+                        }
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

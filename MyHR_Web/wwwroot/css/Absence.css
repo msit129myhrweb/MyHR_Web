@@ -12,8 +12,8 @@
 }
 
 .button {
-    width: 250px;
-    height: 100px;
+    width: 48%;
+    height: 200px;
     display: inline-block;
     padding: 15px 25px;
     font-size: 24px;
@@ -26,6 +26,7 @@
     border: none;
     border-radius: 10px;
     box-shadow: 0 9px #999;
+    
 }
 
     .button:hover {
@@ -47,9 +48,14 @@
 }
 
 #form1 {
-    font-size: 40px;
+    font-size: 30px;
 }
-
+#tip {
+    font-size: 25px;
+}
+#tips {
+    font-size: 20px;
+}
 #setFace, #setQR, #history {
     width: 250px;
 }

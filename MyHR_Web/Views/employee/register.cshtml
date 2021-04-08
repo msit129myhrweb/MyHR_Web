@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "register";
+    List<TUserDepartment> userDepartments = ViewBag.CDepartmentId;
+    List<TUserJobTitle> userJobTitles = ViewBag.CJobTitleId;
+    List<TUserOnBoardStatus> userOnBoardStatuses = ViewBag.COnBoardStatusId;
 }
 
 <style>
@@ -81,27 +84,25 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CDepartmentId" class="control-label"></label>
-                                @*<input asp-for="CDepartmentId" class="form-control" />*@
-                                <select asp-for="CDepartmentId" class="form-control">
-                                    <option value="" style="display: none">請選擇</option>
-                                    <option value="1" class="input">管理部</option>
-                                    <option value="2" class="input">企劃部</option>
-                                    <option value="3" class="input">研發部</option>
-                                    <option value="4" class="input">資訊部</option>
-                                    <option value="5" class="input">總務部</option>
-                                    <option value="6" class="input">財會部</option>
-                                </select>
+                            <select asp-for="CDepartmentId" class="form-control">
+                                <option value="" style="display: none">請選擇</option>
+                                @foreach (var d in userDepartments)
+                                {
+                                    <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+
+                                } 
+                            </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CJobTitleId" class="control-label"></label>
-                                @*<select asp-for="CJobTitleId" class="form-control" asp-items="ViewBag.CJobTitleId"></select>*@
-                                <select asp-for="CJobTitleId" class="form-control" style="color:black">
-                                    <option value="" style="display: none">請選擇</option>
-                                    <option value="1">總經理</option>
-                                    <option value="2">經理</option>
-                                    <option value="3">專員</option>
-                                </select>
+                            <select asp-for="CJobTitleId" class="form-control" style="color:black">
+                                <option value="" style="display: none">請選擇</option>
+                                @foreach (var j in userJobTitles)
+                                {
+                                    <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
+                                }
+                            </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CSupervisor" class="control-label"></label>
@@ -135,7 +136,6 @@
                             </div>
                             <div class="form-group" style="display:none">
                                 <label asp-for="COnBoardStatusId" class="control-label"></label>
-                                @*<select asp-for="COnBoardStatusId" class="form-control" asp-items="ViewBag.COnBoardStatusId"></select>*@
                                 <select asp-for="COnBoardStatusId">
                                     <option value="1" selected>1</option>
                                 </select>
@@ -143,7 +143,6 @@
                             <div class="form-group" style="display:none">
                                 <label asp-for="CAccountEnable" class="control-label"></label>
                                 <input asp-for="CAccountEnable" class="form-control" value="0">
-                                @*<input asp-for="CAccountEnable" class="form-control" />*@
                                 <span asp-validation-for="CAccountEnable" class="text-danger"></span>
                             </div>
                             <div class="form-group">

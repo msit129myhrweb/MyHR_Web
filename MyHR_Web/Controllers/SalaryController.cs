@@ -277,14 +277,13 @@ namespace MyCompany_.NetCore_Janna.Controllers
                        CJobTitle = c.CJobTitle.CJobTitle,
                        Month_Salary = c.CJobTitle.CJobTitleSalary,
                        CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c => c.CAmont),
-                       CAmont_TAbsense = c.TAbsences
+   CAmont_TAbsense = c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
-
 
                        //CAmont_Leave = Leave_ShouldtopayTRYYYYYY(c.CEmployeeId),
 
@@ -317,10 +316,9 @@ namespace MyCompany_.NetCore_Janna.Controllers
             }
 
 
-            //傳送部門下拉是選單
+   //傳送部門下拉是選單
             var Dept = MyHR.TUserDepartments.Distinct().ToList();
             ViewBag.DEPT = Dept;
-
             //傳送職位下拉是選單
 
             var JobTitle = MyHR.TUserJobTitles.Distinct().ToList();
@@ -470,9 +468,8 @@ namespace MyCompany_.NetCore_Janna.Controllers
                         select new
                         {
                             countLate = g.Count(),
-                            below30 = g.Count(c => c.COn.Value.Minutes < 30),
+  below30 = g.Count(c => c.COn.Value.Minutes < 30),
                             up30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
-
                             moneybelow30 = g.Count(c => c.COn.Value.Minutes < 30) * 44,
                             moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 96
 

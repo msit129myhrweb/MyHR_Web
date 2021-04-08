@@ -12,7 +12,7 @@ using MyHR_Web.ViewModel;
 using prjCoreDemo.ViewModel;
 
 using System.IO;
-
+using Grpc.Core;
 
 namespace MyHR_Web.Controllers
 {  //現在版本!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -41,8 +41,24 @@ namespace MyHR_Web.Controllers
         public IActionResult ViewPhoto(int id)
         {
             var photo = db.TUsers.FirstOrDefault(u => u.CEmployeeId == id);
-            MemoryStream ms = new MemoryStream(photo.CPhoto);
-            return new FileStreamResult(ms, "image/JPG");
+           
+            //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images", "error.jpg");
+            string path =Path.GetFullPath( Path.Combine(@"wwwroot/images", "error.jpg"));
+
+            if (photo.CPhoto != null)
+            {
+                MemoryStream ms = new MemoryStream(photo.CPhoto);
+                return new FileStreamResult(ms, "image/JPG");
+            }
+            else
+            {  
+                FileStream error = new FileStream(path, FileMode.Open, FileAccess.Read);
+                return new FileStreamResult(error, "image/JPG");
+            }
+           
+           //參考網址:https://reurl.cc/2bvnyE
+           //參考網址:https://qa.1r1g.com/sf/ask/13024371/
+           //參考網址:https://dotblogs.com.tw/shinyo.her/2010/10/05/18107
         }
 
 
