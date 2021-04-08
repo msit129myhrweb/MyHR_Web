@@ -3,7 +3,7 @@
                  }
 
 
-<h2  style="background-color:cadetblue"><font>@ViewBag.MONTH</font>月遲到紀錄</h2>
+<h2  style="background-color:cadetblue">3月遲到紀錄</h2>
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -23,43 +23,43 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                            <tr style="text-align:center">
-                                <td>
-                                    @Html.DisplayNameFor(model => model.Count_Latebelow30)
-                                </td>
+                    <tr style="text-align:center">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Count_Latebelow30)
+                        </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Count_Latebelow30)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CAmont_Latebelow30)
-                                </td>
-                            </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Count_Latebelow30)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CAmont_Latebelow30)
+                        </td>
+                    </tr>
 
-                            <tr style="text-align:center">
-                                <td>
-                                    @Html.DisplayNameFor(model => model.Count_Lateup30)
-                                </td>
+                    <tr style="text-align:center">
+                        <td>
+                            @Html.DisplayNameFor(model => model.Count_Lateup30)
+                        </td>
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Count_Lateup30)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CAmont_Lateup30)
-                                </td>
-                            </tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Count_Lateup30)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CAmont_Lateup30)
+                        </td>
+                    </tr>     
+                    
+                    
 
+                    <tr style="text-align:center">
+                        <td></td>
+                        <td style="border-top:double">Total:</td>
 
+                      
+                        <td style="border-top:double">@Html.DisplayFor(modelItem => item.CAmont_TAbsense)</td>
 
-                            <tr style="text-align:center">
-                                <td></td>
-                                <td style="border-top:double">Total:</td>
-                                <td style="border-top:double">@Html.DisplayFor(modelItem => item.CAmont_TAbsense)</td>
-                            </tr>
-
-            
-                        }
-
+                    </tr>
+                            }
 
                     </tbody>
                 </table>
