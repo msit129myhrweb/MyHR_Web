@@ -8,7 +8,9 @@
         autoplaySpeed: 2000,
         dots: false,
         centerMode: true,
-        centerPadding: '0px',
+        centerPadding: '0px',    
+        prevArrow: $('.prev'),
+        nextArrow: $('.next'),
     });
 
 })

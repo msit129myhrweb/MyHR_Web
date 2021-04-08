@@ -15,97 +15,6 @@
     <link href="~/css/Index_Slider.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <style type="text/css">
-                html, body {
-                    margin: 0;
-                    padding: 0;
-                }
-
-                * {
-                    box-sizing: border-box;
-                }
-                /*        .wrapper {
-                    position: relative;
-                    width: 500px;
-                    height: 300px;
-                    overflow: hidden;
-                    margin: 0 auto;
-                }
-        */
-                /*        ul {
-                    margin: 0;
-                    padding: 0;
-                    position: absolute;
-                }
-        */
-                li {
-                    margin: 0;
-                    padding: 0;
-                    list-style: none;
-                }
-
-                ul.slides {
-                    width: 5000px;
-                    left: 0px;
-                    transition: all .5s;
-                }
-
-                    ul.slides li {
-                        width: 500px;
-                        height: 300px;
-                        overflow: hidden;
-                        float: left;
-                    }
-
-                        ul.slides li img {
-                            width: 100%;
-                            height: 100%;
-                            object-fit: cover;
-                        }
-
-                .dot {
-                    bottom: 10px;
-                    width: 100%;
-                    display: flex;
-                    justify-content: center;
-                }
-
-                    .dot li {
-                        border: 1px solid #fff;
-                        margin: 0 5px;
-                        width: 24px;
-                        height: 10px;
-                    }
-
-                .slide_btn {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    top: 0;
-                    bottom: 0;
-                    width: 30px;
-                    color: #fff;
-                    position: absolute;
-                    font-size: 24px;
-                }
-
-                #prevSlide {
-                    left: 0;
-                }
-
-                #nextSlide {
-                    right: 0;
-                }
-
-                .slide_btn i {
-                    color: rgba(255,255,255,.6);
-                    transition: .5s;
-                }
-
-                .slide_btn:hover i {
-                    color: rgba(255,255,255,1);
-                }
-    </style>
 </head>
 
 <body>
@@ -166,375 +75,99 @@
             </div>
             <div class="for_slick_slider autoplay">
                 <div class="item">
-                    <img id="slide1" src="~/images/slides_images/0.png" alt="">
+                    <img src="~/images/slides_images/78f9e76820ddce34ba0e5b8ea151a7094b990f7f.jpeg" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide2" src="~/images/slides_images/1.png" alt="">
+                    <img src="~/images/slides_images/employee.jpg" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide3" src="~/images/slides_images/2.png" alt="">
+                    <img src="~/images/slides_images/employee_recognition-908535308-5c5b362a46e0fb0001587318.jpg" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide4" src="~/images/slides_images/3.png" alt="">
+                    <img src="~/images/slides_images/Employee-Experience.png" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide5" src="~/images/slides_images/4.png" alt="">
+                    <img src="~/images/slides_images/employee-incentive-travel.jpg" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide6" src="~/images/slides_images/5.png" alt="">
+                    <img src="~/images/slides_images/The-Divide_6x4.jpg" />
                     <div class="overlay"></div>
                 </div>
                 <div class="item">
-                    <img id="slide7" src="~/images/slides_images/6.png" alt="">
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img id="slide8" src="~/images/slides_images/7.png" alt="">
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img id="slide9" src="~/images/slides_images/8.png" alt="">
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img id="slide10" src="~/images/slides_images/9.png" alt="">
+                    <img src="~/images/slides_images/unnamed.jpg" />
                     <div class="overlay"></div>
                 </div>
             </div>
-                <div class="container-fluid">
-                    TO DO List
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">
-                                <i class="ion ion-clipboard mr-1"></i>
-                                To Do List
-                            </h3>
+            <div class="container-fluid">
 
-                            <div class="card-tools">
-                                <ul class="pagination pagination-sm">
-                                    <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">1</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">3</a></li>
-                                    <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        /.card-header
-                        <div class="card-body">
-                            <ul class="todo-list" data-widget="todo-list">
-                                <li>
-                                    drag handle
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    checkbox
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo1" id="todoCheck1">
-                                        <label for="todoCheck1"></label>
-                                    </div>
-                                    todo text
-                                    <span class="text">Design a nice theme</span>
-                                    Emphasis label
-                                    <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
-                                    General tools such as edit or delete
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
-                                        <label for="todoCheck2"></label>
-                                    </div>
-                                    <span class="text">Make the theme responsive</span>
-                                    <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo3" id="todoCheck3">
-                                        <label for="todoCheck3"></label>
-                                    </div>
-                                    <span class="text">Let theme shine like a star</span>
-                                    <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo4" id="todoCheck4">
-                                        <label for="todoCheck4"></label>
-                                    </div>
-                                    <span class="text">Let theme shine like a star</span>
-                                    <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo5" id="todoCheck5">
-                                        <label for="todoCheck5"></label>
-                                    </div>
-                                    <span class="text">Check your messages and notifications</span>
-                                    <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                                <li>
-                                    <span class="handle">
-                                        <i class="fas fa-ellipsis-v"></i>
-                                        <i class="fas fa-ellipsis-v"></i>
-                                    </span>
-                                    <div class="icheck-primary d-inline ml-2">
-                                        <input type="checkbox" value="" name="todo6" id="todoCheck6">
-                                        <label for="todoCheck6"></label>
-                                    </div>
-                                    <span class="text">Let theme shine like a star</span>
-                                    <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
-                                    <div class="tools">
-                                        <i class="fas fa-edit"></i>
-                                        <i class="fas fa-trash-o"></i>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        /.card-body
-                        <div class="card-footer clearfix">
-                            <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</button>
+                <div class="row mb-2">
+                    <h1>佈告欄</h1>
+                </div>
+            </div>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+                <div class="card-red">
+                    <div class="card-header">
+                        <h3 class="card-title">資安公告</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h5 class="card-title">Monthly Recap Report</h5>
-
-                                    <div class="card-tools">
-                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                            <i class="fas fa-minus"></i>
-                                        </button>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                                                <i class="fas fa-wrench"></i>
-                                            </button>
-                                            <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                                <a href="#" class="dropdown-item">Action</a>
-                                                <a href="#" class="dropdown-item">Another action</a>
-                                                <a href="#" class="dropdown-item">Something else here</a>
-                                                <a class="dropdown-divider"></a>
-                                                <a href="#" class="dropdown-item">Separated link</a>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                /.card-header
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <p class="text-center">
-                                                <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
-                                            </p>
-
-                                            <div class="chart">
-                                                Sales Chart Canvas
-                                                <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
-                                            </div>
-                                            /.chart-responsive
-                                        </div>
-                                        /.col
-                                        <div class="col-md-4">
-                                            <p class="text-center">
-                                                <strong>Goal Completion</strong>
-                                            </p>
-
-                                            <div class="progress-group">
-                                                Add Products to Cart
-                                                <span class="float-right"><b>160</b>/200</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-primary" style="width: 80%"></div>
-                                                </div>
-                                            </div>
-                                            /.progress-group
-
-                                            <div class="progress-group">
-                                                Complete Purchase
-                                                <span class="float-right"><b>310</b>/400</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-danger" style="width: 75%"></div>
-                                                </div>
-                                            </div>
-
-                                            /.progress-group
-                                            <div class="progress-group">
-                                                <span class="progress-text">Visit Premium Page</span>
-                                                <span class="float-right"><b>480</b>/800</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-success" style="width: 60%"></div>
-                                                </div>
-                                            </div>
-
-                                            /.progress-group
-                                            <div class="progress-group">
-                                                Send Inquiries
-                                                <span class="float-right"><b>250</b>/500</span>
-                                                <div class="progress progress-sm">
-                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
-                                                </div>
-                                            </div>
-                                            /.progress-group
-                                        </div>
-                                        /.col
-                                    </div>
-                                    /.row
-                                </div>
-                                ./card-body
-                                <div class="card-footer">
-                                    <div class="row">
-                                        <div class="col-sm-3 col-6">
-                                            <div class="description-block border-right">
-                                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
-                                                <h5 class="description-header">$35,210.43</h5>
-                                                <span class="description-text">TOTAL REVENUE</span>
-                                            </div>
-                                            /.description-block
-                                        </div>
-                                        /.col
-                                        <div class="col-sm-3 col-6">
-                                            <div class="description-block border-right">
-                                                <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
-                                                <h5 class="description-header">$10,390.90</h5>
-                                                <span class="description-text">TOTAL COST</span>
-                                            </div>
-                                            /.description-block
-                                        </div>
-                                        /.col
-                                        <div class="col-sm-3 col-6">
-                                            <div class="description-block border-right">
-                                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
-                                                <h5 class="description-header">$24,813.53</h5>
-                                                <span class="description-text">TOTAL PROFIT</span>
-                                            </div>
-                                            /.description-block
-                                        </div>
-                                        /.col
-                                        <div class="col-sm-3 col-6">
-                                            <div class="description-block">
-                                                <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
-                                                <h5 class="description-header">1200</h5>
-                                                <span class="description-text">GOAL COMPLETIONS</span>
-                                            </div>
-                                            /.description-block
-                                        </div>
-                                    </div>
-                                    /.row
-                                </div>
-                                /.card-footer
-                            </div>
-                            /.card
-                        </div>
-                        /.col
+                    <div class="card-body">
+                        1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
+                        2.公司資訊請勿任意攜出或者傳輸至儲存設備、雲端服務。<br />
+                        3.有任何資安疑慮或問題請洽 IT 人員。<br />
                     </div>
-                    <div class="row mb-2">
-
-                        <h1>佈告欄</h1>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        IT 部門
                     </div>
-                </div> /.container-fluid
-                </section>
+                    <!-- /.card-footer-->
+                </div>
+                <!-- /.card -->
+                <!-- Default box -->
+                <div class="card-blue">
+                    <div class="card-header">
+                        <h3 class="card-title">疫情公告</h3>
 
-                <!-- Main content -->
-                <section class="content">
-
-                    <!-- Default box -->
-                    <div class="card-red">
-                        <div class="card-header">
-                            <h3 class="card-title">資安公告</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
-                        <div class="card-body">
-                            1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
-                            2.公司資訊請勿任意攜出或者傳輸至儲存設備、雲端服務。<br />
-                            3.有任何資安疑慮或問題請洽 IT 人員。<br />
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            IT 部門
-                        </div>
-                        <!-- /.card-footer-->
                     </div>
-                    <!-- /.card -->
-                    <!-- Default box -->
-                    <div class="card-blue">
-                        <div class="card-header">
-                            <h3 class="card-title">疫情公告</h3>
-
-                            <div class="card-tools">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                    <i class="fas fa-times"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            1.因應疫情升溫，上班期間請全程配戴口罩。<br />
-                            2.如有疑似 Covid-19 症狀，請就醫診查並通知主管及HR，待狀況排除後再進公司上班。<br />
-                            3.有任何疑慮或問題請洽 HR 人員。<br />
-                        </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
-                            HR 部門
-                        </div>
-                        <!-- /.card-footer-->
+                    <div class="card-body">
+                        1.因應疫情升溫，上班期間請全程配戴口罩。<br />
+                        2.如有疑似 Covid-19 症狀，請就醫診查並通知主管及HR，待狀況排除後再進公司上班。<br />
+                        3.有任何疑慮或問題請洽 HR 人員。<br />
                     </div>
-                    <!-- /.card -->
-                    @Html.ActionLink("編輯", "BulletInList", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                        HR 部門
+                    </div>
+                    <!-- /.card-footer-->
+                </div>
+                <!-- /.card -->
+                @Html.ActionLink("編輯", "BulletInList", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
 
-                </section>
+            </section>
                 <!-- /.content -->
             </div>
         </div>

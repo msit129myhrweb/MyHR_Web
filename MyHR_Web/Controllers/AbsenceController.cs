@@ -259,6 +259,15 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
+            else if(ab!=null)//昨天有打上班卡，但未打下班卡
+            {
+                if (ab.COff==null)
+                {
+                    ab.CStatus = "異常";
+                    db.Update(ab);
+                    db.SaveChanges();
+                }
+            }
             var table = db.TAbsences
                        .Where(a => a.CEmployeeId == userId)
                        .OrderByDescending(a => a.CDate).ToList();
