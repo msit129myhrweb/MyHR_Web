@@ -258,9 +258,9 @@ namespace MyHR_Web.Controllers
 
                 package.Save(); //Save the workbook.
             }
-            var fs = System.IO.File.OpenRead(file.ToString());            
+            var fs = System.IO.File.OpenRead(file.ToString());
             return File(fs, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-
+        
         }
 
 
