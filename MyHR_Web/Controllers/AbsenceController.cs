@@ -35,18 +35,18 @@ namespace MyHR_Web.Controllers
             {
                 CAbsenceViewModel avm = new CAbsenceViewModel()
                 {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus
+                    CApplyNumber=item.CApplyNumber,
+                    CDate=item.CDate,
+                    COn=item.COn,
+                    COff=item.COff,
+                    CStatus=item.CStatus
                 };
                 list.Add(avm);
             }
             return View(list);
         }
 
-        public IActionResult getClockString_on(int id, DateTime date)//上班
+        public IActionResult getClockString_on(int id,DateTime date)//上班
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             DateTime now = DateTime.Now;
@@ -59,7 +59,7 @@ namespace MyHR_Web.Controllers
                     TAbsence b = new TAbsence()
                     {
                         CEmployeeId = id,
-                        CDate = date,
+                        CDate= date,
                         COn = TimeSpan.Parse(now.ToString("hh:mm:ss")),
                         CStatus = "準時"
                     };
@@ -106,7 +106,7 @@ namespace MyHR_Web.Controllers
                 list.Add(avm);
             }
 
-            return PartialView("date_search", list);
+            return PartialView("date_search",list);
         }
         public IActionResult getClockString_off(int id, DateTime date)//下班
         {
@@ -142,7 +142,7 @@ namespace MyHR_Web.Controllers
                     CEmployeeId = id,
                     CDate = date,
                     COff = TimeSpan.Parse(now.ToString("hh:mm:ss")),
-                    CStatus = "異常"
+                    CStatus ="異常"
                 };
                 db.TAbsences.Add(b);
                 db.SaveChanges();
@@ -171,11 +171,11 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Edit(int? applyNum)
         {
-            if (applyNum != null)
+            if (applyNum!=null)
             {
                 ViewBag.absence = applyNum;
-                TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
-                if (abs != null)
+                TAbsence abs = db.TAbsences.FirstOrDefault(a=>a.CApplyNumber==applyNum);
+                if (abs!=null)
                 {
                     CAbsenceViewModel obj = new CAbsenceViewModel()
                     {
@@ -191,22 +191,22 @@ namespace MyHR_Web.Controllers
             return RedirectToAction("List");
         }
         [HttpPost]
-        public IActionResult Edit(TAbsence absence, int? id, DateTime? date, string? when, int? applyNum)
+        public IActionResult Edit(TAbsence absence,int? id, DateTime? date, string? when,int? applyNum)
         {
             if (absence != null)
             {
-                TAbsence absed = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
+                TAbsence absed = db.TAbsences.FirstOrDefault(a=>a.CApplyNumber== applyNum);
                 TimeSpan ConTime = Con.TimeOfDay;//09:00
                 TimeSpan tenOclck = Con.AddHours(1).TimeOfDay;//09:00
 
                 if (absed != null)
                 {
-                    if (absed.COn == null && absed.COff != null)//補上班卡
+                    if (absed.COn == null&& absed.COff!=null )//補上班卡
                     {
                         absed.COn = TimeSpan.Parse("09:00:00");
                         absed.CStatus = "準時";
                     }
-                    else if (absed.COn != null && absed.COff == null)//補下班卡
+                    else if (absed.COn != null && absed.COff==null)//補下班卡
                     {
                         absed.COff = TimeSpan.Parse("18:00:00"); ;
                         if (absed.COn > ConTime)//9:01
@@ -220,7 +220,7 @@ namespace MyHR_Web.Controllers
                     }
                     else if (absed.COn == null && absed.COff == null)//補上下班卡
                     {
-                        if (when == "上班")
+                        if (when=="上班")
                         {
                             absed.COn = TimeSpan.Parse("09:00:00");
                             absed.CStatus = "異常";
@@ -242,7 +242,7 @@ namespace MyHR_Web.Controllers
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
-            TAbsence ab = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId && a.CDate.Value.Date == ysd);//尋找昨天的打卡紀錄
+            TAbsence ab = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId && a.CDate.Value.Date== ysd);//尋找昨天的打卡紀錄
             var day = ysd.DayOfWeek;//星期
 
             if (ab == null)
@@ -256,15 +256,6 @@ namespace MyHR_Web.Controllers
                         CStatus = "異常"
                     };
                     db.Add(absence);
-                    db.SaveChanges();
-                }
-            }
-            else if(ab!=null)//昨天有打上班卡，但未打下班卡
-            {
-                if (ab.COff==null)
-                {
-                    ab.CStatus = "異常";
-                    db.Update(ab);
                     db.SaveChanges();
                 }
             }
@@ -291,10 +282,10 @@ namespace MyHR_Web.Controllers
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
             var time = db.TAbsences
-                .Where(a => a.CEmployeeId == userId &&
-                      (sDate != null ? a.CDate >= sDate : true) &&
+                .Where(a => a.CEmployeeId==userId&&
+                      (sDate != null ? a.CDate >= sDate : true)&&
                       (eDate != null ? a.CDate <= eDate : true))
-                .OrderByDescending(a => a.CDate).ToList();
+                .OrderByDescending(a=>a.CDate).ToList();
 
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in time)
@@ -302,14 +293,14 @@ namespace MyHR_Web.Controllers
                 CAbsenceViewModel avm = new CAbsenceViewModel()
                 {
                     CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
+                    CDate=item.CDate,
                     COn = item.COn,
                     COff = item.COff,
                     CStatus = item.CStatus
                 };
                 list.Add(avm);
             }
-            return PartialView("date_search", list);
+            return PartialView("date_search",list);
         }
 
     }

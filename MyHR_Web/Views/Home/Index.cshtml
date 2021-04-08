@@ -11,16 +11,56 @@
 <head>
     <title>Slick Playground</title>
     <meta charset="UTF-8">
-    <link href="~/css/slick.css" rel="stylesheet" />
-    <link href="~/css/Index_Slider.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="~/slick/slick-theme.css">
+    <style type="text/css">
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        .slider {
+            width: 90%;
+            margin: 100px auto;
+        }
+
+        .slick-slide {
+            margin: 0px 20px;
+        }
+
+            .slick-slide img {
+                width: 100%;
+            }
+
+        .slick-prev:before,
+        .slick-next:before {
+            color: black;
+        }
+
+
+        .slick-slide {
+            transition: all ease-in-out .3s;
+            opacity: .2;
+        }
+
+        .slick-active {
+            opacity: .5;
+        }
+
+        .slick-current {
+            opacity: 1;
+        }
+    </style>
 </head>
 
 <body>
     <div class="content-wrapper">
         <!-- Content Header (Page header) -->
-        <div class="content-header">
+        <section class="content-header">
             <div class="row">
 
                 <div class="col-md-4">
@@ -73,106 +113,498 @@
                     </div>
                 </div>
             </div>
-            <div class="for_slick_slider autoplay">
-                <div class="item">
-                    <img src="~/images/slides_images/78f9e76820ddce34ba0e5b8ea151a7094b990f7f.jpeg" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/employee.jpg" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/employee_recognition-908535308-5c5b362a46e0fb0001587318.jpg" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/Employee-Experience.png" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/employee-incentive-travel.jpg" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/The-Divide_6x4.jpg" />
-                    <div class="overlay"></div>
-                </div>
-                <div class="item">
-                    <img src="~/images/slides_images/unnamed.jpg" />
-                    <div class="overlay"></div>
-                </div>
-            </div>
-            <div class="container-fluid">
 
-                <div class="row mb-2">
-                    <h1>佈告欄</h1>
-                </div>
-            </div>
+                <div class="container-fluid">
 
-            <!-- Main content -->
-            <section class="content">
 
-                <!-- Default box -->
-                <div class="card-red">
-                    <div class="card-header">
-                        <h3 class="card-title">資安公告</h3>
+                    <section class="variable slider">
+                        <section class="regular slider slick-initialized slick-slider slick-dotted">
+                            <button class="slick-prev slick-arrow" aria-label="Previous" type="button" style="display: block;">Previous</button><div class="slick-list draggable">
+                                <div class="slick-track" style="opacity: 1; width: 3690px; transform: translate3d(-738px, 0px, 0px);">
+                                    <div class="slick-slide slick-cloned" data-slick-index="-3" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=4">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="-2" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=5">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="-1" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=6">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-current slick-active" data-slick-index="0" aria-hidden="false" role="tabpanel" id="slick-slide50" aria-describedby="slick-slide-control50" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=1">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-active" data-slick-index="1" aria-hidden="false" role="tabpanel" id="slick-slide51" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=2">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-active" data-slick-index="2" aria-hidden="false" role="tabpanel" id="slick-slide52" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=3">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide" data-slick-index="3" aria-hidden="true" role="tabpanel" id="slick-slide53" aria-describedby="slick-slide-control51" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=4">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide" data-slick-index="4" aria-hidden="true" role="tabpanel" id="slick-slide54" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=5">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide" data-slick-index="5" aria-hidden="true" role="tabpanel" id="slick-slide55" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=6">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="6" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=1">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="7" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=2">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="8" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=3">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="9" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=4">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="10" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=5">
+                                            </div>
+                                        </div>
+                                    </div><div class="slick-slide slick-cloned" data-slick-index="11" aria-hidden="true" tabindex="-1" style="width: 206px;">
+                                        <div>
+                                            <div style="width: 100%; display: inline-block;">
+                                                <img src="https://placehold.it/350x300?text=6">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><button class="slick-next slick-arrow" aria-label="Next" type="button" style="display: block;">Next</button><ul class="slick-dots" style="display: block;" role="tablist"><li class="slick-active" role="presentation"><button type="button" role="tab" id="slick-slide-control50" aria-controls="slick-slide50" aria-label="1 of 2" tabindex="0" aria-selected="true">1</button></li><li role="presentation" class=""><button type="button" role="tab" id="slick-slide-control51" aria-controls="slick-slide53" aria-label="2 of 2" tabindex="-1">2</button></li></ul>
+                        </section>
+                    </section>
+                    <!-- TO DO List -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="ion ion-clipboard mr-1"></i>
+                                To Do List
+                            </h3>
 
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                            <div class="card-tools">
+                                <ul class="pagination pagination-sm">
+                                    <li class="page-item"><a href="#" class="page-link">&laquo;</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">1</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">2</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">3</a></li>
+                                    <li class="page-item"><a href="#" class="page-link">&raquo;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <ul class="todo-list" data-widget="todo-list">
+                                <li>
+                                    <!-- drag handle -->
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <!-- checkbox -->
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo1" id="todoCheck1">
+                                        <label for="todoCheck1"></label>
+                                    </div>
+                                    <!-- todo text -->
+                                    <span class="text">Design a nice theme</span>
+                                    <!-- Emphasis label -->
+                                    <small class="badge badge-danger"><i class="far fa-clock"></i> 2 mins</small>
+                                    <!-- General tools such as edit or delete-->
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo2" id="todoCheck2" checked>
+                                        <label for="todoCheck2"></label>
+                                    </div>
+                                    <span class="text">Make the theme responsive</span>
+                                    <small class="badge badge-info"><i class="far fa-clock"></i> 4 hours</small>
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo3" id="todoCheck3">
+                                        <label for="todoCheck3"></label>
+                                    </div>
+                                    <span class="text">Let theme shine like a star</span>
+                                    <small class="badge badge-warning"><i class="far fa-clock"></i> 1 day</small>
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo4" id="todoCheck4">
+                                        <label for="todoCheck4"></label>
+                                    </div>
+                                    <span class="text">Let theme shine like a star</span>
+                                    <small class="badge badge-success"><i class="far fa-clock"></i> 3 days</small>
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo5" id="todoCheck5">
+                                        <label for="todoCheck5"></label>
+                                    </div>
+                                    <span class="text">Check your messages and notifications</span>
+                                    <small class="badge badge-primary"><i class="far fa-clock"></i> 1 week</small>
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                                <li>
+                                    <span class="handle">
+                                        <i class="fas fa-ellipsis-v"></i>
+                                        <i class="fas fa-ellipsis-v"></i>
+                                    </span>
+                                    <div class="icheck-primary d-inline ml-2">
+                                        <input type="checkbox" value="" name="todo6" id="todoCheck6">
+                                        <label for="todoCheck6"></label>
+                                    </div>
+                                    <span class="text">Let theme shine like a star</span>
+                                    <small class="badge badge-secondary"><i class="far fa-clock"></i> 1 month</small>
+                                    <div class="tools">
+                                        <i class="fas fa-edit"></i>
+                                        <i class="fas fa-trash-o"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- /.card-body -->
+                        <div class="card-footer clearfix">
+                            <button type="button" class="btn btn-info float-right"><i class="fas fa-plus"></i> Add item</button>
                         </div>
                     </div>
-                    <div class="card-body">
-                        1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
-                        2.公司資訊請勿任意攜出或者傳輸至儲存設備、雲端服務。<br />
-                        3.有任何資安疑慮或問題請洽 IT 人員。<br />
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        IT 部門
-                    </div>
-                    <!-- /.card-footer-->
-                </div>
-                <!-- /.card -->
-                <!-- Default box -->
-                <div class="card-blue">
-                    <div class="card-header">
-                        <h3 class="card-title">疫情公告</h3>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="card-title">Monthly Recap Report</h5>
 
-                        <div class="card-tools">
-                            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                                <i class="fas fa-minus"></i>
-                            </button>
-                            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                                <i class="fas fa-times"></i>
-                            </button>
+                                    <div class="card-tools">
+                                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                            <i class="fas fa-minus"></i>
+                                        </button>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                                <i class="fas fa-wrench"></i>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                                <a href="#" class="dropdown-item">Action</a>
+                                                <a href="#" class="dropdown-item">Another action</a>
+                                                <a href="#" class="dropdown-item">Something else here</a>
+                                                <a class="dropdown-divider"></a>
+                                                <a href="#" class="dropdown-item">Separated link</a>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                            <i class="fas fa-times"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <p class="text-center">
+                                                <strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+                                            </p>
+
+                                            <div class="chart">
+                                                <!-- Sales Chart Canvas -->
+                                                <canvas id="salesChart" height="180" style="height: 180px;"></canvas>
+                                            </div>
+                                            <!-- /.chart-responsive -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-md-4">
+                                            <p class="text-center">
+                                                <strong>Goal Completion</strong>
+                                            </p>
+
+                                            <div class="progress-group">
+                                                Add Products to Cart
+                                                <span class="float-right"><b>160</b>/200</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-primary" style="width: 80%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- /.progress-group -->
+
+                                            <div class="progress-group">
+                                                Complete Purchase
+                                                <span class="float-right"><b>310</b>/400</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-danger" style="width: 75%"></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /.progress-group -->
+                                            <div class="progress-group">
+                                                <span class="progress-text">Visit Premium Page</span>
+                                                <span class="float-right"><b>480</b>/800</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-success" style="width: 60%"></div>
+                                                </div>
+                                            </div>
+
+                                            <!-- /.progress-group -->
+                                            <div class="progress-group">
+                                                Send Inquiries
+                                                <span class="float-right"><b>250</b>/500</span>
+                                                <div class="progress progress-sm">
+                                                    <div class="progress-bar bg-warning" style="width: 50%"></div>
+                                                </div>
+                                            </div>
+                                            <!-- /.progress-group -->
+                                        </div>
+                                        <!-- /.col -->
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- ./card-body -->
+                                <div class="card-footer">
+                                    <div class="row">
+                                        <div class="col-sm-3 col-6">
+                                            <div class="description-block border-right">
+                                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 17%</span>
+                                                <h5 class="description-header">$35,210.43</h5>
+                                                <span class="description-text">TOTAL REVENUE</span>
+                                            </div>
+                                            <!-- /.description-block -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-sm-3 col-6">
+                                            <div class="description-block border-right">
+                                                <span class="description-percentage text-warning"><i class="fas fa-caret-left"></i> 0%</span>
+                                                <h5 class="description-header">$10,390.90</h5>
+                                                <span class="description-text">TOTAL COST</span>
+                                            </div>
+                                            <!-- /.description-block -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-sm-3 col-6">
+                                            <div class="description-block border-right">
+                                                <span class="description-percentage text-success"><i class="fas fa-caret-up"></i> 20%</span>
+                                                <h5 class="description-header">$24,813.53</h5>
+                                                <span class="description-text">TOTAL PROFIT</span>
+                                            </div>
+                                            <!-- /.description-block -->
+                                        </div>
+                                        <!-- /.col -->
+                                        <div class="col-sm-3 col-6">
+                                            <div class="description-block">
+                                                <span class="description-percentage text-danger"><i class="fas fa-caret-down"></i> 18%</span>
+                                                <h5 class="description-header">1200</h5>
+                                                <span class="description-text">GOAL COMPLETIONS</span>
+                                            </div>
+                                            <!-- /.description-block -->
+                                        </div>
+                                    </div>
+                                    <!-- /.row -->
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
                         </div>
+                        <!-- /.col -->
                     </div>
-                    <div class="card-body">
-                        1.因應疫情升溫，上班期間請全程配戴口罩。<br />
-                        2.如有疑似 Covid-19 症狀，請就醫診查並通知主管及HR，待狀況排除後再進公司上班。<br />
-                        3.有任何疑慮或問題請洽 HR 人員。<br />
-                    </div>
-                    <!-- /.card-body -->
-                    <div class="card-footer">
-                        HR 部門
-                    </div>
-                    <!-- /.card-footer-->
-                </div>
-                <!-- /.card -->
-                @Html.ActionLink("編輯", "BulletInList", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+                    <div class="row mb-2">
 
-            </section>
-                <!-- /.content -->
+                        <h1>佈告欄</h1>
+                    </div>
+                </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+
+            <!-- Default box -->
+            <div class="card-red">
+                <div class="card-header">
+                    <h3 class="card-title">資安公告</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
+                    2.公司資訊請勿任意攜出或者傳輸至儲存設備、雲端服務。<br />
+                    3.有任何資安疑慮或問題請洽 IT 人員。<br />
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    IT 部門
+                </div>
+                <!-- /.card-footer-->
             </div>
-        </div>
-        <!-- /.content-wrapper -->
-        <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
-        <script src="~/js/slick.min.js"></script>
-        <script src="~/MyJs/Index_Slider.js"></script>
+            <!-- /.card -->
+            <!-- Default box -->
+            <div class="card-blue">
+                <div class="card-header">
+                    <h3 class="card-title">疫情公告</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    1.因應疫情升溫，上班期間請全程配戴口罩。<br />
+                    2.如有疑似 Covid-19 症狀，請就醫診查並通知主管及HR，待狀況排除後再進公司上班。<br />
+                    3.有任何疑慮或問題請洽 HR 人員。<br />
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer">
+                    HR 部門
+                </div>
+                <!-- /.card-footer-->
+            </div>
+            <!-- /.card -->            
+            @Html.ActionLink("編輯", "BulletInList", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+    <script src="https://code.jquery.com/jquery-2.2.0.min.js" type="text/javascript"></script>
+    <script src="~/slick/slick.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript">
+        $(document).on('ready', function () {
+            $(".vertical-center-4").slick({
+                dots: true,
+                vertical: true,
+                centerMode: true,
+                slidesToShow: 4,
+                slidesToScroll: 2
+            });
+            $(".vertical-center-3").slick({
+                dots: true,
+                vertical: true,
+                centerMode: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            });
+            $(".vertical-center-2").slick({
+                dots: true,
+                vertical: true,
+                centerMode: true,
+                slidesToShow: 2,
+                slidesToScroll: 2
+            });
+            $(".vertical-center").slick({
+                dots: true,
+                vertical: true,
+                centerMode: true,
+            });
+            $(".vertical").slick({
+                dots: true,
+                vertical: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            });
+            $(".regular").slick({
+                dots: true,
+                infinite: true,
+                slidesToShow: 3,
+                slidesToScroll: 3
+            });
+            $(".center").slick({
+                dots: true,
+                infinite: true,
+                centerMode: true,
+                slidesToShow: 5,
+                slidesToScroll: 3
+            });
+            $(".variable").slick({
+                dots: true,
+                infinite: true,
+                variableWidth: true
+            });
+            $(".lazy").slick({
+                lazyLoad: 'ondemand', // ondemand progressive anticipated
+                infinite: true
+            });
+        });
+    </script>
 </body>
