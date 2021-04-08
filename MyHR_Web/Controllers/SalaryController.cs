@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 
 namespace MyCompany_.NetCore_Janna.Controllers
@@ -64,8 +65,8 @@ namespace MyCompany_.NetCore_Janna.Controllers
         {
 
             int UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
-           
-            
+
+
             var table = MyHR.TUsers
              .Include(c => c.CDepartment)
              .Include(c => c.CJobTitle)
@@ -106,7 +107,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                          where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) - 1 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
+                          where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) - 1 && i.CCheckStatus == 2 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
                           orderby i.CLeaveCategory
                           group i by i.CLeaveCategory into g
                           select new
@@ -198,7 +199,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                          where i.CEmployeeId == Id && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) //搜尋 "請假起始日"的月為上一個月 (下面也要減)
+                          where i.CEmployeeId == Id && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) && i.CCheckStatus == 2  //搜尋 "請假起始日"的月為上一個月 (下面也要減)
                           orderby i.CLeaveCategory
                           group i by i.CLeaveCategory into g
                           select new
@@ -236,7 +237,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                              moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 96
 
                          };
-           
+
 
             List<CSalaryViewModel> T2 = new List<CSalaryViewModel>();
 
@@ -244,7 +245,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             {
                 CSalaryViewModel obj = new CSalaryViewModel()
                 {
-                  
+
                     CAmont_TAbsense = item.moneybelow30 + item.moneyup30,
                 };
                 T2.Add(obj);
@@ -257,13 +258,19 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         public IActionResult SalaryList_supervisor() //所有薪資單(主管)  檢視當月
         {
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TLeaveApplications.ToList();
 
-            var table = MyHR.TUsers
-                   .Include(c => c.CDepartment)
-                   .Include(c => c.CJobTitle)
-                   .Include(c => c.TTravelExpenseApplications)
-                   .Include(c => c.TAbsences)
-                   .Include(c=>c.TLeaveApplications)
+
+            var table = MyHR.TUsers.Local
+                   //.Include(c => c.CDepartment)
+                   //.Include(c => c.CJobTitle)
+                   //.Include(c => c.TTravelExpenseApplications)
+                   //.Include(c => c.TAbsences)
+                   //.Include(c => c.TLeaveApplications)
                    .OrderByDescending(c => c.CDepartmentId)
                    .ThenBy(c => c.CJobTitleId)
                    .Where(C => C.COnBoardStatusId == 1).AsEnumerable()
@@ -277,94 +284,67 @@ namespace MyCompany_.NetCore_Janna.Controllers
                        CJobTitle = c.CJobTitle.CJobTitle,
                        Month_Salary = c.CJobTitle.CJobTitleSalary,
                        CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) && c.CCheckStatus == 2).Sum(c => c.CAmont),
-   CAmont_TAbsense = c.TAbsences
+                       CAmont_TAbsense = c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
-
-                       //CAmont_Leave = Leave_ShouldtopayTRYYYYYY(c.CEmployeeId),
+                       CAmont_Leave = Leave_ShouldtopayTRYYYYYY(c.CEmployeeId)
 
                    });
-            var table1SQL = table.AsQueryable<CSalaryViewModel>().ToQueryString();
-            //------------------------------------------------------------ 請假
-
-            var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                          where /*i.CEmployeeId == UserID && */DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) //當月
-                          orderby i.CLeaveCategory
-                          group i by i.CLeaveCategory into g
-                          select new
-                          {
-                              Category = g.Key,
-                              CategoryCount = g.Sum(n => n.CLeaveHours),
-                          }).ToList();
-
-            List<CSalaryViewModel> T = new List<CSalaryViewModel>();
-
-            foreach (var item in table2)
-            {
-                CSalaryViewModel obj = new CSalaryViewModel()
-                {
-                   
-                    Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount) //各個假別要付的錢
-
-                };
-                T.Add(obj);
-                ViewBag.Leave = T;     //這邊算完是放入ViewBag傳送過去的...糟糕
-            }
 
 
-   //傳送部門下拉是選單
-            var Dept = MyHR.TUserDepartments.Distinct().ToList();
+
+
+            var Dept = MyHR.TUserDepartments.Distinct().ToList();  //傳送部門下拉是選單
             ViewBag.DEPT = Dept;
-            //傳送職位下拉是選單
-
-            var JobTitle = MyHR.TUserJobTitles.Distinct().ToList();
+            var JobTitle = MyHR.TUserJobTitles.Distinct().ToList(); //傳送職位下拉是選單
             ViewBag.JOBTITLE = JobTitle;
-
-
 
             return View(table.ToList());
         }
 
-        //public int Leave_ShouldtopayTRYYYYYY(int id)
-        //{
-        //    int Leave_Sum = 0;
 
 
-        //    var table_Leave = (from i in MyHR.TLeaveApplications.AsEnumerable()
-        //                  where i.CEmployeeId == id && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) //當月
-        //                  orderby i.CLeaveCategory
-        //                  group i by i.CLeaveCategory into g
-        //                  select new
-        //                  {
-        //                      Category = g.Key,
-        //                      CategoryCount = g.Sum(n => n.CLeaveHours),
-        //                  }).ToList();
+        public int Leave_ShouldtopayTRYYYYYY(int id)
+        {
+            int Leave_Sum = 0;
 
-        //    List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
-        //    foreach (var item in table_Leave)
-        //    {
-               
-     
-        //            int Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount, id); //各個假別要付的錢
+            var table_Leave = (from i in MyHR.TLeaveApplications.AsEnumerable()
+                               where i.CEmployeeId == id && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) && i.CCheckStatus == 2 //當月
+                               orderby i.CLeaveCategory
+                               group i by i.CLeaveCategory into g
+                               select new
+                               {
+                                   Category = g.Key,
+                                   CategoryCount = g.Sum(n => n.CLeaveHours),
+                               }).ToList();
 
-        //             Leave_Sum += Leave_HaveToPay;
-        //    }
+            List<CSalaryViewModel> T = new List<CSalaryViewModel>();
 
-           
-        //    return Leave_Sum;
-        //}
+            foreach (var item in table_Leave)
+            {
+
+
+                int Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount); //各個假別要付的錢
+
+                Leave_Sum += Leave_HaveToPay;
+            }
+
+
+            return Leave_Sum;
+        }
+
 
         public int Leave_Shouldtopay(int LeaveCate, int LeaveHours)  //計算各個假別必須扣除的總數
         {
-            
-            
+
+
             int UserID = int.Parse(HttpContext.Session.GetString("CURRENT_LOGINED_USERID"));
-            
+
             double Leave_Sum = 0;
             int MonthWage = (from i in MyHR.TUsers               //取出每人的本薪
                              join j in MyHR.TUserJobTitles
@@ -398,7 +378,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         }
 
-        public IActionResult Count_Leave(int? id)
+        public IActionResult Count_Leave(int? id)    //請假
         {
 
             int UserID = 0;
@@ -419,7 +399,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             ViewBag.MONTH = Month;
 
             var table = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == Month  //搜尋 "請假起始日"的月為上一個月 (上面也要減)
+                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == Month && i.CCheckStatus == 2  //搜尋 "請假起始日"的月為上一個月 (上面也要減)
                          orderby i.CLeaveCategory
                          group i by i.CLeaveCategory into g
                          select new
@@ -468,7 +448,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                         select new
                         {
                             countLate = g.Count(),
-  below30 = g.Count(c => c.COn.Value.Minutes < 30),
+                            below30 = g.Count(c => c.COn.Value.Minutes < 30),
                             up30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
                             moneybelow30 = g.Count(c => c.COn.Value.Minutes < 30) * 44,
                             moneyup30 = g.Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 96
@@ -530,11 +510,88 @@ namespace MyCompany_.NetCore_Janna.Controllers
                    }).Where(a =>
                    (DEPT != null ? a.CDepartmentId == DEPT : true) &&
                    (TITLE != null ? a.CJobTitleId == TITLE : true)).ToList();
-                   
- 
+
+
             return PartialView("Mutiple_search", table);
 
 
+        }
+
+
+        public void Mail_Click(/*object sender, EventArgs e*/)
+        {
+            try
+            {
+
+                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+                msg.To.Add("rovingwindownload@gmail.com");
+                //msg.To.Add("b@b.com");可以發送給多人
+                //msg.CC.Add("c@c.com");
+                //msg.CC.Add("c@c.com");可以抄送副本給多人 
+                //這裡可以隨便填，不是很重要
+                msg.From = new MailAddress("msit129hellowork@gmail.com", "HELLOWORK公司", System.Text.Encoding.UTF8);
+                /* 上面3個參數分別是發件人地址（可以隨便寫），發件人姓名，編碼*/
+                msg.Subject = "面試通知";//郵件標題
+                msg.SubjectEncoding = System.Text.Encoding.UTF8;//郵件標題編碼
+                msg.Body = "恭喜您獲得100000000/月的工作! 本公司每天都要加班，然後爆肝。最重要的是，新轉帳號不用辦理，專人已幫您設好戶頭，省去要領錢的麻煩。"; //郵件內容
+                msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 
+           /*     msg.Attachments.Add(new Attachment(@"D:\test2.docx")); */ //附件
+                msg.IsBodyHtml = true;//是否是HTML郵件 
+                                      //msg.Priority = MailPriority.High;//郵件優先級 
+
+                SmtpClient client = new SmtpClient();
+                client.Credentials = new System.Net.NetworkCredential("msit129hellowork@gmail.com", "izougqdehrjrufoh"); //這裡要填正確的帳號跟密碼
+                client.Host = "smtp.gmail.com"; //設定smtp Server
+                client.Port = 25; //設定Port
+                client.EnableSsl = true; //gmail預設開啟驗證
+                client.Send(msg); //寄出信件
+                client.Dispose();
+                msg.Dispose();
+               
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
+
+
+
+            //    if (txtEmail.Text == "")
+            //    {
+            //        DialogResult result = MessageBox.Show("Email 不可為空!!\r\n繼續請按 Yes，離開請按 No。", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            //        if (result == DialogResult.No)
+            //        {
+            //            this.Close();
+            //        }
+            //    }
+            //    else
+            //    {
+            //        try
+            //        {
+            //            string Body = $"{lblAmonut.Text} : {txtRAmount.Text} \r\n " +
+            //                $"{lblYear.Text} : {txtRYear.Text} \r\n " +
+            //                $"{lblRate.Text} : {txtRRate.Text} \r\n " +
+            //                $"{lblMonthPay.Text} : {txtRMonthPay.Text} \r\n" +
+            //                $" {lblTotal.Text} : {txtRTotal.Text}";
+            //            System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
+            //            MySmtp.Credentials = new System.Net.NetworkCredential("rovingwind93@gmail.com", "wbiesolnfcrgmjfn");
+            //            MySmtp.EnableSsl = true;
+            //            MySmtp.Send("測試主機端<rovingwind93@gmail.com>", txtEmail.Text, "貸款報告書", Body);
+            //            MySmtp.Dispose();
+
+            //            DialogResult result = MessageBox.Show("已發送報告\r\n繼續請按 Yes，離開請按 No。", "mail", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            //            if (result == DialogResult.No)
+            //            {
+            //                this.Close();
+            //            }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Form00.msgError(ex);
+            //        }
+            //    }
         }
 
 
