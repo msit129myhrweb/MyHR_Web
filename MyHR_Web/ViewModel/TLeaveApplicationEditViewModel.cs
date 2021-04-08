@@ -109,7 +109,7 @@ namespace MyHR_Web.ViewModel
         public int CCheckStatus { get { return iv_Leave.CCheckStatus; } set { iv_Leave.CCheckStatus = value; } }
 
         [DisplayName("請假時數")]
-        public int? CLeaveHours { get { return iv_Leave.CLeaveHours; } set { iv_Leave.CLeaveHours = value; } }
+        public int CLeaveHours { get { return iv_Leave.CLeaveHours; } set { iv_Leave.CLeaveHours = value; } }
 
         //public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }

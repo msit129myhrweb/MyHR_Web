@@ -33,12 +33,17 @@ namespace MyHR_Web.ViewModel
         public string CJobTitle { get; set; }
         public int CJobTitleSalary { get; set; }
 
+        public int CJobTitleId { get; set; }
+
         //TLeaveApplication
 
         public int? CLeaveHours { get; set; } 
 
+
+        public int CAmont_Leave { get; set; }
+
         //TTravel
-        
+
         public int CAmont_Travel { get; set; }
 
 
@@ -47,7 +52,7 @@ namespace MyHR_Web.ViewModel
 
 
         //TAbsense
-        [DisplayName("本月請假總扣款")]
+        [DisplayName("本月遲到總扣款")]
         public int CAmont_TAbsense { get; set; }
 
         [DisplayName("本月請假總時數")]
@@ -62,6 +67,11 @@ namespace MyHR_Web.ViewModel
         public int CAmont_Latebelow30 { get; set; }
        
         public int CAmont_Lateup30 { get; set; }
+
+
+        //Leave
+
+
 
 
         //自己創造 Salary
