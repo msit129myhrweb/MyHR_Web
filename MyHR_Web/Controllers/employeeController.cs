@@ -183,6 +183,7 @@ namespace MyHR_Web.Controllers
            
             string sFileName = $"User_{DateTime.Now.ToString("yyyyMMddHHssfff")}.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));
+            var data = db.TUsers.ToList();
             using (ExcelPackage package = new ExcelPackage(file))
             {
                 var userlist = db.TUsers.ToList();
@@ -259,8 +260,8 @@ namespace MyHR_Web.Controllers
                 package.Save(); //Save the workbook.
             }
             var fs = System.IO.File.OpenRead(file.ToString());
-            return File(fs, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
-        
+            //return File(fs, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", sFileName);
+            return RedirectToAction("Excel", "Service", data);
         }
 
 
