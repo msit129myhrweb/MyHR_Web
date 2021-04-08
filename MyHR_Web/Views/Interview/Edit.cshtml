@@ -2,7 +2,7 @@
 @using System.Text.Json;
 @using System.Text.Json.Serialization;
 
-<h2>面試資料修改</h2>
+<h3>面試資料修改</h3>
 <hr />
 <div class="row">
 
@@ -98,8 +98,8 @@
                 
                 <div class="card-footer">
                     <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="List" />
-                @*    <input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit('@(JsonSerializer.Serialize(Model))')" , style="filter: grayscale(50%)" />*@
-                    <input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit()" , style="filter: grayscale(50%)" />
+                    <input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit('@(JsonSerializer.Serialize(Model))')" , style="filter: grayscale(50%)" />
+                    @*<input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit()" , style="filter: grayscale(50%)" />*@
                 </div>
             </form>       
         </div>

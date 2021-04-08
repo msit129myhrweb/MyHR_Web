@@ -61,7 +61,7 @@ namespace MyHR_Web.Controllers
         {
             if (I != null)
             {
-                CInterviewListViewModel2 T = JsonConvert.DeserializeObject<CInterviewListViewModel2>(I);
+                CInterviewListViewModel T = JsonConvert.DeserializeObject<CInterviewListViewModel>(I);
                 TInterView table = myHR.TInterViews.FirstOrDefault(n => n.CInterVieweeId == T.CInterVieweeId);
 
                 if (table != null)
