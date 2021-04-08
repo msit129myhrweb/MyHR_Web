@@ -84,19 +84,21 @@ namespace MyHR_Web.Controllers
                 }
 
             }
-
             foreach (var i in list)
             {
                 TLostAndFound tlaf = db.TLostAndFounds.FirstOrDefault(e => e.CPropertyId == i);
-                
+
                 if (tlaf != null)
                 {
                     tlaf.CPropertyCheckStatusId = 2;
                     db.SaveChanges();
                 }
+
+
             }
 
             return Json(new { result = true, msg = "成功" });
+
         }
     }
 }
