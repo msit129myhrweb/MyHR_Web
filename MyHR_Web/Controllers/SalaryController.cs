@@ -518,7 +518,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
 
-        public void Mail_Click(/*object sender, EventArgs e*/)
+        public IActionResult Mail_Click(/*object sender, EventArgs e*/)
         {
             try
             {
@@ -533,7 +533,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 /* 上面3個參數分別是發件人地址（可以隨便寫），發件人姓名，編碼*/
                 msg.Subject = "面試通知";//郵件標題
                 msg.SubjectEncoding = System.Text.Encoding.UTF8;//郵件標題編碼
-                msg.Body = "恭喜您獲得100000000/月的工作! 本公司每天都要加班，然後爆肝。最重要的是，新轉帳號不用辦理，專人已幫您設好戶頭，省去要領錢的麻煩。"; //郵件內容
+                msg.Body = "說謊的傢伙"; //郵件內容
                 msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 
            /*     msg.Attachments.Add(new Attachment(@"D:\test2.docx")); */ //附件
                 msg.IsBodyHtml = true;//是否是HTML郵件 
@@ -554,7 +554,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-
+            return RedirectToAction("SalaryList_supervisor");
 
 
 
@@ -592,7 +592,49 @@ namespace MyCompany_.NetCore_Janna.Controllers
             //            Form00.msgError(ex);
             //        }
             //    }
+
+
+
+
+
+
         }
+
+        public JsonResult SendEmail(string x)
+        {
+            string a = x;
+            string[] ids = a.Split('\\', '"', '[', ',', ']');
+
+            List<int> list = new List<int>();
+            foreach (var item in ids)
+            {
+
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+
+            }
+            foreach (var i in list)
+            {
+                dbMyCompanyContext db = new dbMyCompanyContext();
+                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == i);
+
+                if (repair != null)
+                {
+                    repair.CRepairStatus = 1;
+                    db.SaveChanges();
+                }
+
+
+            }
+
+            return Json(new { result = true, msg = "成功" });
+
+
+
+        }
+
 
 
 

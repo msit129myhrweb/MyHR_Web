@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
 @{ ViewData["Title"] = "SalaryList_supervisor";
 
-                var Late = ViewBag.Late;
-                var Leave = ViewBag.Leave;
-                var DEPT = ViewBag.DEPT;
-                var JOBTITLE = ViewBag.JOBTITLE; }
+    var Late = ViewBag.Late;
+    var Leave = ViewBag.Leave;
+    var DEPT = ViewBag.DEPT;
+    var JOBTITLE = ViewBag.JOBTITLE; }
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -89,7 +89,8 @@
 
                             @for (int i = 0; i < DEPT.Count; i++)
                             {
-                <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>}
+                                <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>
+                            }
                         </select>
                     </div>
 
@@ -102,7 +103,8 @@
 
                             @for (int i = 0; i < JOBTITLE.Count; i++)
                             {
-                <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>}
+                                <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>
+                            }
                         </select>
                     </div>
 
@@ -113,11 +115,11 @@
                 </div>
                 @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
                 {
-    <div class="row">
-        <div class="col-md-offset-5">
-            <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />
-        </div>
-    </div>            }
+                    <div class="row">
+                        <div class="col-md-offset-5">
+                            <input type="button" id="AllPass" value="勾選通過" onclick="send()" class="btn btn-success" style="filter: grayscale(50%)" />
+                        </div>
+                    </div>}
             </form>
 
 
@@ -133,220 +135,261 @@
 
         <div id="Salary_table">
 
-            @{ var Dept = Model.Select(c => c.CDepartmentId).Distinct().ToList(); 
-                            for (int i = 1; i < Dept.Count + 1; i++)
-                            {
-                <div class="card">
-                    <div class="card-header">
-                        <table table class="table table-bordered table-hover">
-                            <thead>
-                                <tr style="text-align:center">
+            @{ var Dept = Model.Select(c => c.CDepartmentId).Distinct().ToList();
+                for (int i = 1; i < Dept.Count + 1; i++)
+                {
+                    <div class="card">
+                        <div class="card-header">
+                            <table table class="table table-bordered table-hover">
+                                <thead>
+                                    <tr style="text-align:center">
+                                        @{ string checkbox = "checkbox-toggle" + i; }
+                                        <th>
+                                            <button type="button" class="btn btn-default btn-sm @checkbox">
+                                                <i class="far fa-square"></i>
+                                            </button>
+                                            @Html.DisplayNameFor(model => model.CDepartment)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CEmployeeName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CJobTitle)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Month_Salary)
+                                        </th>
+                                        <th>
+                                            差旅費
+                                        </th>
+                                        <th>
+                                            遲到扣款
+                                        </th>
+                                        <th>
+                                            請假扣款
+                                        </th>
+                                        <th>
+                                            修改/刪除
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CDepartment)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CEmployeeName)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CJobTitle)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.Month_Salary)
-                                    </th>
-                                    <th>
-                                        差旅費
-                                    </th>
-                                    <th>
-                                        遲到扣款
-                                    </th>
-                                    <th>
-                                        請假扣款
-                                    </th>
-                                    <th>
-                                        修改/刪除
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-
-                                @foreach (var item in Model)
-                                {
-                                    if (item.CDepartmentId == i)
+                                    @foreach (var item in Model)
                                     {
+                                        if (item.CDepartmentId == i)
+                                        {
+                                            string CHECKBOX = "CHECKBOX"+item.CDepartmentId.ToString();
 
-                <tr style="text-align:center">
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CDepartment)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CEmployeeName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CJobTitle)
-                    </td>
-
-                    @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                        string Travel = item.CDepartmentId.ToString() + "Travel";
-                        string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                        string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
+                                            <tr style="text-align:center">
 
 
-                    <td class="@Month_Salary">
-                        @Html.DisplayFor(modelItem => item.Month_Salary)
-                    </td>
 
-                    <td class="@Travel">
-                        @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                    </td>
+                                                <td>
+                                                    <div class="@CHECKBOX icheck-primary">
+                                                        <input type="checkbox" value="" id="check1">
+                                                        <label for="check1"></label>
+                                                        @Html.DisplayFor(modelItem => item.CDepartment)
+                                                    </div>
 
-                    <td class="@Tabsense subCate">
-                        @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                    </td>
 
-                    <td class="@LLeave subCate">
-                        @Html.DisplayFor(modelItem => item.CAmont_Leave)
+                                                </td>
 
-                    </td>
-                    <td>
-                        @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CJobTitle)
+                                                </td>
 
-                        @Html.ActionLink("E-mail", "Mail_Click" @*new { id = item.CEmployeeId }*@, new { @class = "btn btn-danger" })
+                                                @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                                    string Travel = item.CDepartmentId.ToString() + "Travel";
+                                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                                    string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
 
-                    </td>
-                </tr>
-}
-        }
-                                <tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                                    <td colspan="3">
-                                        部門總計:
-                                    </td>
+                                                <td class="@Month_Salary">
+                                                    @Html.DisplayFor(modelItem => item.Month_Salary)
+                                                </td>
 
-                                    @{ string dep = i + "Month_Salary";
-                                        string travel = i + "Travel";
-                                        string late = i + "Tabsense";
-                                        string leave = i + "LLeave"; }
+                                                <td class="@Travel">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                                </td>
 
-                                    <td id="@dep"></td>
-                                    <td id="@travel"></td>
-                                    <td id="@late" class="subCate"></td>
-                                    <td id="@leave" class="subCate"></td>
+                                                <td class="@Tabsense subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                                </td>
 
-                                    <td>000000</td>
+                                                <td class="@LLeave subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
 
-                                </tr>
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
 
-                            </tbody>
-                        </table>
-                    </div>
-                </div> } }
+                                                    @Html.ActionLink("E-mail", "Mail_Click"@*new { id = item.CEmployeeId }*@, new { @class = "btn btn-danger" })
+
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+                                    <tr style="text-align:center; background-color:tan; font-weight:bold">
+
+                                        <td colspan="3">
+                                            部門總計:
+                                        </td>
+
+                                        @{ string dep = i + "Month_Salary";
+                                            string travel = i + "Travel";
+                                            string late = i + "Tabsense";
+                                            string leave = i + "LLeave"; }
+
+                                        <td id="@dep"></td>
+                                        <td id="@travel"></td>
+                                        <td id="@late" class="subCate"></td>
+                                        <td id="@leave" class="subCate"></td>
+
+                                        <td>000000</td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> } }
+
+
+
+
 
         </div>
-
-        <script>
-            var x = "";
-            $(".Salary_Distinguish").change(function () {
-
-                $("#cover_page").css({    //加入遮罩
-                    "height": $(document).height(),
-                    "width": $(document).width(),
-                    "display": "initial"
-
-                });
-
-                x = $("#Salary_DEPT").val()//★透過Name屬性取得輸入值
-                y = $("#Salary_JOBTITLE").val()
-
-                console.log(x); //傳入型態:stirng
-                console.log(y);
-
-                $.ajax({
-                    type: "get",
-                    dataType: "html",
-                    url: "/Salary/Mutiple_search",
-                    data: { DEPT: x, TITLE: y },
-                    success: function (data) {
-                        console.log("有進去");
-                        $("#Salary_table").html(data);
-
-                        $("#cover_page").css({ "display": "none" });  //遮罩取消
-
-
-                    },
-                    error: function (msg) {
-                        alert("error:" + msg);
-                    }
-                })
-            });
-
-
-
-            $(function () {
-
-                // 薪水加總
-                for (let i = 1; i < 7; i++) {
-                    let Dept_total = 0;
-                    var DEPT = $("." + [i] + "Month_Salary");
-                    for (let i = 0; i < DEPT.length; i++) {
-                        Dept_total += parseInt(DEPT[i].innerText);
-                    }
-                    $("#" + [i] + "Month_Salary").html(Dept_total);
-                }
-
-                //出差加總
-
-                for (let i = 1; i < 7; i++) {
-                    let Travel_total = 0;
-                    var DEPT = $("." + [i] + "Travel");
-                    for (let i = 0; i < DEPT.length; i++) {
-                        Travel_total += parseInt(DEPT[i].innerText);
-                    }
-                    $("#" + [i] + "Travel").html(Travel_total);
-                }
-
-
-                //遲到扣款加總
-
-                for (let i = 1; i < 7; i++) {
-                    let Tabsense_total = 0;
-                    var DEPT = $("." + [i] + "Tabsense");
-                    for (let i = 0; i < DEPT.length; i++) {
-                        Tabsense_total += parseInt(DEPT[i].innerText);
-                    }
-                    $("#" + [i] + "Tabsense").html(Tabsense_total);
-                }
-
-
-                //請假扣款加總
-
-                for (let i = 1; i < 7; i++) {
-                    let LLeave_total = 0;
-                    var DEPT = $("." + [i] + "LLeave");
-                    for (let i = 0; i < DEPT.length; i++) {
-                        LLeave_total += parseInt(DEPT[i].innerText);
-                    }
-                    $("#" + [i] + "LLeave").html(LLeave_total);
-                }
-
-
-            });
-
-
-
-
-        </script>
-
-
-
-
-
-
-
-
-
     </section>
 </div>
+
+<script>
+    var x = "";
+    $(".Salary_Distinguish").change(function () {
+
+        $("#cover_page").css({    //加入遮罩
+            "height": $(document).height(),
+            "width": $(document).width(),
+            "display": "initial"
+
+        });
+
+        x = $("#Salary_DEPT").val()//★透過Name屬性取得輸入值
+        y = $("#Salary_JOBTITLE").val()
+
+        console.log(x); //傳入型態:stirng
+        console.log(y);
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Salary/Mutiple_search",
+            data: { DEPT: x, TITLE: y },
+            success: function (data) {
+                console.log("有進去");
+                $("#Salary_table").html(data);
+
+                $("#cover_page").css({ "display": "none" });  //遮罩取消
+
+
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+
+
+
+
+    $(function () {
+
+        // 薪水加總
+        for (let i = 1; i < 7; i++) {
+            let Dept_total = 0;
+            var DEPT = $("." + [i] + "Month_Salary");
+            for (let i = 0; i < DEPT.length; i++) {
+                Dept_total += parseInt(DEPT[i].innerText);
+            }
+            $("#" + [i] + "Month_Salary").html(Dept_total);
+        }
+
+        //出差加總
+
+        for (let i = 1; i < 7; i++) {
+            let Travel_total = 0;
+            var DEPT = $("." + [i] + "Travel");
+            for (let i = 0; i < DEPT.length; i++) {
+                Travel_total += parseInt(DEPT[i].innerText);
+            }
+            $("#" + [i] + "Travel").html(Travel_total);
+        }
+
+
+        //遲到扣款加總
+
+        for (let i = 1; i < 7; i++) {
+            let Tabsense_total = 0;
+            var DEPT = $("." + [i] + "Tabsense");
+            for (let i = 0; i < DEPT.length; i++) {
+                Tabsense_total += parseInt(DEPT[i].innerText);
+            }
+            $("#" + [i] + "Tabsense").html(Tabsense_total);
+        }
+
+
+        //請假扣款加總
+
+        for (let i = 1; i < 7; i++) {
+            let LLeave_total = 0;
+            var DEPT = $("." + [i] + "LLeave");
+            for (let i = 0; i < DEPT.length; i++) {
+                LLeave_total += parseInt(DEPT[i].innerText);
+            }
+            $("#" + [i] + "LLeave").html(LLeave_total);
+        }
+
+
+    });
+
+
+
+
+
+    $(function () {
+
+
+        for (let i = 1; i < 7;i++) {
+
+            //Enable check and uncheck all functionality
+            $('.checkbox-toggle'+i).click(function () {
+                var clicks = $(this).data('clicks')
+                if (clicks) {
+                    //Uncheck all checkboxes
+                    $('input[type=\'checkbox\'] CHECK'+i).prop('checked', false)
+                    $('.far.fa-square .checkbox-toggle'+i).removeClass('fa-check-square').addClass('fa-square')
+                } else {
+                    //Check all checkboxes
+                    $('input[type=\'checkbox\'] CHECK' + i).prop('checked', true)
+                    $(' .far.fa-square .checkbox-toggle'+i).removeClass('fa-square').addClass('fa-check-square')
+                }
+                $(this).data('clicks', !clicks)
+            })
+
+        }
+    })
+
+</script>
+
+
+
+
+
+
+
+
 
