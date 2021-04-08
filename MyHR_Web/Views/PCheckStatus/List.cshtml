@@ -67,9 +67,9 @@
                     <th>
                         <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" />
                     </th>
-                    @*<th>
-                            @Html.DisplayNameFor(model => model.CPropertyId)
-                        </th>*@
+                    <th style="display:none">
+                    @Html.DisplayNameFor(model => model.CPropertyId)
+                    </th>
 
                     <th>
                         @Html.DisplayNameFor(model => model.CEmployeeId)
@@ -81,8 +81,8 @@
                         部門@*@Html.DisplayNameFor(model => model.CDeparmentId)*@
                     </th>
                     @*<th>
-                            @Html.DisplayNameFor(model => model.CPhone)
-                        </th>*@
+            @Html.DisplayNameFor(model => model.CPhone)
+        </th>*@
                     <th>
                         @Html.DisplayNameFor(model => model.CPropertySubjectId)
                     </th>
@@ -123,11 +123,11 @@
                         <td>
                             @{ if (item.CPropertyCheckStatusId == 1)
                                 {
-                                    <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CPropertyCheckStatusId)" id="CheckboxGroup" />} }
+                                    <input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CPropertyId)" id="CheckboxGroup" />} }
                         </td>
-                        @*<td>
+                        <td style="display:none">
                                 @Html.DisplayFor(modelItem => item.CPropertyId)
-                            </td>*@
+                            </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.CEmployeeId)
                         </td>
@@ -187,13 +187,13 @@
 <script>
     $(document).ready(function () {
         $("#CheckAll").click(function () {
-            if ($("#CheckAll").prop("checked")) {  //如果全選按鈕有被選擇的話（被選擇是true）
+            if ($("#CheckAll").prop("checked")) {
                 $("input[name='Checkbox[]']").each(function () {
-                    $(this).prop("checked", true);  //把所有的核取方框的都變成勾選
+                    $(this).prop("checked", true);
                 })
             } else {
                 $("input[name='Checkbox[]']").each(function () {
-                    $(this).prop("checked", false);  //把所有的核方框的都取消勾選
+                    $(this).prop("checked", false);
                 })
             }
         })
@@ -213,11 +213,13 @@
                     result.push(check.value);
                 }
             }
+        
 
             $.post(
                     "@Url.Action("updateall")",
                     { "x": JSON.stringify(result) },
                     function (result) {
+                        /*console.log(result);*/
                     },"json"
             )
             setTimeout(() => {
