@@ -197,35 +197,21 @@
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.CJobTitle)
                                                 </td>
-                                                <td>
+                                                <td class="Month_Salary">
                                                     @Html.DisplayFor(modelItem => item.Month_Salary)
                                                 </td>
 
-                                                <td>
+                                                <td class="Travel">
                                                     @Html.DisplayFor(modelItem => item.CAmont_Travel)
                                                 </td>
 
-                                                <td>
+                                                <td class="Tabsense">
                                                     @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
                                                 </td>
 
-                                                <td>
+                                                <td class="Leave">
                                                     @Html.DisplayFor(modelItem => item.CAmont_Leave)
-                                                    @*@{ int LeaveMoney = 0;
 
-                                                        if(ViewBag.Leave == null)
-                                                        {
-                                                            LateMoney = 0;
-                                                        }
-                                                        else
-                                                        {
-                                                            foreach (var a in ViewBag.Leave)
-                                                            {
-                                                                LeaveMoney += a.Leave_HaveToPay;
-                                                            }
-                                                        }
-                                                         }
-                                                    @LeaveMoney*@
                                                 </td>
                                                 <td>
                                                     @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
@@ -234,6 +220,31 @@
                                             </tr>
                                         }
                                     }
+
+
+       
+
+                                    @*計算總數*@
+                                    <tr style="text-align:center; background-color:tan">
+
+                                        <td colspan="3">
+                                            各部門總計:
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                        <td id="Total_Month"></td>
+
+                                        <td id="Total_Travel"></td>
+
+                                        <td id="Total_Absense"></td>
+
+
+                                    </tr>
+
+
+
+
+
                                 </tbody>
                             </table>
                         </div>
@@ -280,6 +291,28 @@
                     }
                 })
             });
+
+
+
+            $(function () {
+
+                var num = 0;
+                $(".Month_Salary").each(function () {
+                    num1 = Number($(this).val());
+                    num = num + num1;
+                });
+
+                $("#Total_Month").attr("value", num);
+
+            }
+               
+ 
+
+
+
+
+
+
         </script>
 
 

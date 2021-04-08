@@ -328,91 +328,102 @@
 </div>
 
 
+<script type="text/javascript" src="~/js/html2canvas.js"></script>
+<script type="text/javascript" src="~/js/jspdf.debug.js"></script>
+
 
 <script src="~/js/accounting.js"></script>
-            <script>
+<script>
+    
+
+    
+
+
+    $("#Ajax_LeavePay").hover(function () {
+        console.log("123");
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Salary/Count_Leave",
+            success: function (data) {
+                console.log("有進去");
+                $("#ForLeave").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
 
 
 
-        $("#Ajax_LeavePay").hover(function () {
-                    console.log("123");
-            $.ajax({
-                    type: "get",
-                dataType: "html",
-                url: "/Salary/Count_Leave",
-                success: function (data) {
-                    console.log("有進去");
-                    $("#ForLeave").html(data);
-                },
-                error: function (msg) {
-                    alert("error:" + msg);
-                }
-            })
+    $("#Ajax_LeavePay").hover(function () {
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Salary/Count_Absense",
+            success: function (data) {
+                console.log("有進去");
+                $("#ForLate").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+
+    //document.addEventListener("DOMContentLoaded", function () {
+    //    document.getElementById("#Salary_Sum").addEventListener()
+
+    //})
+
+    $(function () {
+
+        let Month_Salary = $("#Month_Salary").html().trim();
+        let Month_TravelPay = $("#Month_TravelPay").html().trim();
+        let Month_Leave = $("#Month_Leave").html().trim();
+        let Month_Late = $("#Month_Late").html().trim();
+
+        console.log(Month_Salary);
+        console.log(Month_Leave);
+        console.log(Month_Late);
+
+        var AddSum = parseInt(Month_Salary) + parseInt(Month_TravelPay);
+        var SubSum = parseInt(Month_Leave) + parseInt(Month_Late);
+        var Netincome = AddSum - SubSum;
+
+        $("#Salary_payable").html(accounting.formatMoney(AddSum));
+        $("#Salary_Sub").html(accounting.formatMoney(SubSum));
+        $("#Salary_Netincome").html(accounting.formatMoney(Netincome));
+    })
+</script>
+
+
+
+
+<script type="text/javascript">
+
+    function screenshot() {
+        console.log("asdasd");
+        html2canvas(document.getElementById('chart3')).then(function (canvas) {
+            /*  document.body.appendChild(canvas);*/
+            var a = document.createElement('a');
+            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+
+            let userName = $("#NAME").html().trim();
+            a.download = userName + '03月薪資.jpg';
+            a.click();
         });
+    }
 
 
 
-        $("#Ajax_LeavePay").hover(function () {
+    
 
-                    $.ajax({
-                        type: "get",
-                        dataType: "html",
-                        url: "/Salary/Count_Absense",
-                        success: function (data) {
-                            console.log("有進去");
-                            $("#ForLate").html(data);
-                        },
-                        error: function (msg) {
-                            alert("error:" + msg);
-                        }
-                    })
-                });
+    
 
-
-        //document.addEventListener("DOMContentLoaded", function () {
-                    //    document.getElementById("#Salary_Sum").addEventListener()
-
-                    //})
-
-                    $(function () {
-
-                        let Month_Salary = $("#Month_Salary").html().trim();
-                        let Month_TravelPay = $("#Month_TravelPay").html().trim();
-                        let Month_Leave = $("#Month_Leave").html().trim();
-                        let Month_Late = $("#Month_Late").html().trim();
-
-                        console.log(Month_Salary);
-                        console.log(Month_Leave);
-                        console.log(Month_Late);
-
-                        var AddSum = parseInt(Month_Salary) + parseInt(Month_TravelPay);
-                        var SubSum = parseInt(Month_Leave) + parseInt(Month_Late);
-                        var Netincome = AddSum - SubSum;
-
-                        $("#Salary_payable").html(accounting.formatMoney(AddSum));
-                        $("#Salary_Sub").html(accounting.formatMoney(SubSum));
-                        $("#Salary_Netincome").html(accounting.formatMoney(Netincome));
-                    })
-            </script>
-
-         
-
-            <script type="text/javascript" src="~/js/html2canvas.js"></script>
-        <script type="text/javascript" src="~/js/jspdf.debug.js"></script>
-            <script type="text/javascript">
-
-                    function screenshot() {
-                        console.log("asdasd");
-                        html2canvas(document.getElementById('chart3')).then(function (canvas) {
-                          /*  document.body.appendChild(canvas);*/
-                            var a = document.createElement('a');
-                            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
-
-                            let userName = $("#NAME").html().trim();
-                            a.download = userName+'03月薪資.jpg';
-                            a.click();
-                        });
-                    }
 
                     //function downloadPDF(){
                     //    var element = $("#chart3");    // 这个dom元素是要导出pdf的div容器
@@ -472,4 +483,4 @@
 
 
 
-            </script>
+</script>
