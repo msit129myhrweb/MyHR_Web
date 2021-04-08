@@ -306,18 +306,18 @@
                             </a>
                         </li>
                         @*薪資*@
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Salary" asp-action="SalaryList" class="nav-link">
+                        <li class="nav-item"> @*SalaryList*@
+                            <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                 <i class="fas fa-money-bill-alt"></i>
                                 <p>薪資系統</p>
                             </a>
                         </li>
 
                         @{
-                            if (login_ureid == 7)
+                            if (login_ureid == 7) /*SalaryList_supervisor*/
                             {
                                 @: <li class="nav-item">
-                                    <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
+                                    <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                         <i class="fas fa-money-bill-alt"></i>
                                         <p>薪資系統/FOR總務主管</p>
                                     </a>
