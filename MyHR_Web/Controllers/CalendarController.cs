@@ -10,31 +10,37 @@ namespace MyHR_Web.Controllers
 {
     public class CalendarController : Controller
     {
-        
 
+        public IActionResult Index()
+        {
+            return View();
+        }
 
         public IActionResult Calendar()
         {
             return View();
         }
 
+
+     
         public JsonResult GetEvents()
         {
             using (dbMyCompanyContext db = new dbMyCompanyContext())
             {
-                var events = db.TEvents.Select(n => new
-                {
-                    EventId = n.EventId,
-                    Subject = n.Subject,
-                    Start = n.Start,
-                    Description = n.Description,
-                    End = n.End,
-                    IsFullDay = n.IsFullDay,
-                    ThemeColor = n.ThemeColor,
+                var Data = db.TEvents.ToList();
+                //var events = db.TEvents.Select(n => new
+                //{
+                //    EventId = n.EventId,
+                //    Subject = n.Subject,
+                //    Start = n.Start,
+                //    Description = n.Description,
+                //    End = n.End,
+                //    IsFullDay = n.IsFullDay,
+                //    ThemeColor = n.ThemeColor,
 
-                }).ToList();
+                //}).ToList();
                 //return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-                var Data = events;
+              
                 return new JsonResult(Data);
             }
         }

@@ -26,7 +26,6 @@
     <None Include="Views\Home\Calendar.cshtml" />
     <None Include="Views\Home\Index - 複製.cshtml" />
     <None Include="Views\Home\Index.cshtml" />
-    <None Include="Views\Home\Login - 複製.cshtml" />
     <None Include="Views\Home\Login.cshtml" />
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Home\Profile.cshtml" />
