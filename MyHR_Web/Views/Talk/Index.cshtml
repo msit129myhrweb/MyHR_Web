@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Http;
+@{ string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME"); }
+
+<head>
+    <style>
+        h2 {
+            background-color: #cbb2ae;
+            border-left: 5px solid #808080;
+            font-family: "微软雅黑", "宋体", "黑体", Arial;
+            font-size: 25px;
+            height: 80px;
+            line-height: 80px;
+            font-weight: bold;
+            text-shadow: 2px 2px 3px #222222;
+            color: #FFFFFF;
+            padding-left: 10px;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="content-wrapper">
+        <section class="content-header">
+            <h2>即時聊天系統</h2>
+        </section>
+
+        <div class="container">
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-2">使用者</div>
+                <div class="col-4"><input type="text" id="userInput" value="@userName" readonly="readonly" /></div>
+            </div>
+            <div class="row">
+                <div class="col-2">訊息</div>
+                <div class="col-4"><input type="text" id="messageInput" /></div>
+            </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-6">
+                    <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row bg-white text-dark">
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js"></script>
+
+    </div>
+</body>
+
