@@ -11,8 +11,8 @@ namespace MyHR_Web.ViewModel
     public class CSalaryViewModel
     {
         dbMyCompanyContext MyHR = new dbMyCompanyContext();
-        
-          //TUser
+
+        //TUser
         public int CEmployeeId { get; set; }
 
         [DisplayName("員工姓名")]
@@ -37,7 +37,7 @@ namespace MyHR_Web.ViewModel
 
         //TLeaveApplication
 
-        public int? CLeaveHours { get; set; } 
+        public int? CLeaveHours { get; set; }
 
 
         public int CAmont_Leave { get; set; }
@@ -47,7 +47,7 @@ namespace MyHR_Web.ViewModel
         public int CAmont_Travel { get; set; }
 
 
-        
+
 
 
 
@@ -65,7 +65,7 @@ namespace MyHR_Web.ViewModel
         public int Count_Lateup30 { get; set; }
 
         public int CAmont_Latebelow30 { get; set; }
-       
+
         public int CAmont_Lateup30 { get; set; }
 
 
@@ -132,10 +132,6 @@ namespace MyHR_Web.ViewModel
 
         [DisplayName("當月應付薪水")]
         public int Month_Salary { get; set; }
-       
-        
-       
-
 
     }
 }

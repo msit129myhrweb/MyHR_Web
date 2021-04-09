@@ -300,24 +300,24 @@
             </ul>*@
                         </li>
                         <li class="nav-item">
-                            <a asp-area="" asp-controller="Interview" asp-action="Index" class="nav-link">
+                            <a asp-area="" asp-controller="Interview" asp-action="List" class="nav-link">
                                 <i class="far fa-address-card"></i>
                                 <p>面試資料</p>
                             </a>
                         </li>
                         @*薪資*@
-                        <li class="nav-item"> @*SalaryList*@
-                            <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Salary" asp-action="SalaryList" class="nav-link">
                                 <i class="fas fa-money-bill-alt"></i>
                                 <p>薪資系統</p>
                             </a>
                         </li>
 
                         @{
-                            if (login_ureid == 7) /*SalaryList_supervisor*/
+                            if (login_ureid == 7)
                             {
                                 @: <li class="nav-item">
-                                    <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
+                                    <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
                                         <i class="fas fa-money-bill-alt"></i>
                                         <p>薪資系統/FOR總務主管</p>
                                     </a>
@@ -370,12 +370,17 @@
                         </ul>
                     </li>
                     @*powerbi*@
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Powerbi" asp-action="Index" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
-                            <p>資料分析</p>
-                        </a>
-                    </li>
+
+                    @if (jobTitle == 1)
+                    {
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Powerbi" asp-action="Index" class="nav-link">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>資料分析</p>
+                            </a>
+                        </li>
+                    }
+
                     @*疫情新聞*@
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Covid_19" asp-action="Covid_19" class="nav-link">
