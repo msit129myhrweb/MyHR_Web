@@ -179,7 +179,7 @@
                                     {
                                         if (item.CDepartmentId == i)
                                         {
-                                            string CHECKBOX = "CHECKBOX"+item.CDepartmentId.ToString();
+                                            string CHECKBOX = item.CDepartmentId.ToString()+"CHECKBOX";
 
                                             <tr style="text-align:center">
 
@@ -358,8 +358,6 @@
 
 
 
-
-
     $(function () {
 
 
@@ -370,11 +368,11 @@
                 var clicks = $(this).data('clicks')
                 if (clicks) {
                     //Uncheck all checkboxes
-                    $('input[type=\'checkbox\'] CHECK'+i).prop('checked', false)
+                    $('.'+i+'CHECKBOX input[type=\'checkbox\'] ').prop('checked', false)
                     $('.far.fa-square .checkbox-toggle'+i).removeClass('fa-check-square').addClass('fa-square')
                 } else {
                     //Check all checkboxes
-                    $('input[type=\'checkbox\'] CHECK' + i).prop('checked', true)
+                    $('.' + i + 'CHECKBOX input[type=\'checkbox\'] ').prop('checked', true)
                     $(' .far.fa-square .checkbox-toggle'+i).removeClass('fa-square').addClass('fa-check-square')
                 }
                 $(this).data('clicks', !clicks)
