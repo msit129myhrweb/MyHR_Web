@@ -13,6 +13,7 @@ namespace MyHR_Web.Models
         public TimeSpan? COn { get; set; }
         public TimeSpan? COff { get; set; }
         public string CStatus { get; set; }
+        public int CCountNum { get; set; }
 
         public virtual TUser CEmployee { get; set; }
     }

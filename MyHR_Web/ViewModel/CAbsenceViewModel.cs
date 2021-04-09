@@ -67,6 +67,13 @@ namespace MyHR_Web.ViewModel
         }
         [DisplayName("員工姓名")]
         public string employeeName { get { return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
+        
+        public int CCountNum
+        {
+            get { return iv_absence.CCountNum; }
+            set { iv_absence.CCountNum = value; }
+        }
+
         //[DisplayName("部門名稱")]
         //public string CDepartment
         //{

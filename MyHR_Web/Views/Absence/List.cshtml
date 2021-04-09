@@ -1,6 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Http;
 @using prjCoreDemo.ViewModel;;
-@{string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);}
+@{
+    string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+    DateTime Late = DateTime.Today.AddHours(10);
+    TimeSpan LateTime = Late.TimeOfDay;
+    DateTime Coff = DateTime.Today.AddHours(18);
+    TimeSpan CoffTime=Coff.TimeOfDay;
+    var countNum = 2;
+}
 
 @model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
 @{
@@ -44,7 +51,7 @@
             <body onload="ShowTime()">
                 <form id="form1" runat="server" class="nowTime" style="background-color:white ;padding:20px; border-radius:10px">
                     ⽬前時間&nbsp:&nbsp<br /><div id="showbox"></div>
-                    <div id="showClock">@*<p>溫馨小提醒&nbsp:&nbsp上下班皆需打卡~</p>*@</div>
+                    <div id="showClock"></div>
                 </form>
             </body>
             <br />
@@ -59,8 +66,9 @@
                 <p id="tips">
                     1.&nbsp上下班皆需打卡<br />
                     2.&nbsp10:00(含)以後遲到需請假<br />
-                    3.&nbsp若有異常需補打卡<br />
-                    4.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
+                    3.&nbsp若有異常需補打卡或是請假<br />
+                    4.&nbsp每月補登打卡次數3次為上限
+                    5.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
                 </p>
             </div>
         </div>
@@ -77,6 +85,19 @@
                                 <div class="col-md-6 form-group">
                                     <label class="col-lg-3 control-label">迄&nbsp:&nbsp</label>
                                     <input type="date" name="eDate" id="eDate" class="absence" />
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="col-lg-3 control-label">狀態&nbsp:&nbsp</label>
+                                    <select class="absence" id="absence_Status">
+                                        <option value="" disabled selected>請選擇</option>
+                                        <option value="正常">正常</option>
+                                        <option value="遲到">遲到</option>
+                                        <option value="異常">異常</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="col-lg-3 control-label">剩餘補登次數&nbsp:&nbsp</label>
+                                    <label>@countNum&nbsp次</label>
                                 </div>
                             </div>
                             @*<div class="row">
@@ -122,7 +143,14 @@
                                     @{
                                         if (item.CStatus == "異常")
                                         {
-                                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                            if(item.COn> LateTime&&item.COff<=CoffTime)
+                                            {
+                                                <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "LeaveCreate", new { }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                            }
+                                            else/* if (item.COn == null || item.COff == null)*/
+                                            {
+                                                <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                            }
                                         }
                                         else
                                         {
@@ -158,7 +186,7 @@
         var now = d.getHours();   //當前時間的小時
         d.setHours(18);//當日18時的million second
         var offTime = d.getHours();
-        if (now <= offTime) {
+        if (now < offTime) {
             document.getElementById("off").setAttribute("disabled", "disabled");
         }
         else {
@@ -242,6 +270,7 @@
         };
 
     $(".absence").change(function () {
+        var sta = $("#absence_Status").val();
         var sDate = $("#sDate").val();
         var eDate = $("#eDate").val();
         console.log(sDate + "/" + eDate );
@@ -250,7 +279,7 @@
             type: "get",
             dataType: "html",
             url: "/Absence/date_search",
-            data: { sDate: sDate, eDate: eDate},
+            data: { sDate: sDate, eDate: eDate, status: sta },
             success: function (data) {
                 console.log("a");
                 $("#absence_table").html(data);
