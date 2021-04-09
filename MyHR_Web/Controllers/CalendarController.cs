@@ -40,7 +40,7 @@ namespace MyHR_Web.Controllers
 
                 //}).ToList();
                 //return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-              
+                ViewData["TEvent"] = Data;
                 return new JsonResult(Data);
             }
         }
