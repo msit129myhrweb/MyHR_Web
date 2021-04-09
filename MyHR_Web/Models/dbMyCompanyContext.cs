@@ -22,6 +22,7 @@ namespace MyHR_Web.Models
         public virtual DbSet<TBulletin> TBulletins { get; set; }
         public virtual DbSet<TCheckStatus> TCheckStatuses { get; set; }
         public virtual DbSet<TCostCategory> TCostCategories { get; set; }
+        public virtual DbSet<TEvent> TEvents { get; set; }
         public virtual DbSet<TInterView> TInterViews { get; set; }
         public virtual DbSet<TInterViewProcess> TInterViewProcesses { get; set; }
         public virtual DbSet<TInterViewStatus> TInterViewStatuses { get; set; }
@@ -177,6 +178,26 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(20)
                     .HasColumnName("cCostCategory");
+            });
+
+            modelBuilder.Entity<TEvent>(entity =>
+            {
+                entity.HasKey(e => e.EventId)
+                    .HasName("PK_TEvents");
+
+                entity.ToTable("tEvents");
+
+                entity.Property(e => e.EventId).HasColumnName("EventID");
+
+                entity.Property(e => e.Description).HasMaxLength(300);
+
+                entity.Property(e => e.End).HasColumnType("datetime");
+
+                entity.Property(e => e.Start).HasColumnType("datetime");
+
+                entity.Property(e => e.Subject).HasMaxLength(100);
+
+                entity.Property(e => e.ThemeColor).HasMaxLength(10);
             });
 
             modelBuilder.Entity<TInterView>(entity =>
