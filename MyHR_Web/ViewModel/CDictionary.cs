@@ -31,7 +31,5 @@ namespace prjCoreDemo.ViewModel
         public static readonly string CURRENT_LOGINED_ACC_ENABLE = "CURRENT_LOGINED_ACC_ENABLE";
 
         public static readonly string Current_User = "Current_User";// For Seession TUser
-        public static readonly string excel = "excel";
-        public static readonly string excel_type = "excel_type";
     }
 }
