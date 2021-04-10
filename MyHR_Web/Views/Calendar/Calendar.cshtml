@@ -50,7 +50,7 @@
                             </div>
                             <div class="modal-body">
                                 <button id="btnDelete" class="btn btn-default btn-sm pull-right">
-                                    <span class="glyphicon glyphicon-remove"></span> 刪除
+                                    <span class="glyphicon glyphicon-remove"  data-dismiss="modal"></span> 刪除
                                 </button>
                                 <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
                                     <span class="glyphicon glyphicon-pencil"></span> 編輯
@@ -181,7 +181,8 @@
                     hiddenDays: [6, 0],
                     contentHeight: "auto",
                     eventLimit: true,
-                   /* eventColor: events.color,*/ //'#378006',
+                    eventColor: '#3787d8', //'#378006',  
+                    
                     events: 'https://localhost:44388/Calendar/GetEvents',
                     eventClick: function (calEvent, jsEvent, view) { //點開出現的內容
                         selectedEvent = calEvent;
@@ -202,9 +203,8 @@
 
                     eventRender: function (event, element) {
                         element.find('.fc-title').append('- ' + event.subject);
-                        $('.fc-content').css('background-color', 'red');
-                        //element.find('.fc-content').addClass(event.className.join(' ')); 
-                      
+                        element.css('background-color', event.themeColor);
+                        element.css('opacity', .6);
                     },
 
                     selectable: true,
@@ -256,7 +256,7 @@
                             }
                             setTimeout(() => {
                                 window.location.assign(window.location.href)
-                            }, 300);
+                            }, 100);
                         },
                         error: function () {
                             alert('Failed');
@@ -336,7 +336,7 @@
                     SaveEvent(data);
                     setTimeout(() => {
                         window.location.assign(window.location.href)
-                    }, 300);
+                    }, 100);
                     ;                // call function for submit data to the server
                 })
                 function SaveEvent(data) {
