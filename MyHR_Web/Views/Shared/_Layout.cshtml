@@ -33,9 +33,11 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
-                 <li class="nav-item d-none d-sm-inline-block">
+                
+<li class="nav-item d-none d-sm-inline-block">
                     <a href="/Home/Index" class="nav-link"><i class="fa fa-home" aria-hidden="true"></i>Home</a>
-                </li>
+                </li>                </li>
+                
                 <li class="nav-item">
                     <a class="nav-link" href="/Calendar/Calendar" role="button"><i class="far fa-calendar-alt"></i> Calendar</a>
                 </li>
@@ -175,7 +177,9 @@
                         <img class="img-circle elevation-2"
                              src="/Home/ViewPhoto?id=@login_ureid"
                              alt="User Image"
-                             style="width:40px;height:40px;">                    </div>
+                           
+                             style="width:40px;height:40px;">                   
+                    </div>
                     <div class="info">
                         <a class="d-block" asp-controller="Home" asp-action="Profile">@Name</a> 
                     </div>
@@ -372,25 +376,6 @@
 
                     @*聊天系統*@
 
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Talk" asp-action="Index" class="nav-link">
-                            <i class="fas fa-chart-bar"></i>
-                            <p>即時聊天室</p>
-                        </a>
-                    </li> @*疫情新聞*@
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="Covid_19" asp-action="Covid_19" class="nav-link">
-                                            <i class="fas fa-shield-virus"></i>
-                                            <p>疫情新聞</p>
-                                        </a>
-                                    </li> 
-@*登出*@
-                                                                    <li class="nav-item">
-                                                                        <a asp-area="" asp-controller="Home" asp-action="Logout" class="nav-link">
-                                                                            <i class="fas fa-sign-out-alt"></i>
-                                                                            <p>登出</p>
-                                                                        </a>
-                                                                    </li>
 
                                                                                 </ul>
                 </nav>
