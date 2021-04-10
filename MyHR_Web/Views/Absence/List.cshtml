@@ -35,6 +35,10 @@
             width:69%;
             float:right;
         }
+        #countNum {
+            font-size: 20px;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <div class="content-wrapper">
@@ -70,26 +74,34 @@
                         <div style="background-color:white ;padding:20px; border-radius:10px">
                             <h3>查詢條件</h3>
                             <div class="row">
-                                <div class="col-md-6 form-group">
-                                    <label class="col-lg-3 control-label">起&nbsp:&nbsp</label>
-                                    <input type="date" name="sDate" id="sDate" class="absence" />
+                                <div class="col-md-4 form-group">
+                                    <label class="col-lg-3 control-label">起&nbsp;:&nbsp;</label>
+                                    <input type="date" name="sDate" id="sDate" class="absence">
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label class="col-lg-3 control-label">迄&nbsp:&nbsp</label>
-                                    <input type="date" name="eDate" id="eDate" class="absence" />
+                                <div class="col-md-4 form-group">
+                                    <label class="col-lg-3 control-label">迄&nbsp;:&nbsp;</label>
+                                    <input type="date" name="eDate" id="eDate" class="absence">
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label class="col-lg-3 control-label">狀態&nbsp:&nbsp</label>
+                                <div class="col-md-4 form-group">
+                                    <label class="col-lg-6 control-label">已補登次數&nbsp;:&nbsp;</label>
+                                    <label id="countNum">@countNum&nbsp;次</label>
+                                </div>
+                                <div id="radioOption" class="btn-group btn-group-toggle col-md-4 form-group" data-toggle="buttons" style="filter: grayscale(50%)">
+                                    <label class="btn btn-info"><input value="當日" type="radio" name="options" id="option1" autocomplete="off">當日</label>
+                                    <label class="btn btn-info"><input value="當週" type="radio" name="options" id="option2" autocomplete="off" >當週</label>
+                                    <label class="btn btn-info"><input value="當月" type="radio" name="options" id="option3" autocomplete="off" checked>當月</label>
+                                </div>
+                                <div class="col-md-4 form-group">
+                                    <label class="col-lg-3 control-label">狀態&nbsp;:&nbsp;</label>
                                     <select class="absence" id="absence_Status">
-                                        <option value="" disabled selected>請選擇</option>
+                                        <option value="" disabled="" selected="">請選擇</option>
                                         <option value="正常">正常</option>
                                         <option value="遲到">遲到</option>
                                         <option value="異常">異常</option>
                                     </select>
                                 </div>
-                                <div class="col-md-6 form-group">
-                                    <label class="col-lg-3 control-label">已補登次數&nbsp:&nbsp</label>
-                                    <label>@countNum&nbsp次</label>
+                                <div class="col-md-4 form-group">
+                                    <input type="button" id="btn_research" value="重新查詢" onclick="btn_research()" class="btn btn-success" style="filter: grayscale(50%)">
                                 </div>
                             </div>
                         </div>
@@ -161,7 +173,6 @@
 
     //未六點不可打下班卡
     $(function () {
-
         var d = new Date();
         var now = d.getHours();   //當前時間的小時
         d.setHours(18);//當日18時的million second
@@ -201,54 +212,51 @@
 
 
     //打上班卡
-        function clockOn() {
-            var id = @a;
-            var now = new Date();
-            var date = now.toISOString().substr(0,10);
+    function clockOn() {
+        var id = @a;
+        var now = new Date();
+        var date = now.toISOString().substr(0,10);
 
-            $.ajax({
-                type: "get",
-                dataType: "html",
-                url: "/Absence/getClockString_on",
-                data: { id: @a, date: date},
-                success: function (data) {
-                    console.log("a");
-                    $("#absence_table").html(data);
-                },
-                error: function (msg) {
-                    alert("error:" + msg);
-                }
-            })
-
-            //var content = document.getElementById("showClock");
-            //content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
-
-        };
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/getClockString_on",
+            data: { id: @a, date: date},
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+        //var content = document.getElementById("showClock");
+        //content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
+    };
 
     //打下班卡
-        function clockOff() {
-            var id = @a;
-            var now = new Date();
-            var date = now.toISOString().substr(0,10);
+    function clockOff() {
+        var id = @a;
+        var now = new Date();
+        var date = now.toISOString().substr(0,10);
 
-            $.ajax({
-                type: "get",
-                dataType: "html",
-                url: "/Absence/getClockString_off",
-                data: { id: @a, date: date},
-                success: function (data) {
-                    console.log("a");
-                    $("#absence_table").html(data);
-                },
-                error: function (msg) {
-                    alert("error:" + msg);
-                }
-            })
-            //var content = document.getElementById("showClock");
-            //content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
-
-        };
-
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/getClockString_off",
+            data: { id: @a, date: date},
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+        //var content = document.getElementById("showClock");
+        //content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
+    };
+    //查詢日期、狀態
     $(".absence").change(function () {
         var sta = $("#absence_Status").val();
         var sDate = $("#sDate").val();
@@ -269,4 +277,42 @@
             }
         })
     });
+
+    //重新查詢
+    $("#btn_research").click( function () {
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/research",
+            data: { id: @a},
+            success: function (data) {
+                console.log("research");
+                $("#absence_table").html(data);
+            },
+            error: function () {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+    //當日當週當月查詢
+    $("#radioOption").change(function () {
+        var search_dwm = document.querySelector('input[name="options"]:checked').value;
+        console.log(search_dwm);
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/search_dwm",
+            data: { id: @a , search_dwm: search_dwm},
+            success: function (data) {
+                console.log("research");
+                $("#absence_table").html(data);
+            },
+            error: function () {
+                alert("error:" + msg);
+            }
+        })
+    })
 </script>
