@@ -103,6 +103,10 @@
                 <i class="fas fa-envelope"></i> 下載薪資單(PDF)
             </a>
 
+            <a id="btnSave" onclick="happy()" class="btn btn-app bg-warning">
+                <span class="badge bg-info">News</span>
+                <i class="fas fa-envelope"></i> sssssssss
+            </a>
 
 
 
@@ -324,7 +328,7 @@
             }
 
 
-</section>
+    </section>
 </div>
 
 
@@ -406,25 +410,40 @@
 <script type="text/javascript">
 
     function screenshot() {
+
+
+
         console.log("asdasd");
         html2canvas(document.getElementById('chart3')).then(function (canvas) {
             /*  document.body.appendChild(canvas);*/
             var a = document.createElement('a');
-            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "image/octet-stream");
+            a.href = canvas.toDataURL("image/jpeg").replace("image/jpeg", "application/octet-stream");
 
             let userName = $("#NAME").html().trim();
             a.download = userName + '03月薪資.jpg';
             a.click();
         });
-    }
 
 
+
+        console.log("a");
+    };
+
+
+    //function happy() {
+    //    var doc = new jsPDF();
+    //    html2canvas(document.getElementById('chart3'), {
+    //        onrendered: function (canvas) {
+    //            var image = canvas.toDataURL("image/png");
+    //            doc.addImage(image, 'JPEG', 0, 0, canvas.width, canvas.height);
+    //            doc.save('test.pdf');
+    //        }
+    //    });
+
+    //};
 
     
-
-    
-
-
+   
                     //function downloadPDF(){
                     //    var element = $("#chart3");    // 这个dom元素是要导出pdf的div容器
                     //    var w = element.width();    // 获得该容器的宽

@@ -513,48 +513,77 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             return PartialView("Mutiple_search", table);
-
-
         }
 
 
-        public IActionResult Mail_Click(/*object sender, EventArgs e*/)
+        public IActionResult Mail_Click(string ID)
         {
-            try
+            string a = ID;
+            string[] ids = a.Split('\\', '"', '[', ',', ']');
+
+            List<int> list = new List<int>();
+            foreach (var item in ids)
             {
+                if (item != "")
+                {
+                    list.Add(int.Parse(item));
+                }
+            }
 
-                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
-                msg.To.Add("rovingwindownload@gmail.com");
-                //msg.To.Add("b@b.com");可以發送給多人
-                //msg.CC.Add("c@c.com");
-                //msg.CC.Add("c@c.com");可以抄送副本給多人 
-                //這裡可以隨便填，不是很重要
-                msg.From = new MailAddress("msit129hellowork@gmail.com", "HELLOWORK公司", System.Text.Encoding.UTF8);
-                /* 上面3個參數分別是發件人地址（可以隨便寫），發件人姓名，編碼*/
-                msg.Subject = "面試通知";//郵件標題
-                msg.SubjectEncoding = System.Text.Encoding.UTF8;//郵件標題編碼
-                msg.Body = "說謊的傢伙"; //郵件內容
-                msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 
-           /*     msg.Attachments.Add(new Attachment(@"D:\test2.docx")); */ //附件
-                msg.IsBodyHtml = true;//是否是HTML郵件 
-                                      //msg.Priority = MailPriority.High;//郵件優先級 
+            foreach (var i in list)   //Check box 有勾選的員工ID值
+            {
+                var Id_Table = MyHR.TUsers.Where(c => c.CEmployeeId == i).Select(c => c.CEmail).FirstOrDefault();
 
-                SmtpClient client = new SmtpClient();
-                client.Credentials = new System.Net.NetworkCredential("msit129hellowork@gmail.com", "izougqdehrjrufoh"); //這裡要填正確的帳號跟密碼
-                client.Host = "smtp.gmail.com"; //設定smtp Server
-                client.Port = 25; //設定Port
-                client.EnableSsl = true; //gmail預設開啟驗證
-                client.Send(msg); //寄出信件
-                client.Dispose();
-                msg.Dispose();
+                if (Id_Table != null)
+                {
+                    try
+                    {
+                        System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+
+                        string PEOPLE = Id_Table.ToString();
+
+                        msg.To.Add(PEOPLE);
+                        //msg.To.Add("b@b.com");可以發送給多人
+                        //msg.CC.Add("c@c.com");
+                        //msg.CC.Add("c@c.com");可以抄送副本給多人 
+                        //這裡可以隨便填，不是很重要
+                        msg.From = new MailAddress("msit129hellowork@gmail.com", "HELLOWORK公司", System.Text.Encoding.UTF8);
+                        /* 上面3個參數分別是發件人地址（可以隨便寫），發件人姓名，編碼*/
+                        msg.Subject = "4月份薪資";//郵件標題
+                        msg.SubjectEncoding = System.Text.Encoding.UTF8;//郵件標題編碼
+                        msg.Body = "本月薪資已發放，請至個人帳戶進行確認。"; //郵件內容
+                        msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 
+                        /*     msg.Attachments.Add(new Attachment(@"D:\test2.docx")); */ //附件
+                        msg.IsBodyHtml = true;//是否是HTML郵件 
+                                              //msg.Priority = MailPriority.High;//郵件優先級 
+
+                        SmtpClient client = new SmtpClient();
+                        client.Credentials = new System.Net.NetworkCredential("msit129hellowork@gmail.com", "izougqdehrjrufoh"); //這裡要填正確的帳號跟密碼
+                        client.Host = "smtp.gmail.com"; //設定smtp Server
+                        client.Port = 25; //設定Port
+                        client.EnableSsl = true; //gmail預設開啟驗證
+                        client.Send(msg); //寄出信件
+                        client.Dispose();
+                        msg.Dispose();
+
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+
+ 
+                }
                
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
 
-            return RedirectToAction("SalaryList_supervisor");
+
+               return RedirectToAction("SalaryList_supervisor");
+
+
+
+
+            
 
 
 
@@ -600,40 +629,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         }
 
-        public JsonResult SendEmail(string x)
-        {
-            string a = x;
-            string[] ids = a.Split('\\', '"', '[', ',', ']');
-
-            List<int> list = new List<int>();
-            foreach (var item in ids)
-            {
-
-                if (item != "")
-                {
-                    list.Add(int.Parse(item));
-                }
-
-            }
-            foreach (var i in list)
-            {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TRepair repair = db.TRepairs.FirstOrDefault(c => c.CRepairNumber == i);
-
-                if (repair != null)
-                {
-                    repair.CRepairStatus = 1;
-                    db.SaveChanges();
-                }
-
-
-            }
-
-            return Json(new { result = true, msg = "成功" });
-
-
-
-        }
+      
 
 
 
