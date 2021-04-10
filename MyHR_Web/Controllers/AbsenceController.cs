@@ -24,6 +24,27 @@ namespace MyHR_Web.Controllers
         public IActionResult List()
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            var t1 = db.TAbsences.Where(a => a.CEmployeeId == userId &&
+                                             a.CCountNum > 0 &&
+                                             a.CCountNum < 3 &&
+                                             a.CDate.Value.Month == Con.Month)
+                                  .ToList();
+            List<TAbsence> list1 = new List<TAbsence>();
+            foreach (var item in t1)
+            {
+                TAbsence avm1 = new TAbsence()
+                {
+                    CApplyNumber = item.CApplyNumber,
+                    CDate = item.CDate,
+                    COn = item.COn,
+                    COff = item.COff,
+                    CStatus = item.CStatus,
+                    CCountNum = item.CCountNum
+                };
+                list1.Add(avm1);
+            }
+            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
+            ViewBag.totalCountNum = total;
 
             var time = from t in db.TAbsences.AsEnumerable()
                        where t.CEmployeeId == userId
@@ -43,6 +64,8 @@ namespace MyHR_Web.Controllers
                 };
                 list.Add(avm);
             }
+
+
             return View(list);
         }
 
@@ -141,7 +164,6 @@ namespace MyHR_Web.Controllers
                         td.CStatus = "異常";
                         db.SaveChanges();
                     }
-
                 }
             }
             else if (td == null)//沒打上班卡
@@ -182,35 +204,34 @@ namespace MyHR_Web.Controllers
         public IActionResult Edit(int? applyNum)
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-            var time = from t in db.TAbsences.AsEnumerable()
-                       where t.CEmployeeId == userId && 
-                             t.CCountNum<3 && t.CCountNum > 0 &&
-                             t.CDate.Value.Month == Con.Month
-                       select t;
 
-            List<TAbsence> list = new List<TAbsence>();
-            foreach (var item in time)
+            var t1 = db.TAbsences.Where(a => a.CEmployeeId == userId &&
+                                             a.CCountNum > 0 &&
+                                             a.CCountNum < 3 &&
+                                             a.CDate.Value.Month == Con.Month)
+                                  .ToList();
+            List<TAbsence> list1 = new List<TAbsence>();
+            foreach (var item in t1)
             {
-                TAbsence avm = new TAbsence()
+                TAbsence avm1 = new TAbsence()
                 {
                     CApplyNumber = item.CApplyNumber,
                     CDate = item.CDate,
                     COn = item.COn,
                     COff = item.COff,
                     CStatus = item.CStatus,
-                    CCountNum=item.CCountNum
+                    CCountNum = item.CCountNum
                 };
-                list.Add(avm);
+                list1.Add(avm1);
             }
-
-
-            int total = list.Count;
-            if (applyNum!=null && total < 4)
+            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
+            ViewBag.totalCountNum = total;
+            if (applyNum != null && total < 3)
             {
                 ViewBag.absence = applyNum;
-                TAbsence abs = db.TAbsences.FirstOrDefault(a=>a.CApplyNumber==applyNum);
+                TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
 
-                if (abs!=null)
+                if (abs != null)
                 {
                     CAbsenceViewModel obj = new CAbsenceViewModel()
                     {
@@ -223,29 +244,29 @@ namespace MyHR_Web.Controllers
                     return View(obj);
                 }
             }
-            else 
+            else
             {
                 return RedirectToAction("LeaveCreate", "Leave");
             }
             return RedirectToAction("List");
         }
         [HttpPost]
-        public IActionResult Edit(TAbsence absence,int? id, DateTime? date, string? when,int? applyNum)
+        public IActionResult Edit(TAbsence absence, int? id, DateTime? date, string? when, int? applyNum)
         {
             if (absence != null)
             {
-                TAbsence absed = db.TAbsences.FirstOrDefault(a=>a.CApplyNumber== applyNum);
+                TAbsence absed = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
                 TimeSpan ConTime = Con.TimeOfDay;//09:00
                 TimeSpan tenOclck = Con.AddHours(1).TimeOfDay;//09:00
 
                 if (absed != null)
                 {
-                    if (absed.COn == null&& absed.COff!=null )//補上班卡
+                    if (absed.COn == null && absed.COff != null)//補上班卡
                     {
                         absed.COn = TimeSpan.Parse("09:00:00");
                         absed.CStatus = "正常";
                     }
-                    else if (absed.COn != null && absed.COff==null)//補下班卡
+                    else if (absed.COn != null && absed.COff == null)//補下班卡
                     {
                         absed.COff = TimeSpan.Parse("18:00:00"); ;
                         if (absed.COn > ConTime)//9:01
@@ -259,7 +280,7 @@ namespace MyHR_Web.Controllers
                     }
                     else if (absed.COn == null && absed.COff == null)//補上下班卡
                     {
-                        if (when=="上班")
+                        if (when == "上班")
                         {
                             absed.COn = TimeSpan.Parse("09:00:00");
                             absed.CStatus = "異常";

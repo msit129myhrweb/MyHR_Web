@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -74,14 +75,5 @@ namespace MyHR_Web.ViewModel
             set { iv_absence.CCountNum = value; }
         }
 
-        //[DisplayName("部門名稱")]
-        //public string CDepartment
-        //{
-        //    get {
-        //        CDepartment = ((eDepartment)iv_Dep.CDepartmentId).ToString();
-        //        return CDepartment; 
-        //    }
-        //    set { CDepartment = value; }
-        //}
     }
 }
