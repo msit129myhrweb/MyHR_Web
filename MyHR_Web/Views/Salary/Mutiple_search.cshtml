@@ -15,7 +15,7 @@
             <thead>
 
                 <tr style="text-align:center">
-                    @{ string checkbox = "checkbox-toggle";
+                    @{ string checkbox = "1checkbox-toggle";
                     }
 
                     <th>
@@ -51,7 +51,7 @@
 
                 @foreach (var item in Model)
                 {
-                    string CHECKBOX = "CHECKBOX";
+                    string CHECKBOX = "1CHECKBOX";
                     <tr style="text-align:center">
 
 
@@ -108,14 +108,17 @@
                     @{ string dep ="Month_Salary";
                         string travel = "Travel";
                         string late = "Tabsense";
-                        string leave ="LLeave"; }
+                        string leave ="LLeave";
+                        string toltal = "toltal";
+
+                            }
 
                     <td id="@dep"></td>
                     <td id="@travel"></td>
                     <td id="@late" class="subCate"></td>
                     <td id="@leave" class="subCate"></td>
 
-                    <td>000000</td>
+                    <td id="toltal">000000</td>
 
                 </tr>
 
@@ -127,25 +130,82 @@
 
 <script>
 
+
+
     $(function () {
+
+
+        var DEPTID = $("#Salary_DEPT").val();
+
+
+        let Dept_total = 0;
+        var DEPT = $("." + DEPTID + "Month_Salary");
+        for (let i = 0; i < DEPT.length; i++) {
+            Dept_total += parseInt(DEPT[i].innerText);
+        }
+        $("#Month_Salary").html(Dept_total);
+
+
+        let Travel_total = 0;
+        var DEPT = $("." + DEPTID + "Travel");
+        for (let i = 0; i < DEPT.length; i++) {
+            Travel_total += parseInt(DEPT[i].innerText);
+        }
+        $("#Travel").html(Travel_total);
+
+
+
+        let Tabsense_total = 0;
+        var DEPT = $("." + DEPTID + "Tabsense");
+        for (let i = 0; i < DEPT.length; i++) {
+            Tabsense_total += parseInt(DEPT[i].innerText);
+        }
+        $("#Tabsense").html(Tabsense_total);
+
+
+
+        let LLeave_total = 0;
+        var DEPT = $("." + DEPTID + "LLeave");
+        for (let i = 0; i < DEPT.length; i++) {
+            LLeave_total += parseInt(DEPT[i].innerText);
+        }
+        $("#LLeave").html(LLeave_total);
+
+
+
+        var a = parseInt($("#Month_Salary").html().trim());
+        var b = parseInt($("#Travel").html().trim());
+        var c = parseInt($("#Tabsense").html().trim());
+        var d = parseInt($("#LLeave").html().trim());
+
+        var e = a + b - c - d;
+
+
+        $("#toltal").html(e);
+
+
+
+
+    })
+    
+
+    $(function () {
+
         //Enable check and uncheck all functionality
-        $('.checkbox-toggle').click(function () {
+        $('.1checkbox-toggle').click(function () {
             var clicks = $(this).data('clicks')
             if (clicks) {
                 //Uncheck all checkboxes
-                $('.CHECKBOX input[type=\'checkbox\']').prop('checked', false)
-                $('.checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+                $('.1CHECKBOX input[type=\'checkbox\']').prop('checked', false)
+                $('.1checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
             } else {
                 //Check all checkboxes
-                $('.CHECKBOX input[type=\'checkbox\']').prop('checked', true)
-                $('.checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+                $('.1CHECKBOX input[type=\'checkbox\']').prop('checked', true)
+                $('.1checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
             }
             $(this).data('clicks', !clicks)
+
+
         })
-
-
-
-
-
-
+    })
 </script>

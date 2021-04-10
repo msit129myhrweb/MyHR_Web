@@ -197,6 +197,8 @@ picker.addEventListener('input', function(e){
 
 
 
+
+
     $("#Leave_End").change(function () {
 
         var start = $("#Leave_Start").val();
@@ -224,23 +226,46 @@ picker.addEventListener('input', function(e){
             }
 
         }
-      
-
-
-         //請假總計(以時計算)
-  /*      console.log("h"+ hours);*/
-
-        
-
-       
-       
-       
-       
 
 
       /*  Refreence：https://blog.csdn.net/weixin_38703170/article/details/82591471*/
 
     })
+
+
+    $("#Leave_Start").change(function () {
+
+        var start = $("#Leave_Start").val();
+        var end = $("#Leave_End").val();
+        var a1 = moment(moment(start).format("YYYY,MM,DD"));
+        var a2 = moment(moment(end).format("YYYY,MM,DD"));
+
+
+        var hours = diffTime(start, end); //1天8小時為上限，計算請假總"時"數(包含假日)
+        var diffDay = a2.diff(a1, 'days'); //計算日期區間總天數 (要包括當天嗎?+1??)
+        var Holiday = countHoliday(start, diffDay); //計算區間內有幾次假日
+        console.log("假日總天" + Holiday);
+
+        if (hours < 0) {   //如果請假時數是負的顯示0。
+            $("#Leave_Cal").val(0);
+        }
+        else {
+
+            if (Holiday === 0) {                //★總時數 - 跨假日的時數 = 總請假時數
+                $("#Leave_Cal").val(hours);
+            }
+            else {
+                hours = hours - (Holiday * 8);
+                $("#Leave_Cal").val(hours);
+            }
+
+        }
+
+
+        /*  Refreence：https://blog.csdn.net/weixin_38703170/article/details/82591471*/
+
+    })
+
 
  //=================================================== 
 

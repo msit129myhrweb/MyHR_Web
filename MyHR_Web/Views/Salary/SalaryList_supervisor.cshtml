@@ -65,13 +65,19 @@
                     color: red;
                 }
             </style>
+
+
+
+            
         </header>
 
+
+     
 
         <h2>人資管理系統</h2>
         <h3 style="background-color:sandybrown">@DateTime.Now.Date.Month 月薪資計算</h3>
 
-        <div style="background-color:white ;padding:20px; border-radius:10px">
+        <div style="background-color:white ;padding:20px; border-radius:10px;width:50%">
             <h3>查詢條件</h3>
 
 
@@ -81,7 +87,7 @@
 
             <div class="row">
 
-                <div class="col-md-6 form-group">
+                <div class="col-md-12 form-group">
                     <label class="col-lg-3 control-label">部門 :</label>
 
                     <select class="Salary_Distinguish" id="Salary_DEPT">
@@ -94,17 +100,10 @@
                     </select>
                 </div>
 
-
-                <div class="col-md-6 form-group">
-                    <button type="button" class="btn btn-default checkbox-toggleALL">
-                        <i class="far fa-square">一鍵全選</i>
-                    </button>
-
-                </div>
-
+    
             </div>
             <div class="row">
-                <div class="col-md-6 form-group">
+                <div class="col-md-12 form-group">
                     <label class="col-lg-3 control-label"> 職位 :</label>
                     <select class="Salary_Distinguish" id="Salary_JOBTITLE">
                         <option value="" disabled selected>請選擇</option>
@@ -115,27 +114,51 @@
                         }
                     </select>
                 </div>
-                <a class="btn btn-app bg-warning" onclick="SendMail()">
-                    <i class="fas fa-envelope"></i> 寄送薪資單(EMAIL)
-                </a>
+               
 
-            </div>
 
-            <div class="row">
+
                 <div class="col-md-6 form-group">
-                    <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%)" />
                 </div>
+
+                <div class="col-md-12 form-group">
+
+                    <button style="display:inline" type="button" class="btn btn-default checkbox-toggleALL">
+                        <i class="far fa-square">一鍵全選</i>
+                    </button>
+
+                    &nbsp;&nbsp;
+
+                    <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%); ">
+
+
+                    @*<a class="btn btn-app bg-warning" onclick="SendMail()">
+            <i class="fas fa-envelope"></i> 寄送薪資單(EMAIL)
+        </a>*@
+                
+                <div style="padding-top:20px;">
+
+
+
+
+                    <button type="button" style="width:40%; padding-top:5px" class="btn btn-block btn-default bg-gradient-warning" onclick="SendMail()">
+                        <i class="fas fa-envelope"></i> 發送薪資單(EMAIL)
+                    </button>
+                </div>
+                </div>
+
+
             </div>
+
+
 
 
         </form>
 
         </div>
-        
-
+ 
         <br />
-        <br />
-
+    
 
         <div id="cover_page" class="mask_page">
             <img id="loading_gif" class="loading_image" src="/theme/imgs/Loading.gif" />
@@ -253,14 +276,15 @@
                                         @{ string dep = i + "Month_Salary";
                                             string travel = i + "Travel";
                                             string late = i + "Tabsense";
-                                            string leave = i + "LLeave"; }
+                                            string leave = i + "LLeave";
+                                            string toltal = i + "toltal";
+                                            }
 
                                         <td id="@dep"></td>
                                         <td id="@travel"></td>
                                         <td id="@late" class="subCate"></td>
                                         <td id="@leave" class="subCate"></td>
-
-                                        <td>000000</td>
+                                        <td id="@toltal">000000</td>
 
                                     </tr>
 
@@ -365,9 +389,43 @@
         }
 
 
+        //各部門加總 
+
+        //var a = parseInt($(".1Month_Salary").html().trim());
+        //var b = parseInt($(".1Travel").html().trim());
+        //var c = parseInt($(".1Tabsense").html().trim());
+        //var d = parseInt($(".1LLeave").html().trim());
+
+        //var e = a + b - c - d;
+
+
+        //$("#1toltal").html(e);
+
+
+
+        for (let i = 1; i < 7; i++) {
+
+            var a = parseInt($("." + i + "Month_Salary").html().trim());
+            var b = parseInt($("." + i + "Travel").html().trim());
+            var c = parseInt($("." + i + "Tabsense").html().trim());
+            var d = parseInt($("." + i + "LLeave").html().trim());
+
+            var e = a + b - c - d;
+
+            $("#"+i+"toltal").html(e);
+        }
+        
+
+
+
+        //-----------------------------------------------------------------
+
+
+
     });  //部門總計加總
 
 
+   
 
     $(function () {
 
@@ -454,7 +512,7 @@
                 alert("error:" + msg);
             }
         });
-    }
+    } //寄送郵件
 
 
 </script>
