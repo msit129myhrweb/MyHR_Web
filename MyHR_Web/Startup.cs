@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyHR_Web.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,7 @@ namespace MyHR_Web
                     _ => "此欄位不得為空");
 
             });
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,6 +71,7 @@ namespace MyHR_Web
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Login}/{action=Login}/{id?}");
+                endpoints.MapHub<ChatHub>("/chatHub");
             });
         }
     }

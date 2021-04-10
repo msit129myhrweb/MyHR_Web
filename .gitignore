@@ -1,3 +1,5 @@
 /MyHR_Web/bin/
 /MyHR_Web/obj/
 /.vs/
+
+/MyHR_Web/wwwroot/ExcelFile
