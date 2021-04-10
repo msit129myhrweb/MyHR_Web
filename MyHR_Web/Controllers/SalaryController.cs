@@ -571,68 +571,10 @@ namespace MyCompany_.NetCore_Janna.Controllers
                     {
                         Console.WriteLine(ex.Message);
                     }
-
- 
                 }
                
             }
-
-
                return RedirectToAction("SalaryList_supervisor");
-
-
-
-
-            
-
-
-
-            //    if (txtEmail.Text == "")
-            //    {
-            //        DialogResult result = MessageBox.Show("Email 不可為空!!\r\n繼續請按 Yes，離開請按 No。", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            //        if (result == DialogResult.No)
-            //        {
-            //            this.Close();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        try
-            //        {
-            //            string Body = $"{lblAmonut.Text} : {txtRAmount.Text} \r\n " +
-            //                $"{lblYear.Text} : {txtRYear.Text} \r\n " +
-            //                $"{lblRate.Text} : {txtRRate.Text} \r\n " +
-            //                $"{lblMonthPay.Text} : {txtRMonthPay.Text} \r\n" +
-            //                $" {lblTotal.Text} : {txtRTotal.Text}";
-            //            System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
-            //            MySmtp.Credentials = new System.Net.NetworkCredential("rovingwind93@gmail.com", "wbiesolnfcrgmjfn");
-            //            MySmtp.EnableSsl = true;
-            //            MySmtp.Send("測試主機端<rovingwind93@gmail.com>", txtEmail.Text, "貸款報告書", Body);
-            //            MySmtp.Dispose();
-
-            //            DialogResult result = MessageBox.Show("已發送報告\r\n繼續請按 Yes，離開請按 No。", "mail", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            //            if (result == DialogResult.No)
-            //            {
-            //                this.Close();
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Form00.msgError(ex);
-            //        }
-            //    }
-
-
-
-
-
-
         }
-
-      
-
-
-
-
     }
 }
