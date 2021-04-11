@@ -64,101 +64,122 @@
                 .subCate {
                     color: red;
                 }
+
+                }
             </style>
 
 
 
-            
+
         </header>
 
 
-     
+
 
         <h2>人資管理系統</h2>
         <h3 style="background-color:sandybrown">@DateTime.Now.Date.Month 月薪資計算</h3>
 
-        <div style="background-color:white ;padding:20px; border-radius:10px;width:50%">
-            <h3>查詢條件</h3>
-
-
-            @*//------------------------------------*@
-
-        <form method="post">
-
-            <div class="row">
-
-                <div class="col-md-12 form-group">
-                    <label class="col-lg-3 control-label">部門 :</label>
-
-                    <select class="Salary_Distinguish" id="Salary_DEPT">
-                        <option value="" disabled selected>請選擇</option>
-
-                        @for (int i = 0; i < DEPT.Count; i++)
-                        {
-                            <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>
-                        }
-                    </select>
-                </div>
-
-    
-            </div>
-            <div class="row">
-                <div class="col-md-12 form-group">
-                    <label class="col-lg-3 control-label"> 職位 :</label>
-                    <select class="Salary_Distinguish" id="Salary_JOBTITLE">
-                        <option value="" disabled selected>請選擇</option>
-
-                        @for (int i = 0; i < JOBTITLE.Count; i++)
-                        {
-                            <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>
-                        }
-                    </select>
-                </div>
-               
+        <div class="row">
 
 
 
-                <div class="col-md-6 form-group">
-                </div>
-
-                <div class="col-md-12 form-group">
-
-                    <button style="display:inline" type="button" class="btn btn-default checkbox-toggleALL">
-                        <i class="far fa-square">一鍵全選</i>
-                    </button>
-
-                    &nbsp;&nbsp;
-
-                    <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%); ">
+            <div style="background-color:white; justify-items:center ;padding:20px; margin-left:20px;border-radius:10px;width:48%; display:inline-block">
+                <h3>查詢條件</h3>
 
 
-                    @*<a class="btn btn-app bg-warning" onclick="SendMail()">
-            <i class="fas fa-envelope"></i> 寄送薪資單(EMAIL)
-        </a>*@
-                
-                <div style="padding-top:20px;">
+                @*//------------------------------------*@
+
+                <form method="post">
 
 
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center">部門 :</label>
+
+                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_DEPT">
+                                <option value="" disabled selected>請選擇</option>
+
+                                @for (int i = 0; i < DEPT.Count; i++)
+                                {
+                                    <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>
+                                }
+                            </select>
+                        </div>
 
 
-                    <button type="button" style="width:40%; padding-top:5px" class="btn btn-block btn-default bg-gradient-warning" onclick="SendMail()">
-                        <i class="fas fa-envelope"></i> 發送薪資單(EMAIL)
-                    </button>
-                </div>
-                </div>
+                    </div>
 
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center"> 職位 :</label>
+                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_JOBTITLE">
+                                <option value="" disabled selected>請選擇</option>
+
+                                @for (int i = 0; i < JOBTITLE.Count; i++)
+                                {
+                                    <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>
+                                }
+                            </select>
+                        </div>
+
+
+                        <div class="col-md-12 form-group" style="text-align:right;margin:0px; ">
+
+                            <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%);">
+                        </div>
+
+                    </div>
+                    <hr />
+
+                    <div class="row" style="display:inline">
+
+                        <div class="col-md-12" style="padding-top:5px;">
+
+                            <button style="display:inline" type="button" class="btn btn-default checkbox-toggleALL col-md-4 col-md-offset-5">
+                                <i class="far fa-square">一鍵全選</i>
+                            </button>
+
+
+                            <button type="button" style="width:40%; margin-top:10px;padding-top:5px;" class="btn btn-block btn-default bg-gradient-warning col-md-4 col-md-offset-5" onclick="SendMail()">
+                                <i class="fas fa-envelope"></i> 發送薪資單(EMAIL)
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
 
             </div>
 
 
+            <div style="background-color:white; justify-items:center ;padding:20px; border-radius:10px;width:48%;  margin-left:20px; display:inline-block">
+
+                <form>
+
+                    <div class="card card-info">
+                        <div class="card-header" style="background-color:#397984">
+                            <h3 class="card-title">各部門薪水分析</h3>
+
+                            <div class="card-tools" style="font-size:15px;">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                </form>
 
 
-        </form>
 
+            </div>
         </div>
- 
+        
         <br />
-    
+        <br />
 
         <div id="cover_page" class="mask_page">
             <img id="loading_gif" class="loading_image" src="/theme/imgs/Loading.gif" />
@@ -173,40 +194,40 @@
                         <div class="card-header">
                             <table table class="table table-bordered table-hover">
                                 <thead>
-                                                <tr style="text-align:center">
-                                                    @{ string checkbox = i + "checkbox-toggle";
-                                                     
+                                    <tr style="text-align:center">
+                                        @{ string checkbox = i + "checkbox-toggle";
 
-                                                    }
 
-                                                    <th>
-                                                        <button type="button" class="@checkbox btn btn-default btn-sm">
-                                                            <i class="far fa-square"></i>
-                                                        </button>
-                                                        @Html.DisplayNameFor(model => model.CDepartment)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CEmployeeName)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.CJobTitle)
-                                                    </th>
-                                                    <th>
-                                                        @Html.DisplayNameFor(model => model.Month_Salary)
-                                                    </th>
-                                                    <th>
-                                                        差旅費
-                                                    </th>
-                                                    <th>
-                                                        遲到扣款
-                                                    </th>
-                                                    <th>
-                                                        請假扣款
-                                                    </th>
-                                                    <th>
-                                                        詳細資料
-                                                    </th>
-                                                </tr>
+                                        }
+
+                                        <th>
+                                            <button type="button" class="@checkbox btn btn-default btn-sm">
+                                                <i class="far fa-square"></i>
+                                            </button>
+                                            @Html.DisplayNameFor(model => model.CDepartment)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CEmployeeName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CJobTitle)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Month_Salary)
+                                        </th>
+                                        <th>
+                                            差旅費
+                                        </th>
+                                        <th>
+                                            遲到扣款
+                                        </th>
+                                        <th>
+                                            請假扣款
+                                        </th>
+                                        <th>
+                                            詳細資料
+                                        </th>
+                                    </tr>
                                 </thead>
                                 <tbody>
 
@@ -214,57 +235,57 @@
                                     {
                                         if (item.CDepartmentId == i)
                                         {
-                                            string CHECKBOX = item.CDepartmentId.ToString()+"CHECKBOX"; //部分群組勾選
-
-                                          
+                                            string CHECKBOX = item.CDepartmentId.ToString() + "CHECKBOX"; //部分群組勾選
 
 
-                                    <tr style="text-align:center">
-
-                                      
-
-                                        <td>
-                                            <div class="@CHECKBOX icheck-primary">
-                                                <input type="checkbox" value="@item.CEmployeeId" name="Checkbox[]" id="check1">
-                                                <label for="check1"></label>
-                                                @Html.DisplayFor(modelItem => item.CDepartment)
-                                            </div>
-
-                                        </td>
-
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CJobTitle)
-                                        </td>
-
-                                        @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                            string Travel = item.CDepartmentId.ToString() + "Travel";
-                                            string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                            string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
 
 
-                                        <td class="@Month_Salary">
-                                            @Html.DisplayFor(modelItem => item.Month_Salary)
-                                        </td>
+                                            <tr style="text-align:center">
 
-                                        <td class="@Travel">
-                                            @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                        </td>
 
-                                        <td class="@Tabsense subCate">
-                                            @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                        </td>
 
-                                        <td class="@LLeave subCate">
-                                            @Html.DisplayFor(modelItem => item.CAmont_Leave)
+                                                <td>
+                                                    <div class="@CHECKBOX icheck-primary">
+                                                        <input type="checkbox" value="@item.CEmployeeId" name="Checkbox[]" id="check1">
+                                                        <label for="check1"></label>
+                                                        @Html.DisplayFor(modelItem => item.CDepartment)
+                                                    </div>
 
-                                        </td>
-                                        <td>
-                                            @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
-                                        </td>
-                                    </tr>
+                                                </td>
+
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CJobTitle)
+                                                </td>
+
+                                                @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                                    string Travel = item.CDepartmentId.ToString() + "Travel";
+                                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                                    string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
+
+
+                                                <td class="@Month_Salary">
+                                                    @Html.DisplayFor(modelItem => item.Month_Salary)
+                                                </td>
+
+                                                <td class="@Travel">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                                </td>
+
+                                                <td class="@Tabsense subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                                </td>
+
+                                                <td class="@LLeave subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
+
+                                                </td>
+                                                <td>
+                                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+                                                </td>
+                                            </tr>
                                         }
                                     }
                                     <tr style="text-align:center; background-color:tan; font-weight:bold">
@@ -278,7 +299,7 @@
                                             string late = i + "Tabsense";
                                             string leave = i + "LLeave";
                                             string toltal = i + "toltal";
-                                            }
+                                        }
 
                                         <td id="@dep"></td>
                                         <td id="@travel"></td>
@@ -300,6 +321,9 @@
         </div>
     </section>
 </div>
+
+
+<script src="~/theme/plugins/chart.js/Chart.min.js"></script>
 
 <script>
     var x = "";
@@ -386,7 +410,7 @@
         }
 
 
-        //各部門加總 
+        //各部門加總
 
         //var a = parseInt($(".1Month_Salary").html().trim());
         //var b = parseInt($(".1Travel").html().trim());
@@ -402,16 +426,16 @@
 
         for (let i = 1; i < 7; i++) {
 
-            var a = parseInt($("." + i + "Month_Salary").html().trim());
-            var b = parseInt($("." + i + "Travel").html().trim());
-            var c = parseInt($("." + i + "Tabsense").html().trim());
-            var d = parseInt($("." + i + "LLeave").html().trim());
+            var a = parseInt($("#" + i + "Month_Salary").html().trim());
+            var b = parseInt($("#" + i + "Travel").html().trim());
+            var c = parseInt($("#" + i + "Tabsense").html().trim());
+            var d = parseInt($("#" + i + "LLeave").html().trim());
 
             var e = a + b - c - d;
 
-            $("#"+i+"toltal").html(e);
+            $("#" + i + "toltal").html(e);
         }
-        
+
 
 
 
@@ -422,25 +446,25 @@
     });  //部門總計加總
 
 
-   
+
 
     $(function () {
 
 
-        for (let i = 1; i < 7;i++) {
+        for (let i = 1; i < 7; i++) {
 
             //Enable check and uncheck all functionality
-            $('.'+i+'checkbox-toggle').click(function () {
+            $('.' + i + 'checkbox-toggle').click(function () {
                 var clicks = $(this).data('clicks')
                 if (clicks) {
                     //Uncheck all checkboxes
-                    $('.'+i+'CHECKBOX input[type=\'checkbox\'] ').prop('checked', false)
-                    $('.'+i+'checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-                   
+                    $('.' + i + 'CHECKBOX input[type=\'checkbox\'] ').prop('checked', false)
+                    $('.' + i + 'checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
+
                 } else {
                     //Check all checkboxes
                     $('.' + i + 'CHECKBOX input[type=\'checkbox\'] ').prop('checked', true)
-                    $('.' + i +'checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
+                    $('.' + i + 'checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
                 }
                 $(this).data('clicks', !clicks)
             })
@@ -476,10 +500,10 @@
         var chk_value = [];
         $('input[name="Checkbox[]"]:checked').each(function () {
             chk_value.push($(this).val());
-             
+
 
         });
-        alert(chk_value.length == 0 ? '您尚未選取任何員工' : '總共寄送'+chk_value.length+'個員工'); 
+        alert(chk_value.length == 0 ? '您尚未選取任何員工' : '總共寄送' + chk_value.length + '個員工');
 
         let result = JSON.stringify(chk_value);
         console.log(result);
@@ -496,7 +520,7 @@
             type: "get",
             dataType: "html",
             url: "/Salary/Mail_Click",
-            data: { ID: result},
+            data: { ID: result },
             success: function (data) {
 
 
@@ -510,6 +534,52 @@
             }
         });
     } //寄送郵件
+
+
+    $(function () {   //圖表
+
+
+        var a = $("#1toltal").html();
+        var b = $("#2toltal").html();
+        var c = $("#3toltal").html();
+        var d = $("#4toltal").html();
+        var e = $("#5toltal").html();
+        var f = $("#6toltal").html();
+
+
+        // Get context with jQuery - using jQuery's .get() method.
+        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+        var donutData = {
+            labels: [
+                '管理部',
+                '企劃部',
+                '研發部',
+                '資訊部',
+                '總務部',
+                '財會部',
+            ],
+            datasets: [
+                {
+                    data: [a, b, c, d, e, f],
+                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#ab9828'],
+                }
+            ]
+        }
+        var donutOptions = {
+            maintainAspectRatio: false,
+            responsive: true,
+        }
+        //Create pie or douhnut chart
+        // You can switch between pie and douhnut using the method below.
+        new Chart(donutChartCanvas, {
+            type: 'doughnut',
+            data: donutData,
+            options: donutOptions
+        })
+
+
+    })
+
 
 
 </script>

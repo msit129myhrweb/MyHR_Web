@@ -92,6 +92,11 @@ namespace MyHR_Web.ViewModel
         [DisplayName("當月請假總時數")]
         public int CSalary_LeaveCateCount { get; set; }
 
+
+        public int CSalary_Total { get; set; }
+
+        
+
         //[DisplayName("%")]
         //public double CSalary_LeavePercent
         //{
