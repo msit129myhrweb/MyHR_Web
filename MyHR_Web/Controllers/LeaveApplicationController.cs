@@ -484,6 +484,7 @@ namespace MyHR_Web.Controllers
         {
             string[] ids = d.Split('\\', '"', '[', ',', ']');
             List<int> list = new List<int>();
+
             foreach (var item in ids)
             {
                 if (item != "")
@@ -493,14 +494,13 @@ namespace MyHR_Web.Controllers
             }
             foreach (var i in list)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
+                TLeaveApplication leave = DB.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
                 if (leave.CCheckStatus == 1)
                 {
                     if (leave != null)
                     {
                         leave.CCheckStatus = 2;
-                        db.SaveChanges();
+                        DB.SaveChanges();
                     }
                 }
             }
@@ -520,14 +520,13 @@ namespace MyHR_Web.Controllers
             }
             foreach (var i in list)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
+                TLeaveApplication leave = DB.TLeaveApplications.FirstOrDefault(c => c.CApplyNumber == i);
                 if (leave.CCheckStatus == 1)
                 {
                     if (leave != null)
                     {
                         leave.CCheckStatus = 3;
-                        db.SaveChanges();
+                        DB.SaveChanges();
                     }
                 }
             }
@@ -539,14 +538,14 @@ namespace MyHR_Web.Controllers
         {
             if (id != null)
             {
-                dbMyCompanyContext db = new dbMyCompanyContext();
-                TLeaveApplication leave = db.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == id);
+                TLeaveApplication leave = DB.TLeaveApplications.FirstOrDefault(l => l.CApplyNumber == id);
+
                 if (leave != null)
                 {
                     if (leave.CCheckStatus == 1)
                     {
                         leave.CCheckStatus = 2;
-                        db.SaveChanges();
+                        DB.SaveChanges();
                     }
                 }
             }

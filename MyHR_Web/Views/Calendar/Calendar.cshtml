@@ -183,7 +183,7 @@
                     eventLimit: true,
                     eventColor: '#3787d8', //'#378006',  
                     
-                    events: 'https://localhost:44388/Calendar/GetEvents',
+                    events: '/Calendar/GetEvents',
                     eventClick: function (calEvent, jsEvent, view) { //點開出現的內容
                         selectedEvent = calEvent;
                         $('#myModal #eventTitle').text(calEvent.subject);
