@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -67,14 +68,12 @@ namespace MyHR_Web.ViewModel
         }
         [DisplayName("員工姓名")]
         public string employeeName { get { return iv_User.CEmployeeName; } set { iv_User.CEmployeeName = value; } }
-        //[DisplayName("部門名稱")]
-        //public string CDepartment
-        //{
-        //    get {
-        //        CDepartment = ((eDepartment)iv_Dep.CDepartmentId).ToString();
-        //        return CDepartment; 
-        //    }
-        //    set { CDepartment = value; }
-        //}
+        
+        public int CCountNum
+        {
+            get { return iv_absence.CCountNum; }
+            set { iv_absence.CCountNum = value; }
+        }
+
     }
 }
