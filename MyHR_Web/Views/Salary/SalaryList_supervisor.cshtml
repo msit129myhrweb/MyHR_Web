@@ -242,7 +242,7 @@
 
                                             <tr style="text-align:center">
 
-                                      
+
 
                                                 <td>
                                                     <div class="@CHECKBOX icheck-primary">
@@ -253,33 +253,33 @@
 
                                                 </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CJobTitle)
-                                        </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.CJobTitle)
+                                                </td>
 
-                                        @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                            string Travel = item.CDepartmentId.ToString() + "Travel";
-                                            string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                            string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
+                                                @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                                    string Travel = item.CDepartmentId.ToString() + "Travel";
+                                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                                    string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
 
 
-                                        <td class="@Month_Salary">
-                                            @Html.DisplayFor(modelItem => item.Month_Salary)
-                                        </td>
+                                                <td class="@Month_Salary">
+                                                    @Html.DisplayFor(modelItem => item.Month_Salary)
+                                                </td>
 
-                                        <td class="@Travel">
-                                            @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                        </td>
+                                                <td class="@Travel">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                                </td>
 
-                                        <td class="@Tabsense subCate">
-                                            @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                        </td>
+                                                <td class="@Tabsense subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                                </td>
 
-                                        <td class="@LLeave subCate">
-                                            @Html.DisplayFor(modelItem => item.CAmont_Leave)
+                                                <td class="@LLeave subCate">
+                                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
 
                                                 </td>
                                                 <td>
