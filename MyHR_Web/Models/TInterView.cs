@@ -7,6 +7,11 @@ namespace MyHR_Web.Models
 {
     public partial class TInterView
     {
+        public TInterView()
+        {
+            TInterViewProcesses = new HashSet<TInterViewProcess>();
+        }
+
         public int CInterVieweeId { get; set; }
         public string CInterVieweeGender { get; set; }
         public string CInterVieweeName { get; set; }
@@ -27,9 +32,9 @@ namespace MyHR_Web.Models
         public int? CInterViewProcessId { get; set; }
 
         public virtual TUserDepartment CDepartmentNavigation { get; set; }
-        public virtual TInterViewProcess CInterViewProcess { get; set; }
         public virtual TInterViewStatus CInterViewStatus { get; set; }
         public virtual TUser CInterViewerEmployee { get; set; }
         public virtual TUserJobTitle CJobTitleNavigation { get; set; }
+        public virtual ICollection<TInterViewProcess> TInterViewProcesses { get; set; }
     }
 }

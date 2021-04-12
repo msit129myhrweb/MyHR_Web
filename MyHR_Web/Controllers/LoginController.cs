@@ -19,30 +19,13 @@ namespace MyHR_Web.Controllers
         {
             if (HttpContext.Session.GetObject<TUser>(CDictionary.Current_User) != null) //session 存在就跳回首頁
                 return RedirectToAction("Index", "Home");
-            //if (string.IsNullOrEmpty(HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE)))
-            //{
-            //    Random rm = new Random();
-            //    string code = rm.Next(0, 10).ToString() + rm.Next(0, 10).ToString()
-            //        + rm.Next(0, 10).ToString() + rm.Next(0, 10).ToString();
-
-            //    HttpContext.Session.SetString(CDictionary.LOGIN_AUTHTICATION_CODE, code);
-            //}
-
-
+          
             return PartialView();
 
         }
         [HttpPost]
         public IActionResult Login(CLoginViewModel p)
         {
-            //if (!p.txtCode.Equals(HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE)))
-            //{
-            //    ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
-            //    return View();
-            //}
-
-            //ViewData[CDictionary.LOGIN_AUTHTICATION_CODE] = HttpContext.Session.GetString(CDictionary.LOGIN_AUTHTICATION_CODE);
-
 
             string Account = Request.Form["txtAccount"].ToString();
             string Psd = Request.Form["txtPassword"].ToString();
