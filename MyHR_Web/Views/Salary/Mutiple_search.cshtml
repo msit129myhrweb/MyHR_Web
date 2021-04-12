@@ -78,6 +78,10 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CJobTitle)
                     </td>
+                        @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                            string Travel = item.CDepartmentId.ToString() + "Travel";
+                            string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                            string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
 
 
 
@@ -95,6 +99,7 @@
 
                     <td class="@LLeave JobTitle_Leave subCate">
                         @Html.DisplayFor(modelItem => item.CAmont_Leave)
+
                     </td>
                     <td>
                         @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
