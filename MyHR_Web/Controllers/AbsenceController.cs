@@ -18,6 +18,7 @@ namespace MyHR_Web.Controllers
         DateTime Con = DateTime.Today.AddHours(9); //上班時間9:00
         DateTime Late = DateTime.Today.AddHours(10); //9:59(含)前都算遲到，之後都顯示異常，須請假
         DateTime now = DateTime.Now;
+
         #region 上下班打卡
         public IActionResult List()
         {
@@ -46,12 +47,15 @@ namespace MyHR_Web.Controllers
             int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
             ViewBag.totalCountNum = total;//傳到view
 
-            //預設為顯示當月打卡紀錄
+            //預設為顯示當週打卡紀錄
+            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+            DateTime dtSunday = dtMonday.AddDays(4); //當週週五
+            
             var table = db.TAbsences
                     .Where(a => a.CEmployeeId == userId &&
-                          a.CDate.Value.Month == now.Month)
+                          a.CDate >= dtMonday &&
+                          a.CDate <= dtSunday)
                     .OrderByDescending(a => a.CDate).ToList();
-
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in table)
             {
@@ -201,6 +205,9 @@ namespace MyHR_Web.Controllers
         #region Edit打卡補登
         public IActionResult Edit(int? applyNum)
         {
+            TimeSpan ConTime = Con.TimeOfDay;//09:00
+            TimeSpan LateTime = Late.TimeOfDay;//10:00
+
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
             var t1 = db.TAbsences.Where(a => a.CEmployeeId == userId &&
@@ -224,29 +231,26 @@ namespace MyHR_Web.Controllers
             }
             int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
             ViewBag.totalCountNum = total;
-            if (applyNum != null && total < 3)
-            {
-                ViewBag.absence = applyNum;
-                TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
 
-                if (abs != null)
+            TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
+            ViewBag.absence = applyNum;
+
+            if (applyNum != null && total < 3 && abs != null && abs.COn == null ? true : abs.COn < LateTime)
+            {
+                CAbsenceViewModel obj = new CAbsenceViewModel()
                 {
-                    CAbsenceViewModel obj = new CAbsenceViewModel()
-                    {
-                        CApplyNumber = abs.CApplyNumber,
-                        CDate = abs.CDate,
-                        CEmployeeId = abs.CEmployeeId,
-                        COn = abs.COn,
-                        COff = abs.COff
-                    };
-                    return View(obj);
-                }
+                    CApplyNumber = abs.CApplyNumber,
+                    CDate = abs.CDate,
+                    CEmployeeId = abs.CEmployeeId,
+                    COn = abs.COn,
+                    COff = abs.COff
+                };
+                return View(obj);
             }
             else
             {
                 return RedirectToAction("LeaveCreate", "Leave");
             }
-            return RedirectToAction("List");
         }
         [HttpPost]
         public IActionResult Edit(TAbsence absence, int? id, DateTime? date, string? when, int? applyNum)
@@ -255,7 +259,7 @@ namespace MyHR_Web.Controllers
             {
                 TAbsence absed = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
                 TimeSpan ConTime = Con.TimeOfDay;//09:00
-                TimeSpan tenOclck = Con.AddHours(1).TimeOfDay;//09:00
+                TimeSpan tenOclck = Con.AddHours(1).TimeOfDay;//10:00
 
                 if (absed != null)
                 {
@@ -267,7 +271,7 @@ namespace MyHR_Web.Controllers
                     else if (absed.COn != null && absed.COff == null)//補下班卡
                     {
                         absed.COff = TimeSpan.Parse("18:00:00"); ;
-                        if (absed.COn > ConTime)//9:01
+                        if (absed.COn > ConTime&& absed.COn< tenOclck)//9:01
                         {
                             absed.CStatus = "遲到";
                         }
