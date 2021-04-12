@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
 {
-    public class InterviewController : FilterController
+    public class InterviewController : Controller
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
         public IActionResult Index()
@@ -57,16 +57,14 @@ namespace MyHR_Web.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(string I)
+        public IActionResult Edit(CInterviewEditViewModel I)
         {
             if (I != null)
             {
-                CInterviewListViewModel T = JsonConvert.DeserializeObject<CInterviewListViewModel>(I);
-                TInterView table = myHR.TInterViews.FirstOrDefault(n => n.CInterVieweeId == T.CInterVieweeId);
-
+                TInterView table = myHR.TInterViews.Where(n => n.CInterVieweeId == I.CInterVieweeId).FirstOrDefault();
                 if (table != null)
                 {
-                    table.CInterVieweeName = T.CInterVieweeName;
+                    table.CInterVieweeName = I.CInterVieweeName;
 
                     myHR.SaveChanges();
                 }
@@ -104,11 +102,14 @@ namespace MyHR_Web.Controllers
                     x => x.I.CDepartment,
                     d => d.CDepartmentId,
                     (x, d) => new { X = x, D = d }
-                    ).Select(s => new CInterviewDetailsViewModel{
+                    ).Select(s => new CInterviewDetailsViewModel
+                    {
+                        processId = s.X.P.CInterViewProcessId,
                         name = s.X.I.CInterVieweeName,
                         process = s.X.P.CInterViewProcess,
                         departname = s.D.CDepartment,
-                    });
+                        processDate = s.X.P.CProcessTime
+                    }).OrderByDescending(n => n.processDate);
                     
                 return PartialView("Details", table);
             }
@@ -128,6 +129,28 @@ namespace MyHR_Web.Controllers
                 I.Add(new CInterviewListViewModel(item));
             }
             return PartialView("Filter", I);
+        }
+        public IActionResult ProcessCreate(int? id)
+        {
+            if (id != null)
+            {
+                var table = new CInterviewCreateViewModel { CInterViewProcessId = id.GetValueOrDefault()};
+                ViewBag.id = id;
+                return PartialView("ProcessCreate", table);
+            }
+            return RedirectToAction("List");
+        }
+        [HttpPost]
+        public IActionResult ProcessCreate(TInterViewProcess a)
+        {
+            if(a != null)
+            {
+                a.CProcessTime = DateTime.Now.ToString();
+                a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
+                myHR.TInterViewProcesses.Add(a);
+                myHR.SaveChanges();
+            }
+            return RedirectToAction("List");
         }
     }
 }
