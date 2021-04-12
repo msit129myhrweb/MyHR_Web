@@ -65,18 +65,19 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE, ((eJobTitle)user.CJobTitleId).ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERJOBTITLEID, user.CJobTitleId.ToString());
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERID, user.CEmployeeId.ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_USERENNAME, user.CEmployeeEnglishName);
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD, user.CPassWord);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BBD, (user.CByeByeDay).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMAIL, user.CEmail);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ADDRESS, user.CAddress);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_SUPERVISOR, (user.CSupervisor).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BRD, (user.CBirthday).ToString());
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PHONE, user.CPhone);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_PER, user.CEmergencyPerson);
-                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString());
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BBD, (user.CByeByeDay).ToString());
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMAIL, user.CEmail);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ADDRESS, user.CAddress);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_SUPERVISOR, (user.CSupervisor).ToString());
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BRD, (user.CBirthday).ToString());
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PHONE, user.CPhone);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_PER, user.CEmergencyPerson);
+                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMERGENCY_CONT, user.CEmergencyContact);
+
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OB_STATUS, ((eOnBoard)user.COnBoardStatusId).ToString());
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ACC_ENABLE, ((eAccount)user.CAccountEnable).ToString());
 
@@ -95,31 +96,105 @@ namespace MyHR_Web.Controllers
         }
 
 
+        //[HttpPost]
+        //public IActionResult AccEnable(CLoginViewModel p, TUserViewModel _user)
+        //{
+        //    if (p.txtAccount1 != null && p.txtPassword1 != null)
+        //    {
+
+        //        if (_user != null)
+        //        {
+
+        //            TUser u = db.TUsers.FirstOrDefault(u => u.CEmployeeId == int.Parse(p.txtAccount1) && u.CPassWord == p.txtPassword1);
+        //            if (u != null)
+        //            {
+        //                u.CAccountEnable = 1;
+        //                db.SaveChanges();
+        //            }
+        //            else
+        //            {
+        //                ViewBag.Message = "錯誤的帳號或密碼";
+        //            }
+        //        }
+        //    }
+        //    return RedirectToAction("Login");
+
+
+        //}
+
+
+
+
         [HttpPost]
-        public IActionResult AccEnable(CLoginViewModel p, TUserViewModel _user)
+        public JsonResult checklogin([FromBody] CLoginViewModel p)
         {
+            //CLoginViewModel p = new CLoginViewModel();
+            string Data = "";
             if (p.txtAccount != null && p.txtPassword != null)
             {
-
-                if (_user != null)
+                using (dbMyCompanyContext db = new dbMyCompanyContext())
                 {
+                    var user = db.TUsers.Where(a => a.CEmployeeId == int.Parse(p.txtAccount)).FirstOrDefault();
 
-                    TUser u = db.TUsers.FirstOrDefault(u => u.CEmployeeId == int.Parse(p.txtAccount) && u.CPassWord == p.txtPassword);
-                    if (u != null)
+                    if (user != null)
                     {
-                        u.CAccountEnable = 1;
-                        db.SaveChanges();
+                        if (user.CPassWord != p.txtPassword)
+                        {
+                            Data = "密碼錯誤";
+                        }
+                        else if(user.CAccountEnable==0 && user.COnBoardStatusId==1)
+                        {
+                            Data = "帳號未啟用";
+                        }
+                        else if ( user.COnBoardStatusId == 2)
+                        {
+                            Data = "員工已離職";
+                        }
                     }
                     else
                     {
-                        ViewBag.Message = "錯誤的帳號或密碼";
+                        Data = "無此帳號";
                     }
+
                 }
             }
-            return RedirectToAction("Login");
-
+            return Json(Data);
 
         }
 
+        [HttpPost]
+        public JsonResult check([FromBody] CPasswordTest p)
+        {
+            //CLoginViewModel p = new CLoginViewModel();
+            string Data = "";
+            if (p.txtaccount1 != null && p.txtpassword1 != null)
+            {
+                using (dbMyCompanyContext db = new dbMyCompanyContext())
+                {
+                    var user = db.TUsers.Where(a => a.CEmployeeId == int.Parse(p.txtaccount1)).FirstOrDefault();
+
+                    if (user != null)
+                    {
+                        if (user.CPassWord != p.txtpassword1)
+                        {
+                            Data = "密碼錯誤";
+                        }
+                        else
+                        {
+                            user.CAccountEnable = 1;
+                            db.SaveChanges();
+                            Data = "報到成功，請重新登入";
+                        }
+                    }
+                    else
+                    {
+                        Data = "帳號錯誤";
+                    }
+
+                }
+            }
+            return  Json(Data);
+
+        }
     }
 }

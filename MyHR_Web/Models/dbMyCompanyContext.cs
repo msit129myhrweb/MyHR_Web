@@ -65,6 +65,8 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CApplyNumber).HasColumnName("cApplyNumber");
 
+                entity.Property(e => e.CCountNum).HasColumnName("cCountNum");
+
                 entity.Property(e => e.CDate)
                     .HasColumnType("date")
                     .HasColumnName("cDate");
