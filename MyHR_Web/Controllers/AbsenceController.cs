@@ -61,7 +61,8 @@ namespace MyHR_Web.Controllers
                     CDate=item.CDate,
                     COn=item.COn,
                     COff=item.COff,
-                    CStatus=item.CStatus
+                    CStatus=item.CStatus,
+                    CCountNum = item.CCountNum
                 };
                 list.Add(avm);
             }
@@ -305,7 +306,7 @@ namespace MyHR_Web.Controllers
 
             if (ab == null)
             {
-                if (day != DayOfWeek.Sunday || day != DayOfWeek.Saturday)//判斷昨天是否為六日
+                if (day != DayOfWeek.Sunday && day != DayOfWeek.Saturday)//判斷昨天是否為六日
                 {
                     TAbsence absence = new TAbsence()
                     {

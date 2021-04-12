@@ -94,7 +94,7 @@
                         {
                             <tr style="text-align:center">
                                 <td><input type="checkbox" name="Checkbox[]" value="@Html.DisplayFor(modelItem => item.CApplyNumber)" id="CheckboxGroup1_0" /></td>
-                                <td>@Html.ActionLink($"{item.CApplyNumber}", "Details", new { id = item.CApplyNumber })</td>
+                                <td>@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
                                 <td style="display:none">@Enum.GetName(typeof(eDepartment), item.CDepartmentId)</td>
                                 <td>@Html.DisplayFor(modelItem => item.CEmployeeId)</td>
                                 <td>@Html.DisplayFor(modelItem => item.employeeName)</td>
