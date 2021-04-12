@@ -53,8 +53,9 @@
                 <table id="todoTable" class="table table-bordered table-hover">
                     <tr>
                         <td>序</td>
-                        <td>代辦事項</td>
-                        <td>時間</td>
+                        <td>標題</td>
+                        <td>Time</td>
+                       
                     </tr>
 
                     @for (int i = 0; i < length; i++)
@@ -63,6 +64,7 @@
                             <td>@Html.Encode(events.ElementAt(i).Id)</td>
                             <td>@Html.Encode(events.ElementAt(i).Title)</td>
                             <td>@Html.Encode(events.ElementAt(i).StartDate)</td>
+                            
                         </tr>
                     }
                 </table>

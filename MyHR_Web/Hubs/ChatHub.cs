@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
-using System.Threading.Tasks;
 
 namespace MyHR_Web.Hubs
 {
@@ -11,7 +8,8 @@ namespace MyHR_Web.Hubs
     {
         public async Task SendMessage(string user, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", user, message +" "+DateTime.Now.ToString("HH:mm:ss"));
         }
+       
     }
 }
