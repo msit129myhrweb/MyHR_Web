@@ -42,8 +42,8 @@ namespace MyHR_Web.Controllers
         {
             var photo = db.TUsers.FirstOrDefault(u => u.CEmployeeId == id);
            
-            //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images", "error.jpg");
-            string path =Path.GetFullPath( Path.Combine(@"wwwroot/images", "error.jpg"));
+            //string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "images", "company.png");
+            string path =Path.GetFullPath( Path.Combine(@"wwwroot/images", "company.png"));
 
             if (photo.CPhoto != null)
             {

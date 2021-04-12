@@ -10,6 +10,6 @@ namespace prjCoreDemo.ViewModel
         public string txtAccount { get; set; }
         public string txtPassword { get;set; }
         //public string txtCode { get; set; }
-        
+
     }
 }
