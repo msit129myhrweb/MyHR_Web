@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace MyHR_Web.Models
+namespace MyHR_Web.ViewModel
 {
-    public partial class TInterViewProcess
+    public class CInterviewCreateViewModel
     {
-        public int CInterViewProcessKey { get; set; }
         public int CInterViewProcessId { get; set; }
+        [DisplayName("面試記錄")]
         public string CInterViewProcess { get; set; }
         public string CProcessTime { get; set; }
-
-        public virtual TInterView CInterViewProcessNavigation { get; set; }
     }
 }

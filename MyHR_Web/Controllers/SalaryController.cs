@@ -479,13 +479,19 @@ namespace MyCompany_.NetCore_Janna.Controllers
         public IActionResult Mutiple_search(int? DEPT, int? TITLE)
         {
 
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TLeaveApplications.ToList();
+            MyHR.TUserJobTitles.ToList();
 
-            var table = MyHR.TUsers
-                   .Include(c => c.CDepartment)
-                   .Include(c => c.CJobTitle)
-                   .Include(c => c.TTravelExpenseApplications)
-                   .Include(c => c.TAbsences)
-                   .Include(c => c.TLeaveApplications)
+            var table = MyHR.TUsers.Local
+                   //.Include(c => c.CDepartment)
+                   //.Include(c => c.CJobTitle)
+                   //.Include(c => c.TTravelExpenseApplications)
+                   //.Include(c => c.TAbsences)
+                   //.Include(c => c.TLeaveApplications)
                    .OrderByDescending(c => c.CDepartmentId)
                    .ThenBy(c => c.CJobTitleId)
                    .Where(C => C.COnBoardStatusId == 1).AsEnumerable()
@@ -507,9 +513,18 @@ namespace MyCompany_.NetCore_Janna.Controllers
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
                        .Where(p => p.CDate.Value.Month == DateTime.Now.Date.Month && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
+                       CAmont_Leave = Leave_ShouldtopayTRYYYYYY(c.CEmployeeId),
                    }).Where(a =>
                    (DEPT != null ? a.CDepartmentId == DEPT : true) &&
                    (TITLE != null ? a.CJobTitleId == TITLE : true)).ToList();
+
+            
+            foreach (var item in table)
+            {
+                item.CSalary_Total = item.Month_Salary + item.CAmont_Travel - item.CAmont_TAbsense - item.CAmont_Leave;
+            }
+
+
 
 
             return PartialView("Mutiple_search", table);
@@ -571,68 +586,10 @@ namespace MyCompany_.NetCore_Janna.Controllers
                     {
                         Console.WriteLine(ex.Message);
                     }
-
- 
                 }
                
             }
-
-
                return RedirectToAction("SalaryList_supervisor");
-
-
-
-
-            
-
-
-
-            //    if (txtEmail.Text == "")
-            //    {
-            //        DialogResult result = MessageBox.Show("Email 不可為空!!\r\n繼續請按 Yes，離開請按 No。", "Error", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            //        if (result == DialogResult.No)
-            //        {
-            //            this.Close();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        try
-            //        {
-            //            string Body = $"{lblAmonut.Text} : {txtRAmount.Text} \r\n " +
-            //                $"{lblYear.Text} : {txtRYear.Text} \r\n " +
-            //                $"{lblRate.Text} : {txtRRate.Text} \r\n " +
-            //                $"{lblMonthPay.Text} : {txtRMonthPay.Text} \r\n" +
-            //                $" {lblTotal.Text} : {txtRTotal.Text}";
-            //            System.Net.Mail.SmtpClient MySmtp = new System.Net.Mail.SmtpClient("smtp.gmail.com", 587);
-            //            MySmtp.Credentials = new System.Net.NetworkCredential("rovingwind93@gmail.com", "wbiesolnfcrgmjfn");
-            //            MySmtp.EnableSsl = true;
-            //            MySmtp.Send("測試主機端<rovingwind93@gmail.com>", txtEmail.Text, "貸款報告書", Body);
-            //            MySmtp.Dispose();
-
-            //            DialogResult result = MessageBox.Show("已發送報告\r\n繼續請按 Yes，離開請按 No。", "mail", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            //            if (result == DialogResult.No)
-            //            {
-            //                this.Close();
-            //            }
-            //        }
-            //        catch (Exception ex)
-            //        {
-            //            Form00.msgError(ex);
-            //        }
-            //    }
-
-
-
-
-
-
         }
-
-      
-
-
-
-
     }
 }

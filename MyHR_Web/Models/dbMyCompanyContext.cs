@@ -209,6 +209,9 @@ namespace MyHR_Web.Models
 
                 entity.ToTable("tInterView");
 
+                entity.HasIndex(e => e.CInterViewProcessId, "IX_tInterView")
+                    .IsUnique();
+
                 entity.Property(e => e.CInterVieweeId).HasColumnName("cInterVieweeID");
 
                 entity.Property(e => e.CAddress)
@@ -250,7 +253,9 @@ namespace MyHR_Web.Models
                     .HasMaxLength(50)
                     .HasColumnName("cInterViewDate");
 
-                entity.Property(e => e.CInterViewProcessId).HasColumnName("cInterViewProcessID");
+                entity.Property(e => e.CInterViewProcessId)
+                    .IsRequired()
+                    .HasColumnName("cInterViewProcessID");
 
                 entity.Property(e => e.CInterViewStatusId).HasColumnName("cInterViewStatusID");
 
@@ -281,11 +286,6 @@ namespace MyHR_Web.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_InterViewee_Department");
 
-                entity.HasOne(d => d.CInterViewProcess)
-                    .WithMany(p => p.TInterViews)
-                    .HasForeignKey(d => d.CInterViewProcessId)
-                    .HasConstraintName("FK_tInterView_tInterViewProcess");
-
                 entity.HasOne(d => d.CInterViewStatus)
                     .WithMany(p => p.TInterViews)
                     .HasForeignKey(d => d.CInterViewStatusId)
@@ -307,18 +307,30 @@ namespace MyHR_Web.Models
 
             modelBuilder.Entity<TInterViewProcess>(entity =>
             {
-                entity.HasKey(e => e.CInterViewProcessId);
+                entity.HasKey(e => e.CInterViewProcessKey);
 
                 entity.ToTable("tInterViewProcess");
 
-                entity.Property(e => e.CInterViewProcessId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("cInterViewProcessID");
+                entity.Property(e => e.CInterViewProcessKey).HasColumnName("cInterViewProcessKey");
 
                 entity.Property(e => e.CInterViewProcess)
                     .IsRequired()
                     .HasColumnType("text")
                     .HasColumnName("cInterViewProcess");
+
+                entity.Property(e => e.CInterViewProcessId).HasColumnName("cInterViewProcessID");
+
+                entity.Property(e => e.CProcessTime)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .HasColumnName("cProcessTime");
+
+                entity.HasOne(d => d.CInterViewProcessNavigation)
+                    .WithMany(p => p.TInterViewProcesses)
+                    .HasPrincipalKey(p => p.CInterViewProcessId)
+                    .HasForeignKey(d => d.CInterViewProcessId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tInterViewProcess_tInterView");
             });
 
             modelBuilder.Entity<TInterViewStatus>(entity =>
