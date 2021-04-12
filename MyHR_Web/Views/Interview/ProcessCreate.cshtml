@@ -1,0 +1,31 @@
+﻿@model MyHR_Web.ViewModel.CInterviewCreateViewModel
+
+
+<div class="row">
+
+    <div class="card" style="width:60%;margin:0px auto;padding:0px;">
+        <div class="card-header">
+            <form asp-action="ProcessCreate">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group" style="display:none">
+                    <label asp-for="CInterViewProcessId" class="control-label"></label>
+                    <input asp-for="CInterViewProcessId" value="@Model.CInterViewProcessId"class="form-control" readonly="readonly" />
+                    <span asp-validation-for="CInterViewProcessId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="CInterViewProcess" class="control-label"></label>
+                    <textarea row="5" cols="50" asp-for="CInterViewProcess" class="form-control" />
+                    <span asp-validation-for="CInterViewProcess" class="text-danger"></span>
+                </div>                
+
+                <div class="card-footer">
+                    
+                    
+                    <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick="return(confirm('確定新增?'))" style="filter: grayscale(50%)" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
