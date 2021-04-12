@@ -106,20 +106,24 @@
                     contentType: "application/json; charset=utf-8",
                     success: function (data) {
                         if (data == "密碼錯誤") {
-                            window.alert('密碼錯誤，請重新登入');
                             window.location.reload();
+                            window.alert('密碼錯誤，請重新登入');
+                           
                         }
                         else if (data == "帳號未啟用") {
-                            window.alert('帳號未啟用，請先報到');
                             window.location.reload();
+                            window.alert('帳號未啟用，請先報到');
+                           
                         }
                         else if (data == "員工已離職") {
-                            window.alert('員工已離職，無法登入');
                             window.location.reload();
+                            window.alert('員工已離職，無法登入');
+                          
                         }
                         else if (data == "無此帳號") {
-                            window.alert('無此帳號，無法登入');
                             window.location.reload();
+                            window.alert('無此帳號，無法登入');
+                           
                         }
                        
                     },

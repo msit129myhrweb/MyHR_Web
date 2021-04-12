@@ -77,7 +77,7 @@
                         <input type="submit" value="查詢" class="btn btn-success" style="filter: grayscale(50%)" />
                     </div>
                 </div>
-                @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                @if (ViewBag.Session_USERJOBTITLEID == 2 &&(ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
                 {
                     <div class="row">
                         <div class="col-md-offset-5">
@@ -125,7 +125,7 @@
                     <th style="text-align:center">
                         編輯|刪除
                     </th>
-                    @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                    @if (ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
                     {
                         <th style="text-align:center">
                             審核
@@ -185,7 +185,7 @@
 
 
 
-                    @if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5)
+                    @if (item.CRepairStatus == 0 && ViewBag.Session_USERJOBTITLEID == 2 &&(ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
                     {
                         <td>
                             @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })

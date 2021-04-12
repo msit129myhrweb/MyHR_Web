@@ -29,6 +29,7 @@ namespace MyHR_Web.Controllers
             ViewBag.CDepartmentId = db.TUserDepartments.ToList();
             ViewBag.CJobTitleId = db.TUserJobTitles.ToList();
             ViewBag.COnBoardStatusId = db.TUserOnBoardStatuses.ToList();
+           
             return View();
         }
 
@@ -309,7 +310,8 @@ namespace MyHR_Web.Controllers
 
         public IActionResult employeeEdit(int? id)
         {
-           
+            ViewBag.User = db.TUsers.ToList();
+
             ViewBag.CDepartmentId = db.TUserDepartments.ToList();
             ViewBag.CJobTitleId = db.TUserJobTitles.ToList();
             ViewBag.COnBoardStatusId = db.TUserOnBoardStatuses.ToList();
