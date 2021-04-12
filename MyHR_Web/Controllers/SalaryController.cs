@@ -528,7 +528,33 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             return PartialView("Mutiple_search", table);
+         
         }
+
+        [HttpPost]
+        public IActionResult Mutiple_CHARTsearch([FromBody] SalaryChar_Json x)   //回傳動態Chart.js
+        {
+            List<SalaryChar_Json> list = new List<SalaryChar_Json>();
+
+            SalaryChar_Json obj = new SalaryChar_Json()
+            {
+                
+                money = x.money,
+                name=x.name,
+               
+
+            };
+            list.Add(obj);
+            return PartialView("Mutiple_CHARTsearch",list);
+
+        }
+
+
+        //public JsonResult Mutiple_CHARTsearchf(string Labs, string Datas)
+        //{
+           
+
+        //}
 
 
         public IActionResult Mail_Click(string ID)

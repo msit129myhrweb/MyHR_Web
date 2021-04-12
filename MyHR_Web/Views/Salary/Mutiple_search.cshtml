@@ -63,7 +63,7 @@
                         </div>
 
                     </td>
-                    <td>
+                    <td class="NAME">
                         @Html.DisplayFor(modelItem => item.CEmployeeName)
                     </td>
                     @{
@@ -73,7 +73,7 @@
                         string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
                         string LLeave = item.CDepartmentId.ToString() + "LLeave";
                         //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
-                        }
+                    }
 
                     <td>
                         @Html.DisplayFor(modelItem => item.CJobTitle)
@@ -96,6 +96,10 @@
                     <td class="@LLeave JobTitle_Leave subCate">
                         @Html.DisplayFor(modelItem => item.CAmont_Leave)
                     </td>
+                    <td class="DETAIL">
+                        @Html.DisplayFor(modelItem => item.CSalary_Total)
+                    </td>
+
                     <td>
                         @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
 
@@ -270,4 +274,9 @@
 
         })
     })
+
+
+
+
+    
 </script>
