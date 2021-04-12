@@ -49,8 +49,8 @@ namespace MyHR_Web.Controllers
 
             //預設為顯示當週打卡紀錄
             DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-            DateTime dtSunday = dtMonday.AddDays(4); //當週週五
-            
+            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+
             var table = db.TAbsences
                     .Where(a => a.CEmployeeId == userId &&
                           a.CDate >= dtMonday &&
@@ -61,11 +61,11 @@ namespace MyHR_Web.Controllers
             {
                 CAbsenceViewModel avm = new CAbsenceViewModel()
                 {
-                    CApplyNumber=item.CApplyNumber,
-                    CDate=item.CDate,
-                    COn=item.COn,
-                    COff=item.COff,
-                    CStatus=item.CStatus,
+                    CApplyNumber = item.CApplyNumber,
+                    CDate = item.CDate,
+                    COn = item.COn,
+                    COff = item.COff,
+                    CStatus = item.CStatus,
                     CCountNum = item.CCountNum
                 };
                 list.Add(avm);
@@ -115,9 +115,14 @@ namespace MyHR_Web.Controllers
                 }
                 db.SaveChanges();
             }
+            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+
             var table = db.TAbsences
-                           .Where(a => a.CEmployeeId == userId)
-                           .OrderByDescending(a => a.CDate).ToList();
+                    .Where(a => a.CEmployeeId == userId &&
+                          a.CDate >= dtMonday &&
+                          a.CDate <= dtSunday)
+                    .OrderByDescending(a => a.CDate).ToList();
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in table)
             {
@@ -182,9 +187,14 @@ namespace MyHR_Web.Controllers
                 db.TAbsences.Add(b);
                 db.SaveChanges();
             }
+            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+
             var table = db.TAbsences
-                       .Where(a => a.CEmployeeId == userId)
-                       .OrderByDescending(a => a.CDate).ToList();
+                    .Where(a => a.CEmployeeId == userId &&
+                          a.CDate >= dtMonday &&
+                          a.CDate <= dtSunday)
+                    .OrderByDescending(a => a.CDate).ToList();
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in table)
             {
@@ -235,7 +245,7 @@ namespace MyHR_Web.Controllers
             TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
             ViewBag.absence = applyNum;
 
-            if (applyNum != null && total < 3 && abs != null && abs.COn == null ? true : abs.COn < LateTime)
+            if (applyNum != null  && abs != null && abs.COn == null ? true : abs.COn < LateTime && total < 3)
             {
                 CAbsenceViewModel obj = new CAbsenceViewModel()
                 {
@@ -331,9 +341,14 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
+            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+
             var table = db.TAbsences
-                       .Where(a => a.CEmployeeId == userId)
-                       .OrderByDescending(a => a.CDate).ToList();
+                    .Where(a => a.CEmployeeId == userId &&
+                          a.CDate >= dtMonday &&
+                          a.CDate <= dtSunday)
+                    .OrderByDescending(a => a.CDate).ToList();
             List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
             foreach (var item in table)
             {
@@ -379,7 +394,7 @@ namespace MyHR_Web.Controllers
         public IActionResult research(int id)//重新查詢
         {
             DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-            DateTime dtSunday = dtMonday.AddDays(4); //當週週五
+            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
 
             var table = db.TAbsences
                     .Where(a => a.CEmployeeId == id &&
@@ -430,7 +445,7 @@ namespace MyHR_Web.Controllers
             else if (search_dwm == "當週")
             {
                 DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-                DateTime dtFriday = dtMonday.AddDays(7); //當週週日
+                DateTime dtFriday = dtMonday.AddDays(6); //當週週日
 
                 var table = db.TAbsences
                         .Where(a => a.CEmployeeId == id &&
