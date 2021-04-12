@@ -120,6 +120,7 @@
             success: function (data) {
                 console.log("test");
                 $("#absence_table").html(data);
+                $("#countNum").html(data);
             },
             error: function (msg) {
                 alert("error:" + msg);
