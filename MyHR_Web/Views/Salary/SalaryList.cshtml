@@ -67,8 +67,8 @@
 
                 #float_block {
                     position: absolute;
-                    top: 20px;
-                    left: 0px;
+                    top: 0px;
+                    left: 20px;
                     width: 400px;
                     height: 300px;
                     color: #0366D6;
@@ -81,9 +81,12 @@
                     position: relative;
                 }
 
-                    #icon:hover #float_block {
-                        display: block;
-                    }
+                #icon:hover #float_block {
+                    display: block;
+                }
+
+
+
             </style>
 
 
@@ -232,7 +235,7 @@
 
                                         @*<div id="block_top">*@
                                         <div id="icon" style="float:right">
-                                            <i id="Ajax_LeavePay" class="fas fa-clipboard-list" style="font-size:20px;"></i>
+                                            <i id="Ajax_LeavePay" class="fas fa-clipboard-list" style="font-size:25px;"></i>
                                             <div id="float_block">
                                                 <div id="ForLeave">
                                                     放置: Count_Leave.cshtml
@@ -273,7 +276,7 @@
                                         @LateMoney
 
                                         <div id="icon" style="float:right">
-                                            <i id="Ajax_LatePay" class="fas fa-times-circle" style="font-size:20px;"></i>
+                                            <i id="Ajax_LatePay" class="fas fa-times-circle" style="font-size:25px;"></i>
                                             <div id="float_block">
                                                 <div id="ForLate">
                                                     放置: Count_Absense.cshtml
@@ -345,6 +348,7 @@
 
     $("#Ajax_LeavePay").hover(function () {
         console.log("123");
+
         $.ajax({
             type: "get",
             dataType: "html",
@@ -359,9 +363,8 @@
         })
     });
 
-
-
-    $("#Ajax_LeavePay").hover(function () {
+  
+    $("#Ajax_LatePay").hover(function () {
 
         $.ajax({
             type: "get",
