@@ -47,17 +47,17 @@
 
 
                         <div class="sign-up-form">
-                            <form asp-action="AccEnable">
+                            @*<form asp-action="AccEnable">*@
+                                <form>
+                                    <div class="group"> <label for="username" class="label">帳號</label> <input asp-for="CEmployeeId" id="txtAccount1" name="txtAccount1" type="text" class="input"> </div>
+                                    <div class="group"> <label for="pass" class="label">密碼</label> <input asp-for="CPassWord" id="txtPassword1" name="txtPassword1" type="password" class="input" data-type="password"> </div>
 
-                                <div class="group"> <label for="username" class="label">帳號</label> <input asp-for="CEmployeeId" id="txtAccount" name="txtAccount" type="text" class="input"> </div>
-                                <div class="group"> <label for="pass" class="label">密碼</label> <input asp-for="CPassWord" id="txtPassword" name="txtPassword" type="password" class="input" data-type="password"> </div>
+                                    <div class="group" style="display:none"> <label for="cAccountEnable" class="label">帳號狀態</label> <input asp-for="CAccountEnable" id="AccountEnable" type="text" class="input" value="1"> </div>
+                                    <div class="group"><input type="button" class="button" style="filter: grayscale(50%)" value="員工報到" id="btnOnboard" name="btnOnboard" @*onclick="return (confirm('報到成功，請重新登入。'))"*@></div>
 
-                                <div class="group" style="display:none"> <label for="cAccountEnable" class="label">帳號狀態</label> <input asp-for="CAccountEnable" id="AccountEnable" type="text" class="input" value="1"> </div>
-                                <div class="group"><input type="submit" class="button" style="filter: grayscale(50%)" value="員工報到" id="btnlogin" name="btnlogin" @*onclick="return (confirm('報到成功，請重新登入。'))"*@></div>
-
-                                <div class="hr"></div>
-                            </form>
-                        </div>
+                                    <div class="hr"></div>
+                                </form>
+</div>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,81 @@
             else if (account == "") {
                 window.alert("帳號不得為空");
             }
+            else {
+                var datas = {
+                    txtAccount: $("#txtAccount").val(),
+                    txtPassword: $("#txtPassword").val(),
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '/Login/checklogin',
+                    data: JSON.stringify(datas),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (data) {
+                        if (data == "密碼錯誤") {
+                            window.alert('密碼錯誤，請重新登入');
+                            window.location.reload();
+                        }
+                        else if (data == "帳號未啟用") {
+                            window.alert('帳號未啟用，請先報到');
+                            window.location.reload();
+                        }
+                        else if (data == "員工已離職") {
+                            window.alert('員工已離職，無法登入');
+                            window.location.reload();
+                        }
+                        else if (data == "無此帳號") {
+                            window.alert('無此帳號，無法登入');
+                            window.location.reload();
+                        }
+                       
+                    },
+                    error: function () {
+                        window.alert('錯誤');
+                    },
+                    })
+                 }
         });
+
+
+
+        $("#btnOnboard").click(function () {
+            account = $("#txtAccount1").val();
+            password = $("#txtPassword1").val();
+            if (password == "" && account == "") {
+                window.alert("帳號、密碼不得為空");
+            }
+            else if (password == "") {
+                window.alert("密碼不得為空");
+            }
+            else if (account == "") {
+                window.alert("帳號不得為空");
+            }
+            else { 
+            var datas = {
+                txtaccount1: $("#txtAccount1").val(),
+                txtpassword1: $("#txtPassword1").val(),
+                }
+                console.log(datas);
+
+            $.ajax({
+                type: "POST",
+                url: '/Login/check',
+                data: JSON.stringify(datas),
+                contentType:"application/json; charset=utf-8",
+                success: function (data) {
+                   
+                    window.alert(data);
+                    window.location.reload();
+                    
+                },
+                error: function () {
+                    window.alert('錯誤');
+                }
+            })
+            }
+        });
+       
     </script>
 
 </body>
