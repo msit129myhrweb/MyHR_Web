@@ -39,7 +39,7 @@ namespace MyHR_Web.ViewModel
         [DisplayName("年齡")]
         public int CAge { get { return iv_interview.CAge; } set { iv_interview.CAge = value; } }
         public byte[]? CPhoto { get { return iv_interview.CPhoto; } set { iv_interview.CPhoto = value; } }
-        [DisplayName("最高學歷")]
+        [DisplayName("學歷")]
         public string CEducation { get { return iv_interview.CEducation; } set { iv_interview.CEducation = value; } }
         public string CExperience { get { return iv_interview.CExperience; } set { iv_interview.CExperience = value; } }        
         public int CJobTitle { get { return iv_interview.CJobTitle; } set { iv_interview.CJobTitle = value; } }
@@ -65,6 +65,7 @@ namespace MyHR_Web.ViewModel
             set { CDepartmentName = value; }
         }
         public int CInterViewerEmployeeId { get { return iv_interview.CInterViewerEmployeeId; } set { iv_interview.CInterViewerEmployeeId = value; } }
+        [DisplayName("建檔日")]
         public string CInterViewDate { get { return iv_interview.CInterViewDate; } set { iv_interview.CInterViewDate = value; } }        
         public int CInterViewStatusId { get { return iv_interview.CInterViewStatusId; } set { iv_interview.CInterViewStatusId = value; } }
         [DisplayName("狀態")]

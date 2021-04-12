@@ -1,20 +1,26 @@
-﻿using System;
+﻿using MyHR_Web.Models;
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace MyHR_Web.Models
+namespace MyHR_Web.ViewModel
 {
-    public partial class TInterView
+    public class CInterviewEditViewModel
     {
-        public TInterView()
+        private TInterView iv_interview = null;
+        public TInterView interview { get { return iv_interview; } }
+        public CInterviewEditViewModel(TInterView i)
         {
-            TInterViewProcesses = new HashSet<TInterViewProcess>();
+            iv_interview = i;
         }
-
-        public int CInterVieweeId { get; set; }
+        public CInterviewEditViewModel()
+        {
+            iv_interview = new TInterView();
+        }
+        public int CInterVieweeId { get { return iv_interview.CInterVieweeId; } set { iv_interview.CInterVieweeId = value; } }
         public string CInterVieweeGender { get; set; }
-        public string CInterVieweeName { get; set; }
+        public string CInterVieweeName { get { return iv_interview.CInterVieweeName; } set { iv_interview.CInterVieweeName = value; } }
         public string CEmployeeEnglishName { get; set; }
         public string CPhone { get; set; }
         public string CEmail { get; set; }
@@ -30,11 +36,5 @@ namespace MyHR_Web.Models
         public string CInterViewDate { get; set; }
         public int CInterViewStatusId { get; set; }
         public int? CInterViewProcessId { get; set; }
-
-        public virtual TUserDepartment CDepartmentNavigation { get; set; }
-        public virtual TInterViewStatus CInterViewStatus { get; set; }
-        public virtual TUser CInterViewerEmployee { get; set; }
-        public virtual TUserJobTitle CJobTitleNavigation { get; set; }
-        public virtual ICollection<TInterViewProcess> TInterViewProcesses { get; set; }
     }
 }
