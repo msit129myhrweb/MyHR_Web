@@ -61,7 +61,8 @@ namespace MyHR_Web.Controllers
                     CDate=item.CDate,
                     COn=item.COn,
                     COff=item.COff,
-                    CStatus=item.CStatus
+                    CStatus=item.CStatus,
+                    CCountNum = item.CCountNum
                 };
                 list.Add(avm);
             }
