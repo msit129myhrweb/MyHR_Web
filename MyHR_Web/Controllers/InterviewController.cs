@@ -12,11 +12,6 @@ namespace MyHR_Web.Controllers
     public class InterviewController : Controller
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
-        public IActionResult Index()
-        {
-            return View();
-        }
-        
         public IActionResult List()
         {
             List<TInterViewStatus> status = getInterViewStatus();
@@ -143,14 +138,21 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public IActionResult ProcessCreate(TInterViewProcess a)
         {
-            if(a != null)
+            try
             {
-                a.CProcessTime = DateTime.Now.ToString();
-                a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
-                myHR.TInterViewProcesses.Add(a);
-                myHR.SaveChanges();
+                if (a != null)
+                {
+                    a.CProcessTime = DateTime.Now.ToString();
+                    a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
+                    myHR.TInterViewProcesses.Add(a);
+                    myHR.SaveChanges();
+                }
+                return RedirectToAction("List");
             }
-            return RedirectToAction("List");
+            catch
+            {
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }
