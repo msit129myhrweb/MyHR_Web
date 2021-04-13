@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\js\group\**" />
+    <Content Remove="wwwroot\js\group\**" />
+    <EmbeddedResource Remove="wwwroot\js\group\**" />
+    <None Remove="wwwroot\js\group\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Models\CTravelFactory.cs" />
   </ItemGroup>
 
@@ -1949,7 +1956,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\ExcelFile\" />
-    <Folder Include="wwwroot\js\group\" />
   </ItemGroup>
 
 </Project>
