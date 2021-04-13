@@ -22,11 +22,12 @@ namespace MyHR_Web.Views.Home
             ViewBag.Session_USERIDSERID = int.Parse( HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
             
             ViewBag.Session_USERJOBTITLE= HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLE);
+            ViewBag.Session_USERJOBTITLEID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERJOBTITLEID));
             int userid= int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
            
 
             IEnumerable< TRepair > table = null;
-            if (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5 && ViewBag.Session_USERJOBTITLE == "經理") 
+            if (ViewBag.Session_USERJOBTITLE == "經理"&&(ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5 )) 
             {
                  table = from r in (new dbMyCompanyContext()).TRepairs
                          where (r.CRepairCategory.Contains("資訊") && int.Parse(USERDEPARTMENTID) == 4) || (r.CRepairCategory.Contains("總務") && int.Parse(USERDEPARTMENTID) == 5)

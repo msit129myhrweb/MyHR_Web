@@ -4,6 +4,7 @@
     List<TUserDepartment> userDepartments = ViewBag.CDepartmentId;
     List<TUserJobTitle> userJobTitles = ViewBag.CJobTitleId;
     List<TUserOnBoardStatus> userOnBoardStatuses = ViewBag.COnBoardStatusId;
+    List < TUser > users = ViewBag.User;
     ViewData["Title"] = "employeeEdit";
 }
 
@@ -115,7 +116,12 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CSupervisor" class="control-label"></label>
-                                <input asp-for="CSupervisor" class="form-control" />
+                                @*<input asp-for="CSupervisor" class="form-control" />*@
+                                <select asp-for="CSupervisor" class="form-control">
+                                    @foreach (var u in users)
+                                    {
+                            <option value="@u.CSupervisor" class="input">@u.CEmployeeName</option>}
+                                </select>
                                 <span asp-validation-for="CSupervisor" class="text-danger"></span>
                             </div>
                             <div class="form-group">
