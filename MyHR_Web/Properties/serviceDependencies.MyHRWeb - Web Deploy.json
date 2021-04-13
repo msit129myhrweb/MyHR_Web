@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql1": {
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/msit129myhrweb/databases/dbMyCompany1",
+      "type": "mssql.azure",
+      "connectionId": "msit129myhrweb",
+      "secretStore": "AzureAppSettings"
+    }
+  }
+}
