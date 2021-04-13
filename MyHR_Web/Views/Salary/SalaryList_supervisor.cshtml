@@ -1,331 +1,323 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
-@{ ViewData["Title"] = "SalaryList_supervisor";
+    @{ ViewData["Title"] = "SalaryList_supervisor";
 
-    var Late = ViewBag.Late;
-    var Leave = ViewBag.Leave;
-    var DEPT = ViewBag.DEPT;
-    var JOBTITLE = ViewBag.JOBTITLE; }
+        var Late = ViewBag.Late;
+        var Leave = ViewBag.Leave;
+        var DEPT = ViewBag.DEPT;
+        var JOBTITLE = ViewBag.JOBTITLE; }
 
-<div class="content-wrapper">
-    <section class="content-header">
-
-
-        <header>
-            <style>
-                .row {
-                    display: flex;
-                    flex-wrap: wrap;
-                }
-
-                .col {
-                    flex-grow: 1;
-                    margin: 10px;
-                    text-align: center;
-                    font-size: 20px;
-                    font-family: 微軟正黑體;
-                    font-weight: normal;
-                }
-
-                h2 {
-                    background-color: #cbb2ae;
-                    border-left: 5px solid #808080;
-                    font-family: "微软雅黑", "宋体", "黑体", Arial;
-                    font-size: 25px;
-                    height: 80px;
-                    line-height: 80px;
-                    font-weight: bold;
-                    text-shadow: 2px 2px 3px #222222;
-                    color: #FFFFFF;
-                    padding-left: 10px;
-                }
+    <div class="content-wrapper">
+        <section class="content-header">
 
 
-                .mask_page {
-                    position: absolute;
-                    left: 0;
-                    top: 0;
-                    background-color: white;
-                    z-index: 100;
-                    opacity: 0.8;
-                    display: none;
-                    filter: alpha(opacity=80)
-                }
+            <header>
+                <style>
+                    .row {
+                        display: flex;
+                        flex-wrap: wrap;
+                    }
+
+                    .col {
+                        flex-grow: 1;
+                        margin: 10px;
+                        text-align: center;
+                        font-size: 20px;
+                        font-family: 微軟正黑體;
+                        font-weight: normal;
+                    }
+
+                    h2 {
+                        background-color: #cbb2ae;
+                        border-left: 5px solid #808080;
+                        font-family: "微软雅黑", "宋体", "黑体", Arial;
+                        font-size: 25px;
+                        height: 80px;
+                        line-height: 80px;
+                        font-weight: bold;
+                        text-shadow: 2px 2px 3px #222222;
+                        color: #FFFFFF;
+                        padding-left: 10px;
+                    }
 
 
-                .loading_image {
-                    width: 200px;
-                    height: 200px;
-                    position: fixed;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%,-50%)
-                }
-
-                .subCate {
-                    color: red;
-                }
-
-                }
-            </style>
+                    .mask_page {
+                        position: absolute;
+                        left: 0;
+                        top: 0;
+                        background-color: white;
+                        z-index: 100;
+                        opacity: 0.8;
+                        display: none;
+                        /*filter: alpha(opacity=80)*/
+                    }
 
 
+                    .loading_image {
+                        width: 200px;
+                        height: 200px;
+                        position: fixed;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%,-50%)
+                    }
 
-
-        </header>
+                    .subCate {
+                        color: red;
+                    }
+                    
+                </style>
 
 
 
 
-        <h2>人資管理系統</h2>
-        <h3 style="background-color:sandybrown">@DateTime.Now.Date.Month 月薪資計算</h3>
-
-        <div class="row">
+            </header>
 
 
 
-            <div style="background-color:white; justify-items:center ;padding:20px; margin-left:20px;border-radius:10px;width:48%; display:inline-block">
-                <h3>查詢條件</h3>
+
+            <h2>人資管理系統</h2>
+            <h3 style="background-color:sandybrown">@DateTime.Now.Date.Month 月薪資計算</h3>
+
+            <div class="row">
 
 
-                @*//------------------------------------*@
 
-                <form method="post">
+                <div style="background-color:white; justify-items:center ;padding:20px; margin-left:20px;border-radius:10px;width:48%; display:inline-block">
+                    <h3>查詢條件</h3>
 
 
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center">部門 :</label>
+                    @*//------------------------------------*@
 
-                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_DEPT">
-                                <option value="" disabled selected>請選擇</option>
+                    <form method="post">
 
-                                @for (int i = 0; i < DEPT.Count; i++)
-                                {
-                                    <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>
-                                }
-                            </select>
+
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center">部門 :</label>
+
+                                <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_DEPT">
+                                    <option value="" disabled selected>請選擇</option>
+
+                                    @for (int i = 0; i < DEPT.Count; i++)
+                                    {
+                                        <option value="@DEPT[i].CDepartmentId">@DEPT[i].CDepartment</option>
+                                    }
+                                </select>
+                            </div>
+
+
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-12 form-group">
+                                <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center"> 職位 :</label>
+                                <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_JOBTITLE">
+                                    <option value="" disabled selected>請選擇</option>
 
-                    </div>
+                                    @for (int i = 0; i < JOBTITLE.Count; i++)
+                                    {
+                                        <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>
+                                    }
+                                </select>
+                            </div>
 
-                    <div class="row">
-                        <div class="col-md-12 form-group">
-                            <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center"> 職位 :</label>
-                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_JOBTITLE">
-                                <option value="" disabled selected>請選擇</option>
 
-                                @for (int i = 0; i < JOBTITLE.Count; i++)
-                                {
-                                    <option value="@JOBTITLE[i].CJobTitleId">@JOBTITLE[i].CJobTitle</option>
-                                }
-                            </select>
+                            <div class="col-md-12 form-group" style="text-align:right;margin:0px; ">
+
+                                <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%);">
+                            </div>
+
                         </div>
+                        <hr />
+
+                        <div class="row" style="display:inline">
+
+                            <div class="col-md-12" style="padding-top:5px;">
+
+                                <button style="display:inline" type="button" class="btn btn-default checkbox-toggleALL col-md-4 col-md-offset-5">
+                                    <i class="far fa-square">一鍵全選</i>
+                                </button>
 
 
-                        <div class="col-md-12 form-group" style="text-align:right;margin:0px; ">
-
-                            <input type="submit" value="重新查詢" class="btn btn-success" style="filter: grayscale(50%);">
-                        </div>
-
-                    </div>
-                    <hr />
-
-                    <div class="row" style="display:inline">
-
-                        <div class="col-md-12" style="padding-top:5px;">
-
-                            <button style="display:inline" type="button" class="btn btn-default checkbox-toggleALL col-md-4 col-md-offset-5">
-                                <i class="far fa-square">一鍵全選</i>
-                            </button>
-
-
-                            <button type="button" style="width:40%; margin-top:10px;padding-top:5px;" class="btn btn-block btn-default bg-gradient-warning col-md-4 col-md-offset-5" onclick="SendMail()">
-                                <i class="fas fa-envelope"></i> 發送薪資單(EMAIL)
-                            </button>
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-
-
-            <div style="background-color:white; justify-items:center ;padding:20px; border-radius:10px;width:48%;  margin-left:20px; display:inline-block">
-
-                <form>
-
-                    <div class="card card-info">
-                        <div class="card-header" style="background-color:#397984">
-                            <h3 class="card-title">各部門薪水分析</h3>
-
-                            <div class="card-tools" style="font-size:15px;">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
+                                <button type="button" style="width:40%; margin-top:10px;padding-top:5px;" class="btn btn-block btn-default bg-gradient-warning col-md-4 col-md-offset-5" onclick="SendMail()">
+                                    <i class="fas fa-envelope"></i> 發送薪資單(EMAIL)
                                 </button>
                             </div>
                         </div>
-                        <div class="card-body">
-                            <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+
+                    </form>
+
+                </div>
+
+
+                <div id="CHART" style="background-color:white; justify-items:center ;padding:20px; border-radius:10px;width:48%;  margin-left:20px; display:inline-block">
+                    <form>
+
+                        <div class="card card-info">
+                            <div class="card-header" style="background-color:#397984">
+                                <h3 class="card-title">各部門薪水分析</h3>
+
+                                <div class="card-tools" style="font-size:15px;">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+                            </div>
+                            <!-- /.card-body -->
                         </div>
-                        <!-- /.card-body -->
-                    </div>
-                </form>
+                    </form>
+
+                </div>
+            </div>
+
+            <br />
+            <br />
+
+            <div id="cover_page" class="mask_page">
+                <img id="loading_gif" class="loading_image" src="/theme/imgs/Loading.gif" />
+            </div>
+
+            <div id="Salary_table">
+
+                @{ var Dept = Model.Select(c => c.CDepartmentId).Distinct().ToList();
+                    for (int i = 1; i < Dept.Count + 1; i++)
+                    {
+                        <div class="card">
+                            <div class="card-header">
+                                <table table class="table table-bordered table-hover">
+                                    <thead>
+                                        <tr style="text-align:center">
+                                            @{ string checkbox = i + "checkbox-toggle";
+
+
+                                            }
+
+                                            <th>
+                                                <button type="button" class="@checkbox btn btn-default btn-sm">
+                                                    <i class="far fa-square"></i>
+                                                </button>
+                                                @Html.DisplayNameFor(model => model.CDepartment)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.CEmployeeName)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.CJobTitle)
+                                            </th>
+                                            <th>
+                                                @Html.DisplayNameFor(model => model.Month_Salary)
+                                            </th>
+                                            <th>
+                                                差旅費
+                                            </th>
+                                            <th>
+                                                遲到扣款
+                                            </th>
+                                            <th>
+                                                請假扣款
+                                            </th>
+                                            <th>
+                                                詳細資料
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (var item in Model)
+                                        {
+                                            if (item.CDepartmentId == i)
+                                            {
+                                                string CHECKBOX = item.CDepartmentId.ToString() + "CHECKBOX"; //部分群組勾選
+
+                                                <tr style="text-align:center">
+                                                    <td>
+                                                        <div class="@CHECKBOX icheck-primary">
+                                                            <input type="checkbox" value="@item.CEmployeeId" name="Checkbox[]" id="check1">
+                                                            <label for="check1"></label>
+                                                            @Html.DisplayFor(modelItem => item.CDepartment)
+                                                        </div>
+
+                                                    </td>
+
+                                                    <td id="NAME">
+                                                        @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => item.CJobTitle)
+                                                    </td>
+
+                                                    @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                                        string Travel = item.CDepartmentId.ToString() + "Travel";
+                                                        string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                                        string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
+
+
+                                                    <td class="@Month_Salary">
+                                                        @Html.DisplayFor(modelItem => item.Month_Salary)
+                                                    </td>
+
+                                                    <td class="@Travel">
+                                                        @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                                    </td>
+
+                                                    <td class="@Tabsense subCate">
+                                                        @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                                    </td>
+
+                                                    <td class="@LLeave subCate">
+                                                        @Html.DisplayFor(modelItem => item.CAmont_Leave)
+
+                                                    </td>
+
+
+                                                    <td>
+                                                        @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+                                                    </td>
+                                                </tr>
+                                            }
+                                        }
+                                        <tr style="text-align:center; background-color:tan; font-weight:bold">
+
+                                            <td colspan="3">
+                                                部門總計:
+                                            </td>
+
+                                            @{ string dep = i + "Month_Salary";
+                                                string travel = i + "Travel";
+                                                string late = i + "Tabsense";
+                                                string leave = i + "LLeave";
+                                                string toltal = i + "toltal";
+                                            }
+
+                                            <td id="@dep"></td>
+                                            <td id="@travel"></td>
+                                            <td id="@late" class="subCate"></td>
+                                            <td id="@leave" class="subCate"></td>
+                                            <td id="@toltal">000000</td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div> } }
+
+
 
 
 
             </div>
-        </div>
-        
-        <br />
-        <br />
-
-        <div id="cover_page" class="mask_page">
-            <img id="loading_gif" class="loading_image" src="/theme/imgs/Loading.gif" />
-        </div>
-
-        <div id="Salary_table">
-
-            @{ var Dept = Model.Select(c => c.CDepartmentId).Distinct().ToList();
-                for (int i = 1; i < Dept.Count + 1; i++)
-                {
-                    <div class="card">
-                        <div class="card-header">
-                            <table table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr style="text-align:center">
-                                        @{ string checkbox = i + "checkbox-toggle";
+        </section>
+    </div>
 
 
-                                        }
+    <script src="~/theme/plugins/chart.js/Chart.min.js"></script>
 
-                                        <th>
-                                            <button type="button" class="@checkbox btn btn-default btn-sm">
-                                                <i class="far fa-square"></i>
-                                            </button>
-                                            @Html.DisplayNameFor(model => model.CDepartment)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CEmployeeName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CJobTitle)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Month_Salary)
-                                        </th>
-                                        <th>
-                                            差旅費
-                                        </th>
-                                        <th>
-                                            遲到扣款
-                                        </th>
-                                        <th>
-                                            請假扣款
-                                        </th>
-                                        <th>
-                                            詳細資料
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var item in Model)
-                                    {
-                                        if (item.CDepartmentId == i)
-                                        {
-                                            string CHECKBOX = item.CDepartmentId.ToString() + "CHECKBOX"; //部分群組勾選
-
-
-
-
-                                            <tr style="text-align:center">
-
-
-
-                                                <td>
-                                                    <div class="@CHECKBOX icheck-primary">
-                                                        <input type="checkbox" value="@item.CEmployeeId" name="Checkbox[]" id="check1">
-                                                        <label for="check1"></label>
-                                                        @Html.DisplayFor(modelItem => item.CDepartment)
-                                                    </div>
-
-                                                </td>
-
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CJobTitle)
-                                                </td>
-
-                                                @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                                    string Travel = item.CDepartmentId.ToString() + "Travel";
-                                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                                    string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
-
-
-                                                <td class="@Month_Salary">
-                                                    @Html.DisplayFor(modelItem => item.Month_Salary)
-                                                </td>
-
-                                                <td class="@Travel">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                                </td>
-
-                                                <td class="@Tabsense subCate">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                                </td>
-
-                                                <td class="@LLeave subCate">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
-
-                                                </td>
-                                                <td>
-                                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                    <tr style="text-align:center; background-color:tan; font-weight:bold">
-
-                                        <td colspan="3">
-                                            部門總計:
-                                        </td>
-
-                                        @{ string dep = i + "Month_Salary";
-                                            string travel = i + "Travel";
-                                            string late = i + "Tabsense";
-                                            string leave = i + "LLeave";
-                                            string toltal = i + "toltal";
-                                        }
-
-                                        <td id="@dep"></td>
-                                        <td id="@travel"></td>
-                                        <td id="@late" class="subCate"></td>
-                                        <td id="@leave" class="subCate"></td>
-                                        <td id="@toltal">000000</td>
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> } }
-
-
-
-
-
-        </div>
-    </section>
-</div>
-
-
-<script src="~/theme/plugins/chart.js/Chart.min.js"></script>
-
-<script>
+    <script>
     var x = "";
     $(".Salary_Distinguish").change(function () {
 
@@ -339,8 +331,8 @@
         x = $("#Salary_DEPT").val()//★透過Name屬性取得輸入值
         y = $("#Salary_JOBTITLE").val()
 
-        console.log(x); //傳入型態:stirng
-        console.log(y);
+        //console.log(x); //傳入型態:stirng
+        //console.log(y);
 
         $.ajax({
             type: "get",
@@ -353,13 +345,86 @@
 
                 $("#cover_page").css({ "display": "none" });  //遮罩取消
 
+                var Name = [];
+                var Namea = $(".NAME").length;
+                console.log(Namea);
+                //---------------------------------------------------------------------//非同步顯示圖表資料 -- 名子
+                $('.NAME').each(function () {
+                   /* console.log($(this).html().trim());*/
+                    Name.push($(this).html().trim());
+                });
+                console.log(Name);
+
+
+                var DETAIL_ARR = [];
+                var Detail = $(".NAME").length;
+                console.log(Detail);
+                //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
+                $('.DETAIL').each(function () {
+                    /* console.log($(this).html().trim());*/
+                    DETAIL_ARR.push(parseInt($(this).html().trim()));
+                });
+                console.log(DETAIL_ARR);
+                console.log(typeof (DETAIL_ARR));
+                //console.log(JSON.stringify(Name));
+                //console.log(JSON.stringify(DETAIL_ARR));
+
+                let combine_obj = {
+                    name: Name,
+                    money: DETAIL_ARR
+                }
+
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+
+                    url: "/Salary/Mutiple_CHARTsearch",
+                    data: JSON.stringify(combine_obj),
+                    success: function (data) {
+                        console.log("有進去");
+                        $("#CHART").html(data);
+
+
+                    },
+                    error: function (msg) {
+                        alert("error:" + msg);
+                    }
+                })
+
+
 
             },
             error: function (msg) {
                 alert("error:" + msg);
             }
         })
+
+
+
+
+
+
+        //var Name = [];
+        //var Namea = $(".NAME").length;
+        //console.log(Namea);
+
+        //$('.NAME').each(function () {
+        //    console.log($(this).html().trim());
+        //    Name.push($(this).html().trim());
+        //});
+
+        //console.log(Name);
+
+
+
+
+
     });
+
+
+
+
+
 
 
     $(function () {
@@ -582,7 +647,7 @@
 
 
 
-</script>
+    </script>
 
 
 
