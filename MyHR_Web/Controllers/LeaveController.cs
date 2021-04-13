@@ -53,6 +53,7 @@ namespace MyHR_Web.Controllers
                             CCheckStatus = i.CCheckStatus,
                             CLeaveHours=i.CLeaveHours,
                             Leave_Psy = 6,
+                            Gender = u.CGender,
                             
                             
                         };

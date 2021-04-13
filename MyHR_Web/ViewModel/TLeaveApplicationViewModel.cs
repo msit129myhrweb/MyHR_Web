@@ -92,6 +92,8 @@ namespace MyHR_Web.ViewModel
 
         public int Leave_Psy { get; set; }
 
+        public string Gender { get; set; }
+
 
 
     }
