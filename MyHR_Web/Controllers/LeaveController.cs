@@ -51,7 +51,9 @@ namespace MyHR_Web.Controllers
                             CLeaveEndTime = i.CLeaveEndTime,
                             CReason = i.CReason,
                             CCheckStatus = i.CCheckStatus,
-                            CLeaveHours=i.CLeaveHours
+                            CLeaveHours=i.CLeaveHours,
+                            Leave_Psy = 6,
+                            
                             
                         };
 

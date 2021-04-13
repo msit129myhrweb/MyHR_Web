@@ -10,7 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Mail;
-
+using System.Net;
 
 namespace MyCompany_.NetCore_Janna.Controllers
 {
@@ -336,7 +336,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             return Leave_Sum;
-        }
+        }  //方法: 計算各假別需扣的錢
 
 
         public int Leave_Shouldtopay(int LeaveCate, int LeaveHours)  //計算各個假別必須扣除的總數
@@ -534,27 +534,34 @@ namespace MyCompany_.NetCore_Janna.Controllers
         [HttpPost]
         public IActionResult Mutiple_CHARTsearch([FromBody] SalaryChar_Json x)   //回傳動態Chart.js
         {
-            List<SalaryChar_Json> list = new List<SalaryChar_Json>();
-
-            SalaryChar_Json obj = new SalaryChar_Json()
+            if (x.money.Count != 0)
             {
-                
-                money = x.money,
-                name=x.name,
-               
+                List<SalaryChar_Json> list = new List<SalaryChar_Json>();
 
-            };
-            list.Add(obj);
-            return PartialView("Mutiple_CHARTsearch",list);
+                SalaryChar_Json obj = new SalaryChar_Json()
+                {
+
+                    money = x.money,
+                    name = x.name,
+
+
+                };
+                list.Add(obj);
+                return PartialView("Mutiple_CHARTsearch", list);
+            }
+            else
+            {
+
+                return StatusCode(500);
+
+            }
+
+
 
         }
 
 
-        //public JsonResult Mutiple_CHARTsearchf(string Labs, string Datas)
-        //{
-           
-
-        //}
+    
 
 
         public IActionResult Mail_Click(string ID)
@@ -616,6 +623,8 @@ namespace MyCompany_.NetCore_Janna.Controllers
                
             }
                return RedirectToAction("SalaryList_supervisor");
-        }
+        } //傳送MAIL
+
+        
     }
 }

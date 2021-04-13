@@ -88,6 +88,12 @@ namespace MyHR_Web.ViewModel
 
         public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
 
+
+
+        public int Leave_Psy { get; set; }
+
+
+
     }
 
 

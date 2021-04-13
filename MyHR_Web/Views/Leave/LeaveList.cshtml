@@ -49,163 +49,238 @@
         <br />
         @*//-------------------------------------------*@
 
-    
-        <div style="background-color:white ;padding:20px; border-radius:10px">
-            <h3>查詢條件</h3>
+        <div class="row">
+
+            <div style="background-color:white; justify-items:center ;padding:20px; margin-left:20px;border-radius:10px;width:48%; display:inline-block">
+                <h3>查詢條件</h3>
 
 
-            @*//------------------------------------*@
+                @*//------------------------------------*@
 
-            <form method="post">
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">請假日期(起) :</label>
-                        <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
+                <form method="post">
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="col-lg-5 control-label">請假日期(起) :</label>
+                            <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="col-lg-5 control-label">請假日期(迄) :</label>
+                            <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
+                        </div>
                     </div>
-                    <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">請假日期(迄) :</label>
-                        <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">請假類別:</label>
-                        <select class="Leave_Distinguish" id="Leave_Cate">
-                            <option value="" disabled selected>請選擇</option>
-                            @for (int i = 0; i < Leave_Cate.Count; i++)
-                            {
-                                <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
-                            }
-                        </select>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="col-lg-5 control-label">請假類別:</label>
+                            <select class="Leave_Distinguish" id="Leave_Cate">
+                                <option value="" disabled selected>請選擇</option>
+                                @for (int i = 0; i < Leave_Cate.Count; i++)
+                                {
+                                    <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <label class="col-lg-5 control-label">審核狀態:</label>
+                            <select class="Leave_Distinguish" id="Leave_Statues">
+                                <option value="" disabled selected>請選擇</option>
+                                @for (int i = 0; i < Leave_Status.Count; i++)
+                                {
+                                    <option value="@Leave_Status[i].CCheckStatusId">@Leave_Status[i].CCheckStatus</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="col-md-6 form-group">
+                            <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
+
+                        </div>
                     </div>
 
-                    <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">審核狀態:</label>
-                        <select class="Leave_Distinguish" id="Leave_Statues">
-                            <option value="" disabled selected>請選擇</option>
-                            @for (int i = 0; i < Leave_Status.Count; i++)
-                            {
-                                <option value="@Leave_Status[i].CCheckStatusId">@Leave_Status[i].CCheckStatus</option>
-                            }
-                        </select>
-                    </div>
+                </form>
+            </div>
 
-                    <div class="col-md-6 form-group">
-                        <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
 
+            <div id="CHART" style="background-color:white; justify-items:center ;padding:20px; border-radius:10px;width:48%;  margin-left:20px; display:inline-block">
+                <form>
+
+                    <div class="card card-info">
+                        <div class="card-header" style="background-color:#397984">
+                            <h3 class="card-title">假別剩餘天數</h3>
+
+                            @*<div class="card-tools" style="font-size:15px;">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>*@
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6 col-md-3 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="30" data-width="90" data-height="90" data-fgcolor="#3c8dbc" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(60, 141, 188); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">New Visitors</div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-6 col-md-3 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="70" data-width="90" data-height="90" data-fgcolor="#f56954" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(245, 105, 84); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">Bounce Rate</div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-6 col-md-3 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="-80" data-min="-150" data-max="150" data-width="90" data-height="90" data-fgcolor="#00a65a" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">Server Load</div>
+                                </div>
+                                <!-- ./col -->
+                                <div class="col-6 col-md-3 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="40" data-width="90" data-height="90" data-fgcolor="#00c0ef" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 192, 239); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">Disk Space</div>
+                                </div>
+                                <!-- ./col -->
+                                @*<div class="col-6 col-md-3 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="40" data-width="90" data-height="90" data-fgcolor="#00c0ef" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 192, 239); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">Disk Space</div>
+                                </div>*@
+                                <!-- ./col -->
+                            </div>
+                            <!-- /.row -->
+
+                            <!--<div class="row">
+                                <div class="col-6 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="90" data-width="90" data-height="90" data-fgcolor="#932ab6" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(147, 42, 182); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">Bandwidth</div>
+                                </div>-->
+                                <!-- ./col -->
+                                <!--<div class="col-6 text-center">
+                                    <div style="display:inline;width:90px;height:90px;"><canvas width="90" height="90"></canvas><input type="text" class="knob" value="50" data-width="90" data-height="90" data-fgcolor="#39CCCC" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(57, 204, 204); padding: 0px; appearance: none;"></div>
+
+                                    <div class="knob-label">CPU</div>
+                                </div>-->
+                                <!-- ./col -->
+                            <!--</div>-->
+                            <!-- /.row -->
+                        </div>
+                        <!-- /.card-body -->
                     </div>
-                </div>
-               
-            </form>
+                </form>
+
+            </div>
+
         </div>
 
-        <br />
-   
-        <div id="Leave_table">
-            <div class="card">
-                <div class="card-header">
-                    <table table class="table table-bordered table-hover">
-                        <thead>
-                            <tr style="text-align:center">
-                                @*<th>
-                                    @Html.DisplayNameFor(model => model.CApplyNumber)
-                                </th>*@
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CDepartmentId)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CEmployeeName)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CApplyDate)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CLeaveCategory)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CLeaveStartTime)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CLeaveEndTime)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CReason)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CLeaveHours)
-                                </th>
 
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CCheckStatus)
-                                </th>
-                                <th>
-                                    修改/刪除
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                @if (item.CEmployeeId == ViewBag.Name)
+            <br />
+
+            <div id="Leave_table">
+                <div class="card">
+                    <div class="card-header">
+                        <table table class="table table-bordered table-hover">
+                            <thead>
+                                <tr style="text-align:center">
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.CApplyNumber)
+                                    </th>*@
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CDepartmentId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CEmployeeName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CApplyDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CLeaveCategory)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CLeaveStartTime)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CLeaveEndTime)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CReason)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CLeaveHours)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CCheckStatus)
+                                    </th>
+                                    <th>
+                                        修改/刪除
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
                                 {
-                                    <tr style="text-align:center">
-                                        @*<td>
-                                            @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                        </td>*@
+                                    @if (item.CEmployeeId == ViewBag.Name)
+                                    {
+                                        <tr style="text-align:center">
+                                            @*<td>
+                                                @Html.DisplayFor(modelItem => item.CApplyNumber)
+                                            </td>*@
 
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CDepartmentName)
-                                        </td>
-                                        <td style="display:none">
-                                            @Html.DisplayFor(modelItem => item.CDepartmentId)
-                                            @*@Enum.GetName(typeof(eDepartment), item.CDepartmentId)*@
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                        </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CDepartmentName)
+                                            </td>
+                                            <td style="display:none">
+                                                @Html.DisplayFor(modelItem => item.CDepartmentId)
+                                                @*@Enum.GetName(typeof(eDepartment), item.CDepartmentId)*@
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                            </td>
 
-                                        <td style="display:none">
-                                            @Html.DisplayFor(modelItem => item.CEmployeeId)
-                                        </td>
+                                            <td style="display:none">
+                                                @Html.DisplayFor(modelItem => item.CEmployeeId)
+                                            </td>
 
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CApplyDate)
-                                        </td>
-                                        <td>
-                                            @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CLeaveStartTime)
-                                            @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CLeaveEndTime)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CReason)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CLeaveHours)
-                                        </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CApplyDate)
+                                            </td>
+                                            <td>
+                                                @Enum.GetName(typeof(eLeaveCategory), item.CLeaveCategory)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CLeaveStartTime)
+                                                @*@Html.DisplayFor(modelItem => DateTime.Parse(item.CLeaveStartTime).ToString())*@
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CLeaveEndTime)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CReason)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CLeaveHours)
+                                            </td>
 
-                                        <td>
-                                            @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
-                                            @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
-                                        </td>
-                                        <td>
-                                            @{ if (@item.CCheckStatus == 1)
-                                                {
-                                                    @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
-                                                    @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
-                                        </td>
-                                    </tr>
-                                }}
-                        </tbody>
-                    </table>
+                                            <td>
+                                                @Enum.GetName(typeof(eCheckStatus), item.CCheckStatus)
+                                                @*@Html.DisplayFor(modelItem => item.CCheckStatus)*@
+                                            </td>
+                                            <td>
+                                                @{ if (@item.CCheckStatus == 1)
+                                                    {
+                                                        @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
+                                                        @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
+                                            </td>
+                                        </tr>
+                                    }}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
     </section>
 </div>
 @*<script src="~/js/jquery-2.2.3.min.js"></script>*@
@@ -255,7 +330,7 @@
                         text += '<td>' + JLeave[i].CReason;
                         text += '<td>' + JLeave[i].CCheckStatus;
 
-                        @*text += '<td>' +@{  幹
+                        @*text += '<td>' +@{  
                             if(@:JLeave.CCheckStatus)
                        };*@
                     <!--}

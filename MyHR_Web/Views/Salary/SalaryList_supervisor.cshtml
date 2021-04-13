@@ -340,14 +340,14 @@
             url: "/Salary/Mutiple_search",
             data: { DEPT: x, TITLE: y },
             success: function (data) {
-                console.log("有進去");
+                
                 $("#Salary_table").html(data);
 
                 $("#cover_page").css({ "display": "none" });  //遮罩取消
 
                 var Name = [];
                 var Namea = $(".NAME").length;
-                console.log(Namea);
+             
                 //---------------------------------------------------------------------//非同步顯示圖表資料 -- 名子
                 $('.NAME').each(function () {
                    /* console.log($(this).html().trim());*/
@@ -364,10 +364,8 @@
                     /* console.log($(this).html().trim());*/
                     DETAIL_ARR.push(parseInt($(this).html().trim()));
                 });
-                console.log(DETAIL_ARR);
-                console.log(typeof (DETAIL_ARR));
-                //console.log(JSON.stringify(Name));
-                //console.log(JSON.stringify(DETAIL_ARR));
+              
+               
 
                 let combine_obj = {
                     name: Name,
@@ -381,13 +379,13 @@
                     url: "/Salary/Mutiple_CHARTsearch",
                     data: JSON.stringify(combine_obj),
                     success: function (data) {
-                        console.log("有進去");
+                     
                         $("#CHART").html(data);
 
 
                     },
                     error: function (msg) {
-                        alert("error:" + msg);
+                        alert("該部門下無此職位員工");
                     }
                 })
 
@@ -642,6 +640,8 @@
             options: donutOptions
         })
 
+
+       
 
     })
 
