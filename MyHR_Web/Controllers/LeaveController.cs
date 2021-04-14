@@ -29,14 +29,17 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENT] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENT);
             ViewData[CDictionary.CURRENT_LOGINED_USERDEPARTMENTID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERDEPARTMENTID);
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+            ViewData[CDictionary.CURRENT_LOGINED_GENDER] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_GENDER);
             ViewBag.Name = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-         
+            ViewBag.Gender =  HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_GENDER);
 
             int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
 
             var table = from i in MyHr.TLeaveApplications
                         join d in MyHr.TUserDepartments on i.CDepartmentId equals d.CDepartmentId
                         join u in MyHr.TUsers on i.CEmployeeId equals u.CEmployeeId
+                        where (i.CEmployeeId == UserID)
                         orderby i.CApplyDate descending /*依照申請日期降冪排序*/
                         select new TLeaveApplicationViewModel
                         {
@@ -51,18 +54,56 @@ namespace MyHR_Web.Controllers
                             CLeaveEndTime = i.CLeaveEndTime,
                             CReason = i.CReason,
                             CCheckStatus = i.CCheckStatus,
-                            CLeaveHours=i.CLeaveHours,
-                            Leave_Psy = 6,
+                            CLeaveHours = i.CLeaveHours,
                             Gender = u.CGender,
-                            
-                            
+                            NONO = LeaveCate_Count(UserID), // 假別群組
+                            Leave_Specil = Leave_CountSpecialDayoff(UserID),//計算特休
+
+
+                        };
+            var table2 = from i in MyHr.TLeaveApplications
+                        join d in MyHr.TUserDepartments on i.CDepartmentId equals d.CDepartmentId
+                        join u in MyHr.TUsers on i.CEmployeeId equals u.CEmployeeId
+                        where (i.CEmployeeId == UserID)
+                        orderby i.CApplyDate descending /*依照申請日期降冪排序*/
+                        select new TLeaveApplicationViewModel
+                        {
+                            CApplyNumber = i.CApplyNumber,
+                            CEmployeeId = i.CEmployeeId,
+                            CEmployeeName = u.CEmployeeName,
+                            CDepartmentId = i.CDepartmentId,
+                            CDepartmentName = d.CDepartment,
+                            CApplyDate = i.CApplyDate,
+                            CLeaveCategory = i.CLeaveCategory,
+                            CLeaveStartTime = i.CLeaveStartTime,
+                            CLeaveEndTime = i.CLeaveEndTime,
+                            CReason = i.CReason,
+                            CCheckStatus = i.CCheckStatus,
+                            CLeaveHours = i.CLeaveHours,
+                            Gender = u.CGender,
+                             // 假別群組
+                            Leave_Specil = Leave_CountSpecialDayoff(UserID),//計算特休
+
+
                         };
 
-            return View(table);
+            //foreach(var item in table)
+            // {
+            //     item.Leave_Specil = Leave_CountSpecialDayoff(UserID);// 想要只取一筆特休就好了，但是有連接問題
+            // }
 
-            
+            //var a = (table.GetType().GetProperty("NONO"));
+            //var b = (table2.GetType().GetProperty("NONO"));
 
-          
+            if (table.Any())
+                return View(table);
+            else
+                return View(table2);
+
+
+
+
+
 
             //******************************************************************************************************
             //int useraccount = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
@@ -97,6 +138,87 @@ namespace MyHR_Web.Controllers
 
         }
 
+        public int Leave_CountSpecialDayoff(int Id)  //計算特休
+        {
+            int dayoff = 0;
+
+            MyHr.TUsers.ToList();
+
+            var onBoardDate = MyHr.TUsers.Local.Where(n => n.CEmployeeId == Id && n.COnBoardStatusId == 1).Select(c => c.COnBoardDay);
+
+            DateTime Today = DateTime.Now;
+            DateTime onBoard = onBoardDate.FirstOrDefault();
+
+            int Month = (Today.Year - onBoard.Year) * 12 + (Today.Month - onBoard.Month);
+
+            double Year = Month / 12;
+
+          if(Year >0.5 && Year < 1)
+            {
+                dayoff = 3;
+            }
+          else if( Year >=1 && Year < 2)
+            {
+                dayoff = 7;
+            }
+            else if (Year >= 2 && Year < 3)
+            {
+                dayoff = 10;
+            }
+            else if (Year >= 3 && Year < 5)
+            {
+                dayoff = 14;
+            }
+            else if (Year >= 5 && Year < 10)
+            {
+                dayoff = 15;
+            }
+            else if (Year >= 10 && Year < 11)
+            {
+                dayoff = 16;
+            }
+            else if (Year >= 11 && Year < 12)
+            {
+                dayoff = 17;
+            }
+            else if (Year >= 12 && Year < 13)
+            {
+                dayoff = 18;
+            }
+            else if (Year >= 13 && Year < 14)
+            {
+                dayoff = 19;
+            }
+            else if (Year >= 14 && Year < 15)
+            {
+                dayoff = 20;
+            }
+
+            return dayoff;
+            
+
+        }
+
+
+        public List<TLeaveApplicationViewModel> LeaveCate_Count(int ID)
+        {
+
+            var table = from i in MyHr.TLeaveApplications.AsEnumerable()
+                        where i.CEmployeeId == ID && DateTime.Parse(i.CApplyDate).Year== DateTime.Now.Date.Year && i.CCheckStatus == 2
+                        group i by i.CLeaveCategory into g
+                        select new TLeaveApplicationViewModel
+                        {
+                            Category = g.Key,
+                            CategoryCount = g.Sum(n => n.CLeaveHours),
+
+                        };
+
+        
+            return table.ToList();
+            
+        }
+
+
         public IActionResult LeaveCreate()
         {
 
@@ -128,16 +250,7 @@ namespace MyHR_Web.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult LeaveCreate(TLeaveApplicationCreateViewModel T)
         {
-            //using (var context = new dbMyCompanyContext())
-            //{
-            //    var item = new item { };
-            //    context.Blogs.Add(blog);
-            //    context.SaveChanges();
-            //}
-
-
-            //List<TLeaveApplicationViewModel> list = new List<TLeaveApplicationViewModel>();
-            //list = MyHr.TLeaveApplications
+          
             var errors = ModelState.Values.SelectMany(v => v.Errors);
 
             if (ModelState.IsValid) //[Reurired]在CORE可以成功使用
@@ -349,6 +462,7 @@ namespace MyHR_Web.Controllers
 
         }
 
-      
+    
+
     }
 }

@@ -52,7 +52,7 @@ namespace MyHR_Web.Controllers
                     HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_PASSWORD, user.CPassWord);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_OBD, (user.COnBoardDay).ToString());
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_BBD, (user.CByeByeDay).ToString());
-                    //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
+                    HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_GENDER, user.CGender);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_EMAIL, user.CEmail);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_ADDRESS, user.CAddress);
                     //HttpContext.Session.SetString(CDictionary.CURRENT_LOGINED_SUPERVISOR, (user.CSupervisor).ToString());

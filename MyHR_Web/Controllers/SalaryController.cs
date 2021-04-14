@@ -306,7 +306,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             return View(table.ToList());
         }
 
-
+      
 
         public int Leave_ShouldtopayTRYYYYYY(int id)
         {

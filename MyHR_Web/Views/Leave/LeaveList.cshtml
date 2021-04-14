@@ -44,7 +44,7 @@
         <p>
             @Html.ActionLink("請假申請", "LeaveCreate", new { }, new { @class = "btn  btn-primary btn-lg", style = "filter: grayscale(50%)" })
         </p>
-
+        
 
         <br />
         @*//-------------------------------------------*@
@@ -106,7 +106,7 @@
 
                     <div class="card card-info">
                         <div class="card-header" style="background-color:#397984">
-                            <h3 class="card-title">假別剩餘天數</h3>
+                            <h3 class="card-title">假別剩餘時數</h3>
 
                             @*<div class="card-tools" style="font-size:15px;">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -124,18 +124,17 @@
                             <div class="row">
                                 <div class="col-6 col-md-3 text-center">
                                     <div style="display:inline;width:90px;height:90px;">
-                                        <canvas width="90" height="90"></canvas>
-                                        <input type="text" class="knob" value="30" data-min="0" data-max="14" data-width="90" data-height="90" data-fgcolor="#3c8dbc" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(60, 141, 188); padding: 0px; appearance: none;">
+                                        @*<canvas width="90" height="90"></canvas>*@
+                                        <input type="text" class="knob THING" value="112" data-min="0" data-max="112" data-width="90" data-height="90" data-fgcolor="#3c8dbc" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(60, 141, 188); padding: 0px; appearance: none;">
                                     </div>
-
                                     <div class="knob-label">事假</div>
                                 </div>
                                 <!-- ./col -->
                                 <div class="col-6 col-md-3 text-center">
                                     <div style="display:inline;width:90px;height:90px;">
-                                        <canvas width="90" height="90"></canvas>
+                                        @*<canvas width="90" height="90"></canvas>*@
 
-                                        <input type="text" class="knob" value="-80" data-min="0" data-max="6" data-width="90" data-height="90" data-fgcolor="#00a65a" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; appearance: none;">
+                                        <input type="text" class="knob SICK" value="240" data-min="0" data-max="240" data-width="90" data-height="90" data-fgcolor="#00a65a" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 166, 90); padding: 0px; appearance: none;">
                                     </div>
 
                                     <div class="knob-label">病假</div>
@@ -144,8 +143,8 @@
                                 <!-- ./col -->
                                 <div class="col-6 col-md-3 text-center">
                                     <div style="display:inline;width:90px;height:90px;">
-                                        <canvas width="90" height="90"></canvas>
-                                        <input type="text" class="knob" value="40" data-min="0" data-max="10" data-width="90" data-height="90" data-fgcolor="#00c0ef" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 192, 239); padding: 0px; appearance: none;">
+                                        @*<canvas width="90" height="90"></canvas>*@
+                                        <input type="text" class="knob SPECIAL" value="40" data-min="0" data-max="50" data-width="90" data-height="90" data-fgcolor="#00c0ef" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(0, 192, 239); padding: 0px; appearance: none;">
                                     </div>
 
                                     <div class="knob-label">特休</div>
@@ -153,29 +152,30 @@
                                 <!-- ./col -->
 
                                 @{
-                                    foreach (var item in Model)
+
+                                    if (ViewBag.Gender == "女")
                                     {
-
-                                        if (item.Gender.Contains("女"))
-                                        {
-                                            <div class="col-6 col-md-3 text-center">
-                                                <div style="display:inline;width:90px;height:90px;">
-                                                    <canvas width="90" height="90"></canvas>
-                                                    <input type="text" class="knob" value="70" data-min="0" data-max="30" data-width="90" data-height="90" data-fgcolor="#f56954" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(245, 105, 84); padding: 0px; appearance: none;">
-                                                </div>
-
-                                                <div class="knob-label">生理假</div>
+                                        <div class="col-6 col-md-3 text-center">
+                                            <div style="display:inline;width:90px;height:90px;">
+                                                @*<canvas width="90" height="90"></canvas>*@
+                                                <input type="text" class="knob BLOOD" value="18" data-min="0" data-max="18" data-width="90" data-height="90" data-fgcolor="#f56954" style="width: 49px; height: 30px; position: absolute; vertical-align: middle; margin-top: 30px; margin-left: -69px; border: 0px; background: none; font: bold 18px Arial; text-align: center; color: rgb(245, 105, 84); padding: 0px; appearance: none;">
                                             </div>
 
+                                            <div class="knob-label">生理假</div>
+                                        </div>
 
 
-                                        }
                                     }
 
 
 
 
                                 }
+
+
+
+
+
 
 
                                 <!-- ./col -->
@@ -254,6 +254,14 @@
                                     <th>
                                         修改/刪除
                                     </th>
+
+                                    @*<th>
+                                        @Html.DisplayNameFor(model => model.Category)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CategoryCount)
+                                    </th>*@
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -263,9 +271,8 @@
                                     {
                                         <tr style="text-align:center">
                                             @*<td>
-                                                @Html.DisplayFor(modelItem => item.CApplyNumber)
-                                            </td>*@
-
+                        @Html.DisplayFor(modelItem => item.CApplyNumber)
+                    </td>*@
 
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.CDepartmentName)
@@ -312,8 +319,75 @@
                                                         @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
                                                         @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
                                             </td>
+
+
+
+                                            <td class="special" style="display:none">
+                                                @Html.DisplayFor(modelItem => item.Leave_Specil)
+                                            </td>
+
                                         </tr>
                                     }}
+
+
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.Category)</th>
+                                    <th>@Html.DisplayNameFor(model => model.CategoryCount)</th>
+
+
+                                </tr>
+
+                                @{
+
+                                    var a = (Model.GetType().GetProperty("NONO") ==null);   //有的 == true
+                                    var b = (Model.GetType().GetProperty("NONO") !=null);
+                                    {
+
+                                        //int a = Model.Select(n => n.NONO).FirstOrDefault().Select(n => n.Category).Count();
+                                        @*foreach (var item in Model.Select(n => n.NONO).Distinct())
+                                        {
+                                            for (int i = 0; i < a; i++)
+                                            {
+
+                                                <tr>
+                                                    <td> @Html.DisplayFor(modelItem => item[i].Category)</td>
+                                                    <td class="@item[i].Category"> @Html.DisplayFor(modelItem => item[i].CategoryCount)</td>
+
+                                                </tr>*@
+
+
+
+
+                                                @*<tr>
+                            <td>  @Html.DisplayFor(modelItem => item[1].Category)</td>
+                            <td> @Html.DisplayFor(modelItem => item[1].CategoryCount)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>  @Html.DisplayFor(modelItem => item[2].Category)</td>
+                            <td> @Html.DisplayFor(modelItem => item[2].CategoryCount)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>  @Html.DisplayFor(modelItem => item[3].Category)</td>
+                            <td> @Html.DisplayFor(modelItem => item[3].CategoryCount)</td>
+
+                        </tr>
+
+                        <tr>
+                            <td>  @Html.DisplayFor(modelItem => item[4].Category)</td>
+                            <td> @Html.DisplayFor(modelItem => item[4].CategoryCount)</td>
+
+                        </tr>*@
+                                            }
+                                        }
+                                    }
+
+
+                                }
+
                             </tbody>
                         </table>
                     </div>
@@ -413,6 +487,45 @@
             }
         })
     });
+
+
+
+
+
+    $(function () {    // 1 = 病假  2 = 事假  3 = 生理價  5 = 特休
+
+        
+        var sick = $(".1").html();
+        if (isNaN(sick)) sick = 0; 
+        var sick_count = 240 - sick;
+        $(".SICK").val(sick_count);
+
+
+        var thing = $(".2").html();
+        if (isNaN(thing)) thing = 0; 
+        var thing_count = 112 - thing;
+        $(".THING").val(thing_count);
+
+
+        var blood = $(".3").html();
+        if (isNaN(blood)) blood = 0; 
+        var blood_count = 18 - blood;
+        $(".BLOOD").val(blood_count);
+
+        var special_Total = $(".special").html();  //應有時數
+        if (isNaN(special_Total)) special_Total = 0; 
+        var special = $(".5").html();
+        if (isNaN(special)) special = 0; 
+       
+
+        var special_count = special_Total - special;
+        $(".SPECIAL").val(special_count);
+        console.log("aaa"+ special_count);
+
+
+
+
+    })
 
 
    
