@@ -338,13 +338,11 @@
                                 </tr>
 
                                 @{
-
-                                    var a = (Model.GetType().GetProperty("NONO") ==null);   //有的 == true
-                                    var b = (Model.GetType().GetProperty("NONO") !=null);
+                                    if (Model.Any())
                                     {
 
-                                        //int a = Model.Select(n => n.NONO).FirstOrDefault().Select(n => n.Category).Count();
-                                        @*foreach (var item in Model.Select(n => n.NONO).Distinct())
+                                        int a = Model.Select(n => n.NONO).FirstOrDefault().Select(n => n.Category).Count();
+                                        foreach (var item in Model.Select(n => n.NONO).Distinct())
                                         {
                                             for (int i = 0; i < a; i++)
                                             {
@@ -353,39 +351,13 @@
                                                     <td> @Html.DisplayFor(modelItem => item[i].Category)</td>
                                                     <td class="@item[i].Category"> @Html.DisplayFor(modelItem => item[i].CategoryCount)</td>
 
-                                                </tr>*@
+                                                </tr>
 
-
-
-
-                                                @*<tr>
-                            <td>  @Html.DisplayFor(modelItem => item[1].Category)</td>
-                            <td> @Html.DisplayFor(modelItem => item[1].CategoryCount)</td>
-
-                        </tr>
-
-                        <tr>
-                            <td>  @Html.DisplayFor(modelItem => item[2].Category)</td>
-                            <td> @Html.DisplayFor(modelItem => item[2].CategoryCount)</td>
-
-                        </tr>
-
-                        <tr>
-                            <td>  @Html.DisplayFor(modelItem => item[3].Category)</td>
-                            <td> @Html.DisplayFor(modelItem => item[3].CategoryCount)</td>
-
-                        </tr>
-
-                        <tr>
-                            <td>  @Html.DisplayFor(modelItem => item[4].Category)</td>
-                            <td> @Html.DisplayFor(modelItem => item[4].CategoryCount)</td>
-
-                        </tr>*@
+                                                }
                                             }
-                                        }
+                                        
+
                                     }
-
-
                                 }
 
                             </tbody>
@@ -513,6 +485,7 @@
         $(".BLOOD").val(blood_count);
 
         var special_Total = $(".special").html();  //應有時數
+        var special_Total = @ViewBag.Special;
         if (isNaN(special_Total)) special_Total = 0; 
         var special = $(".5").html();
         if (isNaN(special)) special = 0; 
@@ -520,7 +493,8 @@
 
         var special_count = special_Total - special;
         $(".SPECIAL").val(special_count);
-        console.log("aaa"+ special_count);
+        $(".SPECIAL").attr("data-max", special_Total);
+        console.log("aaa"+ special_Total);
 
 
 

@@ -61,45 +61,22 @@ namespace MyHR_Web.Controllers
 
 
                         };
-            var table2 = from i in MyHr.TLeaveApplications
-                        join d in MyHr.TUserDepartments on i.CDepartmentId equals d.CDepartmentId
-                        join u in MyHr.TUsers on i.CEmployeeId equals u.CEmployeeId
-                        where (i.CEmployeeId == UserID)
-                        orderby i.CApplyDate descending /*依照申請日期降冪排序*/
-                        select new TLeaveApplicationViewModel
-                        {
-                            CApplyNumber = i.CApplyNumber,
-                            CEmployeeId = i.CEmployeeId,
-                            CEmployeeName = u.CEmployeeName,
-                            CDepartmentId = i.CDepartmentId,
-                            CDepartmentName = d.CDepartment,
-                            CApplyDate = i.CApplyDate,
-                            CLeaveCategory = i.CLeaveCategory,
-                            CLeaveStartTime = i.CLeaveStartTime,
-                            CLeaveEndTime = i.CLeaveEndTime,
-                            CReason = i.CReason,
-                            CCheckStatus = i.CCheckStatus,
-                            CLeaveHours = i.CLeaveHours,
-                            Gender = u.CGender,
-                             // 假別群組
-                            Leave_Specil = Leave_CountSpecialDayoff(UserID),//計算特休
 
+            ViewBag.Special = Leave_CountSpecialDayoff(UserID);
 
-                        };
+            
+               return View(table);
+            
+         
+            //-------------------------------------------------
 
-            //foreach(var item in table)
-            // {
-            //     item.Leave_Specil = Leave_CountSpecialDayoff(UserID);// 想要只取一筆特休就好了，但是有連接問題
-            // }
+            //foreach (var item in table)
+            //{
+            //    item.Leave_Specil = Leave_CountSpecialDayoff(UserID);// 想要只取一筆特休就好了，但是有連接問題
+            //}
 
-            //var a = (table.GetType().GetProperty("NONO"));
-            //var b = (table2.GetType().GetProperty("NONO"));
-
-            if (table.Any())
-                return View(table);
-            else
-                return View(table2);
-
+            
+  
 
 
 
@@ -155,43 +132,43 @@ namespace MyHR_Web.Controllers
 
           if(Year >0.5 && Year < 1)
             {
-                dayoff = 3;
+                dayoff = 24;
             }
           else if( Year >=1 && Year < 2)
             {
-                dayoff = 7;
+                dayoff = 56;
             }
             else if (Year >= 2 && Year < 3)
             {
-                dayoff = 10;
+                dayoff = 80;
             }
             else if (Year >= 3 && Year < 5)
             {
-                dayoff = 14;
+                dayoff = 112;
             }
             else if (Year >= 5 && Year < 10)
             {
-                dayoff = 15;
+                dayoff = 120;
             }
             else if (Year >= 10 && Year < 11)
             {
-                dayoff = 16;
+                dayoff = 128;
             }
             else if (Year >= 11 && Year < 12)
             {
-                dayoff = 17;
+                dayoff = 136;
             }
             else if (Year >= 12 && Year < 13)
             {
-                dayoff = 18;
+                dayoff = 144;
             }
             else if (Year >= 13 && Year < 14)
             {
-                dayoff = 19;
+                dayoff = 152;
             }
             else if (Year >= 14 && Year < 15)
             {
-                dayoff = 20;
+                dayoff = 160;
             }
 
             return dayoff;
