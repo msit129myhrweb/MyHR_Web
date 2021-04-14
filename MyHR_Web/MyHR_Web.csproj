@@ -30,7 +30,6 @@
     <None Include="Views\Home\Privacy.cshtml" />
     <None Include="Views\Home\Profile.cshtml" />
     <None Include="Views\Home\ToDoList.cshtml" />
-    <None Include="Views\Interview\Index.cshtml" />
     <None Include="Views\LeaveApplication\List.cshtml" />
     <None Include="Views\Leave\Edit.cshtml" />
     <None Include="Views\Leave\LeaveCreate.cshtml" />
@@ -1943,6 +1942,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
