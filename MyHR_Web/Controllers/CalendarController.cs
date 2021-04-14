@@ -30,20 +30,92 @@ namespace MyHR_Web.Controllers
             using (dbMyCompanyContext db = new dbMyCompanyContext())
             {
                 int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-                var Data = db.TEvents.Where(c=>c.EmployeeId== userId).ToList();
-                //var events = db.TEvents.Select(n => new
-                //{
-                //    EventId = n.EventId,
-                //    Subject = n.Subject,
-                //    Start = n.Start,
-                //    Description = n.Description,
-                //    End = n.End,
-                //    IsFullDay = n.IsFullDay,
-                //    ThemeColor = n.ThemeColor,
+                
+                var events = db.TEvents.Where(c=>c.EmployeeId== userId).Select(n => new
+                {
+                    EventId = n.EventId,
+                    EmployeeId = userId,
+                    Subject = n.Subject,
+                    Start = n.Start,
+                    Description = n.Description,
+                    End = n.End,
+                    IsFullDay = n.IsFullDay,
+                    ThemeColor = n.ThemeColor,
 
-                //}).ToList();
-                //return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-                //ViewData["TEvent"] = Data;
+                }).ToList();
+
+                //var leave = db.TLeaveApplications.Select(n => new
+                //{
+                //    EventId = 0,
+                //    EmployeeId=userId,
+                //    Subject = ((eLeaveCategory)n.CLeaveCategory).ToString(),
+                //    Start = DateTime.Parse(n.CLeaveStartTime),
+                //    Description = n.CReason,
+                //    End = DateTime.Parse(n.CLeaveEndTime),
+                //    IsFullDay = false,
+                //    ThemeColor = "red",
+
+                //});
+
+                var travel = db.TTravelExpenseApplications.Select(n => new
+                {
+                    EventId = 0,
+                    EmployeeId = userId,
+                    Subject = n.CReason,
+                    Start = n.CTravelStartTime,
+                    Description = n.CReason,
+                    End = n.CTravelEndTime,
+                    IsFullDay = false,
+                    ThemeColor = "red",
+
+                }).ToList();
+
+                var Data =
+                    (
+                    from n in events
+                    select new
+                    {
+                        EventId = n.EventId,
+                        EmployeeId = n.EmployeeId,
+                        Subject = n.Subject,
+                        Start = n.Start,
+                        Description = n.Description,
+                        End = n.End,
+                        IsFullDay = (bool)n.IsFullDay,
+                        ThemeColor = n.ThemeColor,
+                    }
+
+                )
+                .Concat
+                (
+                    from l in travel
+                    select new
+                    {
+                        EventId = l.EventId,
+                        EmployeeId = l.EventId,
+                        Subject = l.Subject,
+                        Start = l.Start,
+                        Description = l.Description,
+                        End = l.End,
+                        IsFullDay = l.IsFullDay,
+                        ThemeColor = l.ThemeColor,
+                    }
+
+                );
+
+               // var Data =
+               //    (
+               //    from n in events
+               //    select n
+               //)
+               //.Concat
+               //(
+               //    from l in travel
+               //    select l
+               //);
+
+
+
                 return new JsonResult(Data);
             }
         }
