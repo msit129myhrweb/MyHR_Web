@@ -36,6 +36,8 @@
                 <div class="card-header p-2">
                     <div class="card-body">
                         <form asp-action="register" method="post" enctype="multipart/form-data">
+
+                            @* <form >*@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="CEmployeeName" class="control-label"></label>
@@ -49,7 +51,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPassWord" class="control-label"></label>
-                                <input asp-for="CPassWord" class="form-control" />
+                                <input asp-for="CPassWord" class="form-control" id="CPassWord" name="CPassWord" />
                                 <span asp-validation-for="CPassWord" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -74,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CEmail" class="control-label"></label>
-                                <input asp-for="CEmail" class="form-control" />
+                                <input asp-for="CEmail" class="form-control" id="CEmail" name="CEmail" />
                                 <span asp-validation-for="CEmail" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
@@ -84,25 +86,24 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CDepartmentId" class="control-label"></label>
-                            <select asp-for="CDepartmentId" class="form-control">
-                                <option value="" style="display: none">請選擇</option>
-                                @foreach (var d in userDepartments)
-                                {
-                                    <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
-
-                                } 
-                            </select>
+                                <select asp-for="CDepartmentId" class="form-control">
+                                    <option value="" style="display: none">請選擇</option>
+                                    @foreach (var d in userDepartments)
+                                    {
+                        <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+}
+                                </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CJobTitleId" class="control-label"></label>
-                            <select asp-for="CJobTitleId" class="form-control" style="color:black">
-                                <option value="" style="display: none">請選擇</option>
-                                @foreach (var j in userJobTitles)
-                                {
-                                    <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
-                                }
-                            </select>
+                                <select asp-for="CJobTitleId" class="form-control" style="color:black">
+                                    <option value="" style="display: none">請選擇</option>
+                                    @foreach (var j in userJobTitles)
+                                    {
+                        <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
+}
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CSupervisor" class="control-label"></label>
@@ -147,14 +148,14 @@
                             </div>
                             <div class="form-group">
 
-                                <input type="submit" class="btn btn-info" style="filter: grayscale(50%)" value="新增員工">
+                                <input type="submit" class="btn btn-info" style="filter: grayscale(50%)" value="新增員工" onclick="SendMail()">
 
                             </div>
                         </form>
 
 
 
-                    </div>
+</div>
                 </div>
             </div>
 

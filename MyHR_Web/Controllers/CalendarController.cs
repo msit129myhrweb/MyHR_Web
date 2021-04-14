@@ -1,6 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
+using MyHR_Web.ViewModel;
+using prjCoreDemo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +18,8 @@ namespace MyHR_Web.Controllers
 
         public IActionResult Calendar()
         {
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+            ViewData["userId"] = userId;
             return View();
         }
 
@@ -23,7 +29,8 @@ namespace MyHR_Web.Controllers
         {
             using (dbMyCompanyContext db = new dbMyCompanyContext())
             {
-                var Data = db.TEvents.ToList();
+                int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+                var Data = db.TEvents.Where(c=>c.EmployeeId== userId).ToList();
                 //var events = db.TEvents.Select(n => new
                 //{
                 //    EventId = n.EventId,
@@ -42,17 +49,20 @@ namespace MyHR_Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveEvent(TEvent e)
+        public JsonResult SaveEvent(CalendarViewModel e)
         {
             var status = false;
             using (dbMyCompanyContext db = new dbMyCompanyContext())
             {
+                int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+                ViewData["userId"] = userId;
                 if (e.EventId > 0)
                 {
                     //Update the event
                     var v = db.TEvents.Where(a => a.EventId == e.EventId).FirstOrDefault();
                     if (v != null)
                     {
+                        v.EmployeeId = userId;
                         v.Subject = e.Subject;
                         v.Start = e.Start;
                         v.End = e.End;
@@ -63,7 +73,7 @@ namespace MyHR_Web.Controllers
                 }
                 else
                 {
-                    db.TEvents.Add(e);
+                    db.TEvents.Add(e.tevents);
                 }
 
                 db.SaveChanges();
