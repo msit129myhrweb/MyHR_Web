@@ -56,14 +56,14 @@ namespace MyHR_Web.Controllers
                             CCheckStatus = i.CCheckStatus,
                             CLeaveHours = i.CLeaveHours,
                             Gender = u.CGender,
-                            NONO = LeaveCate_Count(UserID), // 假別群組
+                            NONO = LeaveCate_Count(UserID), // 計算各個假別與之請假時數
                             Leave_Specil = Leave_CountSpecialDayoff(UserID),//計算特休
 
 
                         };
 
             ViewBag.Special = Leave_CountSpecialDayoff(UserID);
-
+         
             
                return View(table);
             
@@ -210,16 +210,41 @@ namespace MyHR_Web.Controllers
             ViewData[CDictionary.CURRENT_LOGINED_USERID] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
             ViewData[CDictionary.CURRENT_LOGINED_USERNAME] = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
             ViewData["Today"] = DateTime.Now.ToString("yyyy-MM-dd");
-
+            int UserID = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
             var departmentsQuery = from d in MyHr.TUserDepartments
                                    orderby d.CDepartmentId // Sort by name.
                                    select d;
 
+
+
+            //------------------------------------------------------------------不用了
+
+            //List<TLeaveApplicationCreateViewModel> list = new List<TLeaveApplicationCreateViewModel>();
+
+            //TLeaveApplicationCreateViewModel obj = new TLeaveApplicationCreateViewModel()
+            //{
+            //    NONO = LeaveCate_Count(UserID),
+            //    Leave_Specil = Leave_CountSpecialDayoff(UserID)
+
+            //};
+
+            //list.Add(obj);
+            //ViewBag.Day = list;
+
+            //var Rsetodtheday_Query = (from i in MyHr.TLeaveApplications
+            //                          where i.CEmployeeId == int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID))
+            //                          select new TLeaveApplicationCreateViewModel
+            //                          {
+            //                              NONO = LeaveCate_Count(UserID), // 計算各個假別與之請假時數
+            //                              Leave_Specil = Leave_CountSpecialDayoff(UserID),//計算特休
+            //                          }).ToList();
+
+
             //DepartmentNameSL = new SelectList(departmentsQuery.AsNoTracking(),
             //            "DepartmentID", "Name", selectedDepartment);
 
-
+            //--------------------------------------------------------------------------------------
             return View();
         }
 
