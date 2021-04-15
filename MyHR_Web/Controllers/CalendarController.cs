@@ -57,16 +57,16 @@ namespace MyHR_Web.Controllers
 
                 //});
 
-                var travel = db.TTravelExpenseApplications.Select(n => new
+                var travel = db.TTravelExpenseApplications.Where(c => c.CEmployeeId == userId).Select(n => new
                 {
                     EventId = 0,
-                    EmployeeId = userId,
+                    EmployeeId = n.CEmployeeId,
                     Subject = n.CReason,
                     Start = n.CTravelStartTime,
                     Description = n.CReason,
                     End = n.CTravelEndTime,
                     IsFullDay = false,
-                    ThemeColor = "red",
+                    ThemeColor = "green",
 
                 }).ToList();
 
