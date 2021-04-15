@@ -195,6 +195,8 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.Description).HasMaxLength(300);
 
+                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+
                 entity.Property(e => e.End).HasColumnType("datetime");
 
                 entity.Property(e => e.Start).HasColumnType("datetime");
@@ -202,6 +204,12 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.Subject).HasMaxLength(100);
 
                 entity.Property(e => e.ThemeColor).HasMaxLength(10);
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.TEvents)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tEvents_tUser");
             });
 
             modelBuilder.Entity<TInterView>(entity =>

@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
@@ -38,14 +39,57 @@ namespace MyHR_Web.Controllers
         public IActionResult register(TUserViewModel _user)
         {
            
-            
+            //新增員工
             db.TUsers.Add(_user.tuserVM);
             db.SaveChanges();
+
+            //開始寄信
+            int userid = db.TUsers.OrderByDescending(n => n.CEmployeeId).Select(c => c.CEmployeeId).FirstOrDefault(); //撈取新註冊的員工ID
+            string name = db.TUsers.Where(n => n.CEmployeeId == userid).Select(c => c.CEmployeeName).FirstOrDefault(); //撈取新註冊的員工NAME
+            string email = db.TUsers.Where(n => n.CEmployeeId==userid).Select(c => c.CEmail).FirstOrDefault(); //撈取新註冊的員工EMAIL
+            string password = db.TUsers.Where(n => n.CEmployeeId == userid).Select(c => c.CPassWord).FirstOrDefault(); //撈取新註冊的員工PASSWORD
+            try
+            {
+                System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
+               
+                
+                msg.To.Add(email);
+
+                msg.From = new MailAddress("msit129hellowork@gmail.com", "HELLOWORK公司", System.Text.Encoding.UTF8);
+                /* 上面3個參數分別是發件人地址，發件人姓名，編碼*/
+                msg.Subject = "錄取報到通知";//郵件標題
+                msg.SubjectEncoding = System.Text.Encoding.UTF8;//郵件標題編碼
+                                                                //郵件內容    
+                msg.Body = name + "  您好，" + Environment.NewLine;
+                msg.Body += "您已錄取本公司，請至公司官網報到啟用帳號。"+ Environment.NewLine;
+                msg.Body += "帳號:" + userid + Environment.NewLine;
+                msg.Body += "密碼:" + password + Environment.NewLine;
+                //郵件內容
+                msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 
+                /*     msg.Attachments.Add(new Attachment(@"D:\test2.docx")); */ //附件
+                msg.IsBodyHtml = true;//是否是HTML郵件 
+                                      //msg.Priority = MailPriority.High;//郵件優先級 
+
+                SmtpClient client = new SmtpClient();
+                client.Credentials = new System.Net.NetworkCredential("msit129hellowork@gmail.com", "izougqdehrjrufoh"); //這裡要填正確的帳號跟密碼
+                client.Host = "smtp.gmail.com"; //設定smtp Server
+                client.Port = 25; //設定Port
+                client.EnableSsl = true; //gmail預設開啟驗證
+                client.Send(msg); //寄出信件
+                client.Dispose();
+                msg.Dispose();
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+
             return RedirectToAction("employeeList");
-
-
         }
 
+      
         public IActionResult employeeList()
         {
 
@@ -59,8 +103,6 @@ namespace MyHR_Web.Controllers
 
 
         }
-
-
 
         public JsonResult updateall(string x)
         {
@@ -175,12 +217,12 @@ namespace MyHR_Web.Controllers
         public IActionResult ExporttoExcel()
         {
             ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-            
+
             //檔案會到wwwroot\theme
             //string sWebRootFolder = iv_host.WebRootPath;
 
             //檔案會到wwwroot\ExcelFile，但會報錯
-            string sWebRootFolder=iv_host.WebRootPath + @"\ExcelFile\";
+            string sWebRootFolder = iv_host.WebRootPath; /*+ @"\ExcelFile\";*/
            
             string sFileName = $"User_{DateTime.Now.ToString("yyyyMMddHHssfff")}.xlsx";
             FileInfo file = new FileInfo(Path.Combine(sWebRootFolder, sFileName));

@@ -6,10 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\CTravelFactory.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Views\Login\Login - 複製.cshtml" />
     <Content Remove="Views\Travel\_Create.cshtml" />
     <Content Remove="Views\Travel\_Delete.cshtml" />

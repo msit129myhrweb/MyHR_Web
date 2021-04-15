@@ -10,6 +10,7 @@ namespace MyHR_Web.Models
         public TUser()
         {
             TAbsences = new HashSet<TAbsence>();
+            TEvents = new HashSet<TEvent>();
             TInterViews = new HashSet<TInterView>();
             TLeaveApplications = new HashSet<TLeaveApplication>();
             TLostAndFounds = new HashSet<TLostAndFound>();
@@ -42,6 +43,7 @@ namespace MyHR_Web.Models
         public virtual TUserJobTitle CJobTitle { get; set; }
         public virtual TUserOnBoardStatus COnBoardStatus { get; set; }
         public virtual ICollection<TAbsence> TAbsences { get; set; }
+        public virtual ICollection<TEvent> TEvents { get; set; }
         public virtual ICollection<TInterView> TInterViews { get; set; }
         public virtual ICollection<TLeaveApplication> TLeaveApplications { get; set; }
         public virtual ICollection<TLostAndFound> TLostAndFounds { get; set; }
