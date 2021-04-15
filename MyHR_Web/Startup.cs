@@ -7,7 +7,10 @@ using Microsoft.AspNetCore.Mvc.DataAnnotations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MyHR_Web.Common;
 using MyHR_Web.Hubs;
+using MyHR_Web.IService;
+using MyHR_Web.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +48,8 @@ namespace MyHR_Web
 
             });
             services.AddSignalR();
+            Global.ConnectionString = Configuration.GetConnectionString("dbMyCompany");
+            services.AddScoped<INotiService, NotiService>();
 
         }
 

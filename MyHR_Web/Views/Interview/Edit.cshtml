@@ -13,7 +13,7 @@
                     <span asp-validation-for="CInterVieweeId" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" style="display:none">                    
+                <div class="form-group" style="display:none">
                     <label asp-for="CInterVieweeGender" class="control-label"></label>
                     <input asp-for="CInterVieweeGender" class="form-control" />
                     <span asp-validation-for="CInterVieweeGender" class="text-danger"></span>
@@ -25,19 +25,19 @@
                     <span asp-validation-for="CInterVieweeName" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" >
+                <div class="form-group">
                     <label asp-for="CEmployeeEnglishName" class="control-label"></label>
                     <input asp-for="CEmployeeEnglishName" class="form-control" />
                     <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" >
+                <div class="form-group">
                     <label asp-for="CPhone" class="control-label"></label>
                     <input asp-for="CPhone" class="form-control" />
                     <span asp-validation-for="CPhone" class="text-danger"></span>
                 </div>
 
-                <div class="form-group" >
+                <div class="form-group">
                     <label asp-for="CEmail" class="control-label"></label>
                     <input asp-for="CEmail" class="form-control" />
                     <span asp-validation-for="CEmail" class="text-danger"></span>
@@ -85,13 +85,19 @@
                     <span asp-validation-for="CJobTitleName" class="text-danger"></span>
                 </div>
 
-                @*<div class="form-group">
+                <div class="form-group">
+                    <label asp-for="CInterViewStatusId" class="control-label"></label>
+                    <input asp-for="CInterViewStatusId" class="form-control" />
+                    <span asp-validation-for="CInterViewStatusId" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
                     <label asp-for="CStatus" class="control-label"></label>
                     <input asp-for="CStatus" class="form-control" />
                     <span asp-validation-for="CStatus" class="text-danger"></span>
-                </div>*@
+                </div>
 
-                
+
                 <div class="card-footer">
                     <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="List" />
                     @*<input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit('@(JsonSerializer.Serialize(Model))')" , style="filter: grayscale(50%)" />*@

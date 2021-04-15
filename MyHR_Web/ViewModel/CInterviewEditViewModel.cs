@@ -8,6 +8,7 @@ namespace MyHR_Web.ViewModel
 {
     public class CInterviewEditViewModel
     {
+        dbMyCompanyContext myHR = new dbMyCompanyContext();
         private TInterView iv_interview = null;
         public TInterView interview { get { return iv_interview; } }
         public CInterviewEditViewModel(TInterView i)
@@ -34,7 +35,16 @@ namespace MyHR_Web.ViewModel
         public int CDepartment { get; set; }
         public int CInterViewerEmployeeId { get; set; }
         public string CInterViewDate { get; set; }
-        public int CInterViewStatusId { get; set; }
+        public int CInterViewStatusId 
+        { 
+            get 
+            {
+                int _CInterViewStatusId = myHR.TInterViewStatuses.Where(n => n.InterViewStatus == CStatus).Select(n => n.InterViewStatusId).FirstOrDefault();
+                return _CInterViewStatusId; 
+            } 
+            set { iv_interview.CInterViewStatusId = value; } 
+        }
+        public string CStatus { get; set; }
         public int? CInterViewProcessId { get; set; }
     }
 }
