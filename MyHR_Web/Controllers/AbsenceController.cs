@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using Newtonsoft.Json;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
@@ -512,5 +513,16 @@ namespace MyHR_Web.Controllers
                 return PartialView("date_search", list);
             }
         }
+
+        public async Task<IActionResult> GeoExample()
+        {
+            JSONtoViewModel model = new JSONtoViewModel();
+            GeoHelper geoHelper = new GeoHelper();
+            var result = await geoHelper.GetGeoInfo();
+            model = JsonConvert.DeserializeObject<JSONtoViewModel>(result);
+            //TempData["GeoCode"] = result;
+            return PartialView("GeoExample", model);
+        }
+
     }
 }

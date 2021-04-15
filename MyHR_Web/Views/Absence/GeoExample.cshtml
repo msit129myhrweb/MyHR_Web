@@ -1,0 +1,111 @@
+﻿@*@model MyHR_Web.ViewModel.JSONtoViewModel
+
+@using Microsoft.AspNetCore.Http;
+@using prjCoreDemo.ViewModel;
+@{
+    string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+    DateTime Late = DateTime.Today.AddHours(10);
+    TimeSpan LateTime = Late.TimeOfDay;
+    DateTime Coff = DateTime.Today.AddHours(18);
+    TimeSpan CoffTime = Coff.TimeOfDay;
+    var countNum = ViewBag.totalCountNum;
+}
+@{
+    ViewData["Title"] = "GeoExample";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&libraries=geometry"></script>
+<head>
+
+    <style>
+        #map {
+            position: absolute;
+            height: 58%;
+            width: 58%;
+        }
+    </style>
+</head>
+<form method="post" id="selectAndTable">
+    <div style="background-color:white ;padding:20px; border-radius:10px">
+        <h3>地圖打卡</h3>
+    </div>
+    <hr />
+    <div id="map"></div>
+</form>
+<script>
+    function initMap() {
+        var latlng = { lat: 25.033901, lng: 121.543398 }; //初始位置(資策會)
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 12, //放大的倍率
+            center: latlng //初始化的地圖中心位置
+        });
+
+        var markerCompany = new google.maps.Marker({  //資策會的marker
+            position: latlng,
+            map: map,
+        });
+
+        navigator.geolocation.getCurrentPosition(function (position) { //目前位置
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+            });
+
+            const contentString = "<h3>現在位置</h3>";
+            const infoWindow = new google.maps.InfoWindow({
+                content: contentString,
+            });
+            map.setZoom(15);
+            map.setCenter(pos);
+
+            marker.addListener("click", function () {
+                infoWindow.open(map, marker);
+            });
+
+            var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
+
+            var dis = parseFloat(distance);
+            console.log(dis);
+            console.log(typeof (dis));
+
+
+            console.log(distance);
+
+            if (dis > 150.00) {
+                console.log("111"+dis);
+                document.getElementById("OnAndOff").setAttribute("disabled", "disabled");
+                window.alert("123超過工作區域，無法打卡");
+
+                document.getElementById("OnAndOff").click(function () {
+                    window.alert("定位超過工作區域，無法打卡");
+                });
+                console.log("100" + dis);
+
+            }
+            else {
+                document.getElementById("OnAndOff").removeAttribute("disabled");
+            }
+        });
+
+        var cityCircle = new google.maps.Circle({
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+            map,
+            center: map.center,
+            radius: 150
+        });
+        
+        
+
+    }
+
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&callback=initMap"
+        type="text/javascript"></script>*@
