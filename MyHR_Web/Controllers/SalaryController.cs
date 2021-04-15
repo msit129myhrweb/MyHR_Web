@@ -109,9 +109,22 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
 
-        public IActionResult PreviousSalary(string MONTh)
+        public IActionResult PreviousSalary(string? YEAR, string? MONTH)
         {
-            int MONTH = int.Parse(MONTh);
+
+            int Year = 2021;
+            if(string.IsNullOrEmpty(YEAR))
+            {
+                Year = 2021;
+            }
+            else
+            {
+                 Year = int.Parse(YEAR);
+            }
+            
+            int Month = int.Parse(MONTH);
+
+
             MyHR.TUsers.ToList();
             MyHR.TUserDepartments.ToList();
             MyHR.TTravelExpenseApplications.ToList();
@@ -132,15 +145,15 @@ namespace MyCompany_.NetCore_Janna.Controllers
                        CEmployeeId = c.CEmployeeId,
                        CJobTitle = c.CJobTitle.CJobTitle,
                        Month_Salary = c.CJobTitle.CJobTitleSalary,
-                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == MONTH && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Year == Year && (MONTH !=null? c.CTravelStartTime.Value.Month ==Month:true) && c.CCheckStatus == 2).Sum(c => c.CAmont),
                        CAmont_TAbsense = c.TAbsences
-                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Where(p => p.CDate.Value.Month == Month && p.CDate.Value.Year == Year && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
-                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Where(p => p.CDate.Value.Month == Month && p.CDate.Value.Year == Year && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
-                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Where(p => p.CDate.Value.Month == Month && p.CDate.Value.Year == Year && p.CStatus == "遲到")
                        .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
-                       CAmont_Leave = Leave_ShouldtopayforSearch(c.CEmployeeId, MONTH)
+                       CAmont_Leave = Leave_ShouldtopayforSearch(c.CEmployeeId, Month)
 
                    });
 

@@ -91,7 +91,7 @@
                         <div class="col-md-12 form-group">
                             <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center">年分 :</label>
 
-                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_DEPT">
+                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_Year">
                                 <option value="" disabled selected>請選擇</option>
                                 <option>2018</option>
                                 <option>2019</option>
@@ -106,14 +106,20 @@
                     <div class="row">
                         <div class="col-md-12 form-group">
                             <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center"> 月份 :</label>
-                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_JOBTITLE">
+                            <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_Month">
                                 <option value="" disabled selected>請選擇</option>
                                 <option>1</option>
                                 <option>2</option>
                                 <option>3</option>
                                 <option>4</option>
                                 <option>5</option>
-
+                                <option>6</option>
+                                <option>7</option>
+                                <option>8</option>
+                                <option>9</option>
+                                <option>10</option>
+                                <option>11</option>
+                                <option>12</option>
 
                             </select>
                         </div>
@@ -315,73 +321,74 @@
     var x = "";
     $(".Salary_Distinguish").change(function () {
 
-        $("#cover_page").css({    //加入遮罩
-            "height": $(document).height(),
-            "width": $(document).width(),
-            "display": "initial"
+        //$("#cover_page").css({    //加入遮罩
+        //    "height": $(document).height(),
+        //    "width": $(document).width(),
+        //    "display": "initial"
 
-        });
-
-        x = $("#Salary_DEPT").val()//★透過Name屬性取得輸入值
-        y = $("#Salary_JOBTITLE").val()
+        //});
+      
+      //★透過Name屬性取得輸入值
+        x = $("#Salary_Year").val()
+        y = $("#Salary_Month").val()
 
         //console.log(x); //傳入型態:stirng
-        //console.log(y);
+        console.log(y);
 
         $.ajax({
             type: "get",
             dataType: "html",
-            url: "/Salary/Mutiple_search",
-            data: { DEPT: x, TITLE: y },
+            url: "/Salary/PreviousSalary",
+            data: { YEAR: x, MONTH: y },
             success: function (data) {
 
                 $("#Salary_table").html(data);
 
                 $("#cover_page").css({ "display": "none" });  //遮罩取消
 
-                var Name = [];
-                var Namea = $(".NAME").length;
+                //var Name = [];
+                //var Namea = $(".NAME").length;
 
                 //---------------------------------------------------------------------//非同步顯示圖表資料 -- 名子
-                $('.NAME').each(function () {
-                   /* console.log($(this).html().trim());*/
-                    Name.push($(this).html().trim());
-                });
-                console.log(Name);
+        //        $('.NAME').each(function () {
+        //           /* console.log($(this).html().trim());*/
+        //            Name.push($(this).html().trim());
+        //        });
+        //        console.log(Name);
 
 
-                var DETAIL_ARR = [];
-                var Detail = $(".NAME").length;
-                console.log(Detail);
-                //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
-                $('.DETAIL').each(function () {
-                    /* console.log($(this).html().trim());*/
-                    DETAIL_ARR.push(parseInt($(this).html().trim()));
-                });
+        //        var DETAIL_ARR = [];
+        //        var Detail = $(".NAME").length;
+        //        console.log(Detail);
+        //        //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
+        //        $('.DETAIL').each(function () {
+        //            /* console.log($(this).html().trim());*/
+        //            DETAIL_ARR.push(parseInt($(this).html().trim()));
+        //        });
 
 
 
-                let combine_obj = {
-                    name: Name,
-                    money: DETAIL_ARR
-                }
+        //        let combine_obj = {
+        //            name: Name,
+        //            money: DETAIL_ARR
+        //        }
 
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json; charset=utf-8",
+        //        $.ajax({
+        //            type: "POST",
+        //            contentType: "application/json; charset=utf-8",
 
-                    url: "/Salary/Mutiple_CHARTsearch",
-                    data: JSON.stringify(combine_obj),
-                    success: function (data) {
+        //            url: "/Salary/Mutiple_CHARTsearch",
+        //            data: JSON.stringify(combine_obj),
+        //            success: function (data) {
 
-                        $("#CHART").html(data);
+        //                $("#CHART").html(data);
 
 
-                    },
-                    error: function (msg) {
-                        alert("該部門下無此職位員工");
-                    }
-                })
+        //            },
+        //            error: function (msg) {
+        //                alert("該部門下無此職位員工");
+        //            }
+        //        })
 
 
 
@@ -389,24 +396,7 @@
             error: function (msg) {
                 alert("error:" + msg);
             }
-        })
-
-
-
-
-
-
-        //var Name = [];
-        //var Namea = $(".NAME").length;
-        //console.log(Namea);
-
-        //$('.NAME').each(function () {
-        //    console.log($(this).html().trim());
-        //    Name.push($(this).html().trim());
-        //});
-
-        //console.log(Name);
-
+        //})
 
 
 
@@ -419,178 +409,8 @@
 
 
 
-    $(function () {
+    //部門總計加總
 
-        // 薪水加總
-        for (let i = 1; i < 7; i++) {
-            let Dept_total = 0;
-            var DEPT = $("." + [i] + "Month_Salary");
-            for (let i = 0; i < DEPT.length; i++) {
-                Dept_total += parseInt(DEPT[i].innerText);
-            }
-            $("#" + [i] + "Month_Salary").html(Dept_total);
-        }
-
-        //出差加總
-
-        for (let i = 1; i < 7; i++) {
-            let Travel_total = 0;
-            var DEPT = $("." + [i] + "Travel");
-            for (let i = 0; i < DEPT.length; i++) {
-                Travel_total += parseInt(DEPT[i].innerText);
-            }
-            $("#" + [i] + "Travel").html(Travel_total);
-        }
-
-
-        //遲到扣款加總
-
-        for (let i = 1; i < 7; i++) {
-            let Tabsense_total = 0;
-            var DEPT = $("." + [i] + "Tabsense");
-            for (let i = 0; i < DEPT.length; i++) {
-                Tabsense_total += parseInt(DEPT[i].innerText);
-            }
-            $("#" + [i] + "Tabsense").html(Tabsense_total);
-        }
-
-
-        //請假扣款加總
-
-        for (let i = 1; i < 7; i++) {
-            let LLeave_total = 0;
-            var DEPT = $("." + [i] + "LLeave");
-            for (let i = 0; i < DEPT.length; i++) {
-                LLeave_total += parseInt(DEPT[i].innerText);
-            }
-            $("#" + [i] + "LLeave").html(LLeave_total);
-        }
-
-
-        //各部門加總
-
-        //var a = parseInt($(".1Month_Salary").html().trim());
-        //var b = parseInt($(".1Travel").html().trim());
-        //var c = parseInt($(".1Tabsense").html().trim());
-        //var d = parseInt($(".1LLeave").html().trim());
-
-        //var e = a + b - c - d;
-
-
-        //$("#1toltal").html(e);
-
-
-
-        for (let i = 1; i < 7; i++) {
-
-            var a = parseInt($("#" + i + "Month_Salary").html().trim());
-            var b = parseInt($("#" + i + "Travel").html().trim());
-            var c = parseInt($("#" + i + "Tabsense").html().trim());
-            var d = parseInt($("#" + i + "LLeave").html().trim());
-
-            var e = a + b - c - d;
-
-            $("#" + i + "toltal").html(e);
-        }
-
-
-
-
-        //-----------------------------------------------------------------
-
-
-
-    });  //部門總計加總
-
-
-
-
-    $(function () {
-
-
-        for (let i = 1; i < 7; i++) {
-
-            //Enable check and uncheck all functionality
-            $('.' + i + 'checkbox-toggle').click(function () {
-                var clicks = $(this).data('clicks')
-                if (clicks) {
-                    //Uncheck all checkboxes
-                    $('.' + i + 'CHECKBOX input[type=\'checkbox\'] ').prop('checked', false)
-                    $('.' + i + 'checkbox-toggle .far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-
-                } else {
-                    //Check all checkboxes
-                    $('.' + i + 'CHECKBOX input[type=\'checkbox\'] ').prop('checked', true)
-                    $('.' + i + 'checkbox-toggle .far.fa-square').removeClass('fa-square').addClass('fa-check-square')
-                }
-                $(this).data('clicks', !clicks)
-            })
-
-        }
-
-        $('.checkbox-toggleALL').click(function () {
-
-            console.log("A")
-            var clicks = $(this).data('clicks')
-
-            if (clicks) {
-                //Uncheck all checkboxes
-                $('input[type=\'checkbox\']').prop('checked', false)
-                $('.far.fa-check-square').removeClass('fa-check-square').addClass('fa-square')
-            } else {
-                //Check all checkboxes
-                $('input[type=\'checkbox\']').prop('checked', true)
-                $('.far.fa-square').removeClass('fa-square').addClass('fa-check-square')
-
-            }
-            $(this).data('clicks', !clicks)
-
-        })
-
-    })  //Check Box 選取
-
-
-
-    function SendMail() {
-
-
-        var chk_value = [];
-        $('input[name="Checkbox[]"]:checked').each(function () {
-            chk_value.push($(this).val());
-
-
-        });
-        alert(chk_value.length == 0 ? '您尚未選取任何員工' : '總共寄送' + chk_value.length + '個員工');
-
-        let result = JSON.stringify(chk_value);
-        console.log(result);
-
-        $("#cover_page").css({    //加入遮罩
-            "height": $(document).height(),
-            "width": $(document).width(),
-            "display": "initial"
-
-        });
-
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Salary/Mail_Click",
-            data: { ID: result },
-            success: function (data) {
-
-
-                console.log("成功寄信");
-                window.location.reload();
-                $("#cover_page").css({ "display": "none" });  //遮罩取消
-
-            },
-            error: function (msg) {
-                alert("error:" + msg);
-            }
-        });
-    } //寄送郵件
 
 
     $(function () {   //圖表
