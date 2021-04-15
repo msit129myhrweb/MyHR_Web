@@ -1,5 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Http;
-@using prjCoreDemo.ViewModel;;
+@using prjCoreDemo.ViewModel;
 @{
     string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
     DateTime Late = DateTime.Today.AddHours(10);
@@ -166,6 +166,7 @@
         var markerCompany = new google.maps.Marker({  //資策會的marker
             position: latlng,
             map: map,
+            title: "公司",
         });
 
         //紅色圈圈
@@ -182,23 +183,13 @@
 
         navigator.geolocation.getCurrentPosition(function (position) { //目前位置
             var pos = {
-                lat: 25.034901,//position.coords.latitude,
-                lng: 121.5436398//position.coords.longitude,
+                lat: 25.034901,//position.coords.latitude,//
+                lng: 121.5436398,//position.coords.longitude,//
             };
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
-            });
-
-            const contentString = "<h3>現在位置</h3>";
-            const infoWindow = new google.maps.InfoWindow({
-                content: contentString,
-            });
-            map.setZoom(18);
-            map.setCenter(pos);
-
-            marker.addListener("click", function () {
-                infoWindow.open(map, marker);
+                title: "現在位置",
             });
 
             //取得距離
@@ -364,7 +355,7 @@
             type: "get",
             dataType: "html",
             url: "/Absence/GeoExample",
-            data: { id: @a},
+            data:"",
             success: function (data) {
                 console.log("research");
                 $("#selectAndTable").html(data);
@@ -386,6 +377,7 @@
         var markerCompany = new google.maps.Marker({  //資策會的marker
             position: latlng,
             map: map,
+            title: "公司",
         });
 
         navigator.geolocation.getCurrentPosition(function (position) { //目前位置
@@ -396,26 +388,8 @@
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
+                title: "現在位置",
             });
-
-            const you = "<h3>現在位置</h3>";
-            const infoWindow_you = new google.maps.InfoWindow({
-                content: you,
-            });
-            const company = "<h3>公司</h3>";
-            const infoWindow_company = new google.maps.InfoWindow({
-                content: company,
-            });
-            map.setZoom(18);
-            map.setCenter(pos);
-
-            marker.addListener("click", function () {
-                infoWindow_you.open(map, marker);
-            });
-            markerCompany.addListener("click", function () {
-                infoWindow_company.open(map, marker);
-            });
-
         });
 
         var cityCircle = new google.maps.Circle({
