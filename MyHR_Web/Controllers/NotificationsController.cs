@@ -13,6 +13,7 @@ namespace MyHR_Web.Controllers
 {
     public class NotificationsController : Controller
     {
+        private dbMyCompanyContext db = new dbMyCompanyContext();
         INotiService _notiService = null;
         List<Noti> _oNtifications = new List<Noti>();
 
@@ -33,6 +34,13 @@ namespace MyHR_Web.Controllers
             _oNtifications = new List<Noti>();
             _oNtifications = _notiService.GetNotifications(nToUserId, bIsGetOnlyUnread);
             return Json(_oNtifications);
+        }
+
+        public void AddNotification(List<TNotification> data)
+        {
+            foreach (var item in data)
+                db.TNotifications.Add(item);
+            db.SaveChanges();
         }
     }
 }
