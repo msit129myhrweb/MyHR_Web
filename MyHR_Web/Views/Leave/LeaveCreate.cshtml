@@ -7,7 +7,10 @@
     string Session_Id = Context.Session.GetString("CURRENT_LOGINED_USERID");
     string Session_department = Context.Session.GetString("CURRENT_LOGINED_USERDEPARTMENT");
     string Session_Today = Context.Session.GetString("Today");
-    var Leave_Cate = ViewBag.LeaveCate; }
+    var Leave_Cate = ViewBag.LeaveCate;
+
+ 
+    }
 <style>
     h2 {
         background-color: #cbb2ae;
@@ -130,13 +133,16 @@
                         <div class="card-footer">
                             <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-default btn-lg" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="LeaveList" />
                             <i>@*nothing*@</i><i>@*nothing*@</i>
-                            <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick="return (confirm('之後想用跳出視窗的方式新增，阿你確定要新增?'))" , style="filter: grayscale(50%)" />
+                            <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick=" check_RestofLeave()", style="filter: grayscale(50%)" />
 
                         </div>
                     </div>
 
                 </div>
             </div>
+
+           
+
         </form>
     </section>
 </div>
@@ -155,6 +161,75 @@ picker.addEventListener('input', function(e){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>   @*moment.js*@
 
 <script>
+
+    function check_RestofLeave() {
+    
+      // 1 = 病假  2 = 事假  3 = 生理價  5 = 特休 
+
+
+        var Sick = parseInt(localStorage.getItem("SICK"));
+        var Blood = parseInt(localStorage.getItem("BLOOD"));
+        var Special = parseInt(localStorage.getItem("SPECIAL"));
+
+
+        var Cate = parseInt($("#Leave-Category").val());
+        var Hours = parseInt($("#Leave_Cal").val());
+
+
+        console.log(Sick);
+        console.log(Hours);
+
+
+        if (Cate == 1) {
+            if (Hours > Sick) {  //所申請的小時 > 還可以申請的時數
+
+                var result = confirm('所申請的病假總時數已超過勞基法規定，超過時間將以全薪計算');
+
+                if (result) {
+                    return true;
+                }
+                    return false;
+               
+            }
+            else {
+
+                var result = confirm('確定新增嗎?');
+
+                if (result) {
+                    return true;
+                }
+                return false;
+               
+            }
+
+        }
+        else if (Cate == 3) {
+
+            if (Hours > Blood) {
+                return (confirm("申請的生理假總時數已超過勞基法規定，超過時間將以全薪計算"));
+            }
+            else {
+
+                return (confirm('確定新增嗎?'));
+            }
+        }
+
+        else if (Cate == 5) {
+            if (Hours > Special) {
+                return (alert("所申請的特休總時數已超過可申請時數，請確認剩餘特休時數。"));
+            }
+        }
+
+
+        else {
+            return (confirm('確定新增嗎?'));
+        }
+
+    }
+
+
+
+   
 
    start = $("#Leave_Start").val();
    end = $("#Leave_End").val();
