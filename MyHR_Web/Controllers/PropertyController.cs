@@ -58,7 +58,7 @@ namespace MyHR_Web.Controllers
                                     CDeparmentId = p.CDeparmentId,
                                     CEmployeeId = u.CEmployeeId,
                                     CEmployeeName = u.CEmployeeName,
-                                    CPhone = p.CPhone,
+                                    CPhone = u.CPhone,
                                     CPropertySubjectId = d.CPropertySubjectId,
                                     CPropertyCategoryId = e.CPropertyCategoryId,
                                     CPropertyPhoto = p.CPropertyPhoto,
@@ -79,6 +79,7 @@ namespace MyHR_Web.Controllers
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
             ViewBag.category = db.TLostAndFoundCategories.ToList();
+            ViewBag.cphone = db.TUsers.ToList();
             DateTime now = DateTime.UtcNow.AddHours(8).Date;
             
             return View(new CPropertyViewModel
@@ -100,6 +101,7 @@ namespace MyHR_Web.Controllers
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
+                ViewBag.cphone = db.TUsers.ToList();
                 return View(pmodel);
             }
 
@@ -175,6 +177,7 @@ namespace MyHR_Web.Controllers
             ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
             ViewBag.subject = db.TLostAndFoundSubjects.ToList();
             ViewBag.category = db.TLostAndFoundCategories.ToList();
+            ViewBag.cphone = db.TUsers.ToList();
 
             return View(result);
         }
@@ -188,6 +191,7 @@ namespace MyHR_Web.Controllers
                 ViewBag.check = db.TLostAndFoundCheckStatuses.ToList();
                 ViewBag.subject = db.TLostAndFoundSubjects.ToList();
                 ViewBag.category = db.TLostAndFoundCategories.ToList();
+                ViewBag.cphone = db.TUsers.ToList();
                 return View(pmodel);
             }
 

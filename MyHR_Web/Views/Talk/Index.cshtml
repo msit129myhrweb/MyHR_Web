@@ -1,5 +1,9 @@
-﻿@using Microsoft.AspNetCore.Http;
-@{ string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME"); }
+﻿@model IEnumerable<MyHR_Web.ViewModel.TUserViewModel>
+@using Microsoft.AspNetCore.Http;
+@{ 
+    string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
+    string userID = Context.Session.GetString("CURRENT_LOGINED_USERID");
+    }
 
 <head>
     <style>
@@ -15,6 +19,71 @@
             color: #FFFFFF;
             padding-left: 10px;
         }
+
+
+
+        .msg_container_base {
+            background: #e5e5e5;
+            margin: 0;
+            padding: 0 10px 10px;
+            max-height: 300px;
+            overflow-x: hidden;
+        }
+
+        .msg_sent {
+        padding-bottom: 20px !important;
+        margin-right: 0;
+    }
+
+        .messages {
+        background: white;
+        padding: 10px;
+        border-radius: 2px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+        max-width: 100%;
+    }
+
+            .messages > p {
+        font-size: 13px;
+        margin: 0 0 0.2rem 0;
+    }
+
+        .msg_container {
+        padding: 10px;
+        overflow: hidden;
+        display: flex;
+    }
+
+    img {
+        display: block;
+        width: 100%;
+    }
+
+        .avatar {
+        position: relative;
+    }
+
+   
+
+        .base_sent {
+        justify-content: flex-end;
+        align-items: flex-end;
+    }
+
+            .base_sent > .avatar:after {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border: 5px solid white;
+        border-right-color: transparent;
+        border-top-color: transparent;
+        box-shadow: 1px 1px 2px rgba(black, 0.2);
+       
+    }
+
     </style>
 
 </head>
@@ -23,8 +92,8 @@
         <section class="content-header">
             <h2>即時聊天系統</h2>
         </section>
-        
-        <div class="container">
+        @*官方signalr文件*@
+        @*<div class="container">
             <div class="row">&nbsp;</div>
             <div class="row">
                 <div class="col-2">使用者:</div>
@@ -52,8 +121,35 @@
             </div>
         </div>
         <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>
+        <script src="~/js/chat.js"></script>*@
 
+        <div class="container">
+            <div class="panel msg_container_base">
+                <div class="row msg_container base_sent">
+                    <div class="col-md-10 col-xs-10">
+                        <div class="messages msg_sent">
+                            <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
+                            <p id="messagesList"></p>
+                        </div>
+                    </div>
+                    <div class="col-md-2 col-xs-2 avatar">
+                        <img class="profile-user-img" src="/Home/ViewPhoto?id=@userID" alt="User profile picture" style="width:150px;height:150px;" />
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="input-group">
+                    <input id="messageInput" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js"></script>
+       
+       
     </div>
 </body>
 
