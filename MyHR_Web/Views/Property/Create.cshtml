@@ -7,8 +7,9 @@
     List<TLostAndFoundCategory> category = ViewBag.category;
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
+    List<TUser> cphone = ViewBag.cphone;
     string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-    // string userPhone = Context.Session.GetString("LOGIN_USERPHONE");
+    string userPhone = Context.Session.GetString("CURRENT_LOGINED_PHONE");
 }
 
 <style>
@@ -75,8 +76,8 @@
 
                             </div>
                             <div class="form-group">
-                                <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" readonly="readonly" />
+                                <label asp-for="CPhone" class="control-label"style="display:none"></label>
+                                <input asp-for="CPhone" class="form-control" readonly="readonly" style="display:none"/>
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -140,6 +141,7 @@
                             <div>
 
                                 <input type="submit" value="新增" class="btn btn-info" , style="filter: grayscale(50%)" />
+                                <input id="labCEmployeeId" value="Demo" class="btn btn-primary" , style="filter: grayscale(50%)" />
                             </div>
                         </form>
 
@@ -153,7 +155,13 @@
 
     </section>
 </div>
-
+<script>$("#labCEmployeeId").click(function () {
+    $("#CPhone").val('0922852221');
+    $("#CProperty").val('手機');
+    $("#CLostAndFoundSpace").val('一樓大廳');
+    $("#CtPropertyDescription").val('iphone');
+});
+</script>
 
 
 

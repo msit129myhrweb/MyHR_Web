@@ -7,7 +7,7 @@
     List<TLostAndFoundCheckStatus> status = ViewBag.check;
     List<TLostAndFoundSubject> subject = ViewBag.subject;
     string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
-   
+    string userPhone = Context.Session.GetString("CURRENT_LOGINED_PHONE");
     }
 
 <style>
@@ -70,8 +70,8 @@
 
                             </div>
                             <div class="form-group">
-                                <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" readonly="readonly" />
+                                <label asp-for="CPhone" class="control-label"style="display:none"></label>
+                                <input asp-for="CPhone" class="form-control" value="@userPhone" readonly="readonly" style="display:none"/>
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
                           
@@ -156,7 +156,7 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="submit" value="儲存" class="btn btn-info" , style="filter: grayscale(50%)" />
+                                <input  type="submit" value="儲存" class="btn btn-info" , style="filter: grayscale(50%)" />
                             </div>
                         </form>
                     </div>
@@ -169,6 +169,7 @@
 
     </section>
 </div>
+
 
 
 
