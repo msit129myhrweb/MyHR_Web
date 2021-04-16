@@ -63,8 +63,6 @@
         position: relative;
     }
 
-   
-
         .base_sent {
         justify-content: flex-end;
         align-items: flex-end;
@@ -94,62 +92,104 @@
         </section>
         @*官方signalr文件*@
         @*<div class="container">
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-2">使用者:</div>
-                <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
-            </div>
-            <div class="row">
-                <div class="col-2">訊息:</div>
-                <div class="col-4"><input type="text" id="messageInput" /></div>
-            </div>
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-6">
-                    <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-2">使用者:</div>
+                    <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-2">訊息:</div>
+                    <div class="col-4"><input type="text" id="messageInput" /></div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <hr />
+            <div class="row">
+                <div class="col-12">
+                    <hr />
+                </div>
             </div>
-        </div>
-        <div class="row bg-white text-dark">
-            <div class="col-6">
-                <ul id="messagesList"></ul>
+            <div class="row bg-white text-dark">
+                <div class="col-6">
+                    <ul id="messagesList"></ul>
+                </div>
             </div>
-        </div>
-        <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>*@
+            <script src="~/js/signalr/dist/browser/signalr.js"></script>
+            <script src="~/js/chat.js"></script>*@
 
-        <div class="container">
-            <div class="panel msg_container_base">
-                <div class="row msg_container base_sent">
-                    <div class="col-md-10 col-xs-10">
-                        <div class="messages msg_sent">
-                            <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
-                            <p id="messagesList"></p>
+        @*<div class="container">
+                <div class="panel msg_container_base">
+                    <div class="row msg_container base_sent">
+                        <div class="col-md-10 col-xs-10">
+                            <div class="messages msg_sent">
+                                <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
+
+                                <p id="messagesList"></p>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-2 avatar">
+                            <img class="profile-user-img" src="/Home/ViewPhoto?id=@userID" alt="User profile picture" style="width:150px;height:150px;" />
                         </div>
                     </div>
-                    <div class="col-md-2 col-xs-2 avatar">
-                        <img class="profile-user-img" src="/Home/ViewPhoto?id=@userID" alt="User profile picture" style="width:150px;height:150px;" />
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="messageInput" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="input-group">
-                    <input id="messageInput" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
-                    </span>
+            <script src="~/js/signalr/dist/browser/signalr.js"></script>
+            <script src="~/js/chat.js"></script>*@
+    <div>
+        <div class="card-body contacts_body">
+            <ui class="contacts">
+
+
+                <div class="d-flex justify-content-end mb-4">
+                    <div class="msg_cotainer_send">
+                        <p id="messagesList"></p>
+                    </div>
+                    <div class="img_cont_msg">
+                        <img src="/Home/ViewPhoto?id=@userID" alt="User profile picture" class="rounded-circle user_img" style="width:50px;height:50px;">
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-start mb-4">
+                    <div class="img_cont_msg">
+                        <img src="http://www.bitrebels.com/wp-content/uploads/2011/02/Original-Facebook-Geek-Profile-Avatar-1.jpg" class="rounded-circle user_img" style="width:50px;height:50px;">
+                    </div>
+                    <div class="msg_cotainer">
+                        <p id="messagesList"></p>
+                    </div>
+                </div>
+
+
+
+
+
+
+        </div>
+        <div class="card-footer">
+            <div class="input-group">
+                <textarea name="" class="form-control type_msg" placeholder="Write your message here..." id="messageInput"></textarea>
+                <div class="input-group-append">
+                    <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
                 </div>
             </div>
         </div>
-        <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>
-       
-       
     </div>
+       </div>
+       
+
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
+
 </body>
 
