@@ -22,7 +22,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&libraries=geometry"></script>
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&libraries=geometry"></script>*@
 
 
     <style>
@@ -48,7 +48,7 @@
         }
         #map {
             position: absolute;
-            height: 58%;
+            height: 65%;
             width: 58%;
         }
     </style>
@@ -71,7 +71,7 @@
             </div>
             <from method="post">
                 <div>
-                    <button id="gps" style="filter: grayscale(50%)" class="btn btn-secondary">地圖打卡</button>&nbsp&nbsp<button id="search" style="filter: grayscale(50%)" class="btn btn-secondary">查詢打卡紀錄</button><br /><br />
+                    <button onclick="gps()" style="filter: grayscale(50%)" class="btn btn-secondary">地圖打卡</button>&nbsp&nbsp<button onclick="search()" style="filter: grayscale(50%)" class="btn btn-secondary">查詢打卡紀錄</button><br /><br />
                 </div>
             </from>
             <div style="background-color:white ;padding:20px; border-radius:10px">
@@ -102,7 +102,7 @@
 </div>
 
 <script>
-    //目前時間顯示
+    //目前時間顯示 o
     function ShowTime() {
         var NowDate = new Date();
         var d = NowDate.getDay();
@@ -112,7 +112,7 @@
         setTimeout('ShowTime()', 1000);
     }
 
-    //未六點不可打下班卡
+    //未六點不可打下班卡 o
     $(function () {
         var d = new Date();
         var now = d.getHours();   //當前時間的小時
@@ -127,150 +127,65 @@
         }
     );
 
-    //判斷昨天是否有打卡
-    document.addEventListener("DOMContentLoaded", function () {
-        var d = new Date();
-        d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
-        var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/yesterdayVal",
-            data: { ysd: ysd },
-            success: function (data) {
-                console.log("a");
-                $("#absence_table").html(data);
-            },
-            error: function (msg) {
-                alert("error");
-            }
-        })
-        console.log(ysd);
-
-    }, false);
-
-
-    //打上班卡
+    //打上班卡 o
     function clockOn() {
         var id = @a;
         var now = new Date();
         var date = now.toISOString().substr(0, 10);
 
-        var latlng = { lat: 25.033901, lng: 121.543398 }; //初始位置(資策會)
-        var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15, //放大的倍率
-            center: latlng //初始化的地圖中心位置
-        });
-
-        var markerCompany = new google.maps.Marker({  //資策會的marker
-            position: latlng,
-            map: map,
-            title: "公司",
-        });
-
-        //紅色圈圈
-        var cityCircle = new google.maps.Circle({
-            strokeColor: "#FF0000",
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: "#FF0000",
-            fillOpacity: 0.35,
-            map,
-            center: map.center,
-            radius: 150
-        });
-
-        navigator.geolocation.getCurrentPosition(function (position) { //目前位置
-            var pos = {
-                lat: 25.034901,//position.coords.latitude,//
-                lng: 121.5436398,//position.coords.longitude,//
-            };
-            var marker = new google.maps.Marker({
-                position: pos,
-                map: map,
-                title: "現在位置",
-            });
-
-            //取得距離
-            var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
-
-            var dis = parseFloat(distance);
-
-            if (dis > 150.00) {
-                window.alert("定位超出打卡範圍，無法打卡");
-            }
-            else {
-
-                $.ajax({
+        var ans = initMap();
+        if (ans=true) {
+            $.ajax({
                 type: "get",
                 dataType: "html",
                 url: "/Absence/getClockString_on",
                 data: { id: @a, date: date},
                 success: function (data) {
                 console.log("a");
-                $("#absence_table").html(data);
+                    $("#selectAndTable").html(data);
+                    console.log("clockOn");
+                    initMap();
+                    window.alert("您已打卡成功!");
                 },
                 error: function (msg) {
                     alert("error:" + msg);
                 }
-                })
-                window.alert("您已打卡成功!");
-            }
-        });
+            })
+        }
+        else {
+            window.alert("定位超出打卡範圍，無法打卡");
+        }
     };
 
-    //打下班卡
+    //打下班卡 ?
     function clockOff() {
         var id = @a;
         var now = new Date();
         var date = now.toISOString().substr(0,10);
-
-        //var pos = {
-        //    lat: 25.034901,//position.coords.latitude,
-        //    lng: 121.5436398//position.coords.longitude,
-        //};
-        //var marker = new google.maps.Marker({
-        //    position: pos,
-        //    map: map,
-        //});
-
-        //const contentString = "<h3>現在位置</h3>";
-        //const infoWindow = new google.maps.InfoWindow({
-        //    content: contentString,
-        //});
-        //map.setZoom(18);
-        //map.setCenter(pos);
-
-        //marker.addListener("click", function () {
-        //    infoWindow.open(map, marker);
-
-        //    var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
-
-        //    var dis = parseFloat(distance);
-
-        //    if (dis > 150.00) {
-        //        window.alert("定位超出打卡範圍，無法打卡");
-        //    }
-        //    else {
-
-
-                $.ajax({
-                    type: "get",
-                    dataType: "html",
-                    url: "/Absence/getClockString_off",
-                    data: { id: @a, date: date },
-                    success: function (data) {
-                        console.log("a");
-                        $("#absence_table").html(data);
-                    },
-                    error: function (msg) {
-                        alert("error:" + msg);
-                    }
-                })
-            //}
+        var ans = initMap();
+        if (ans = true) {
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_off",
+                data: { id: @a, date: date },
+                success: function (data) {
+                    console.log("clockOff");
+                    $("#selectAndTable").html(data);
+                    initMap();
+                    window.alert("您已打卡成功!");
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+        }
+        else {
+            window.alert("定位超出打卡範圍，無法打卡");
+        }
     };
-    //查詢日期、狀態
+
+    //查詢日期、狀態 ?
     $(".absence").change(function () {
         var sta = $("#absence_Status").val();
         var sDate = $("#sDate").val();
@@ -284,7 +199,7 @@
             data: { sDate: sDate, eDate: eDate, status: sta },
             success: function (data) {
                 console.log("a");
-                $("#absence_table").html(data);
+                $("#selectAndTable").html(data);
             },
             error: function (msg) {
                 alert("error:" + msg);
@@ -292,27 +207,8 @@
         })
     });
 
-    //重新查詢
-    $("#btn_research").click( function () {
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/research",
-            data: { id: @a},
-            success: function (data) {
-                console.log("research");
-                $("#absence_table").html(data);
-            },
-            error: function () {
-                alert("error:" + msg);
-            }
-        })
-    });
-
-    //返回查詢頁面
-    $("#search").click( function () {
-
+    //返回查詢頁面、重新查詢、判斷昨天是否有打卡
+    function search(){
         $.ajax({
             type: "get",
             dataType: "html",
@@ -323,10 +219,29 @@
                 $("#selectAndTable").html(data);
             },
             error: function () {
-                alert("error:" + msg);
+                alert("error");
             }
         })
-    });
+
+        var d = new Date();
+        d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
+        var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/yesterdayVal",
+            data: { ysd: ysd },
+            success: function (data) {
+                console.log("a");
+                $("#selectAndTable").html(data);
+            },
+            error: function (msg) {
+                alert("error");
+            }
+        })
+        console.log(ysd);
+    };
 
     //當日當週當月查詢
     $("#radioOption").change(function () {
@@ -340,7 +255,7 @@
             data: { id: @a , search_dwm: search_dwm},
             success: function (data) {
                 console.log("research");
-                $("#absence_table").html(data);
+                $("#selectAndTable").html(data);
             },
             error: function () {
                 alert("error:" + msg);
@@ -349,7 +264,7 @@
     })
 
     //非同步顯示地圖
-    $("#gps").click(function () {
+    function gps() {
 
         $.ajax({
             type: "get",
@@ -357,20 +272,20 @@
             url: "/Absence/GeoExample",
             data:"",
             success: function (data) {
-                console.log("research");
                 $("#selectAndTable").html(data);
+                console.log("gps");
+                initMap();
             },
             error: function () {
-                alert("error:" + msg);
+                alert("error:");
             }
         })
-
-    })
+    };
 
     function initMap() {
         var latlng = { lat: 25.033901, lng: 121.543398 }; //初始位置(資策會)
         var map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15, //放大的倍率
+            zoom: 17, //放大的倍率
             center: latlng //初始化的地圖中心位置
         });
 
@@ -383,12 +298,14 @@
         navigator.geolocation.getCurrentPosition(function (position) { //目前位置
             var pos = {
                 lat: 25.034901,//position.coords.latitude,
-                lng: 121.5436398//position.coords.longitude,
+                lng: 121.5436398,//position.coords.longitude,
+                //icon: "https://impact100.org/wp-content/uploads/2019/05/Blankemeyer-You-Are-Here.jpg",
             };
             var marker = new google.maps.Marker({
                 position: pos,
                 map: map,
                 title: "現在位置",
+                //icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg56oId_80MJ8IDojyNWkZ13h6x_xuwRNNcQ&usqp=CAU",
             });
         });
 
@@ -402,11 +319,38 @@
             center: map.center,
             radius: 150
         });
+        var pos = {
+            lat: 25.034901,//position.coords.latitude,
+            lng: 121.5436398//position.coords.longitude,
+        };
+        var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+        });
 
+        const contentString = "<h3>現在位置</h3>";
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+        });
+        map.setZoom(18);
+        map.setCenter(pos);
 
+        marker.addListener("click", function () {
+            infoWindow.open(map, marker);
+        });
 
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
+
+        var dis = parseFloat(distance);
+
+        if (dis > 150.00) {
+            window.alert("定位超出打卡範圍，無法打卡");
+            return false;
+        }
+        else {
+            return true;
+        }
     }
-
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&callback=initMap"
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&callback=initMap&libraries=geometry"
         type="text/javascript"></script>

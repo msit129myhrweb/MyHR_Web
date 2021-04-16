@@ -23,62 +23,7 @@ namespace MyHR_Web.Controllers
         #region 上下班打卡
         public IActionResult List()
         {
-            try
-            {
-                int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
-                var t1 = db.TAbsences
-                    .Where(a => a.CEmployeeId == userId &&
-                           a.CCountNum > 0 &&
-                           a.CCountNum < 3 &&
-                           a.CDate.Value.Month == Con.Month)
-                    .ToList();
-                List<TAbsence> list1 = new List<TAbsence>();
-                foreach (var item in t1)
-                {
-                    TAbsence avm1 = new TAbsence()
-                    {
-                        CApplyNumber = item.CApplyNumber,
-                        CDate = item.CDate,
-                        COn = item.COn,
-                        COff = item.COff,
-                        CStatus = item.CStatus,
-                        CCountNum = item.CCountNum
-                    };
-                    list1.Add(avm1);
-                }
-                int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
-                ViewBag.totalCountNum = total;//傳到view
-
-                //預設為顯示當週打卡紀錄
-                DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-                DateTime dtSunday = dtMonday.AddDays(6); //當週週日
-
-                var table = db.TAbsences
-                        .Where(a => a.CEmployeeId == userId &&
-                              a.CDate >= dtMonday &&
-                              a.CDate <= dtSunday)
-                        .OrderByDescending(a => a.CDate).ToList();
-                List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-                foreach (var item in table)
-                {
-                    CAbsenceViewModel avm = new CAbsenceViewModel()
-                    {
-                        CApplyNumber = item.CApplyNumber,
-                        CDate = item.CDate,
-                        COn = item.COn,
-                        COff = item.COff,
-                        CStatus = item.CStatus,
-                        CCountNum = item.CCountNum
-                    };
-                    list.Add(avm);
-                }
-                return View(list);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return View();
         }
 
         public IActionResult getClockString_on(int id,DateTime date)//上班
@@ -86,7 +31,7 @@ namespace MyHR_Web.Controllers
             try
             {
                 int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
+                
                 TAbsence td = db.TAbsences.FirstOrDefault(z => z.CDate.Value.Date == DateTime.Today && z.CEmployeeId == id && z.COn.HasValue);//尋找該員工今天的打卡紀錄
                 if (td == null)//今天未打卡
                 {
@@ -146,8 +91,8 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-
-                return PartialView("date_search", list);
+                getCountNum();
+                return PartialView("ClockOnAndOff", list);
             }
             catch (Exception)
             {
@@ -225,7 +170,7 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                return PartialView("ClockOnAndOff", list);
             }
             catch (Exception)
             {
@@ -389,7 +334,6 @@ namespace MyHR_Web.Controllers
         public IActionResult date_search(DateTime? sDate, DateTime? eDate,string status)//日期及狀態查詢
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
             var time = db.TAbsences
                 .Where(a => a.CEmployeeId==userId&&
                       (sDate != null ? a.CDate >= sDate : true)&&
@@ -410,33 +354,65 @@ namespace MyHR_Web.Controllers
                 };
                 list.Add(avm);
             }
+            getCountNum();//取得補登次數
             return PartialView("date_search",list);
         }
 
-        public IActionResult research(int id)//重新查詢
+        public IActionResult research(int id)//回查詢頁面
         {
             DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
             DateTime dtSunday = dtMonday.AddDays(6); //當週週日
-
-            var table = db.TAbsences
-                    .Where(a => a.CEmployeeId == id &&
-                          a.CDate >= dtMonday &&
-                          a.CDate <= dtSunday)
-                    .OrderByDescending(a => a.CDate).ToList();
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (var item in table)
+            try
             {
-                CAbsenceViewModel avm = new CAbsenceViewModel()
+                var t1 = db.TAbsences
+                    .Where(a => a.CEmployeeId == id &&
+                           a.CCountNum > 0 &&
+                           a.CCountNum < 3 &&
+                           a.CDate.Value.Month == Con.Month)
+                    .ToList();
+                List<TAbsence> list1 = new List<TAbsence>();
+                foreach (var item in t1)
                 {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus
-                };
-                list.Add(avm);
+                    TAbsence avm1 = new TAbsence()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CDate = item.CDate,
+                        COn = item.COn,
+                        COff = item.COff,
+                        CStatus = item.CStatus,
+                        CCountNum = item.CCountNum
+                    };
+                    list1.Add(avm1);
+                }
+                int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
+                ViewBag.totalCountNum = total;//傳到view
+
+                //預設為顯示當週打卡紀錄
+                var table = db.TAbsences
+                        .Where(a => a.CEmployeeId == id &&
+                              a.CDate >= dtMonday &&
+                              a.CDate <= dtSunday)
+                        .OrderByDescending(a => a.CDate).ToList();
+                List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
+                foreach (var item in table)
+                {
+                    CAbsenceViewModel avm = new CAbsenceViewModel()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CDate = item.CDate,
+                        COn = item.COn,
+                        COff = item.COff,
+                        CStatus = item.CStatus,
+                        CCountNum = item.CCountNum
+                    };
+                    list.Add(avm);
+                }
+                return PartialView("date_search", list);
             }
-            return PartialView("date_search", list);
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public IActionResult search_dwm(int id,string search_dwm)//當日當週當月查詢
         {
@@ -524,5 +500,32 @@ namespace MyHR_Web.Controllers
             return PartialView("GeoExample", model);
         }
 
+        public void getCountNum()
+        {
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
+            var t1 = db.TAbsences
+                .Where(a => a.CEmployeeId == userId &&
+                       a.CCountNum > 0 &&
+                       a.CCountNum < 3 &&
+                       a.CDate.Value.Month == Con.Month)
+                .ToList();
+            List<TAbsence> list1 = new List<TAbsence>();
+            foreach (var item in t1)
+            {
+                TAbsence avm1 = new TAbsence()
+                {
+                    CApplyNumber = item.CApplyNumber,
+                    CDate = item.CDate,
+                    COn = item.COn,
+                    COff = item.COff,
+                    CStatus = item.CStatus,
+                    CCountNum = item.CCountNum
+                };
+                list1.Add(avm1);
+            }
+            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
+            ViewBag.totalCountNum = total;//傳到view
+        }
     }
 }
