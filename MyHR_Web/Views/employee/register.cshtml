@@ -28,7 +28,7 @@
         <h2>註冊新員工</h2>
 
     </section>
-
+   
     <hr />
     <section class="content">
         <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
@@ -36,36 +36,38 @@
                 <div class="card-header p-2">
                     <div class="card-body">
                         <form asp-action="register" method="post" enctype="multipart/form-data">
+
+                            @* <form >*@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
-                                <label asp-for="CEmployeeName" class="control-label"></label>
-                                <input asp-for="CEmployeeName" class="form-control" />
+                                <label asp-for="CEmployeeName" class="control-label" id="labCEmployeeName"></label>
+                                <input asp-for="CEmployeeName" class="form-control" id="CEmployeeName" />
                                 <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CEmployeeEnglishName" class="control-label"></label>
-                                <input asp-for="CEmployeeEnglishName" class="form-control" />
+                                <input asp-for="CEmployeeEnglishName" class="form-control" id="CEmployeeEnglishName" />
                                 <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPassWord" class="control-label"></label>
-                                <input asp-for="CPassWord" class="form-control" />
+                                <input asp-for="CPassWord" class="form-control" id="CPassWord" name="CPassWord" />
                                 <span asp-validation-for="CPassWord" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="COnBoardDay" class="control-label"></label>
-                                <input asp-for="COnBoardDay" class="form-control" type="date" />
+                                <input asp-for="COnBoardDay" class="form-control" type="date" id="COnBoardDay" />
                                 <span asp-validation-for="COnBoardDay" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
                                 <label asp-for="CByeByeDay" class="control-label"></label>
-                                <input asp-for="CByeByeDay" class="form-control" />
+                                <input asp-for="CByeByeDay" class="form-control" id="" />
                                 <span asp-validation-for="CByeByeDay" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CGender" class="control-label"></label>
                                 @*<input asp-for="CGender" class="form-control" />*@
-                                <select asp-for="CGender" class="form-control">
+                                <select asp-for="CGender" class="form-control" id="CGender">
                                     <option value="" style="display: none">請選擇</option>
                                     <option value="女">女</option>
                                     <option value="男">男</option>
@@ -74,49 +76,46 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CEmail" class="control-label"></label>
-                                <input asp-for="CEmail" class="form-control" />
+                                <input asp-for="CEmail" class="form-control" id="CEmail" name="CEmail" />
                                 <span asp-validation-for="CEmail" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
                                 <label asp-for="CAddress" class="control-label"></label>
-                                <input asp-for="CAddress" class="form-control" />
+                                <input asp-for="CAddress" class="form-control" id="CAddress" />
                                 <span asp-validation-for="CAddress" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CDepartmentId" class="control-label"></label>
-                            <select asp-for="CDepartmentId" class="form-control">
-                                <option value="" style="display: none">請選擇</option>
-                                @foreach (var d in userDepartments)
-                                {
-                                    <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
-
-                                } 
-                            </select>
+                                <select asp-for="CDepartmentId" class="form-control" id="CDepartmentId">
+                                    <option value="" style="display: none">請選擇</option>
+                                    @foreach (var d in userDepartments)
+                                    {
+                        <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>}
+                                </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CJobTitleId" class="control-label"></label>
-                            <select asp-for="CJobTitleId" class="form-control" style="color:black">
-                                <option value="" style="display: none">請選擇</option>
-                                @foreach (var j in userJobTitles)
-                                {
-                                    <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
-                                }
-                            </select>
+                                <select asp-for="CJobTitleId" class="form-control" style="color:black" id="CJobTitleId">
+                                    <option value="" style="display: none">請選擇</option>
+                                    @foreach (var j in userJobTitles)
+                                    {
+                        <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>}
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CSupervisor" class="control-label"></label>
-                                <input asp-for="CSupervisor" class="form-control" />
+                                <input asp-for="CSupervisor" class="form-control" id="CSupervisor" />
                                 <span asp-validation-for="CSupervisor" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
                                 <label asp-for="CBirthday" class="control-label"></label>
-                                <input asp-for="CBirthday" class="form-control" />
+                                <input asp-for="CBirthday" class="form-control" id="CBirthday" />
                                 <span asp-validation-for="CBirthday" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" />
+                                <input asp-for="CPhone" class="form-control" id="CPhone" />
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
@@ -131,7 +130,7 @@
                             </div>
                             <div class="form-group" style="display:none">
                                 <label asp-for="CEmergencyContact" class="control-label"></label>
-                                <input asp-for="CEmergencyContact" class="form-control" />
+                                <input asp-for="CEmergencyContact" class="form-control">
                                 <span asp-validation-for="CEmergencyContact" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
@@ -147,7 +146,7 @@
                             </div>
                             <div class="form-group">
 
-                                <input type="submit" class="btn btn-info" style="filter: grayscale(50%)" value="新增員工">
+                                <input type="submit" class="btn btn-info" style="filter: grayscale(50%)" value="新增員工" onclick="SendMail()">
 
                             </div>
                         </form>
@@ -164,3 +163,25 @@
 
     </section>
 </div>
+<script>
+
+    $("#labCEmployeeName").click(function () {
+        $("#CEmployeeName").val('蔡依林');
+        $("#CEmployeeEnglishName").val('Jolin');
+        $("#CPassWord").val(0910);
+        $("#CGender").val('女'); //select
+        $("#CEmail").val('wz801030@gmail.com');
+        $("#CAddress").val('台北市大安區復興南路一段');
+        $("#CDepartmentId").val(2);
+        $("#CJobTitleId").val(3);
+        $("#CSupervisor").val(1);
+        $("#CPhone").val('0910710520');
+
+        //$("#COnBoardDay")
+        var dateControl = document.querySelector('input[type="date"]');
+        dateControl.value = '2021-04-23';
+    });
+
+
+  
+</script>
