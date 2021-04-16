@@ -1,11 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Http;
-@using prjCoreDemo.ViewModel;;
+@using prjCoreDemo.ViewModel;
 @{
     string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
     DateTime Late = DateTime.Today.AddHours(10);
     TimeSpan LateTime = Late.TimeOfDay;
     DateTime Coff = DateTime.Today.AddHours(18);
-    TimeSpan CoffTime=Coff.TimeOfDay;
+    TimeSpan CoffTime = Coff.TimeOfDay;
     var countNum = ViewBag.totalCountNum;
 }
 
@@ -21,23 +21,37 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 
+    @*<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&libraries=geometry"></script>*@
+
+
     <style>
         #absence_table {
             float: left;
             width: 98%;
             margin-left: 10px;
         }
+
         #left {
             width: 30%;
             float: left;
         }
-        #right{
-            width:69%;
-            float:right;
+
+        #right {
+            width: 69%;
+            float: right;
         }
+
         #countNum {
             font-size: 20px;
             text-decoration: underline;
+        }
+        #map {
+            position: absolute;
+            height: 65%;
+            width: 58%;
+        }
+        #search, #gps {
+            width: 48%;
         }
     </style>
 </head>
@@ -54,113 +68,43 @@
                 </form>
             </body>
             <br />
-            <div>
+            <div id="OnAndOff">
                 <button type="button" class="button" onclick="clockOn()" id="on" style="filter: grayscale(50%)">上班</button>&nbsp&nbsp<button type="button" class="button" onclick="clockOff()" id="off" style="filter: grayscale(50%)">下班</button><br /><br />
             </div>
+            <from method="post">
+                <div>
+                    <button id="gps" onclick="gps()" style="filter: grayscale(50%)" class="btn btn-info">地圖打卡</button>&nbsp&nbsp<button id="search" onclick="search()" style="filter: grayscale(50%)" class="btn btn-info">查詢打卡紀錄</button><br /><br />
+                </div>
+            </from>
             <div style="background-color:white ;padding:20px; border-radius:10px">
                 <p id="tip">溫馨小提醒&nbsp:&nbsp</p><hr />
                 <p id="tips">
                     1.&nbsp上下班皆需打卡<br />
                     2.&nbsp10:00(含)以後遲到需請假<br />
-      				3.&nbsp若有異常需補打卡或是請假<br />
+                    3.&nbsp若有異常需補打卡或是請假<br />
                     4.&nbsp每月補登打卡次數3次為上限<br />
-                    5.&nbsp未18:00無法打下班卡，若要早退，需請假<br />                </p>
+                    5.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
+                    6.&nbsp定位需在紅圈範圍內才可進行打卡<br />
+                </p>
             </div>
         </div>
         <div id="right">
             <section class="content">
-                    <form method="post" id="selectAndTable">
-                        <div style="background-color:white ;padding:20px; border-radius:10px">
-                            <h3>查詢條件</h3>
-                            <div class="row">
-                                <div class="col-md-4 form-group">
-                                    <label class="col-lg-3 control-label">起&nbsp;:&nbsp;</label>
-                                    <input type="date" name="sDate" id="sDate" class="absence">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label class="col-lg-3 control-label">迄&nbsp;:&nbsp;</label>
-                                    <input type="date" name="eDate" id="eDate" class="absence">
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label class="col-lg-6 control-label">已補登次數&nbsp;:&nbsp;</label>
-                                    <label id="countNum">@countNum&nbsp;次</label>
-                                </div>
-                                <div id="radioOption" class="btn-group btn-group-toggle col-md-4 form-group" data-toggle="buttons" style="filter: grayscale(50%)">
-                                    <label class="btn btn-info"><input value="當日" type="radio" name="options" id="option1" autocomplete="off">當日</label>
-                                    <label class="btn btn-info"><input value="當週" type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
-                                    <label class="btn btn-info"><input value="當月" type="radio" name="options" id="option3" autocomplete="off" >當月</label>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <label class="col-lg-3 control-label">狀態&nbsp;:&nbsp;</label>
-                                    <select class="absence" id="absence_Status">
-                                        <option value="" disabled="" selected="">請選擇</option>
-                                        <option value="正常">正常</option>
-                                        <option value="遲到">遲到</option>
-                                        <option value="異常">異常</option>
-                                    </select>
-                                </div>
-                                <div class="col-md-4 form-group">
-                                    <input type="button" id="btn_research" value="重新查詢" onclick="btn_research()" class="btn btn-success" style="filter: grayscale(50%)">
-                                </div>
-                            </div>
-                        </div>
-                    <hr />
-                    <div id="absence_table">
-                        <table id="example2" class="table table-bordered table-hover">
-                            <thead>
-                                <tr style="text-align:center">
-                                    <th>序</th>
-                                    <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
-                                    <th>@Html.DisplayNameFor(model => model.CDate)</th>
-                                    <th>星期</th>
-                                    <th>@Html.DisplayNameFor(model => model.COn)</th>
-                                    <th>@Html.DisplayNameFor(model => model.COff)</th>
-                                    <th>@Html.DisplayNameFor(model => model.CStatus)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @{int count = 0; }
-                                @foreach (var item in Model)
-                                {
-                                    count++;
-                                    
-                                <tr style="text-align:center">
-                                    <td>@count</td>
-                                    <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
-                                    <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
-                                    <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
-                                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                                    @{
-                                        if (item.CStatus == "異常")
-                                        {
-                                            if(item.COn> LateTime&&item.COff<=CoffTime)
-                                            {
-                                                <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "LeaveCreate", new { }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
-                                            }
-                                            else
-                                            {
-                                                <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
-                                            }
-                                        }
-                                        else
-                                        {
-                                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
-                                        }
-                                    }
-                                </tr>
-                                }
-                            </tbody>
-                        </table>
+                <form method="post" id="selectAndTable">
+                    <div style="background-color:white ;padding:20px; border-radius:10px">
+                        <h3>地圖打卡</h3>
                     </div>
+                    <hr />
+                    <div id="map"></div>
                 </form>
+
             </section>
         </div>
     </section>
 </div>
 
 <script>
-    //目前時間顯示
+    //目前時間顯示 o
     function ShowTime() {
         var NowDate = new Date();
         var d = NowDate.getDay();
@@ -170,7 +114,7 @@
         setTimeout('ShowTime()', 1000);
     }
 
-    //未六點不可打下班卡
+    //未六點不可打下班卡 o
     $(function () {
         var d = new Date();
         var now = d.getHours();   //當前時間的小時
@@ -185,8 +129,81 @@
         }
     );
 
-    //判斷昨天是否有打卡
-    document.addEventListener("DOMContentLoaded", function () {
+    //打上班卡 o
+    function clockOn() {
+        var id = @a;
+        var now = new Date();
+        var date = now.toISOString().substr(0, 10);
+
+        var ans = initMap();
+        if (ans=true) {
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_on",
+                data: { id: @a, date: date},
+                success: function (data) {
+                console.log("a");
+                    $("#selectAndTable").html(data);
+                    console.log("clockOn");
+                    initMap();
+                    window.alert("您已打卡成功!");
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+        }
+        else {
+            window.alert("定位超出打卡範圍，無法打卡");
+        }
+    };
+
+    //打下班卡 ?
+    function clockOff() {
+        var id = @a;
+        var now = new Date();
+        var date = now.toISOString().substr(0,10);
+        var ans = initMap();
+        if (ans = true) {
+            $.ajax({
+                type: "get",
+                dataType: "html",
+                url: "/Absence/getClockString_off",
+                data: { id: @a, date: date },
+                success: function (data) {
+                    console.log("clockOff");
+                    $("#selectAndTable").html(data);
+                    initMap();
+                    window.alert("您已打卡成功!");
+                },
+                error: function (msg) {
+                    alert("error:" + msg);
+                }
+            })
+        }
+        else {
+            window.alert("定位超出打卡範圍，無法打卡");
+        }
+    };
+
+
+    //返回查詢頁面、重新查詢、判斷昨天是否有打卡
+    function search(){
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/research",
+            data: { id: @a},
+            success: function (data) {
+                console.log("research");
+                $("#selectAndTable").html(data);
+            },
+            error: function () {
+                alert("error");
+            }
+        })
+
         var d = new Date();
         d.setTime(d.getTime() - 24 * 60 * 60 * 1000);
         var ysd = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
@@ -198,120 +215,104 @@
             data: { ysd: ysd },
             success: function (data) {
                 console.log("a");
-                $("#absence_table").html(data);
+                $("#selectAndTable").html(data);
             },
             error: function (msg) {
-                alert("error:" + msg);
+                alert("error");
             }
         })
-
         console.log(ysd);
-
-    }, false);
-
-
-    //打上班卡
-    function clockOn() {
-        var id = @a;
-        var now = new Date();
-        var date = now.toISOString().substr(0,10);
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/getClockString_on",
-            data: { id: @a, date: date},
-            success: function (data) {
-                console.log("a");
-                $("#absence_table").html(data);
-            },
-            error: function (msg) {
-                alert("error:" + msg);
-            }
-        })
-        //var content = document.getElementById("showClock");
-        //content.innerHTML = nowtime + "您已打卡成功 ! 下班別忘記打卡 !";
     };
 
-    //打下班卡
-    function clockOff() {
-        var id = @a;
-        var now = new Date();
-        var date = now.toISOString().substr(0,10);
+
+    //非同步顯示地圖
+    function gps() {
 
         $.ajax({
             type: "get",
             dataType: "html",
-            url: "/Absence/getClockString_off",
-            data: { id: @a, date: date},
+            url: "/Absence/GeoExample",
+            data:"",
             success: function (data) {
-                console.log("a");
-                $("#absence_table").html(data);
+                $("#selectAndTable").html(data);
+                console.log("gps");
+                initMap();
             },
-            error: function (msg) {
-                alert("error:" + msg);
+            error: function () {
+                alert("error:");
             }
         })
-        //var content = document.getElementById("showClock");
-        //content.innerHTML = nowtime + "您已打卡成功 ! 趕快回家吧 !";
     };
-    //查詢日期、狀態
-    $(".absence").change(function () {
-        var sta = $("#absence_Status").val();
-        var sDate = $("#sDate").val();
-        var eDate = $("#eDate").val();
-        console.log(sDate + "/" + eDate );
 
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/date_search",
-            data: { sDate: sDate, eDate: eDate, status: sta },
-            success: function (data) {
-                console.log("a");
-                $("#absence_table").html(data);
-            },
-            error: function (msg) {
-                alert("error:" + msg);
-            }
-        })
-    });
+    function initMap() {
+        var latlng = { lat: 25.033901, lng: 121.543398 }; //初始位置(資策會)
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 17, //放大的倍率
+            center: latlng //初始化的地圖中心位置
+        });
 
-    //重新查詢
-    $("#btn_research").click( function () {
+        var markerCompany = new google.maps.Marker({  //資策會的marker
+            position: latlng,
+            map: map,
+            title: "公司",
+        });
 
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/research",
-            data: { id: @a},
-            success: function (data) {
-                console.log("research");
-                $("#absence_table").html(data);
-            },
-            error: function () {
-                alert("error:" + msg);
-            }
-        })
-    });
+        navigator.geolocation.getCurrentPosition(function (position) { //目前位置
+            var pos = {
+                lat: 25.034901,//position.coords.latitude,
+                lng: 121.5436398,//position.coords.longitude,
+                //icon: "https://impact100.org/wp-content/uploads/2019/05/Blankemeyer-You-Are-Here.jpg",
+            };
+            var marker = new google.maps.Marker({
+                position: pos,
+                map: map,
+                title: "現在位置",
+                //icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg56oId_80MJ8IDojyNWkZ13h6x_xuwRNNcQ&usqp=CAU",
+            });
+        });
 
-    //當日當週當月查詢
-    $("#radioOption").change(function () {
-        var search_dwm = document.querySelector('input[name="options"]:checked').value;
-        console.log(search_dwm);
+        var cityCircle = new google.maps.Circle({
+            strokeColor: "#FF0000",
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: "#FF0000",
+            fillOpacity: 0.35,
+            map,
+            center: map.center,
+            radius: 150
+        });
+        var pos = {
+            lat: 25.034901,//position.coords.latitude,
+            lng: 121.5436398//position.coords.longitude,
+        };
+        var marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+        });
 
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/search_dwm",
-            data: { id: @a , search_dwm: search_dwm},
-            success: function (data) {
-                console.log("research");
-                $("#absence_table").html(data);
-            },
-            error: function () {
-                alert("error:" + msg);
-            }
-        })
-    })
+        const contentString = "<h3>現在位置</h3>";
+        const infoWindow = new google.maps.InfoWindow({
+            content: contentString,
+        });
+        map.setZoom(18);
+        map.setCenter(pos);
+
+        marker.addListener("click", function () {
+            infoWindow.open(map, marker);
+        });
+
+        var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
+
+        var dis = parseFloat(distance);
+
+        if (dis > 150.00) {
+            window.alert("定位超出打卡範圍，無法打卡");
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
 </script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCbAEOezUjyT_Cbg1TRTNCsQOtDm3BJh-Y&callback=initMap&libraries=geometry"
+        type="text/javascript"></script>
