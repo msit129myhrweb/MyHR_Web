@@ -94,34 +94,34 @@
         </section>
         @*官方signalr文件*@
         @*<div class="container">
-                <div class="row">&nbsp;</div>
-                <div class="row">
-                    <div class="col-2">使用者:</div>
-                    <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
-                </div>
-                <div class="row">
-                    <div class="col-2">訊息:</div>
-                    <div class="col-4"><input type="text" id="messageInput" /></div>
-                </div>
-                <div class="row">&nbsp;</div>
-                <div class="row">
-                    <div class="col-6">
-                        <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
-                    </div>
-                </div>
+            <div class="row">&nbsp;</div>
+            <div class="row">
+                <div class="col-2">使用者:</div>
+                <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
             </div>
             <div class="row">
-                <div class="col-12">
-                    <hr />
-                </div>
+                <div class="col-2">訊息:</div>
+                <div class="col-4"><input type="text" id="messageInput" /></div>
             </div>
-            <div class="row bg-white text-dark">
+            <div class="row">&nbsp;</div>
+            <div class="row">
                 <div class="col-6">
-                    <ul id="messagesList"></ul>
+                    <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
                 </div>
             </div>
-            <script src="~/js/signalr/dist/browser/signalr.js"></script>
-            <script src="~/js/chat.js"></script>*@
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
+        </div>
+        <div class="row bg-white text-dark">
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
+        </div>
+        <script src="~/js/signalr/dist/browser/signalr.js"></script>
+        <script src="~/js/chat.js"></script>*@
 
         <div class="container">
             <div class="panel msg_container_base">
@@ -148,6 +148,8 @@
         </div>
         <script src="~/js/signalr/dist/browser/signalr.js"></script>
         <script src="~/js/chat.js"></script>
+       
+       
     </div>
 </body>
 
