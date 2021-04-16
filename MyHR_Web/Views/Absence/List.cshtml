@@ -10,7 +10,6 @@
 }
 
 @model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
-@*@model MyHR_Web.ViewModel.JSONtoViewModel*@
 @{
     ViewData["Title"] = "List";
 }
@@ -51,6 +50,9 @@
             height: 65%;
             width: 58%;
         }
+        #search, #gps {
+            width: 48%;
+        }
     </style>
 </head>
 <div class="content-wrapper">
@@ -71,7 +73,7 @@
             </div>
             <from method="post">
                 <div>
-                    <button onclick="gps()" style="filter: grayscale(50%)" class="btn btn-secondary">地圖打卡</button>&nbsp&nbsp<button onclick="search()" style="filter: grayscale(50%)" class="btn btn-secondary">查詢打卡紀錄</button><br /><br />
+                    <button id="gps" onclick="gps()" style="filter: grayscale(50%)" class="btn btn-info">地圖打卡</button>&nbsp&nbsp<button id="search" onclick="search()" style="filter: grayscale(50%)" class="btn btn-info">查詢打卡紀錄</button><br /><br />
                 </div>
             </from>
             <div style="background-color:white ;padding:20px; border-radius:10px">
@@ -185,27 +187,6 @@
         }
     };
 
-    //查詢日期、狀態 ?
-    $(".absence").change(function () {
-        var sta = $("#absence_Status").val();
-        var sDate = $("#sDate").val();
-        var eDate = $("#eDate").val();
-        console.log(sDate + "/" + eDate );
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/date_search",
-            data: { sDate: sDate, eDate: eDate, status: sta },
-            success: function (data) {
-                console.log("a");
-                $("#selectAndTable").html(data);
-            },
-            error: function (msg) {
-                alert("error:" + msg);
-            }
-        })
-    });
 
     //返回查詢頁面、重新查詢、判斷昨天是否有打卡
     function search(){
@@ -243,25 +224,6 @@
         console.log(ysd);
     };
 
-    //當日當週當月查詢
-    $("#radioOption").change(function () {
-        var search_dwm = document.querySelector('input[name="options"]:checked').value;
-        console.log(search_dwm);
-
-        $.ajax({
-            type: "get",
-            dataType: "html",
-            url: "/Absence/search_dwm",
-            data: { id: @a , search_dwm: search_dwm},
-            success: function (data) {
-                console.log("research");
-                $("#selectAndTable").html(data);
-            },
-            error: function () {
-                alert("error:" + msg);
-            }
-        })
-    })
 
     //非同步顯示地圖
     function gps() {

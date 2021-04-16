@@ -355,7 +355,7 @@ namespace MyHR_Web.Controllers
                 list.Add(avm);
             }
             getCountNum();//取得補登次數
-            return PartialView("date_search",list);
+            return PartialView("Absence_table", list);
         }
 
         public IActionResult research(int id)//回查詢頁面
@@ -438,7 +438,7 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                return PartialView("Absence_table", list);
             }
             else if (search_dwm == "當週")
             {
@@ -463,7 +463,7 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                return PartialView("Absence_table", list);
             }
             else//當月
             {
@@ -486,7 +486,7 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                return PartialView("Absence_table", list);
             }
         }
 
