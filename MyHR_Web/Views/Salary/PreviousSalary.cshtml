@@ -1,136 +1,139 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
+﻿@model IEnumerable<IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>>
+
 @{ ViewData["Title"] = "Salary_Search";
+    var c = Model.Count();
 
-}
+    foreach(var model2 in Model)
+    {
+
+        //foreach(var model3 in model2)
+        //        {
 
 
 
-        <div class="card">
-            <div class="card-header">
-                <table table class="table table-bordered table-hover">
-                    <thead>
+    <div class="card">
+        <div class="card-header">
+            <table table class="table table-bordered table-hover">
+                <thead>
 
-                        <tr style="text-align:center; background-color:tan; font-weight:bold">
+                    <tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                            <th colspan="9">
-                                2021年3月薪資
-                            </th>
+                        <th colspan="9">
+                            2021年3月薪資
+                        </th>
 
-                        </tr>
+                    </tr>
+
+                    <tr style="text-align:center">
+
+                        <th>
+                           部門名稱
+                        </th>
+                        <th>
+                           員工姓名
+                        </th>
+                        <th>
+                           職稱
+                        </th>
+                        <th>
+                           底薪
+                        </th>
+                        <th>
+                            差旅費
+                        </th>
+                        <th>
+                            遲到扣款
+                        </th>
+                        <th>
+                            請假扣款
+                        </th>
+                        <th>
+                            薪資
+                        </th>
+                        <th>
+                            詳細資料
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+
+                    @foreach (var item in model2)
+                    {
 
                         <tr style="text-align:center">
+                            <td>
+                                <div class="icheck-primary">
 
-                            <th>
-                                @Html.DisplayNameFor(model => model.CDepartment)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CEmployeeName)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.CJobTitle)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Month_Salary)
-                            </th>
-                            <th>
-                                差旅費
-                            </th>
-                            <th>
-                                遲到扣款
-                            </th>
-                            <th>
-                                請假扣款
-                            </th>
-                            <th>
-                                薪資
-                            </th>
-                            <th>
-                                詳細資料
-                            </th>
+                                    @item.CDepartment
+                                </div>
+
+                            </td>
+                            <td class="NAME">
+                                @item.CEmployeeName
+                            </td>
+                            @*@{
+                                string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                string Travel = item.CDepartmentId.ToString() + "Travel";
+                                string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                string LLeave = item.CDepartmentId.ToString() + "LLeave";
+                                //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
+                            }*@
+
+                        <td>
+                            @item.CJobTitle
+                        </td>
+                        <td>
+                            @item.Month_Salary
+                        </td>
+
+                        <td>
+                            @item.CAmont_Travel
+                        </td>
+
+                        <td>
+                            @item.CAmont_TAbsense
+                        </td>
+
+                        <td>
+                            @item.CAmont_Leave
+                        </td>
+                        <td>
+                            @item.CSalary_Total
+                        </td>
+
+                          
                         </tr>
-                    </thead>
-                    <tbody>
+                    }
 
 
-                        @foreach (var item in Model)
-                        {
+                    @*<tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                            <tr style="text-align:center">
-                                <td>
-                                    <div class="icheck-primary">
+                            <td colspan="3">
+                                部門總計:
+                            </td>
 
-                                        @Html.DisplayFor(modelItem => item.CDepartment)
-                                    </div>
+                            @{ string dep = "Month_Salary";
+                                string travel = "Travel";
+                                string late = "Tabsense";
+                                string leave = "LLeave";
+                                string toltal = "toltal";
 
-                                </td>
-                                <td class="NAME">
-                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                </td>
-                                @{
-                                    string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                    string Travel = item.CDepartmentId.ToString() + "Travel";
-                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                    string LLeave = item.CDepartmentId.ToString() + "LLeave";
-                                    //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
-                                }
+                            }
 
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CJobTitle)
-                                </td>
+                            <td id="@dep"></td>
+                            <td id="@travel"></td>
+                            <td id="@late" class="subCate"></td>
+                            <td id="@leave" class="subCate"></td>
+                            <td colspan="2" id="toltal">000000</td>
+
+                        </tr>*@
 
 
-
-                                <td class="@Month_Salary JobTitle_Salary">
-                                    @Html.DisplayFor(modelItem => item.Month_Salary)
-                                </td>
-
-                                <td class="@Travel JobTitle_Travel">
-                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                </td>
-
-                                <td class="@Tabsense JobTitle_TAbsense subCate">
-                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                </td>
-
-                                <td class="@LLeave JobTitle_Leave subCate">
-                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
-                                </td>
-                                <td class="DETAIL">
-                                    @Html.DisplayFor(modelItem => item.CSalary_Total)
-                                </td>
-
-                                <td>
-                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
-
-                                </td>
-                            </tr>
-                        }
-
-
-                        @*<tr style="text-align:center; background-color:tan; font-weight:bold">
-
-                                <td colspan="3">
-                                    部門總計:
-                                </td>
-
-                                @{ string dep = "Month_Salary";
-                                    string travel = "Travel";
-                                    string late = "Tabsense";
-                                    string leave = "LLeave";
-                                    string toltal = "toltal";
-
-                                }
-
-                                <td id="@dep"></td>
-                                <td id="@travel"></td>
-                                <td id="@late" class="subCate"></td>
-                                <td id="@leave" class="subCate"></td>
-                                <td colspan="2" id="toltal">000000</td>
-
-                            </tr>*@
-
-
-                    </tbody>
-                </table>
-            </div>
+                </tbody>
+            </table>
         </div>
+    </div>
+                                    }
+                                
+}
