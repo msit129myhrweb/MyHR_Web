@@ -1,348 +1,136 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
-<div class="content-wrapper">
-    <section class="content-header">
+@{ ViewData["Title"] = "Salary_Search";
 
-
-        <header>
-            <style>
-                .row {
-                    display: flex;
-                    flex-wrap: wrap;
-                }
-
-                .col {
-                    flex-grow: 1;
-                    margin: 10px;
-                    text-align: center;
-                    font-size: 20px;
-                    font-family: 微軟正黑體;
-                    font-weight: normal;
-                }
-
-                h2 {
-                    background-color: #cbb2ae;
-                    border-left: 5px solid #808080;
-                    font-family: "微软雅黑", "宋体", "黑体", Arial;
-                    font-size: 25px;
-                    height: 80px;
-                    line-height: 80px;
-                    font-weight: bold;
-                    text-shadow: 2px 2px 3px #222222;
-                    color: #FFFFFF;
-                    padding-left: 10px;
-                }
+}
 
 
 
-                * {
-                    box-sizing: border-box;
-                }
+        <div class="card">
+            <div class="card-header">
+                <table table class="table table-bordered table-hover">
+                    <thead>
 
-                body {
-                    font-family: 'Open Sans',Arial, Helvetica, sans-serif;
-                    margin: 0;
-                    padding: 0 0 50px;
-                    color: #333;
-                    font-size: 14px;
-                    background-color: #fafafa;
-                }
+                        <tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                p {
-                    margin: 0;
-                }
+                            <th colspan="9">
+                                2021年3月薪資
+                            </th>
 
-                pre {
-                    padding: 20px 20px 0 0;
-                    background: #f9f9f9;
-                    border: 1px solid #f2f2f2;
-                    margin-bottom: 30px;
-                    line-height: 2em;
-                }
+                        </tr>
 
-                .top {
-                    background-color: #333;
-                    border-bottom: 3px solid #00b3bc;
-                    color: #fff;
-                    padding: 20px;
-                }
+                        <tr style="text-align:center">
 
-                    .top h1 {
-                        font-size: 20px;
-                        text-align: center;
-                    }
+                            <th>
+                                @Html.DisplayNameFor(model => model.CDepartment)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CEmployeeName)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CJobTitle)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Month_Salary)
+                            </th>
+                            <th>
+                                差旅費
+                            </th>
+                            <th>
+                                遲到扣款
+                            </th>
+                            <th>
+                                請假扣款
+                            </th>
+                            <th>
+                                薪資
+                            </th>
+                            <th>
+                                詳細資料
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
 
-                .container {
-                    width: 80%;
-                    margin: 70px auto;
-                }
 
-                .slider-container {
-                    width: 90%;
-                    max-width: 500px;
-                    margin: 0 auto 50px;
-                }
+                        @foreach (var item in Model)
+                        {
 
-                .config {
-                    border: 1px solid #f2f2f2;
-                    margin-bottom: 30px;
-                    line-height: 1.7em;
-                }
+                            <tr style="text-align:center">
+                                <td>
+                                    <div class="icheck-primary">
 
-                    .config table {
-                        border-collapse: collapse;
-                        width: 100%;
-                    }
+                                        @Html.DisplayFor(modelItem => item.CDepartment)
+                                    </div>
 
-                        .config table td {
-                            padding: 10px;
-                            border-bottom: 1px solid #f2f2f2;
+                                </td>
+                                <td class="NAME">
+                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                </td>
+                                @{
+                                    string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                    string Travel = item.CDepartmentId.ToString() + "Travel";
+                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                    string LLeave = item.CDepartmentId.ToString() + "LLeave";
+                                    //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
+                                }
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CJobTitle)
+                                </td>
+
+
+
+                                <td class="@Month_Salary JobTitle_Salary">
+                                    @Html.DisplayFor(modelItem => item.Month_Salary)
+                                </td>
+
+                                <td class="@Travel JobTitle_Travel">
+                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                </td>
+
+                                <td class="@Tabsense JobTitle_TAbsense subCate">
+                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                </td>
+
+                                <td class="@LLeave JobTitle_Leave subCate">
+                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
+                                </td>
+                                <td class="DETAIL">
+                                    @Html.DisplayFor(modelItem => item.CSalary_Total)
+                                </td>
+
+                                <td>
+                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+
+                                </td>
+                            </tr>
                         }
 
-                        .config table tr:nth-child(even) td {
-                            background-color: #f9f9f9;
-                        }
 
-                .mb {
-                    margin-bottom: 15px;
-                }
+                        @*<tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                .label {
-                    font-weight: bold;
-                    white-space: nowrap;
-                }
+                                <td colspan="3">
+                                    部門總計:
+                                </td>
 
-                .download {
-                    margin-bottom: 20px;
-                }
+                                @{ string dep = "Month_Salary";
+                                    string travel = "Travel";
+                                    string late = "Tabsense";
+                                    string leave = "LLeave";
+                                    string toltal = "toltal";
 
-                    .download a {
-                        text-decoration: none;
-                        color: #00969b;
-                        font-size: 16px;
-                    }
-            </style>
+                                }
 
-            <link href="~/css/rSlider.min.css" rel="stylesheet" />
-            <script src="~/js/rSlider.min.js"></script>
+                                <td id="@dep"></td>
+                                <td id="@travel"></td>
+                                <td id="@late" class="subCate"></td>
+                                <td id="@leave" class="subCate"></td>
+                                <td colspan="2" id="toltal">000000</td>
 
-        </header>
-        <link rel="stylesheet" href="css/rSlider.min.css">
-
-        <h2>薪水查詢分析</h2>
+                            </tr>*@
 
 
-        <div class="container">
-
-
-
-            <div class="slider-container">
-                <div class="slider-container">
-                    <input type="text" id="slider" class="slider" />
-                </div>
+                    </tbody>
+                </table>
             </div>
-
         </div>
-
-
-
-
-
-
-        <div id="Salary_table">
-
-            @{ var Dept = Model.Select(c => c.CDepartmentId).Distinct().ToList();
-                for (int i = 1; i < Dept.Count + 1; i++)
-                {
-                    <div class="card">
-                        <div class="card-header">
-                            <table table class="table table-bordered table-hover">
-                                <thead>
-                                    <tr style="text-align:center">
-                                        @{ string checkbox = i + "checkbox-toggle";
-
-
-                                        }
-
-                                        <th>
-                                            <button type="button" class="@checkbox btn btn-default btn-sm">
-                                                <i class="far fa-square"></i>
-                                            </button>
-                                            @Html.DisplayNameFor(model => model.CDepartment)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CEmployeeName)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.CJobTitle)
-                                        </th>
-                                        <th>
-                                            @Html.DisplayNameFor(model => model.Month_Salary)
-                                        </th>
-                                        <th>
-                                            差旅費
-                                        </th>
-                                        <th>
-                                            遲到扣款
-                                        </th>
-                                        <th>
-                                            請假扣款
-                                        </th>
-                                        <th>
-                                            詳細資料
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    @foreach (var item in Model)
-                                    {
-                                       
-                                            string CHECKBOX = item.CDepartmentId.ToString() + "CHECKBOX"; //部分群組勾選
-
-                                            <tr style="text-align:center">
-                                                <td>
-                                                    <div class="@CHECKBOX icheck-primary">
-                                                        <input type="checkbox" value="@item.CEmployeeId" name="Checkbox[]" id="check1">
-                                                        <label for="check1"></label>
-                                                        @Html.DisplayFor(modelItem => item.CDepartment)
-                                                    </div>
-
-                                                </td>
-
-                                                <td id="NAME">
-                                                    @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => item.CJobTitle)
-                                                </td>
-
-                                                @{ string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                                    string Travel = item.CDepartmentId.ToString() + "Travel";
-                                                    string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                                    string LLeave = item.CDepartmentId.ToString() + "LLeave"; }
-
-
-                                                <td class="@Month_Salary">
-                                                    @Html.DisplayFor(modelItem => item.Month_Salary)
-                                                </td>
-
-                                                <td class="@Travel">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                                </td>
-
-                                                <td class="@Tabsense subCate">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                                </td>
-
-                                                <td class="@LLeave subCate">
-                                                    @Html.DisplayFor(modelItem => item.CAmont_Leave)
-
-                                                </td>
-
-
-                                                <td>
-                                                    @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
-                                                </td>
-                                            </tr>
-                                        
-                                    }
-                                    <tr style="text-align:center; background-color:tan; font-weight:bold">
-
-                                        <td colspan="3">
-                                            部門總計:
-                                        </td>
-
-                                        @{ string dep = i + "Month_Salary";
-                                            string travel = i + "Travel";
-                                            string late = i + "Tabsense";
-                                            string leave = i + "LLeave";
-                                            string toltal = i + "toltal";
-                                        }
-
-                                        <td id="@dep"></td>
-                                        <td id="@travel"></td>
-                                        <td id="@late" class="subCate"></td>
-                                        <td id="@leave" class="subCate"></td>
-                                        <td id="@toltal">000000</td>
-
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> } }
-
-
-
-
-
-        </div>
-
-
-
-
-
-    </section>
-</div>
-
-
-
-
-
-
-
-<script>
-    (function () {
-        'use strict';
-
-        var init = function () {
-
-            var slider2 = new rSlider({
-                target: '#slider2',
-                values: [0, 1, 2, 3, 4, 5, 6, '7', 8],
-                range: false,
-                set: [5],
-                tooltip: false,
-                onChange: function (vals) {
-                    console.log(vals);
-                }
-            });
-
-            var slider3 = new rSlider({
-                target: '#slider3',
-                values: { min: 0, max: 100 },
-                step: 10,
-                range: true,
-                set: [10, 40],
-                scale: true,
-                labels: false,
-                onChange: function (vals) {
-                    console.log(vals);
-                }
-            });
-
-            var slider = new rSlider({
-                target: '#slider',
-                values: [2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015],
-                range: true,
-                set: [2010, 2013],
-                onChange: function (vals) {
-                    console.log(vals);
-                }
-            });
-        };
-        window.onload = init;
-    })();
-</script>
-<script>
-    (function (i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-            (i[r].q = i[r].q || []).push(arguments)
-        }, i[r].l = 1 * new Date(); a = s.createElement(o),
-            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-    ga('create', 'UA-46156385-1', 'cssscript.com');
-    ga('send', 'pageview');
-
-</script>

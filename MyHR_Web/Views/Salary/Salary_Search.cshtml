@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<MyHR_Web.ViewModel.CSalaryViewModel>
 @{ ViewData["Title"] = "Salary_Search";
 
-  }
+}
 
 <div class="content-wrapper">
     <section class="content-header">
@@ -92,11 +92,10 @@
                             <label class="col-md-6 col-md-offset-3 control-label" style="text-align:center">年分 :</label>
 
                             <select class="Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_Year">
-                                <option value="" disabled selected>請選擇</option>
-                                <option>2018</option>
-                                <option>2019</option>
-                                <option>2020</option>
                                 <option>2021</option>
+                                <option>2020</option>
+                                <option>2019</option>
+                                <option>2018</option>
                             </select>
                         </div>
 
@@ -147,11 +146,11 @@
                         <div class="card-header" style="background-color:#397984">
                             <h3 class="card-title">各部門薪水分析</h3>
 
-                            <div class="card-tools" style="font-size:15px;">
+                            @*<div class="card-tools" style="font-size:15px;">
                                 <button type="button" class="btn btn-tool" data-card-widget="collapse">
                                     <i class="fas fa-minus"></i>
                                 </button>
-                            </div>
+                            </div>*@
                         </div>
                         <div class="card-body">
                             <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
@@ -177,131 +176,131 @@
                 {
                     <div class="card">
                         <div class="card-header">
-                                        <table table class="table table-bordered table-hover">
-                                            <thead>
+                            <table table class="table table-bordered table-hover">
+                                <thead>
 
-                                                    <tr style="text-align:center; background-color:tan; font-weight:bold">
+                                    <tr style="text-align:center; background-color:tan; font-weight:bold">
 
-                                                    <th colspan="9">
-                                                        2021年3月薪資
-                                                    </th>
+                                        <th colspan="9">
+                                            2021年3月薪資
+                                        </th>
 
-                                                </tr>
+                                    </tr>
 
-                                                            <tr style="text-align:center">
-                                                           
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.CDepartment)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.CEmployeeName)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.CJobTitle)
-                                                                </th>
-                                                                <th>
-                                                                    @Html.DisplayNameFor(model => model.Month_Salary)
-                                                                </th>
-                                                                <th>
-                                                                    差旅費
-                                                                </th>
-                                                                <th>
-                                                                    遲到扣款
-                                                                </th>
-                                                                <th>
-                                                                    請假扣款
-                                                                </th>
-                                                                <th>
-                                                                    薪資
-                                                                </th>
-                                                                <th>
-                                                                    詳細資料
-                                                                </th>
-                                                            </tr>
-                                            </thead>
-                                            <tbody>
+                                    <tr style="text-align:center">
 
-                                            
-                                                @foreach (var item in Model)
-                                                {
-                                                   
-                                                    <tr style="text-align:center">
-                                                        <td>
-                                                            <div class="icheck-primary">
-                                                               
-                                                                @Html.DisplayFor(modelItem => item.CDepartment)
-                                                            </div>
-
-                                                        </td>
-                                                        <td class="NAME">
-                                                            @Html.DisplayFor(modelItem => item.CEmployeeName)
-                                                        </td>
-                                                        @{
-                                                            string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
-                                                            string Travel = item.CDepartmentId.ToString() + "Travel";
-                                                            string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
-                                                            string LLeave = item.CDepartmentId.ToString() + "LLeave";
-                                                            //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
-                                                        }
-
-                                                        <td>
-                                                            @Html.DisplayFor(modelItem => item.CJobTitle)
-                                                        </td>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CDepartment)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CEmployeeName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.CJobTitle)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Month_Salary)
+                                        </th>
+                                        <th>
+                                            差旅費
+                                        </th>
+                                        <th>
+                                            遲到扣款
+                                        </th>
+                                        <th>
+                                            請假扣款
+                                        </th>
+                                        <th>
+                                            薪資
+                                        </th>
+                                        <th>
+                                            詳細資料
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
 
+                                    @foreach (var item in Model)
+                                    {
 
-                                                        <td class="@Month_Salary JobTitle_Salary">
-                                                            @Html.DisplayFor(modelItem => item.Month_Salary)
-                                                        </td>
+                                        <tr style="text-align:center">
+                                            <td>
+                                                <div class="icheck-primary">
 
-                                                        <td class="@Travel JobTitle_Travel">
-                                                            @Html.DisplayFor(modelItem => item.CAmont_Travel)
-                                                        </td>
+                                                    @Html.DisplayFor(modelItem => item.CDepartment)
+                                                </div>
 
-                                                        <td class="@Tabsense JobTitle_TAbsense subCate">
-                                                            @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
-                                                        </td>
+                                            </td>
+                                            <td class="NAME">
+                                                @Html.DisplayFor(modelItem => item.CEmployeeName)
+                                            </td>
+                                            @{
+                                                string Month_Salary = item.CDepartmentId.ToString() + "Month_Salary";    //動態給予Class
+                                                string Travel = item.CDepartmentId.ToString() + "Travel";
+                                                string Tabsense = item.CDepartmentId.ToString() + "Tabsense";
+                                                string LLeave = item.CDepartmentId.ToString() + "LLeave";
+                                                //string Jobtitle = item.CJobTitle.ToString() + "Jobtitle";
+                                            }
 
-                                                        <td class="@LLeave JobTitle_Leave subCate">
-                                                            @Html.DisplayFor(modelItem => item.CAmont_Leave)
-                                                        </td>
-                                                        <td class="DETAIL">
-                                                            @Html.DisplayFor(modelItem => item.CSalary_Total)
-                                                        </td>
-
-                                                        <td>
-                                                            @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
-
-                                                        </td>
-                                                    </tr>
-                                                }
-
-
-                                                @*<tr style="text-align:center; background-color:tan; font-weight:bold">
-
-                                                    <td colspan="3">
-                                                        部門總計:
-                                                    </td>
-
-                                                    @{ string dep = "Month_Salary";
-                                                        string travel = "Travel";
-                                                        string late = "Tabsense";
-                                                        string leave = "LLeave";
-                                                        string toltal = "toltal";
-
-                                                    }
-
-                                                    <td id="@dep"></td>
-                                                    <td id="@travel"></td>
-                                                    <td id="@late" class="subCate"></td>
-                                                    <td id="@leave" class="subCate"></td>
-                                                    <td colspan="2" id="toltal">000000</td>
-
-                                                </tr>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.CJobTitle)
+                                            </td>
 
 
-                                            </tbody>
-                                        </table>
+
+                                            <td class="@Month_Salary JobTitle_Salary">
+                                                @Html.DisplayFor(modelItem => item.Month_Salary)
+                                            </td>
+
+                                            <td class="@Travel JobTitle_Travel">
+                                                @Html.DisplayFor(modelItem => item.CAmont_Travel)
+                                            </td>
+
+                                            <td class="@Tabsense JobTitle_TAbsense subCate">
+                                                @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
+                                            </td>
+
+                                            <td class="@LLeave JobTitle_Leave subCate">
+                                                @Html.DisplayFor(modelItem => item.CAmont_Leave)
+                                            </td>
+                                            <td class="DETAIL">
+                                                @Html.DisplayFor(modelItem => item.CSalary_Total)
+                                            </td>
+
+                                            <td>
+                                                @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+
+                                            </td>
+                                        </tr>
+                                    }
+
+
+                                    @*<tr style="text-align:center; background-color:tan; font-weight:bold">
+
+                                            <td colspan="3">
+                                                部門總計:
+                                            </td>
+
+                                            @{ string dep = "Month_Salary";
+                                                string travel = "Travel";
+                                                string late = "Tabsense";
+                                                string leave = "LLeave";
+                                                string toltal = "toltal";
+
+                                            }
+
+                                            <td id="@dep"></td>
+                                            <td id="@travel"></td>
+                                            <td id="@late" class="subCate"></td>
+                                            <td id="@leave" class="subCate"></td>
+                                            <td colspan="2" id="toltal">000000</td>
+
+                                        </tr>*@
+
+
+                                </tbody>
+                            </table>
                         </div>
                     </div> } }
 
@@ -309,8 +308,8 @@
 
 
 
-        </div>     
-        
+        </div>
+
     </section>
 </div>
 
@@ -327,8 +326,8 @@
         //    "display": "initial"
 
         //});
-      
-      //★透過Name屬性取得輸入值
+
+        //★透過Name屬性取得輸入值
         x = $("#Salary_Year").val()
         y = $("#Salary_Month").val()
 
@@ -350,115 +349,52 @@
                 //var Namea = $(".NAME").length;
 
                 //---------------------------------------------------------------------//非同步顯示圖表資料 -- 名子
-        //        $('.NAME').each(function () {
-        //           /* console.log($(this).html().trim());*/
-        //            Name.push($(this).html().trim());
-        //        });
-        //        console.log(Name);
+                //        $('.NAME').each(function () {
+                //           /* console.log($(this).html().trim());*/
+                //            Name.push($(this).html().trim());
+                //        });
+                //        console.log(Name);
 
 
-        //        var DETAIL_ARR = [];
-        //        var Detail = $(".NAME").length;
-        //        console.log(Detail);
-        //        //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
-        //        $('.DETAIL').each(function () {
-        //            /* console.log($(this).html().trim());*/
-        //            DETAIL_ARR.push(parseInt($(this).html().trim()));
-        //        });
+                //        var DETAIL_ARR = [];
+                //        var Detail = $(".NAME").length;
+                //        console.log(Detail);
+                //        //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
+                //        $('.DETAIL').each(function () {
+                //            /* console.log($(this).html().trim());*/
+                //            DETAIL_ARR.push(parseInt($(this).html().trim()));
+                //        });
 
 
 
-        //        let combine_obj = {
-        //            name: Name,
-        //            money: DETAIL_ARR
-        //        }
+                //        let combine_obj = {
+                //            name: Name,
+                //            money: DETAIL_ARR
+                //        }
 
-        //        $.ajax({
-        //            type: "POST",
-        //            contentType: "application/json; charset=utf-8",
+                //        $.ajax({
+                //            type: "POST",
+                //            contentType: "application/json; charset=utf-8",
 
-        //            url: "/Salary/Mutiple_CHARTsearch",
-        //            data: JSON.stringify(combine_obj),
-        //            success: function (data) {
+                //            url: "/Salary/Mutiple_CHARTsearch",
+                //            data: JSON.stringify(combine_obj),
+                //            success: function (data) {
 
-        //                $("#CHART").html(data);
-
-
-        //            },
-        //            error: function (msg) {
-        //                alert("該部門下無此職位員工");
-        //            }
-        //        })
+                //                $("#CHART").html(data);
 
 
+                //            },
+                //            error: function (msg) {
+                //                alert("該部門下無此職位員工");
+                //            }
+                //        })
 
             },
             error: function (msg) {
                 alert("error:" + msg);
             }
-        //})
-
-
-
-
-    });
-
-
-
-
-
-
-
-    //部門總計加總
-
-
-
-    $(function () {   //圖表
-
-
-        var a = $("#1toltal").html();
-        var b = $("#2toltal").html();
-        var c = $("#3toltal").html();
-        var d = $("#4toltal").html();
-        var e = $("#5toltal").html();
-        var f = $("#6toltal").html();
-
-
-        // Get context with jQuery - using jQuery's .get() method.
-        var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
-        var donutData = {
-            labels: [
-                '管理部',
-                '企劃部',
-                '研發部',
-                '資訊部',
-                '總務部',
-                '財會部',
-            ],
-            datasets: [
-                {
-                    data: [a, b, c, d, e, f],
-                    backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#ab9828'],
-                }
-            ]
-        }
-        var donutOptions = {
-            maintainAspectRatio: false,
-            responsive: true,
-        }
-        //Create pie or douhnut chart
-        // You can switch between pie and douhnut using the method below.
-        new Chart(donutChartCanvas, {
-            type: 'doughnut',
-            data: donutData,
-            options: donutOptions
-        })
-
-
-
-
-    })
-
+            })
+        });
 
 
 </script>
@@ -467,7 +403,55 @@
 
 
 
+    @*//部門總計加總
 
+
+
+        $(function () {   //圖表
+
+
+            var a = $("#1toltal").html();
+            var b = $("#2toltal").html();
+            var c = $("#3toltal").html();
+            var d = $("#4toltal").html();
+            var e = $("#5toltal").html();
+            var f = $("#6toltal").html();
+
+
+            // Get context with jQuery - using jQuery's .get() method.
+            var donutChartCanvas = $('#donutChart').get(0).getContext('2d')
+            var donutData = {
+                labels: [
+                    '管理部',
+                    '企劃部',
+                    '研發部',
+                    '資訊部',
+                    '總務部',
+                    '財會部',
+                ],
+                datasets: [
+                    {
+                        data: [a, b, c, d, e, f],
+                        backgroundColor: ['#f56954', '#00a65a', '#f39c12', '#00c0ef', '#3c8dbc', '#ab9828'],
+                    }
+                ]
+            }
+            var donutOptions = {
+                maintainAspectRatio: false,
+                responsive: true,
+            }
+            //Create pie or douhnut chart
+            // You can switch between pie and douhnut using the method below.
+            new Chart(donutChartCanvas, {
+                type: 'doughnut',
+                data: donutData,
+                options: donutOptions
+            })
+
+
+
+
+        });*@
 
 
 
