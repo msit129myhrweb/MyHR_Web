@@ -10,7 +10,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Net.Mail;
-
+using System.Net;
+using MyHR_Web.MyClass;
 
 namespace MyCompany_.NetCore_Janna.Controllers
 {
@@ -60,6 +61,118 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 }
             }
         }
+                
+
+
+        public IActionResult Salary_Search()
+        {
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TUserJobTitles.ToList();
+            MyHR.TLeaveApplications.ToList();
+            int MONTH = 3;
+            int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
+
+
+            var table = MyHR.TUsers.Local
+                   .Where(C => C.CEmployeeId == UserID).AsEnumerable()
+                   .Select(c => new CSalaryViewModel
+                   {
+                       CDepartment = c.CDepartment.CDepartment,
+                       CDepartmentId = c.CDepartment.CDepartmentId,
+                       CEmployeeName = c.CEmployeeName,
+                       CEmployeeId = c.CEmployeeId,
+                       CJobTitle = c.CJobTitle.CJobTitle,
+                       Month_Salary = c.CJobTitle.CJobTitleSalary,
+                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == MONTH && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                       CAmont_TAbsense = c.TAbsences
+                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
+                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
+                       .Where(p => p.CDate.Value.Month == MONTH && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
+                       CAmont_Leave = Leave_ShouldtopayforSearch(c.CEmployeeId, 3)
+
+                   }).ToList();
+
+            foreach (var item in table)
+            {
+                item.CSalary_Total = item.Month_Salary + item.CAmont_Travel - item.CAmont_TAbsense - item.CAmont_Leave;
+            }
+
+
+            return View(table);
+
+        }
+
+
+        public IActionResult PreviousSalary(int? YEAR, int? MONTH)
+        {
+
+          
+            if(YEAR!=null)
+            {
+                YEAR = YEAR;
+            }
+            else
+            {
+                YEAR = 2021;
+            }
+            
+         
+
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TUserJobTitles.ToList();
+            MyHR.TLeaveApplications.ToList();
+
+            int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
+
+            
+
+            var table = (MyHR.TUsers.Local
+                   .Where(C =>  C.CEmployeeId == UserID).AsEnumerable()
+                   .Select(c => new CSalaryViewModel
+                   {
+                       CDepartment = c.CDepartment.CDepartment,
+                       CDepartmentId = c.CDepartment.CDepartmentId,
+                       CEmployeeName = c.CEmployeeName,
+                       CEmployeeId = c.CEmployeeId,
+                       CJobTitle = c.CJobTitle.CJobTitle,
+                       Month_Salary = c.CJobTitle.CJobTitleSalary,
+                       CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Year == YEAR && (MONTH !=null? c.CTravelStartTime.Value.Month == MONTH : true) && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                       CAmont_TAbsense = c.TAbsences
+                       .Where(p => p.CDate.Value.Year == YEAR && (MONTH !=null? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
+                       .Where(p => p.CDate.Value.Year == YEAR && (MONTH != null ? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
+                       .Where(p => p.CDate.Value.Year == YEAR && (MONTH != null ? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
+                       .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
+                       CAmont_Leave = Leave_ShouldtopayforSearch(c.CEmployeeId, (int)MONTH)
+
+                   })).ToList();
+
+            foreach (var item in table)
+            {
+                item.CSalary_Total = item.Month_Salary + item.CAmont_Travel - item.CAmont_TAbsense - item.CAmont_Leave;
+            }
+
+
+            //var Dept = MyHR.TUserDepartments.Distinct().ToList();  //傳送部門下拉是選單
+            //ViewBag.DEPT = Dept;
+            //var JobTitle = MyHR.TUserJobTitles.Distinct().ToList(); //傳送職位下拉是選單
+            //ViewBag.JOBTITLE = JobTitle;
+
+            return PartialView("PreviousSalary", table);
+
+        }  //月薪AJAX查詢圖
+
+
 
         public IActionResult SalaryList() //薪資單 (一般員工檢視) 檢視上個月
         {
@@ -306,8 +419,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
             return View(table.ToList());
         }
 
-
-
         public int Leave_ShouldtopayTRYYYYYY(int id)
         {
             int Leave_Sum = 0;
@@ -336,7 +447,41 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             return Leave_Sum;
-        }
+        }  //方法: 計算各假別需扣的錢
+
+
+        public int Leave_ShouldtopayforSearch(int id, int month)
+        {
+            int Leave_Sum = 0;
+
+
+            var table_Leave = (from i in MyHR.TLeaveApplications.AsEnumerable()
+                               where i.CEmployeeId == id && DateTime.Parse(i.CLeaveStartTime).Month == month && i.CCheckStatus == 2 //當月
+                               orderby i.CLeaveCategory
+                               group i by i.CLeaveCategory into g
+                               select new
+                               {
+                                   Category = g.Key,
+                                   CategoryCount = g.Sum(n => n.CLeaveHours),
+                               }).ToList();
+
+            List<CSalaryViewModel> T = new List<CSalaryViewModel>();
+
+            foreach (var item in table_Leave)
+            {
+
+
+                int Leave_HaveToPay = Leave_Shouldtopay(item.Category, (int)item.CategoryCount); //各個假別要付的錢
+
+                Leave_Sum += Leave_HaveToPay;
+            }
+
+
+            return Leave_Sum;
+        }  //方法: 計算各假別需扣的錢
+
+
+       
 
 
         public int Leave_Shouldtopay(int LeaveCate, int LeaveHours)  //計算各個假別必須扣除的總數
@@ -534,29 +679,34 @@ namespace MyCompany_.NetCore_Janna.Controllers
         [HttpPost]
         public IActionResult Mutiple_CHARTsearch([FromBody] SalaryChar_Json x)   //回傳動態Chart.js
         {
-            List<SalaryChar_Json> list = new List<SalaryChar_Json>();
-
-            SalaryChar_Json obj = new SalaryChar_Json()
+            if (x.money.Count != 0)
             {
-                
-                money = x.money,
-                name=x.name,
-               
+                List<SalaryChar_Json> list = new List<SalaryChar_Json>();
 
-            };
-            list.Add(obj);
-            return PartialView("Mutiple_CHARTsearch",list);
+                SalaryChar_Json obj = new SalaryChar_Json()
+                {
+
+                    money = x.money,
+                    name = x.name,
+
+
+                };
+                list.Add(obj);
+                return PartialView("Mutiple_CHARTsearch", list);
+            }
+            else
+            {
+
+                return StatusCode(500);
+
+            }
+
+
 
         }
 
 
-        //public JsonResult Mutiple_CHARTsearchf(string Labs, string Datas)
-        //{
-           
-
-        //}
-
-
+   
         public IActionResult Mail_Click(string ID)
         {
             string a = ID;
@@ -616,6 +766,8 @@ namespace MyCompany_.NetCore_Janna.Controllers
                
             }
                return RedirectToAction("SalaryList_supervisor");
-        }
+        } //傳送MAIL
+
+        
     }
 }
