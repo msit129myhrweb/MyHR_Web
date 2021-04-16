@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="~/theme/dist/css/adminlte.min.css">
     <!-- overlayScollarbars -->
     <link href="~/theme/dist/css/adminlte.css" rel="stylesheet" />
+
+    <link href="~/notification/ikr.notification.css" rel="stylesheet" />
 </head>
 <body class="hold-transition sidebar-mini">
 
@@ -39,6 +41,7 @@
                     <a class="nav-link" href="/Calendar/Calendar" role="button"><i class="far fa-calendar-alt"></i> Calendar</a>
                 </li>
             </ul>
+            <div id="noti_Container"></div>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Navbar Search -->
@@ -162,7 +165,7 @@
         <aside class="main-sidebar sidebar-dark-primary elevation-4" style="position:fixed">
             <!-- Brand Logo -->
             <a href="/Home/Index" class="brand-link">
-                <img src="~/theme/imgs/Piggg.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-7" style="opacity: .8">
+                <img src="~/images/company.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-7" style="opacity: .8">
                 <span class="brand-text font-weight-light">Hello@WORK</span>
             </a>
 
@@ -189,29 +192,29 @@
 
                         @if (login_ureid == 1)
                         {@*員工管理*@
-                                        <li class="nav-item">
-                                            <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
-                                                <i class="fas fa-user-cog"></i>
-                                                <p>
-                                                    員工系統/查詢
-                                                </p>
-                                            </a>
-                                            @*<ul class="nav nav-treeview">
-                                                    <li class="nav-item">
-                                                        <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
-                                                            <i class="far fa-circle nav-icon"></i>
-                                                            <p>註冊新員工</p>
-                                                        </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
-                                                            <i class="far fa-circle nav-icon"></i>
-                                                            <p>員工清單</p>
-                                                        </a>
-                                                    </li>
-                                                </ul>*@
-                                        </li>
- } @*打卡*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                                <i class="fas fa-user-cog"></i>
+                                <p>
+                                    員工系統/查詢
+                                </p>
+                            </a>
+                            @*<ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>註冊新員工</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>員工清單</p>
+                                        </a>
+                                    </li>
+                                </ul>*@
+                        </li>
+                    } @*打卡*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Absence" asp-action="List" class="nav-link">
                                 <i class="fas fa-clock"></i>
@@ -221,30 +224,30 @@
                         @*簽核*@
                         @{ if (jobTitle < 3)
                             {
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="fas fa-file-signature"></i>
-                        <p>
-                            簽核
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="LeaveApplication" asp-action="List" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>請假審核</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Travel_Expense_Application" asp-action="List" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>出差審核</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
- } }
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link">
+                                        <i class="fas fa-file-signature"></i>
+                                        <p>
+                                            簽核
+                                            <i class="right fas fa-angle-left"></i>
+                                        </p>
+                                    </a>
+                                    <ul class="nav nav-treeview">
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="LeaveApplication" asp-action="List" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>請假審核</p>
+                                            </a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a asp-area="" asp-controller="Travel_Expense_Application" asp-action="List" class="nav-link">
+                                                <i class="far fa-circle nav-icon"></i>
+                                                <p>出差審核</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            } }
                         @*報修*@
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Repair" asp-action="RepairList" class="nav-link">
@@ -312,11 +315,11 @@
 
                         @{ if (login_ureid == 7)
                             {
-                @: <li class="nav-item">
-                    <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
-                        <i class="fas fa-money-bill-alt"></i>
-                        <p>薪資系統/FOR總務主管</p>
-                    </a> } }
+                                @: <li class="nav-item">
+                                    <a asp-area="" asp-controller="Salary" asp-action="SalaryList_supervisor" class="nav-link">
+                                        <i class="fas fa-money-bill-alt"></i>
+                                        <p>薪資系統/FOR總務主管</p>
+                                    </a> } }
 
                         @*差旅*@
 
@@ -353,26 +356,26 @@
                             @if (login_ureid == 7)
                             {
 
-                <li class="nav-item">
-                    <a asp-area="" asp-controller="PCheckStatus" asp-action="List" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>失物領回</p>
-                    </a>
-                </li>
-}
+                                <li class="nav-item">
+                                    <a asp-area="" asp-controller="PCheckStatus" asp-action="List" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>失物領回</p>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </li>
                     @*powerbi*@
 
                     @if (jobTitle == 1)
                     {
-        <li class="nav-item">
-            <a asp-area="" asp-controller="Powerbi" asp-action="Index" class="nav-link">
-                <i class="fas fa-chart-bar"></i>
-                <p>資料分析</p>
-            </a>
-        </li>
- } @*聊天系統*@
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Powerbi" asp-action="Index" class="nav-link">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>資料分析</p>
+                            </a>
+                        </li>
+                    } @*聊天系統*@
 
                     <li class="nav-item">
                         <a asp-area="" asp-controller="Talk" asp-action="Index" class="nav-link">
@@ -422,6 +425,36 @@
 <!-- AdminLTE for demo purposes -->
 <script src="~/theme/dist/js/demo.js"></script>
 
+<script src="~/notification/ikr.notificationPlugin.js"></script>
+
 @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+<script>
+    $(document).ready(function () {
+        $("#noti_Container").ikrNotificationSetup();
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/Notifications/GetNotifications",
+            traditonal: true,
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                var notifications = data;
+                $("#noti_Container").ikrNotificationCount({
+                    NotificationList: notifications,
+                    NotiFromPropName: "FromUserName",
+                    ListTitlePropName: "NotiHeader",
+                    ListBodyPropName: "NotiBody",
+                    ControllerName: "Notifications",
+                    ActionName: "AllNotifications"
+                });
+            },
+            error: function (xhr, status, error, msg) {
+                alert("error msg" + msg);
+            }
+        })
+    })
+</script>

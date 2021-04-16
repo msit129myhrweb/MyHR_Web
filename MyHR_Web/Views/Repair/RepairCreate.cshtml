@@ -25,6 +25,7 @@
         <h2>新增報修</h2>
 
     </section>
+   
     <hr />
     <section class="content">
         <div class="col-md-9" style="width:70%; margin:0px auto;padding:0px">
@@ -39,39 +40,37 @@
                                 <span asp-validation-for="CRepairNumber" class="text-danger"></span>
                             </div>
                             <div>
-                                <label asp-for="CEmployeeId" class="control-label"></label>
-                                <input   asp-for="CEmployeeId" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERID"]" />                                
+                                <label asp-for="CEmployeeId" class="control-label" id="labCEmployeeId"></label>
+                                <input asp-for="CEmployeeId" class="form-control" readonly="readonly" value="@ViewData["CURRENT_LOGINED_USERID"]" />
                                 <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                             </div>
-                            
-
                             <div>
                                 <label asp-for="CAppleDate" class="control-label"></label>
-                                <input type="date" asp-for="CAppleDate" class="form-control"   />
+                                <input type="date" asp-for="CAppleDate" class="form-control" id="CAppleDate" />
                                 <span asp-validation-for="CAppleDate" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CRepairCategory" class="control-label"></label>
                                 @*<input asp-for="CRepairCategory" class="form-control" />*@
-                            <select asp-for="CRepairCategory" class="form-control" >
-                                <option value="資訊修繕">資訊修繕</option>
-                                <option value="總務修繕">總務修繕</option>
-                            </select>
+                                <select asp-for="CRepairCategory" class="form-control" id="CRepairCategory">
+                                    <option value="資訊修繕">資訊修繕</option>
+                                    <option value="總務修繕">總務修繕</option>
+                                </select>
                                 <span asp-validation-for="CRepairCategory" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CLocation" class="control-label"></label>
-                                <input asp-for="CLocation" class="form-control" />
+                                <input asp-for="CLocation" class="form-control" id="CLocation" />
                                 <span asp-validation-for="CLocation" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CContentofRepair" class="control-label"></label>
-                                <input asp-for="CContentofRepair" class="form-control" />
+                                <input asp-for="CContentofRepair" class="form-control" id="CContentofRepair" />
                                 <span asp-validation-for="CContentofRepair" class="text-danger"></span>
                             </div>
                             <div>
                                 <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" value="@ViewData["CURRENT_LOGINED_PHONE"]" />
+                                <input asp-for="CPhone" class="form-control" value="@ViewData["CURRENT_LOGINED_PHONE"]" id="CPhone" />
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
                             <div style="display:none">
@@ -96,6 +95,20 @@
 
     </section>
 </div>
+<script>
 
+    
+    $("#labCEmployeeId").click(function () {
+        $("#CRepairCategory").val('總務修繕');
+        $("#CLocation").val('201室');
+        $("#CContentofRepair").val('電燈一閃一閃的');
+        $("#CPhone").val('0910710520');
+
+        var dateControl = document.querySelector('input[type="date"]');
+        dateControl.value = '2021-04-23';
+    });
+
+
+</script>
 
 

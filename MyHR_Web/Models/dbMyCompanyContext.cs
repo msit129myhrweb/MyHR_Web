@@ -32,6 +32,7 @@ namespace MyHR_Web.Models
         public virtual DbSet<TLostAndFoundCategory> TLostAndFoundCategories { get; set; }
         public virtual DbSet<TLostAndFoundCheckStatus> TLostAndFoundCheckStatuses { get; set; }
         public virtual DbSet<TLostAndFoundSubject> TLostAndFoundSubjects { get; set; }
+        public virtual DbSet<TNotification> TNotifications { get; set; }
         public virtual DbSet<TRepair> TRepairs { get; set; }
         public virtual DbSet<TTravelExpenseApplication> TTravelExpenseApplications { get; set; }
         public virtual DbSet<TUser> TUsers { get; set; }
@@ -42,6 +43,7 @@ namespace MyHR_Web.Models
         public virtual DbSet<TWuChaOrder> TWuChaOrders { get; set; }
         public virtual DbSet<TWuChaOrderStoreDetail> TWuChaOrderStoreDetails { get; set; }
         public virtual DbSet<TWuChaStore> TWuChaStores { get; set; }
+        public virtual DbSet<ViewNotification> ViewNotifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -193,6 +195,8 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.Description).HasMaxLength(300);
 
+                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
+
                 entity.Property(e => e.End).HasColumnType("datetime");
 
                 entity.Property(e => e.Start).HasColumnType("datetime");
@@ -200,6 +204,12 @@ namespace MyHR_Web.Models
                 entity.Property(e => e.Subject).HasMaxLength(100);
 
                 entity.Property(e => e.ThemeColor).HasMaxLength(10);
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.TEvents)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tEvents_tUser");
             });
 
             modelBuilder.Entity<TInterView>(entity =>
@@ -545,6 +555,15 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(15)
                     .HasColumnName("cPropertySubject");
+            });
+
+            modelBuilder.Entity<TNotification>(entity =>
+            {
+                entity.HasKey(e => e.NotiId);
+
+                entity.ToTable("tNotification");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<TRepair>(entity =>
@@ -893,6 +912,19 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(10)
                     .HasColumnName("cStoreName");
+            });
+
+            modelBuilder.Entity<ViewNotification>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToView("View_Notification");
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.FromUserName).HasMaxLength(20);
+
+                entity.Property(e => e.ToUserName).HasMaxLength(20);
             });
 
             OnModelCreatingPartial(modelBuilder);

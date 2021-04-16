@@ -1,10 +1,8 @@
 ﻿@*@model IEnumerable<MyHR_Web.Models.TEvent>;
     @{var events = (IEnumerable<MyHR_Web.Models.TEvent>)ViewData["TEvent"]; }*@
+@{var userid=ViewData["userId"];}
 
-
-@{
-    ViewBag.Title = "Calender";
-}
+@{ ViewBag.Title = "Calender"; }
 <style>
     #h2 {
         background-color: #cbb2ae;
@@ -50,7 +48,7 @@
                             </div>
                             <div class="modal-body">
                                 <button id="btnDelete" class="btn btn-default btn-sm pull-right">
-                                    <span class="glyphicon glyphicon-remove"  data-dismiss="modal"></span> 刪除
+                                    <span class="glyphicon glyphicon-remove" data-dismiss="modal"></span> 刪除
                                 </button>
                                 <button id="btnEdit" class="btn btn-default btn-sm pull-right" style="margin-right:5px;">
                                     <span class="glyphicon glyphicon-pencil"></span> 編輯
@@ -75,9 +73,10 @@
                             <div class="modal-body">
                                 <form class="col-md-12 form-horizontal">
                                     <input type="hidden" id="hdEventID" value="0" />
+                                    <input type="hidden" id="EmployeeId" value="@userid" />
                                     <div class="form-group">
                                         <label>標題</label>
-                                        <input type="text" id="txtSubject" class="form-control" />
+                                        <input type="text" id="txtSubject" class="form-control" autocomplete="off" />
                                     </div>
                                     <div class="form-group">
                                         <label>開始時間</label>
@@ -147,11 +146,13 @@
                         $.each(data, function (i, v) {
                             events.push({
                                 eventID: data[i].eventId,
+                                employeeId: data[i].employeeId,
                                 title: data[i].subject,
                                 subject: data[i].subject,
                                 description: data[i].description,
                                 start: moment(data[i].start),
-                                end: data[i].end != null ? moment(data[i].end) : null,
+                                end: data[i].end != null ? moment(data[i]) : null,
+
                                 color: data[i].themeColor,
                                 allDay: data[i].isFullDay,
                             });
@@ -170,9 +171,10 @@
             function GenerateCalender(events) {
                 $('#calender').fullCalendar('destroy');
                 $('#calender').fullCalendar({
-                    contentHeight: 400,
+                    contentHeight: 500,
                     defaultDate: new Date(),
                     timeFormat: 'h(:mm)a',
+
                     header: {
                         left: 'prev,next today',
                         center: 'title',
@@ -181,14 +183,14 @@
                     hiddenDays: [6, 0],
                     contentHeight: "auto",
                     eventLimit: true,
-                    eventColor: '#3787d8', //'#378006',  
-                    
+                    eventColor: '#3787d8', //'#378006',
+
                     events: '/Calendar/GetEvents',
                     eventClick: function (calEvent, jsEvent, view) { //點開出現的內容
                         selectedEvent = calEvent;
                         $('#myModal #eventTitle').text(calEvent.subject);
                         //$('#fc-title').text(calEvent.subject);
-                        
+
                         var $description = $('<div/>');
                         $description.append($('<p/>').html('<b>Start:</b>' + calEvent.start.format("MM-DD-YYYY HH:mm a")));
                         if (calEvent.end != null) {
@@ -225,6 +227,7 @@
                     eventDrop: function (event) {
                         var data = {
                             'EventId': event.EventId,
+                            'EmployeeId': event.EmployeeId,
                             'Subject': event.Subject,
                             'Start': event.Start.format('MM/DD/YYYY HH:mm A'),
                             'End': event.End != null ? event.End.format('MM/DD/YYYY HH:mm A') : null,
@@ -326,6 +329,7 @@
 
                     var data = {
                         'EventId': $('#hdEventID').val(),
+                        'EmployeeId': $('#EmployeeId').val(),
                         'Subject': $('#txtSubject').val().trim(),
                         'Start': $('#txtStart').val().trim(),
                         'End': $('#chkIsFullDay').is(':checked') ? null : $('#txtEnd').val().trim(),
