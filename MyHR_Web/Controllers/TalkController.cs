@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using MyHR_Web.Models;
+using prjCoreDemo.ViewModel;
+using System.IO;
+using System.Linq;
 
 namespace MyHR_Web.Controllers
 {
@@ -8,5 +13,6 @@ namespace MyHR_Web.Controllers
         {
             return View();
         }
+      
     }
 }
