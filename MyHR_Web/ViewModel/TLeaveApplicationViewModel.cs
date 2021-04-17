@@ -88,6 +88,18 @@ namespace MyHR_Web.ViewModel
 
         public string employeeName { get{return iv_User.CEmployeeName ; } set{iv_User.CEmployeeName=value ; }}
 
+
+
+        public int Leave_Specil { get; set; }
+
+        public string Gender { get; set; }
+
+        public int Category { get; set; }
+
+        public int CategoryCount { get; set; }
+
+        public List<TLeaveApplicationViewModel> NONO { get; set; }
+
     }
 
 

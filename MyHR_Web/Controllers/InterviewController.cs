@@ -60,7 +60,7 @@ namespace MyHR_Web.Controllers
                 if (table != null)
                 {
                     table.CInterVieweeName = I.CInterVieweeName;
-
+                    table.CInterViewStatusId = I.CInterViewStatusId;
                     myHR.SaveChanges();
                 }
             }

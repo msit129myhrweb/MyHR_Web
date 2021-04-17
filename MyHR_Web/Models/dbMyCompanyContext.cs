@@ -43,7 +43,7 @@ namespace MyHR_Web.Models
         public virtual DbSet<TWuChaOrder> TWuChaOrders { get; set; }
         public virtual DbSet<TWuChaOrderStoreDetail> TWuChaOrderStoreDetails { get; set; }
         public virtual DbSet<TWuChaStore> TWuChaStores { get; set; }
-        public virtual DbSet<ViewTNotification> ViewTNotifications { get; set; }
+        public virtual DbSet<ViewNotification> ViewNotifications { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -559,29 +559,11 @@ namespace MyHR_Web.Models
 
             modelBuilder.Entity<TNotification>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.NotiId);
 
                 entity.ToTable("tNotification");
 
-                entity.Property(e => e.CCreateDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("cCreateDate");
-
-                entity.Property(e => e.CFromUserId).HasColumnName("cFromUserId");
-
-                entity.Property(e => e.CIsRead).HasColumnName("cIsRead");
-
-                entity.Property(e => e.CNotiBody).HasColumnName("cNotiBody");
-
-                entity.Property(e => e.CNotiHeader).HasColumnName("cNotiHeader");
-
-                entity.Property(e => e.CNotiId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("cNotiId");
-
-                entity.Property(e => e.CToUserId).HasColumnName("cToUserId");
-
-                entity.Property(e => e.CUrl).HasColumnName("cUrl");
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
             });
 
             modelBuilder.Entity<TRepair>(entity =>
@@ -932,29 +914,13 @@ namespace MyHR_Web.Models
                     .HasColumnName("cStoreName");
             });
 
-            modelBuilder.Entity<ViewTNotification>(entity =>
+            modelBuilder.Entity<ViewNotification>(entity =>
             {
                 entity.HasNoKey();
 
-                entity.ToView("View_tNotification");
+                entity.ToView("View_Notification");
 
-                entity.Property(e => e.CCreateDate)
-                    .HasColumnType("datetime")
-                    .HasColumnName("cCreateDate");
-
-                entity.Property(e => e.CFromUserId).HasColumnName("cFromUserId");
-
-                entity.Property(e => e.CIsRead).HasColumnName("cIsRead");
-
-                entity.Property(e => e.CNotiBody).HasColumnName("cNotiBody");
-
-                entity.Property(e => e.CNotiHeader).HasColumnName("cNotiHeader");
-
-                entity.Property(e => e.CNotiId).HasColumnName("cNotiId");
-
-                entity.Property(e => e.CToUserId).HasColumnName("cToUserId");
-
-                entity.Property(e => e.CUrl).HasColumnName("cUrl");
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
 
                 entity.Property(e => e.FromUserName).HasMaxLength(20);
 

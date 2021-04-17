@@ -26,7 +26,7 @@ namespace MyHR_Web.ViewModel
         [DisplayName("員工姓名")]
         public string CEmployeeName { get; set; }
 
-        [Required(ErrorMessage = "手機是必填欄位")]
+        
         [DisplayName("手機")]
         public string CPhone { get; set; }
 

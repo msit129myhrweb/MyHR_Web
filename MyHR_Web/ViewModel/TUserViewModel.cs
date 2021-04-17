@@ -45,7 +45,7 @@ namespace MyHR_Web.ViewModel
             set { iv_user.CPassWord = value; }
         }
         [DisplayName("到職日")]
-        public DateTime? COnBoardDay
+        public DateTime COnBoardDay
         {
             get { return iv_user.COnBoardDay; }
             set { iv_user.COnBoardDay = value; }
