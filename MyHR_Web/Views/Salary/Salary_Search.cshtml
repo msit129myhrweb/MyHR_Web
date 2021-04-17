@@ -61,6 +61,13 @@
                 .subCate {
                     color: red;
                 }
+                .total{
+                    font-weight:bold
+                }
+                .table_fontSize{
+                    font-size:21px;
+
+                }
             </style>
 
 
@@ -109,7 +116,7 @@
                                 <option value="" disabled selected>請選擇</option>
                                 <option>1</option>
                                 <option>2</option>
-                                <option>3</option>
+                                <option selected>3</option>
                                 <option>4</option>
                                 <option>5</option>
                                 <option>6</option>
@@ -146,16 +153,22 @@
                         <div class="card-header" style="background-color:#397984">
                             <h3 class="card-title">各部門薪水分析</h3>
 
+
                             @*<div class="card-tools" style="font-size:15px;">
-                                <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-                            </div>*@
+            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+            </button>
+        </div>*@
+
                         </div>
-                        <div class="card-body">
-                            <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
-                            <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
-                        </div>
+
+                            <div class="card-body" style="display: block;">
+                                <div class="chart">
+                                    <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                                    <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+                                </div>
+                            </div>
+
                         <!-- /.card-body -->
                     </div>
                 </form>
@@ -176,7 +189,7 @@
                 {
                     <div class="card">
                         <div class="card-header">
-                            <table table class="table table-bordered table-hover">
+                            <table table class="table table-bordered table-hover table_fontSize">
                                 <thead>
 
                                     <tr style="text-align:center; background-color:tan; font-weight:bold">
@@ -261,15 +274,15 @@
                                                 @Html.DisplayFor(modelItem => item.CAmont_TAbsense)
                                             </td>
 
-                                            <td class="@LLeave JobTitle_Leave subCate">
+                                            <td class="leave JobTitle_Leave subCate">
                                                 @Html.DisplayFor(modelItem => item.CAmont_Leave)
                                             </td>
-                                            <td class="DETAIL">
+                                            <td class="DETAIL total">
                                                 @Html.DisplayFor(modelItem => item.CSalary_Total)
                                             </td>
 
                                             <td>
-                                                @Html.ActionLink("詳細資料", "Detail", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
+                                                @Html.ActionLink("詳細資料", "SalaryList", new { id = item.CEmployeeId }, new { @class = "btn btn-success" })
 
                                             </td>
                                         </tr>
@@ -345,49 +358,58 @@
 
                 $("#cover_page").css({ "display": "none" });  //遮罩取消
 
-                //var Name = [];
-                //var Namea = $(".NAME").length;
+                var Leave = [];
+                var Namea = $(".NAME").length;
 
                 //---------------------------------------------------------------------//非同步顯示圖表資料 -- 名子
-                //        $('.NAME').each(function () {
-                //           /* console.log($(this).html().trim());*/
-                //            Name.push($(this).html().trim());
-                //        });
-                //        console.log(Name);
-
-
-                //        var DETAIL_ARR = [];
-                //        var Detail = $(".NAME").length;
-                //        console.log(Detail);
-                //        //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
-                //        $('.DETAIL').each(function () {
-                //            /* console.log($(this).html().trim());*/
-                //            DETAIL_ARR.push(parseInt($(this).html().trim()));
-                //        });
+                        $('.leave').each(function () {
+                           /* console.log($(this).html().trim());*/
+                            Leave.push($(this).html().trim());
+                        });
+                console.log("aaaaaa"+Leave);
 
 
 
-                //        let combine_obj = {
-                //            name: Name,
-                //            money: DETAIL_ARR
-                //        }
+                var Monthh = $("#Salary_Month").val();
+                console.log(Monthh);
 
-                //        $.ajax({
-                //            type: "POST",
-                //            contentType: "application/json; charset=utf-8",
-
-                //            url: "/Salary/Mutiple_CHARTsearch",
-                //            data: JSON.stringify(combine_obj),
-                //            success: function (data) {
-
-                //                $("#CHART").html(data);
+                        var DETAIL_ARR = [];
+                        var Detail = $(".DETAIL").length;
+                        console.log(Detail);
+                        //---------------------------------------------------------------------//非同步顯示圖表資料  -- 數值
+                        $('.DETAIL').each(function () {
+                            /* console.log($(this).html().trim());*/
+                            DETAIL_ARR.push(parseInt($(this).html().trim()));
+                        });
 
 
-                //            },
-                //            error: function (msg) {
-                //                alert("該部門下無此職位員工");
-                //            }
-                //        })
+
+                        let combine_obj = {
+                            Month: Monthh,
+                            money: DETAIL_ARR.reverse(),
+                            leave: Leave.reverse(),
+
+                            //反轉陣列
+                }
+
+                console.log("AAAAA"+JSON.stringify(combine_obj));
+
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json; charset=utf-8",
+
+                            url: "/Salary/PreviousSalary_CHARTAnalysis",
+                            data: JSON.stringify(combine_obj),
+                            success: function (data) {
+
+                                $("#CHART").html(data);
+
+
+                            },
+                            error: function (msg) {
+                                alert("還沒完成");
+                            }
+                        })
 
             },
             error: function (msg) {
@@ -400,7 +422,67 @@
 </script>
 
 
+<script>
 
+    // Get context with jQuery - using jQuery's .get() method.
+    var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+
+    var areaChartData = {
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+        datasets: [
+            {
+                label: 'Digital Goods',
+                backgroundColor: 'rgba(60,141,188,0.9)',
+                borderColor: 'rgba(60,141,188,0.8)',
+                pointRadius: false,
+                pointColor: '#3b8bba',
+                pointStrokeColor: 'rgba(60,141,188,1)',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(60,141,188,1)',
+                data: [28, 48, 40, 19, 86, 27, 90]
+            },
+            {
+                label: 'Electronics',
+                backgroundColor: 'rgba(210, 214, 222, 1)',
+                borderColor: 'rgba(210, 214, 222, 1)',
+                pointRadius: false,
+                pointColor: 'rgba(210, 214, 222, 1)',
+                pointStrokeColor: '#c1c7d1',
+                pointHighlightFill: '#fff',
+                pointHighlightStroke: 'rgba(220,220,220,1)',
+                data: [65, 59, 80, 81, 56, 55, 40]
+            },
+        ]
+    }
+
+    var areaChartOptions = {
+        maintainAspectRatio: false,
+        responsive: true,
+        legend: {
+            display: false
+        },
+        scales: {
+            xAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }],
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                }
+            }]
+        }
+    }
+
+    // This will get the first returned node in the jQuery collection.
+    new Chart(areaChartCanvas, {
+        type: 'line',
+        data: areaChartData,
+        options: areaChartOptions
+    })
+
+</script>
 
 
     @*//部門總計加總

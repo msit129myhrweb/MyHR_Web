@@ -61,7 +61,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 }
             }
         }
-                
 
 
         public IActionResult Salary_Search()
@@ -106,7 +105,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
             return View(table);
 
-        }
+        } //員工檢視薪資(VIEW)
 
         //public IActionResult PreviousSalary(int? YEAR, int? MONTH)
         //{
@@ -221,7 +220,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                       CEmployeeId = c.CEmployeeId,
                       CJobTitle = c.CJobTitle.CJobTitle,
                       Month_Salary = c.CJobTitle.CJobTitleSalary,
-                      CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Year == YEAR &&c.CTravelStartTime.Value.Month == MONTH && c.CCheckStatus == 2).Sum(c => c.CAmont),
+                      CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Year == YEAR && c.CTravelStartTime.Value.Month == i && c.CCheckStatus == 2).Sum(c => c.CAmont),
                       CAmont_TAbsense = c.TAbsences
                       .Where(p => p.CDate.Value.Year == YEAR && p.CDate.Value.Month == i && p.CStatus == "遲到")
                       .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
@@ -242,13 +241,11 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 list.Add(table);
             }
 
-           
 
+            ViewBag.Year = YEAR;
             return PartialView("PreviousSalary", list);
 
-        } 
-
-
+        }   //AJAX 員工檢視過去薪資 (PA)
 
         public IActionResult SalaryList() //薪資單 (一般員工檢視) 檢視上個月
         {
@@ -555,11 +552,6 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
             return Leave_Sum;
         }  //方法: 計算各假別需扣的錢
-
-
-       
-
-
         public int Leave_Shouldtopay(int LeaveCate, int LeaveHours)  //計算各個假別必須扣除的總數
         {
 
@@ -753,7 +745,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
         [HttpPost]
-        public IActionResult Mutiple_CHARTsearch([FromBody] SalaryChar_Json x)   //回傳動態Chart.js
+        public IActionResult Mutiple_CHARTsearch([FromBody] SalaryChar_Json x)   //回傳圓餅動態Chart.js
         {
             if (x.money.Count != 0)
             {
@@ -782,7 +774,38 @@ namespace MyCompany_.NetCore_Janna.Controllers
         }
 
 
-   
+        [HttpPost]
+        public IActionResult PreviousSalary_CHARTAnalysis([FromBody] SalaryChart_BarJson x)   //Area 圖
+        {
+            string[] MonthArr = { "January", "February", "March", "April", "May" ,
+                    "June", "July", "August", "September", "October", "November", "December" };
+
+
+            var a  = MonthArr.Take(int.Parse(x.Month));
+
+
+            if (x.money.Count != 0)
+            {
+                List<SalaryChartsss_BarJson> list = new List<SalaryChartsss_BarJson>();
+
+                SalaryChartsss_BarJson obj = new SalaryChartsss_BarJson()
+                {
+                    
+                    money = x.money,
+                    leave=x.leave,
+                    Monthh =  a.ToList()
+                    
+                   
+                };
+                list.Add(obj);
+                return PartialView("PreviousSalary_CHARTAnalysis", list);
+            }
+            else
+            {
+                return StatusCode(404);
+            }
+        }
+
         public IActionResult Mail_Click(string ID)
         {
             string a = ID;

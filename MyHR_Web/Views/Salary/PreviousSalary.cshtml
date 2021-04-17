@@ -2,8 +2,9 @@
 
 @{ ViewData["Title"] = "Salary_Search";
     var c = Model.Count();
-
-    foreach(var model2 in Model)
+    int count = c;
+    
+    foreach (var model2 in Model.Reverse())
     {
 
         //foreach(var model3 in model2)
@@ -13,15 +14,15 @@
 
     <div class="card">
         <div class="card-header">
-            <table table class="table table-bordered table-hover">
+            <table table class="table table-bordered table-hover table_fontSize">
                 <thead>
 
                     <tr style="text-align:center; background-color:tan; font-weight:bold">
 
                         <th colspan="9">
-                            2021年3月薪資
+                            @ViewBag.Year 年 @count 月薪資
                         </th>
-
+                        @{count = count - 1; }
                     </tr>
 
                     <tr style="text-align:center">
@@ -49,9 +50,6 @@
                         </th>
                         <th>
                             薪資
-                        </th>
-                        <th>
-                            詳細資料
                         </th>
                     </tr>
                 </thead>
@@ -91,14 +89,14 @@
                             @item.CAmont_Travel
                         </td>
 
-                        <td>
+                        <td class="subCate">
                             @item.CAmont_TAbsense
                         </td>
 
-                        <td>
+                        <td class="leave subCate">
                             @item.CAmont_Leave
                         </td>
-                        <td>
+                        <td class="total DETAIL">
                             @item.CSalary_Total
                         </td>
 

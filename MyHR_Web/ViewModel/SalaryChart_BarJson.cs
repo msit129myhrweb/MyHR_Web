@@ -5,19 +5,15 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.ViewModel
 {
-    public class SalaryChar_Json
+    public class SalaryChart_BarJson
     {
 
-
-        public List<string> name { get; set; }
+        public string Month { get; set; }
+        
         public List<int> money { get; set; }
 
-
-
-        //public int salaryChar_Amont { get; set; }
-
-        //public string salaryChar_Name { get; set; }
-
+        public List<int> leave { get; set; }
+        
 
     }
 }
