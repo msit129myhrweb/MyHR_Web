@@ -23,7 +23,7 @@ namespace MyHR_Web.Models
         public string CEmployeeName { get; set; }
         public string CEmployeeEnglishName { get; set; }
         public string CPassWord { get; set; }
-        public DateTime? COnBoardDay { get; set; }
+        public DateTime COnBoardDay { get; set; }
         public DateTime? CByeByeDay { get; set; }
         public string CGender { get; set; }
         public string CEmail { get; set; }

@@ -1,45 +1,142 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
+﻿@using Microsoft.AspNetCore.Http;
+@using prjCoreDemo.ViewModel;
+@model IEnumerable<MyHR_Web.ViewModel.CAbsenceViewModel>
 @{
     ViewData["date_search"] = "date_search";
 }
-<div id="absence_table">
-    <table id="example2" class="table table-bordered table-hover">
-        <thead>
-            <tr style="text-align:center">
-                <th>序</th>
-                <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
-                <th>@Html.DisplayNameFor(model => model.CDate)</th>
-                <th>星期</th>
-                <th>@Html.DisplayNameFor(model => model.COn)</th>
-                <th>@Html.DisplayNameFor(model => model.COff)</th>
-                <th>@Html.DisplayNameFor(model => model.CStatus)</th>
-            </tr>
-        </thead>
-        <tbody>
-            @{int count = 0; }
-            @foreach (var item in Model)
-            {
-                count++;
 
+@{
+    string a = Context.Session.GetString(CDictionary.CURRENT_LOGINED_USERID);
+    DateTime Late = DateTime.Today.AddHours(10);
+    TimeSpan LateTime = Late.TimeOfDay;
+    DateTime Coff = DateTime.Today.AddHours(18);
+    TimeSpan CoffTime = Coff.TimeOfDay;
+    var countNum = ViewBag.totalCountNum;
+}
+<form method="post" id="selectAndTable">
+    <div style="background-color:white ;padding:20px; border-radius:10px">
+        <h3>查詢條件</h3>
+        <div class="row">
+            <div class="col-md-4 form-group">
+                <label class="col-lg-3 control-label">起&nbsp;:&nbsp;</label>
+                <input type="date" name="sDate" id="sDate" class="absence">
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="col-lg-3 control-label">迄&nbsp;:&nbsp;</label>
+                <input type="date" name="eDate" id="eDate" class="absence">
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="col-lg-6 control-label">已補登次數&nbsp;:&nbsp;</label>
+                <label id="countNum">@countNum&nbsp;次</label>
+            </div>
+            <div id="radioOption" class="btn-group btn-group-toggle col-md-4 form-group" data-toggle="buttons" style="filter: grayscale(50%)">
+                <label class="btn btn-info"><input value="當日" type="radio" name="options" id="option1" autocomplete="off">當日</label>
+                <label class="btn btn-info"><input value="當週" type="radio" name="options" id="option2" autocomplete="off" checked>當週</label>
+                <label class="btn btn-info"><input value="當月" type="radio" name="options" id="option3" autocomplete="off">當月</label>
+            </div>
+            <div class="col-md-4 form-group">
+                <label class="col-lg-3 control-label">狀態&nbsp;:&nbsp;</label>
+                <select class="absence" id="absence_Status">
+                    <option value="" disabled="" selected="">請選擇</option>
+                    <option value="正常">正常</option>
+                    <option value="遲到">遲到</option>
+                    <option value="異常">異常</option>
+                </select>
+            </div>
+            <div class="col-md-4 form-group">
+                <input type="button" id="btn_research" value="重新查詢" onclick="search()" class="btn btn-success" style="filter: grayscale(50%)">
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div id="absence_table">
+        <table id="example2" class="table table-bordered table-hover">
+            <thead>
                 <tr style="text-align:center">
-                    <td>@count</td>
-                    <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
-                    <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
-                    <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
-                    <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
-                    <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
-                    @{
-                        if (item.CStatus == "異常")
-                        {
-                            <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
-                        }
-                        else
-                        {
-                            <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
-                        }
-                    }
+                    <th>序</th>
+                    <th style="display:none">@Html.DisplayNameFor(model => model.CApplyNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.CDate)</th>
+                    <th>星期</th>
+                    <th>@Html.DisplayNameFor(model => model.COn)</th>
+                    <th>@Html.DisplayNameFor(model => model.COff)</th>
+                    <th>@Html.DisplayNameFor(model => model.CStatus)</th>
                 </tr>
+            </thead>
+            <tbody>
+                @{int count = 0; }
+                @foreach (var item in Model)
+                {
+                    count++;
+
+                    <tr style="text-align:center">
+                        <td>@count</td>
+                        <td style="display:none">@Html.DisplayFor(modelItem => item.CApplyNumber)</td>
+                        <td>@Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CDate))</td>
+                        <td>@Convert.ToString(string.Format("{0:ddd}", item.CDate))</td>
+                        <td id="on" name="on">@Html.DisplayFor(modelItem => item.COn)</td>
+                        <td id="off" name="off">@Html.DisplayFor(modelItem => item.COff)</td>
+                        @{ if (item.CStatus == "異常")
+                            {
+                                if (item.COn > LateTime && item.COff <= CoffTime)
+                                {
+                                    <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "LeaveCreate", new { }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                }
+                                else
+                                {
+                                    <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "Edit", new { applyNum = item.CApplyNumber }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                }
+                            }
+                            else
+                            {
+                                <td id="status" name="status">@Html.DisplayFor(modelItem => item.CStatus)</td>
+                            } }
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</form>
+
+<script>
+    //查詢日期、狀態 ?
+    $(".absence").change(function () {
+        var sta = $("#absence_Status").val();
+        var sDate = $("#sDate").val();
+        var eDate = $("#eDate").val();
+        console.log(sDate + "/" + eDate);
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/date_search",
+            data: { sDate: sDate, eDate: eDate, status: sta },
+            success: function (data) {
+                console.log("a");
+                $("#absence_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
             }
-        </tbody>
-    </table>
-</div>
+        })
+    });
+        //當日當週當月查詢
+    $("#radioOption").change(function () {
+        var search_dwm = document.querySelector('input[name="options"]:checked').value;
+        console.log(search_dwm);
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Absence/search_dwm",
+            data: { id: @a , search_dwm: search_dwm},
+            success: function (data) {
+                console.log("research");
+                $("#absence_table").html(data);
+            },
+            error: function () {
+                alert("error:" + msg);
+            }
+        })
+    })
+
+</script>

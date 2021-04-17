@@ -1945,6 +1945,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Location\" />
     <Folder Include="wwwroot\ExcelFile\" />
     <Folder Include="wwwroot\js\group\" />
   </ItemGroup>
