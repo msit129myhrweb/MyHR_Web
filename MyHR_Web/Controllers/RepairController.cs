@@ -150,7 +150,6 @@ namespace MyHR_Web.Views.Home
             return RedirectToAction("RepairList");
 
         }
-
        
 
         public IActionResult RepairEdit(int? id)
@@ -170,21 +169,21 @@ namespace MyHR_Web.Views.Home
         }
 
         [HttpPost]
-        public IActionResult RepairEdit(CReairViewModel repair)
+        public IActionResult RepairEdit(CReairViewModel vrepair)
         { 
             dbMyCompanyContext db = new dbMyCompanyContext();
-            if (repair != null)
+            if (vrepair != null)
             {
 
-                TRepair c = db.TRepairs.FirstOrDefault(p => p.CRepairNumber == repair.CRepairNumber); 
+                TRepair c = db.TRepairs.FirstOrDefault(p => p.CRepairNumber == vrepair.CRepairNumber); 
                 if (c != null)
                 {  
-                    c.CContentofRepair = repair.CContentofRepair;
-                    c.CAppleDate =(DateTime)repair.CAppleDate;
-                    c.CLocation = repair.CLocation;
-                    c.CPhone = repair.CPhone;
-                    c.CRepairCategory = repair.CRepairCategory;
-                    c.CRepairStatus = (byte)repair.CRepairStatus;
+                    c.CContentofRepair = vrepair.CContentofRepair;
+                    c.CAppleDate =(DateTime)vrepair.CAppleDate;
+                    c.CLocation = vrepair.CLocation;
+                    c.CPhone = vrepair.CPhone;
+                    c.CRepairCategory = vrepair.CRepairCategory;
+                    c.CRepairStatus = (byte)vrepair.CRepairStatus;
                     
 
                     db.SaveChanges();
@@ -226,7 +225,6 @@ namespace MyHR_Web.Views.Home
             return RedirectToAction("RepairList");
         }
 
-
         public JsonResult updateall(string x)
         {
             string a = x;
@@ -261,7 +259,80 @@ namespace MyHR_Web.Views.Home
 
 
         }
-            
-    
+
+        //public IActionResult Mutiple_search(int? cate, int? status, string? start, string? end)
+        //{
+        //    //List<TLeaveApplication> table = MyHr.TLeaveApplications.Where(n => n.CLeaveCategory == cate).ToList();
+
+
+        //    //string str_json = JsonConvert.SerializeObject(table, Formatting.Indented);
+        //    //return str_json;
+        //    //顯示JSON字串
+        //    //li_showData.Text = str_json;
+        //    ViewBag.UserId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+        //    ViewBag.UserName = HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERNAME);
+
+
+        //    var table = MyHr.TLeaveApplications
+        //        .Join(MyHr.TUserDepartments, d => d.CDepartmentId, u => u.CDepartmentId, (d, u) => new
+        //        {
+
+        //            CApplyNumber = d.CApplyNumber,
+        //            CEmployeeId = d.CEmployeeId,
+        //            //CEmployeeName = u.CEmployeeName,
+        //            CDepartmentId = d.CDepartmentId,
+        //            CDepartmentName = u.CDepartment,
+        //            CApplyDate = d.CApplyDate,
+        //            CLeaveCategory = d.CLeaveCategory,
+        //            CLeaveStartTime = d.CLeaveStartTime,
+        //            CLeaveEndTime = d.CLeaveEndTime,
+        //            CReason = d.CReason,
+        //            CCheckStatus = d.CCheckStatus,
+        //            CLeaveHours = d.CLeaveHours,
+
+
+        //        }).OrderBy(du => du.CApplyDate).AsEnumerable().Where(du =>
+        //        (cate != null ? du.CLeaveCategory == cate : true) &&
+        //        (status != null ? du.CCheckStatus == status : true) &&
+        //        (start != null ? DateTime.Parse(du.CLeaveEndTime) >= DateTime.Parse(start) : true) &&
+        //        (end != null ? DateTime.Parse(du.CLeaveStartTime) <= DateTime.Parse(end) : true) &&
+        //        ((end != null && start != null) ? DateTime.Parse(du.CLeaveEndTime) >= DateTime.Parse(start) && DateTime.Parse(du.CLeaveStartTime) <= DateTime.Parse(end) : true)
+        //        ).ToList();
+
+        //    //int abc = table.Count;   ■ 這邊搜尋的資料並未針對USER，當沒有資料想要在前端做變化時，應當加入此條件。
+        //    List<TLeaveApplicationViewModel> T = new List<TLeaveApplicationViewModel>();
+
+        //    foreach (var item in table)
+        //    {
+        //        TLeaveApplicationViewModel obj = new TLeaveApplicationViewModel()
+        //        {
+        //            CApplyNumber = item.CApplyNumber,
+        //            CEmployeeId = item.CEmployeeId,
+        //            CDepartmentId = item.CDepartmentId,
+        //            CDepartmentName = item.CDepartmentName,
+        //            CApplyDate = item.CApplyDate,
+        //            CLeaveCategory = item.CLeaveCategory,
+        //            CLeaveStartTime = item.CLeaveStartTime,
+        //            CLeaveEndTime = item.CLeaveEndTime,
+        //            CReason = item.CReason,
+        //            CCheckStatus = item.CCheckStatus,
+        //            CLeaveHours = item.CLeaveHours
+
+        //        };
+        //        T.Add(obj);
+
+        //    }
+
+
+        //    //foreach (TLeaveApplication C in table)                
+        //    //    T.Add(new TLeaveApplicationViewModel(C,null));
+
+
+
+        //    return PartialView("Mutiple_search", T);
+
+
+        //}
+
     }
 }
