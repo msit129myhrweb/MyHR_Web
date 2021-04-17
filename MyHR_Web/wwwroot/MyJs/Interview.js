@@ -49,12 +49,8 @@ $(".filter").change(function () {
         }
     })
 });
-var a = $("#testA").val()
-var b = $("#testA").html();
-var c = $("#testA").text();
-console.log(a);
-console.log(b);
-console.log(c);
+
+// 從編輯頁 redirecttoaction 的話
 if (index != 0) {
     fun(index);
 }
