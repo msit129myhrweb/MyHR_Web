@@ -127,8 +127,9 @@
                         <div class="col-md-10 col-xs-10">
                             <div class="messages msg_sent">
                                 <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
+                                <div  id="messagesList" style="">
 
-                                <p id="messagesList"></p>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-2 col-xs-2 avatar">
@@ -146,9 +147,46 @@
                 </div>
             </div>
             <script src="~/js/signalr/dist/browser/signalr.js"></script>
-            <script src="~/js/chat.js"></script>
     
         
 
 </body>
 
+<script>
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (user, message) {
+        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var encodedMsg = user + "  says  " + msg;
+        var li = document.createElement("li");
+        li.textContent = encodedMsg;
+        if ("@userName" === user) {
+            li.style = "text-align:right;";
+        }
+        else {
+            li.style = "text-align:left;";
+        }
+
+        document.getElementById("messagesList").appendChild(li);
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+
+        var user = document.getElementById("userInput").value;
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", user, message).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+</script>
