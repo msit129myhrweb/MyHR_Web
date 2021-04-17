@@ -100,6 +100,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             foreach (var item in table)
             {
                 item.CSalary_Total = item.Month_Salary + item.CAmont_Travel - item.CAmont_TAbsense - item.CAmont_Leave;
+                item.CSub_Total = item.CAmont_TAbsense + item.CAmont_Leave;
             }
 
 
@@ -107,76 +108,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         } //員工檢視薪資(VIEW)
 
-        //public IActionResult PreviousSalary(int? YEAR, int? MONTH)
-        //{
+        public IActionResult PreviousSalary_CHARTforLeave()
+        {
 
 
-        //    if (YEAR != null)
-        //    {
-        //        YEAR = YEAR;
-        //    }
-        //    else
-        //    {
-        //        YEAR = 2021;
-        //    }
-
-
-        //    MONTH = 3;
-
-        //    MyHR.TUsers.ToList();
-        //    MyHR.TUserDepartments.ToList();
-        //    MyHR.TTravelExpenseApplications.ToList();
-        //    MyHR.TAbsences.ToList();
-        //    MyHR.TUserJobTitles.ToList();
-        //    MyHR.TLeaveApplications.ToList();
-
-        //    int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
-
-
-
-        //    for (int i = 0; i <= MONTH; i++)
-        //    {
-        //        var table = (MyHR.TUsers.Local
-        //          .Where(C => C.CEmployeeId == UserID).AsEnumerable()
-        //          .Select(c => new CSalaryViewModel
-        //          {
-        //              CDepartment = c.CDepartment.CDepartment,
-        //              CDepartmentId = c.CDepartment.CDepartmentId,
-        //              CEmployeeName = c.CEmployeeName,
-        //              CEmployeeId = c.CEmployeeId,
-        //              CJobTitle = c.CJobTitle.CJobTitle,
-        //              Month_Salary = c.CJobTitle.CJobTitleSalary,
-        //              CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Year == YEAR && (MONTH != null ? c.CTravelStartTime.Value.Month == MONTH : true) && c.CCheckStatus == 2).Sum(c => c.CAmont),
-        //              CAmont_TAbsense = c.TAbsences
-        //              .Where(p => p.CDate.Value.Year == YEAR && (MONTH != null ? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
-        //              .Count(c => c.COn.Value.Minutes < 30) * 44 + c.TAbsences
-        //              .Where(p => p.CDate.Value.Year == YEAR && (MONTH != null ? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
-        //              .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59) * 97 - c.TAbsences
-        //              .Where(p => p.CDate.Value.Year == YEAR && (MONTH != null ? p.CDate.Value.Month == MONTH : true) && p.CStatus == "遲到")
-        //              .Count(c => c.COn.Value.Minutes > 30 && c.COn.Value.Minutes < 59),
-        //              CAmont_Leave = Leave_ShouldtopayforSearch(c.CEmployeeId, (int)YEAR, (int)MONTH)
-
-        //          })).ToList();
-
-        //        foreach (var item in table)
-        //        {
-        //            item.CSalary_Total = item.Month_Salary + item.CAmont_Travel - item.CAmont_TAbsense - item.CAmont_Leave;
-        //        }
-
-
-        //    }
-
-
-
-
-        //    //var Dept = MyHR.TUserDepartments.Distinct().ToList();  //傳送部門下拉是選單
-        //    //ViewBag.DEPT = Dept;
-        //    //var JobTitle = MyHR.TUserJobTitles.Distinct().ToList(); //傳送職位下拉是選單
-        //    //ViewBag.JOBTITLE = JobTitle;
-
-        //    return PartialView("PreviousSalary", table);
-
-        //}  //月薪AJAX查詢圖
+            return PartialView("PreviousSalary_CHARTforLeave");
+        }
 
 
         public IActionResult PreviousSalary(int? YEAR, int? MONTH)
