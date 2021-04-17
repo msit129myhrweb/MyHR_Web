@@ -4,6 +4,8 @@
     ViewData["Title"] = "List";
     var status = ViewBag.InterViewStatus;
     var dept = ViewBag.Dept;
+    int index = ViewBag.Id != null ? ViewBag.Id : 0;
+    int a = 0;
 }
 
 <header>
@@ -58,7 +60,7 @@
                 <div id="tab-processCreate"></div>
                 <div id="tab-process"></div>
             </div>
-            
+            <input id="testA" value="testB" style="display:none" />
             <div id="tabpage">
                 <div>
                     <a class="btn btn-primary" href="/Service/ExcelInterview" style="filter: grayscale(50%)" type="button">匯出EXCEL</a>
@@ -275,5 +277,9 @@
         </div>
     </section>
 </div>
+<script>
+    var index = @index;
+</script>
 
 <script src="~/MyJs/Interview.js"></script>
+

@@ -18,6 +18,7 @@ namespace MyHR_Web.Controllers
             ViewBag.InterViewStatus = status;
             List<TUserDepartment> dept = getDept();
             ViewBag.Dept = dept;
+            ViewBag.Id = TempData["Id"];
 
             var table = myHR.TInterViews;
             List<CInterviewListViewModel> list = new List<CInterviewListViewModel>();
@@ -64,6 +65,7 @@ namespace MyHR_Web.Controllers
                     myHR.SaveChanges();
                 }
             }
+            TempData["Id"] = I.CInterVieweeId;
             return RedirectToAction("List");
         }
 
