@@ -50,6 +50,10 @@ $(".filter").change(function () {
     })
 });
 
+// 從編輯頁 redirecttoaction 的話
+if (index != 0) {
+    fun(index);
+}
 // 進編輯頁
 function fun(id) {
     $("div").remove("#tabpage");
