@@ -144,11 +144,12 @@ namespace MyHR_Web.Controllers
             {
                 if (a != null)
                 {
-                    a.CProcessTime = DateTime.Now.ToString();
+                    a.CProcessTime = DateTime.Now.ToString("mm/dd/yyyy HH:mm:ss");
                     a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
                     myHR.TInterViewProcesses.Add(a);
                     myHR.SaveChanges();
                 }
+//                TempData["Id"] = I.CInterVieweeId;
                 return RedirectToAction("List");
             }
             catch
