@@ -277,7 +277,6 @@ namespace MyHR_Web.Controllers
         }
 
 
-
         public IActionResult Delete(int? Id) //刪除
         {
             if (Id != null)
