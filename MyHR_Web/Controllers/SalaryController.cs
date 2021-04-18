@@ -108,8 +108,58 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         } //員工檢視薪資(VIEW)
 
-        public IActionResult PreviousSalary_CHARTforLeave()
+        
+        public IActionResult PreviousSalary_CHARTforLeave(int Year, int Month)
         {
+
+
+            if (Year != null)
+            {
+                Year = Year;
+            }
+            else
+            {
+                Year = 2021;
+            }
+            
+            Month = 4;
+
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TUserJobTitles.ToList();
+            MyHR.TLeaveApplications.ToList();
+
+            int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
+
+
+
+            List<List<LeaveChart_Salary>> list = new List<List<LeaveChart_Salary>>();
+
+            for (int i = 1; i <= Month; i++)
+            {
+                var table = (MyHR.TUsers.Local
+                  .Where(C => C.CEmployeeId == UserID).AsEnumerable()
+                  .Select(c => new LeaveChart_Salary
+                  {
+                      AbsenceCount = c.TAbsences
+                      .Count(p => p.CDate.Value.Year == Year && p.CDate.Value.Month == i /*&& p.CStatus == "遲到"*/),
+                      
+                      LeaveCount = c.TLeaveApplications
+                      .Count(p => DateTime.Parse(p.CLeaveStartTime).Year == Year && DateTime.Parse(p.CLeaveStartTime).Month == i /*&& p.CCheckStatus == 2*/)
+
+
+                  })).ToList();
+
+
+                list.Add(table);
+            }
+
+
+            //ViewBag.Year = YEAR;
+
+
 
 
             return PartialView("PreviousSalary_CHARTforLeave");

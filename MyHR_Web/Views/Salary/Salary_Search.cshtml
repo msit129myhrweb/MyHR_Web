@@ -345,23 +345,55 @@
 
     $("#Analyze_Leave").click(function () {
 
+
+        x = parseInt($("#Salary_Year").val());
+        y = parseInt($("#Salary_Month").val());
+
+
+        console.log(typeof(x));
+        console.log(y);
+
+
+
         $.ajax({
-            type: "POST",
-            contentType: "application/json; charset=utf-8",
-
+            type: "get",
+            
             url: "/Salary/PreviousSalary_CHARTforLeave",
-            //data: JSON.stringify(combine_obj),
+            data: { YEAR: x, Month: y },
             success: function (data) {
-
                 $("#CHART").html(data);
-
-
             },
             error: function (msg) {
                 alert("還沒完成");
             }
-        })
+        });
+
+
+
+        //$.ajax({
+        //    type: "Post",
+        //    contentType: "application/json; charset=utf-8",
+        //    url: "/Salary/PreviousSalary_CHARTforLeave",
+        //    data: { Year: x, Month: y },
+        //    //data: JSON.stringify(combine_obj),
+        //    success: function (data) {
+
+        //        $("#CHART").html(data);
+
+
+        //    },
+        //    error: function (msg) {
+        //        alert("還沒完成");
+        //    }
+        //})
     })
+
+
+
+
+
+
+
 
 
     var x = "";
