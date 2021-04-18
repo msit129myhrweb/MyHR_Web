@@ -87,7 +87,7 @@
                         3.&nbsp若有異常需補打卡或是請假<br />
                         4.&nbsp每月補登打卡次數3次為上限<br />
                         5.&nbsp未18:00無法打下班卡，若要早退，需請假<br />
-                        6.&nbsp定位需在紅圈範圍內才可進行打卡<br />
+                        6.&nbsp定位需在紅圈範圍內才可進行打卡
                     </p>
                 </div>
             </div>
@@ -257,26 +257,38 @@
                     zoom: 17, //放大的倍率
                     center: latlng //初始化的地圖中心位置
                 });
+                var Companyicon = {
+                    url: "../building.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(25, 30) // anchor
+                };
 
                 var markerCompany = new google.maps.Marker({  //資策會的marker
                     position: latlng,
                     map: map,
                     title: "公司",
+                    icon: Companyicon,
                 });
 
                 navigator.geolocation.getCurrentPosition(function (position) { //目前位置
                     var pos = {
                         lat: 25.034901,//position.coords.latitude,
                         lng: 121.5436398,//position.coords.longitude,
-                        //icon: "https://impact100.org/wp-content/uploads/2019/05/Blankemeyer-You-Are-Here.jpg",
                     };
                     var marker = new google.maps.Marker({
                         position: pos,
                         map: map,
                         title: "現在位置",
-                        //icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg56oId_80MJ8IDojyNWkZ13h6x_xuwRNNcQ&usqp=CAU",
+                        icon: icon,
                     });
                 });
+                var icon = {
+                    url: "../pin.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(30,30) // anchor
+                };
 
                 var pos = {
                     lat: 25.034901,//position.coords.latitude,
@@ -285,6 +297,7 @@
                 var marker = new google.maps.Marker({
                     position: pos,
                     map: map,
+                    icon: icon,
                 });
             }
 
@@ -295,35 +308,49 @@
                     zoom: 17, //放大的倍率
                     center: latlng //初始化的地圖中心位置
                 });
+                var Companyicon = {
+                    url: "../building.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(25,30) // anchor
+                };
 
                 var markerCompany = new google.maps.Marker({  //高雄分公司的marker
                     position: latlng,
                     map: map,
                     title: "公司",
+                    icon: Companyicon,
                 });
 
-                navigator.geolocation.getCurrentPosition(function (position) { //目前位置
+                //目前位置
+                navigator.geolocation.getCurrentPosition(function (position) { 
                     var pos = {
-                        lat: 22.6240949,//position.coords.latitude,
-                        lng: 120.3067216,//position.coords.longitude,
-                        //icon: "https://impact100.org/wp-content/uploads/2019/05/Blankemeyer-You-Are-Here.jpg",
+                        lat: 22.622224,//position.coords.latitude,
+                        lng: 120.309352,//position.coords.longitude,
                     };
                     var marker = new google.maps.Marker({
                         position: pos,
                         map: map,
                         title: "現在位置",
-                        //icon: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg56oId_80MJ8IDojyNWkZ13h6x_xuwRNNcQ&usqp=CAU",
+                        icon: icon,
                     });
                 });
+                var icon = {
+                    url: "../pin.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(30,30) // anchor
+                };
+
                 var pos = {
-                    lat: 22.6240949,//position.coords.latitude,
-                    lng: 120.3067216//position.coords.longitude,
+                    lat: 22.622224,//position.coords.latitude,
+                    lng: 120.309352//position.coords.longitude,
                 };
                 var marker = new google.maps.Marker({
                     position: pos,
                     map: map,
+                    icon: icon,
                 });
-
             }
 
             var cityCircle = new google.maps.Circle({
@@ -331,23 +358,17 @@
                 strokeOpacity: 0.8,
                 strokeWeight: 2,
                 fillColor: "#FF0000",
-                fillOpacity: 0.35,
+                fillOpacity: 0.08,
                 map,
                 center: map.center,
-                radius: 150
+                radius: 150,
             });
 
-            const contentString = "<h3>現在位置</h3>";
-            const infoWindow = new google.maps.InfoWindow({
-                content: contentString,
-            });
             map.setZoom(18);
             map.setCenter(pos);
 
             var distance = google.maps.geometry.spherical.computeDistanceBetween(markerCompany.position, marker.position)
-
             var dis = parseFloat(distance);
-
             if (dis > 150.00) {
                 window.alert("定位超出打卡範圍，無法打卡");
                 return false;
