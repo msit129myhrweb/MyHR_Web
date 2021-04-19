@@ -58,3 +58,97 @@
         </tbody>
     </table>
 </div>
+<script>
+        $(document).ready(function () {
+            $("#CheckAll").click(function () {
+                if ($("#CheckAll").prop("checked")) {//如果全選按鈕有被選擇的話（被選擇是true）
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", true);//把所有的核取方框的property都變成勾選
+                    })
+                } else {
+                    $("input[name='Checkbox[]']").each(function () {
+                        $(this).prop("checked", false);//把所有的核方框的property都取消勾選
+                    })
+                }
+            })
+        })
+
+        /*勾選通過*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllPass").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                $.post(
+                    "@Url.Action("getPassString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                window.location.assign(window.location.href)
+            }, 300)
+            }, false);
+        }, false);
+
+        /*勾選退件*/
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("AllFail").addEventListener("click", function () {
+                var result = [];
+                var checks = document.getElementsByName("Checkbox[]");
+
+                for (var i = 0; i < checks.length; i++) {
+                    var check = checks.item(i);
+                    if (check.checked) {
+                        result.push(check.value);
+                    }
+                }
+                $.post(
+                    "@Url.Action("getFailString")",
+                    { "d": JSON.stringify(result) },
+                    function (result) {
+                    },"json"
+                )
+                setTimeout(() => {
+                    window.location.assign(window.location.href)
+                 }, 300)
+            }, false);
+        }, false);
+
+
+    $(".travel_").change(function () {
+        var Status = $("#travel_Status").val()
+        var sDate= $("#sDate").val()
+        var eDate= $("#eDate").val()
+        console.log(Status);
+        console.log(sDate);
+        console.log(eDate);
+
+
+        $.ajax({
+            type: "get",
+            dataType: "html",
+            url: "/Travel_Expense_Application/date_search",
+            data: { status: Status, start: sDate, end: eDate },
+            success: function (data) {
+                console.log("test");
+                $("#travel_table").html(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+        })
+    });
+
+    $("#name").click(function () {
+        $("#txtName").val("鄭麗穎");
+    });
+
+</script>
