@@ -1,0 +1,160 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.SalaryChartsss_BarJson>
+@using MyHR_Web.ViewModel
+@using Newtonsoft.Json;
+
+
+@{
+
+    var table = Model.ToList();
+
+    var Name = table[0].Monthh.ToArray();
+    var Money = table[0].money.ToList();
+    var Leave = table[0].leave.ToList();
+
+    string strName = "";
+    foreach (string s in Name)
+    {
+        strName += s + ",";
+    }
+
+    strName = strName.Substring(0, strName.Length - 1);
+
+
+    var strMoney = "";
+    foreach (int m in Money)
+    {
+        strMoney += m + ",";
+    }
+
+    strMoney = strMoney.Substring(0, strMoney.Length - 1);
+
+
+    var strLeave = "";
+    foreach(int l in Leave)
+    {
+        strLeave += l + ",";
+    }
+
+
+
+}
+
+
+
+
+<form>
+
+    <input type="hidden" id="txthello" value="@strName" />
+
+    <input type="hidden" id="forMoney" value="@strMoney" />
+
+
+    <input type="hidden" id="forLeave" value="@strLeave" />
+
+    <div class="card card-info">
+        <div class="card-header" style="background-color:#397984">
+            <h3 class="card-title">各部門薪水分析</h3>
+
+            <div class="card-tools" style="font-size:15px;">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="card-body" style="display: block;">
+            <div class="chart">
+                <div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+                <canvas id="areaChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block; width: 764px;" width="764" height="250" class="chartjs-render-monitor"></canvas>
+            </div>
+        </div>
+
+
+
+        <!-- /.card-body -->
+    </div>
+</form>
+
+
+
+<script>
+
+    $(function () {
+
+        var strName = $("#txthello").val();
+        var name = strName.split(",");
+        var strMoney = $("#forMoney").val();
+        var Money = strMoney.split(",");
+
+        var strLeave = $("#forLeave").val();
+        var leave = strLeave.split(",");
+
+
+
+
+        var areaChartCanvas = $('#areaChart').get(0).getContext('2d')
+
+        var areaChartData = {  
+            labels: name,
+            datasets: [
+                {
+                    label: '薪水',
+                    backgroundColor: 'rgba(60,141,188,0.9)',
+                    borderColor: 'rgba(60,141,188,0.8)',
+                    pointRadius: false,
+                    pointColor: '#3b8bba',
+                    pointStrokeColor: 'rgba(60,141,188,1)',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data: Money
+                },
+                {
+                    label: '請假',
+                    backgroundColor: 'rgba(210, 214, 222, 1)',
+                    borderColor: 'rgba(210, 214, 222, 1)',
+                    pointRadius: false,
+                    pointColor: 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor: '#c1c7d1',
+                    pointHighlightFill: '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data: leave
+                },
+            ]
+        }
+
+        var areaChartOptions = {
+            
+            maintainAspectRatio: false,
+            responsive: true,
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }],
+                yAxes: [{
+                    gridLines: {
+                        display: false,
+                    }
+                }]
+            }
+        }
+
+        // This will get the first returned node in the jQuery collection.
+        new Chart(areaChartCanvas, {
+            type: 'line',
+            data: areaChartData,
+            options: areaChartOptions
+        })
+
+
+
+    })
+
+
+
+
+</script>

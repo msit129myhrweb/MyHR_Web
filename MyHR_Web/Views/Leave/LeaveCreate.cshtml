@@ -80,10 +80,11 @@
                         <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                     </div>
 
+                
 
                     <div class="form-group">
                         <label asp-for="CApplyDate" class="control-label"></label>
-                        <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" id="Leave-ApplyDate" readonly="readonly" />
+                        <input type="datetime" asp-for="CApplyDate" value="@Session_Today" readonly="readonly" class="form-control" id="Leave-ApplyDate" />
                         <span asp-validation-for="CApplyDate" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -93,15 +94,15 @@
                             @*<option value="" disabled="disabled">請選擇要申請的假別</option>*@
                             @for (int i = 0; i < Leave_Cate.Count; i++)
                             {
-                <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
-}
+                                <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+                            }
 
                         </select>
                         <span asp-validation-for="CLeaveCategoryName" class="text-danger"></span>
                     </div>
                     <div class="form-group ">
                         <label asp-for="CLeaveStartTime" class="control-label"></label>
-                        <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control event" id="Leave_Start" min="2021-03-22T08:30" />
+                        <input type="datetime-local" asp-for="CLeaveStartTime" class="form-control event" id="Leave_Start" /> 
                         <span asp-validation-for="CLeaveStartTime" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -113,11 +114,11 @@
 
                     <div class="form-group">
                         <label asp-for="CLeaveHours" class="control-label">請假時數計算/(小時):(以扣除假日時數)</label>
-                        <input type="text" id="Leave_Cal"  asp-for="CLeaveHours" class="form-control" readonly="readonly" />
+                        <input type="text" id="Leave_Cal" asp-for="CLeaveHours" class="form-control" readonly="readonly" />
                         <span asp-validation-for="CLeaveHours" class="text-danger"></span>
                     </div>
 
-             
+
 
                     <div class="form-group">
                         <label asp-for="CReason" class="control-label"></label>
@@ -133,7 +134,7 @@
                         <div class="card-footer">
                             <input type="submit" id="LeaveCre_cancel" value="取消" class="btn btn-default btn-lg" onclick="return(confirm('申請尚未成功，確定要離開此頁嗎？'))" asp-action="LeaveList" />
                             <i>@*nothing*@</i><i>@*nothing*@</i>
-                            <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick=" check_RestofLeave()", style="filter: grayscale(50%)" />
+                            <input type="submit" value="新增" class="btn btn-info btn-lg float-right" onclick=" check_RestofLeave()" , style="filter: grayscale(50%)" />
 
                         </div>
                     </div>
