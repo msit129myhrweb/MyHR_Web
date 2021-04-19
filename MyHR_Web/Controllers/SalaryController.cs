@@ -108,64 +108,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
         } //員工檢視薪資(VIEW)
 
-        
-        public IActionResult PreviousSalary_CHARTforLeave(int Year, int Month)
-        {
-
-
-            if (Year != null)
-            {
-                Year = Year;
-            }
-            else
-            {
-                Year = 2021;
-            }
-            
-            Month = 4;
-
-            MyHR.TUsers.ToList();
-            MyHR.TUserDepartments.ToList();
-            MyHR.TTravelExpenseApplications.ToList();
-            MyHR.TAbsences.ToList();
-            MyHR.TUserJobTitles.ToList();
-            MyHR.TLeaveApplications.ToList();
-
-            int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
-
-
-
-            List<List<LeaveChart_Salary>> list = new List<List<LeaveChart_Salary>>();
-
-            for (int i = 1; i <= Month; i++)
-            {
-                var table = (MyHR.TUsers.Local
-                  .Where(C => C.CEmployeeId == UserID).AsEnumerable()
-                  .Select(c => new LeaveChart_Salary
-                  {
-                      AbsenceCount = c.TAbsences
-                      .Count(p => p.CDate.Value.Year == Year && p.CDate.Value.Month == i /*&& p.CStatus == "遲到"*/),
-                      
-                      LeaveCount = c.TLeaveApplications
-                      .Count(p => DateTime.Parse(p.CLeaveStartTime).Year == Year && DateTime.Parse(p.CLeaveStartTime).Month == i /*&& p.CCheckStatus == 2*/)
-
-
-                  })).ToList();
-
-
-                list.Add(table);
-            }
-
-
-            //ViewBag.Year = YEAR;
-
-
-
-
-            return PartialView("PreviousSalary_CHARTforLeave");
-        }
-
-
+       
         public IActionResult PreviousSalary(int? YEAR, int? MONTH)
         {
 
@@ -254,7 +197,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                  CEmployeeId = c.CEmployeeId,
                  CJobTitle = c.CJobTitle.CJobTitle,
                  CJobTitleSalary = c.CJobTitle.CJobTitleSalary,
-                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) - 1 && c.CCheckStatus == 2).Sum(n => (n.CAmont))
+                 CAmont_Travel = (int)c.TTravelExpenseApplications.Where(c => c.CTravelStartTime.Value.Month == (DateTime.Now.Date.Month) - 1 && c.CTravelStartTime.Value.Year == (DateTime.Now.Date.Year) && c.CCheckStatus == 2).Sum(n => (n.CAmont))
                  //CLeaveHours = c.TLeaveApplications.Sum(c=>c.CLeaveHours),
                  //CLeaveHours = c.TLeaveApplications.Where(c=>DateTime.Parse(c.CLeaveStartTime).Month == DateTime.Now.Date.Month).Sum(c => c.CLeaveHours),
 
@@ -280,7 +223,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
 
             var table2 = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                          where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) - 1 && i.CCheckStatus == 2 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
+                          where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == (DateTime.Now.Date.Month) - 1 && DateTime.Parse(i.CLeaveStartTime).Year ==DateTime.Now.Date.Year && i.CCheckStatus == 2 //搜尋 "請假起始日"的月為上一個月 (下面也要減)
                           orderby i.CLeaveCategory
                           group i by i.CLeaveCategory into g
                           select new
@@ -304,13 +247,13 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 ViewBag.Leave = T;     //這邊算完是放入ViewBag傳送過去的...糟糕
             }
 
-
+            var a = T.ToList();
 
 
             //------------------------------------------------------------------以下為了取得遲到項目的碼 (30分鐘內44塊錢  一小時內 97)
 
             var table3 = from i in MyHR.TAbsences   //計算遲到總數
-                         where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == (DateTime.Now.Date.Month) - 1)
+                         where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == (DateTime.Now.Date.Month) - 1 && i.CDate.Value.Year == DateTime.Now.Date.Year)
                          group i by i.CStatus into g
                          select new
                          {
@@ -599,7 +542,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
             ViewBag.MONTH = Month;
 
             var table = (from i in MyHR.TLeaveApplications.AsEnumerable()
-                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == Month && i.CCheckStatus == 2  //搜尋 "請假起始日"的月為上一個月 (上面也要減)
+                         where i.CEmployeeId == UserID && DateTime.Parse(i.CLeaveStartTime).Month == Month && DateTime.Parse(i.CLeaveStartTime).Year == DateTime.Now.Date.Year && i.CCheckStatus == 2  //搜尋 "請假起始日"的月為上一個月 (上面也要減)
                          orderby i.CLeaveCategory
                          group i by i.CLeaveCategory into g
                          select new
@@ -643,7 +586,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
 
             ViewBag.MONTH = Month;
             var table = from i in MyHR.TAbsences   //計算遲到總數
-                        where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == Month)
+                        where (i.CEmployeeId == UserID && i.CStatus.Contains("遲到") && i.CDate.Value.Month == Month) &&i.CDate.Value.Year == DateTime.Now.Date.Year
                         group i by i.CStatus into g
                         select new
                         {
@@ -854,6 +797,62 @@ namespace MyCompany_.NetCore_Janna.Controllers
                return RedirectToAction("SalaryList_supervisor");
         } //傳送MAIL
 
-        
+        public IActionResult PreviousSalary_CHARTforLeave(int Year, int Month)
+        {
+
+
+            if (Year != null)
+            {
+                Year = Year;
+            }
+            else
+            {
+                Year = 2021;
+            }
+
+            Month = 4;
+
+            MyHR.TUsers.ToList();
+            MyHR.TUserDepartments.ToList();
+            MyHR.TTravelExpenseApplications.ToList();
+            MyHR.TAbsences.ToList();
+            MyHR.TUserJobTitles.ToList();
+            MyHR.TLeaveApplications.ToList();
+
+            int UserID = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User).CEmployeeId;
+
+
+
+            List<List<LeaveChart_Salary>> list = new List<List<LeaveChart_Salary>>();
+
+            for (int i = 1; i <= Month; i++)
+            {
+                var table = (MyHR.TUsers.Local
+                  .Where(C => C.CEmployeeId == UserID).AsEnumerable()
+                  .Select(c => new LeaveChart_Salary
+                  {
+                      AbsenceCount = c.TAbsences
+                      .Count(p => p.CDate.Value.Year == Year && p.CDate.Value.Month == i /*&& p.CStatus == "遲到"*/),
+
+                      LeaveCount = c.TLeaveApplications
+                      .Count(p => DateTime.Parse(p.CLeaveStartTime).Year == Year && DateTime.Parse(p.CLeaveStartTime).Month == i /*&& p.CCheckStatus == 2*/)
+
+
+                  })).ToList();
+
+
+                list.Add(table);
+            }
+
+
+            //ViewBag.Year = YEAR;
+
+
+
+
+            return PartialView("PreviousSalary_CHARTforLeave");
+        }
+
+
     }
 }

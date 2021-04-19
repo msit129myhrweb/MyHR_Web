@@ -464,7 +464,79 @@ namespace MyHR_Web.Controllers
 
         }
 
-    
+
+        public JsonResult newLeaveApply()
+        {
+
+            //int[] memberBox = new int[]
+            //{
+            //    2,16
+            //};
+            int[] categoryBox = new int[]
+            {
+               1,2,4,5,
+            };
+            string[] dateBox = new string[]
+            {
+                
+                //"2019-05-01T10:15",
+                //"2019-05-01T07:20",
+                //"2019-05-01T09:38",
+                //"2019-09-01T08:50",
+                //"2019-09-01T10:20",
+                //"2019-09-02T11:40",
+                //"2019-11-06T16:15",
+                //"2019-11-04T10:26",
+                //"2019-11-01T08:33",
+                "2020-05-01T10:45",
+                "2020-09-15T09:56",
+                "2020-04-01T12:44",
+                "2020-10-01T14:20",
+                "2020-11-01T07:19",
+                "2020-05-01T09:44",
+            };
+
+            string[] reasonBox = new string[]
+            {
+                "隨機測試1",
+                "隨機測試2",
+                "隨機測試3",
+                "隨機測試4",
+                "隨機測試5",
+
+            };
+
+            int[] hoursBox = new int[]
+            {
+              9,15,14,3,7
+            };
+
+            Random random = new Random();
+            var LeaveBox = MyHr.TLeaveApplications.ToList();
+
+            for (int i = 0; i < 10; i++)
+            {
+                TLeaveApplication order = new TLeaveApplication()
+                {
+                   CDepartmentId = 2,
+                   CEmployeeId = 1,
+                   CApplyDate = dateBox[random.Next(0, dateBox.Count())],
+                   CLeaveCategory= categoryBox[random.Next(0, 3)],
+                   CLeaveStartTime = dateBox[random.Next(0, dateBox.Count())],
+                   CLeaveEndTime = dateBox[random.Next(0, dateBox.Count())],
+                   CReason = reasonBox[random.Next(0,4)],
+                   CLeaveHours = hoursBox[random.Next(0, 4)],
+                   CCheckStatus =1,
+
+                };
+                MyHr.TLeaveApplications.Add(order);
+              
+            }
+            MyHr.SaveChanges();
+
+            return Json("done");
+        }
+
 
     }
 }
