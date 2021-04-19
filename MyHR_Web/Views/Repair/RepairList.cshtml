@@ -130,9 +130,7 @@
                                 <th>
                                     @Html.DisplayNameFor(model => model.CContentofRepair)
                                 </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.CPhone)
-                                </th>
+                                
                                 <th>
                                     @Html.DisplayNameFor(model => model.CRepairStatus)
                                 </th>
@@ -184,9 +182,7 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.CContentofRepair)
                                 </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.CPhone)
-                                </td>
+                               
                                 <td>
                                     @Enum.GetName(typeof(eCheck), item.CRepairStatus)
                                 </td>
@@ -197,13 +193,17 @@
                                             @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) }
                                     }
                                 </td>
+                                @if (ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
+                                {
+                            <td>
+                                @if (item.CRepairStatus == 0 && ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
+                                {
+                                    @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                }
+                            </td>
 
-                                <td>
-                                    @if (item.CRepairStatus == 0 && ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
-                                    {
-                                @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })          
-                                    }
-                                </td>
+                                }
+                                
 
                             </tr>
 
