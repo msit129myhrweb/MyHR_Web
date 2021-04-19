@@ -191,7 +191,7 @@
 
     //返回查詢頁面、重新查詢、判斷昨天是否有打卡
     function search() {
-        
+
         $.ajax({
             type: "get",
             dataType: "html",
@@ -251,7 +251,61 @@
         console.log(v);
         console.log(input);
         if (v === 0) {
-            if (@a== 7) {
+
+
+             if (@a== 15) {//demo出差高雄分公司
+
+                var latlng = { lat: 22.6218658, lng: 120.3114267 }; //初始位置(高雄分公司)
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 17, //放大的倍率
+                    center: latlng //初始化的地圖中心位置
+                });
+                var Companyicon = {
+                    url: "../building.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(25,30) // anchor
+                };
+
+                var markerCompany = new google.maps.Marker({  //高雄分公司的marker
+                    position: latlng,
+                    map: map,
+                    title: "公司",
+                    icon: Companyicon,
+                });
+
+                //目前位置
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    var pos = {
+                        lat: 22.622224,//position.coords.latitude,
+                        lng: 120.309352,//position.coords.longitude,
+                    };
+                    var marker = new google.maps.Marker({
+                        position: pos,
+                        map: map,
+                        title: "現在位置",
+                        icon: icon,
+                    });
+                });
+                var icon = {
+                    url: "../pin.svg", // url
+                    scaledSize: new google.maps.Size(50, 50), // scaled size
+                    origin: new google.maps.Point(0, 0), // origin
+                    anchor: new google.maps.Point(30,30) // anchor
+                };
+
+                var pos = {
+                    lat: 22.622224,//position.coords.latitude,
+                    lng: 120.309352//position.coords.longitude,
+                };
+                var marker = new google.maps.Marker({
+                    position: pos,
+                    map: map,
+                    icon: icon,
+                });
+            }
+
+             else {
                 var latlng = { lat: 25.033901, lng: 121.543398 }; //初始位置(資策會)
                 var map = new google.maps.Map(document.getElementById('map'), {
                     zoom: 17, //放大的倍率
@@ -293,58 +347,6 @@
                 var pos = {
                     lat: 25.034901,//position.coords.latitude,
                     lng: 121.5436398//position.coords.longitude,
-                };
-                var marker = new google.maps.Marker({
-                    position: pos,
-                    map: map,
-                    icon: icon,
-                });
-            }
-
-            else if (@a== 11) {//demo出差高雄分公司
-
-                var latlng = { lat: 22.6218658, lng: 120.3114267 }; //初始位置(高雄分公司)
-                var map = new google.maps.Map(document.getElementById('map'), {
-                    zoom: 17, //放大的倍率
-                    center: latlng //初始化的地圖中心位置
-                });
-                var Companyicon = {
-                    url: "../building.svg", // url
-                    scaledSize: new google.maps.Size(50, 50), // scaled size
-                    origin: new google.maps.Point(0, 0), // origin
-                    anchor: new google.maps.Point(25,30) // anchor
-                };
-
-                var markerCompany = new google.maps.Marker({  //高雄分公司的marker
-                    position: latlng,
-                    map: map,
-                    title: "公司",
-                    icon: Companyicon,
-                });
-
-                //目前位置
-                navigator.geolocation.getCurrentPosition(function (position) { 
-                    var pos = {
-                        lat: 22.622224,//position.coords.latitude,
-                        lng: 120.309352,//position.coords.longitude,
-                    };
-                    var marker = new google.maps.Marker({
-                        position: pos,
-                        map: map,
-                        title: "現在位置",
-                        icon: icon,
-                    });
-                });
-                var icon = {
-                    url: "../pin.svg", // url
-                    scaledSize: new google.maps.Size(50, 50), // scaled size
-                    origin: new google.maps.Point(0, 0), // origin
-                    anchor: new google.maps.Point(30,30) // anchor
-                };
-
-                var pos = {
-                    lat: 22.622224,//position.coords.latitude,
-                    lng: 120.309352//position.coords.longitude,
                 };
                 var marker = new google.maps.Marker({
                     position: pos,
