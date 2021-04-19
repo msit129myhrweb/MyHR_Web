@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
 using MyHR_Web.ViewModel;
+using Newtonsoft.Json;
 using prjCoreDemo.ViewModel;
 
 namespace MyHR_Web.Controllers
@@ -22,193 +23,160 @@ namespace MyHR_Web.Controllers
         #region 上下班打卡
         public IActionResult List()
         {
-            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
-            var t1 = db.TAbsences
-                .Where(a => a.CEmployeeId == userId &&
-                       a.CCountNum > 0 &&
-                       a.CCountNum < 3 &&
-                       a.CDate.Value.Month == Con.Month)
-                .ToList();
-            List<TAbsence> list1 = new List<TAbsence>();
-            foreach (var item in t1)
-            {
-                TAbsence avm1 = new TAbsence()
-                {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus,
-                    CCountNum = item.CCountNum
-                };
-                list1.Add(avm1);
-            }
-            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
-            ViewBag.totalCountNum = total;//傳到view
-
-            //預設為顯示當週打卡紀錄
-            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
-
-            var table = db.TAbsences
-                    .Where(a => a.CEmployeeId == userId &&
-                          a.CDate >= dtMonday &&
-                          a.CDate <= dtSunday)
-                    .OrderByDescending(a => a.CDate).ToList();
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (var item in table)
-            {
-                CAbsenceViewModel avm = new CAbsenceViewModel()
-                {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus,
-                    CCountNum = item.CCountNum
-                };
-                list.Add(avm);
-            }
-            return View(list);
+            ViewBag.fromEdit= TempData["fromEdit"];
+                return View();
         }
 
         public IActionResult getClockString_on(int id,DateTime date)//上班
         {
-            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
-            TAbsence td = db.TAbsences.FirstOrDefault(z => z.CDate.Value.Date == DateTime.Today && z.CEmployeeId == id && z.COn.HasValue);//尋找該員工今天的打卡紀錄
-            if (td == null)//今天未打卡
+            try
             {
-                if (now <= Con)//9:00前
+                int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+                
+                TAbsence td = db.TAbsences.FirstOrDefault(z => z.CDate.Value.Date == DateTime.Today && z.CEmployeeId == id && z.COn.HasValue);//尋找該員工今天的打卡紀錄
+                if (td == null)//今天未打卡
                 {
-                    TAbsence b = new TAbsence()
+                    if (now <= Con)//9:00前
                     {
-                        CEmployeeId = id,
-                        CDate = date,
-                        COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
-                        CStatus = "正常",
-                    };
-                    db.TAbsences.Add(b);
-                }
-                else if (now > Con && now < Late)//9:00-9:59
-                {
-                    TAbsence b = new TAbsence()
+                        TAbsence b = new TAbsence()
+                        {
+                            CEmployeeId = id,
+                            CDate = date,
+                            COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
+                            CStatus = "正常",
+                        };
+                        db.TAbsences.Add(b);
+                    }
+                    else if (now > Con && now < Late)//9:00-9:59
                     {
-                        CEmployeeId = id,
-                        CDate = date,
-                        COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
-                        CStatus = "遲到",
-                    };
-                    db.TAbsences.Add(b);
-                }
-                else if (now >= Late)//10:00(含)之後
-                {
-                    TAbsence b = new TAbsence()
+                        TAbsence b = new TAbsence()
+                        {
+                            CEmployeeId = id,
+                            CDate = date,
+                            COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
+                            CStatus = "遲到",
+                        };
+                        db.TAbsences.Add(b);
+                    }
+                    else if (now >= Late)//10:00(含)之後
                     {
-                        CEmployeeId = id,
-                        CDate = date,
-                        COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
-                        CStatus = "異常",
-                    };
-                    db.TAbsences.Add(b);
+                        TAbsence b = new TAbsence()
+                        {
+                            CEmployeeId = id,
+                            CDate = date,
+                            COn = TimeSpan.Parse(now.ToString("HH:mm:ss")),
+                            CStatus = "異常",
+                        };
+                        db.TAbsences.Add(b);
+                    }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
-            }
-            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+                DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+                DateTime dtSunday = dtMonday.AddDays(6); //當週週日
 
-            var table = db.TAbsences
-                    .Where(a => a.CEmployeeId == userId &&
-                          a.CDate >= dtMonday &&
-                          a.CDate <= dtSunday)
-                    .OrderByDescending(a => a.CDate).ToList();
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (var item in table)
+                var table = db.TAbsences
+                        .Where(a => a.CEmployeeId == userId &&
+                              a.CDate >= dtMonday &&
+                              a.CDate <= dtSunday)
+                        .OrderByDescending(a => a.CDate).ToList();
+                List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
+                foreach (var item in table)
+                {
+                    CAbsenceViewModel avm = new CAbsenceViewModel()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CDate = item.CDate,
+                        COn = item.COn,
+                        COff = item.COff,
+                        CStatus = item.CStatus
+                    };
+                    list.Add(avm);
+                }
+                getCountNum();
+                return PartialView("ClockOnAndOff", list);
+            }
+            catch (Exception)
             {
-                CAbsenceViewModel avm = new CAbsenceViewModel()
-                {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus
-                };
-                list.Add(avm);
+                throw;
             }
-
-            return PartialView("date_search",list);
         }
         public IActionResult getClockString_off(int id, DateTime date)//下班
         {
-            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-            DateTime now = DateTime.Now;
-
-            TAbsence td = db.TAbsences.FirstOrDefault(z => z.CDate.Value.Date == DateTime.Today && z.CEmployeeId == id && z.COn.HasValue);//尋找該員工今天的打卡紀錄
-            TAbsence yd = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == id && z.CDate.Value.Date == DateTime.Today.AddDays(-1));//尋找該員工今天的打卡紀錄
-
-            if (td != null)//有打上班卡
+            try
             {
-                TimeSpan aonTime = td.COn.Value;//上班卡的時間
-                TimeSpan ConTime = Con.TimeOfDay;//09:00
-                TimeSpan LateTime = Late.TimeOfDay;//10:00
-                if (date == td.CDate)
+                int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+                DateTime now = DateTime.Now;
+
+                TAbsence td = db.TAbsences.FirstOrDefault(z => z.CDate.Value.Date == DateTime.Today && z.CEmployeeId == id && z.COn.HasValue);//尋找該員工今天的打卡紀錄
+                TAbsence yd = db.TAbsences.FirstOrDefault(z => z.CEmployeeId == id && z.CDate.Value.Date == DateTime.Today.AddDays(-1));//尋找該員工今天的打卡紀錄
+
+                if (td != null)//有打上班卡
                 {
-                    if (aonTime > ConTime && aonTime < LateTime)
+                    TimeSpan aonTime = td.COn.Value;//上班卡的時間
+                    TimeSpan ConTime = Con.TimeOfDay;//09:00
+                    TimeSpan LateTime = Late.TimeOfDay;//10:00
+                    if (date == td.CDate)
                     {
-                        td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
-                        td.CStatus = "遲到";
-                        db.SaveChanges();
-                    }
-                    else if (aonTime < ConTime)
-                    {
-                        td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
-                        td.CStatus = "正常";
-                        db.SaveChanges();
-                    }
-                    else if (aonTime > LateTime)
-                    {
-                        td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
-                        td.CStatus = "異常";
-                        db.SaveChanges();
+                        if (aonTime > ConTime && aonTime < LateTime)
+                        {
+                            td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
+                            td.CStatus = "遲到";
+                            db.SaveChanges();
+                        }
+                        else if (aonTime < ConTime)
+                        {
+                            td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
+                            td.CStatus = "正常";
+                            db.SaveChanges();
+                        }
+                        else if (aonTime > LateTime)
+                        {
+                            td.COff = TimeSpan.Parse(now.ToString("HH:mm:ss"));
+                            td.CStatus = "異常";
+                            db.SaveChanges();
+                        }
                     }
                 }
-            }
-            else if (td == null)//沒打上班卡
-            {
-                TAbsence b = new TAbsence()
+                else if (td == null)//沒打上班卡
                 {
-                    CEmployeeId = id,
-                    CDate = date,
-                    COff = TimeSpan.Parse(now.ToString("HH:mm:ss")),
-                    CStatus ="異常",
-                    CCountNum = yd.CCountNum
-                };
-                db.TAbsences.Add(b);
-                db.SaveChanges();
-            }
-            DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
-            DateTime dtSunday = dtMonday.AddDays(6); //當週週日
+                    TAbsence b = new TAbsence()
+                    {
+                        CEmployeeId = id,
+                        CDate = date,
+                        COff = TimeSpan.Parse(now.ToString("HH:mm:ss")),
+                        CStatus = "異常",
+                        CCountNum = yd.CCountNum
+                    };
+                    db.TAbsences.Add(b);
+                    db.SaveChanges();
+                }
+                DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
+                DateTime dtSunday = dtMonday.AddDays(6); //當週週日
 
-            var table = db.TAbsences
-                    .Where(a => a.CEmployeeId == userId &&
-                          a.CDate >= dtMonday &&
-                          a.CDate <= dtSunday)
-                    .OrderByDescending(a => a.CDate).ToList();
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (var item in table)
-            {
-                CAbsenceViewModel avm = new CAbsenceViewModel()
+                var table = db.TAbsences
+                        .Where(a => a.CEmployeeId == userId &&
+                              a.CDate >= dtMonday &&
+                              a.CDate <= dtSunday)
+                        .OrderByDescending(a => a.CDate).ToList();
+                List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
+                foreach (var item in table)
                 {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus
-                };
-                list.Add(avm);
+                    CAbsenceViewModel avm = new CAbsenceViewModel()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CDate = item.CDate,
+                        COn = item.COn,
+                        COff = item.COff,
+                        CStatus = item.CStatus
+                    };
+                    list.Add(avm);
+                }
+                return PartialView("ClockOnAndOff", list);
             }
-            return PartialView("date_search", list);
+            catch (Exception)
+            {
+                throw;
+            }
         }
         #endregion
 
@@ -220,32 +188,11 @@ namespace MyHR_Web.Controllers
 
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
 
-            var t1 = db.TAbsences.Where(a => a.CEmployeeId == userId &&
-                                             a.CCountNum > 0 &&
-                                             a.CCountNum < 3 &&
-                                             a.CDate.Value.Month == Con.Month)
-                                  .ToList();
-            List<TAbsence> list1 = new List<TAbsence>();
-            foreach (var item in t1)
-            {
-                TAbsence avm1 = new TAbsence()
-                {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus,
-                    CCountNum = item.CCountNum
-                };
-                list1.Add(avm1);
-            }
-            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
-            ViewBag.totalCountNum = total;
-
+            int countNum= getCountNum();
             TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
             ViewBag.absence = applyNum;
 
-            if (applyNum != null  && abs != null && abs.COn == null ? true : abs.COn < LateTime && total < 3)
+            if (applyNum != null  && abs != null && abs.COn == null ? true : abs.COn < LateTime && countNum < 3)
             {
                 CAbsenceViewModel obj = new CAbsenceViewModel()
                 {
@@ -263,7 +210,7 @@ namespace MyHR_Web.Controllers
             }
         }
         [HttpPost]
-        public IActionResult Edit(TAbsence absence, int? id, DateTime? date, string? when, int? applyNum)
+        public IActionResult Edit(TAbsence absence, int id, DateTime? date, string? when, int? applyNum)
         {
             if (absence != null)
             {
@@ -281,7 +228,7 @@ namespace MyHR_Web.Controllers
                     else if (absed.COn != null && absed.COff == null)//補下班卡
                     {
                         absed.COff = TimeSpan.Parse("18:00:00"); ;
-                        if (absed.COn > ConTime&& absed.COn< tenOclck)//9:01
+                        if (absed.COn > ConTime && absed.COn < tenOclck)//9:01
                         {
                             absed.CStatus = "遲到";
                         }
@@ -308,6 +255,8 @@ namespace MyHR_Web.Controllers
                     db.SaveChanges();
                 }
             }
+            getCountNum();
+            TempData["fromEdit"] = 1;
             return RedirectToAction("List");
         }
         #endregion
@@ -362,12 +311,12 @@ namespace MyHR_Web.Controllers
                 };
                 list.Add(avm);
             }
+            getCountNum();
             return PartialView("date_search", list);
         }
         public IActionResult date_search(DateTime? sDate, DateTime? eDate,string status)//日期及狀態查詢
         {
             int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
-
             var time = db.TAbsences
                 .Where(a => a.CEmployeeId==userId&&
                       (sDate != null ? a.CDate >= sDate : true)&&
@@ -388,33 +337,43 @@ namespace MyHR_Web.Controllers
                 };
                 list.Add(avm);
             }
-            return PartialView("date_search",list);
+            getCountNum();//取得補登次數
+            return PartialView("Absence_table", list);
         }
 
-        public IActionResult research(int id)//重新查詢
+        public IActionResult research(int id)//回查詢頁面
         {
             DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
             DateTime dtSunday = dtMonday.AddDays(6); //當週週日
-
-            var table = db.TAbsences
-                    .Where(a => a.CEmployeeId == id &&
-                          a.CDate >= dtMonday &&
-                          a.CDate <= dtSunday)
-                    .OrderByDescending(a => a.CDate).ToList();
-            List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
-            foreach (var item in table)
+            try
             {
-                CAbsenceViewModel avm = new CAbsenceViewModel()
+                //預設為顯示當週打卡紀錄
+                var table = db.TAbsences
+                        .Where(a => a.CEmployeeId == id &&
+                              a.CDate >= dtMonday &&
+                              a.CDate <= dtSunday)
+                        .OrderByDescending(a => a.CDate).ToList();
+                List<CAbsenceViewModel> list = new List<CAbsenceViewModel>();
+                foreach (var item in table)
                 {
-                    CApplyNumber = item.CApplyNumber,
-                    CDate = item.CDate,
-                    COn = item.COn,
-                    COff = item.COff,
-                    CStatus = item.CStatus
-                };
-                list.Add(avm);
+                    CAbsenceViewModel avm = new CAbsenceViewModel()
+                    {
+                        CApplyNumber = item.CApplyNumber,
+                        CDate = item.CDate,
+                        COn = item.COn,
+                        COff = item.COff,
+                        CStatus = item.CStatus,
+                        CCountNum = item.CCountNum
+                    };
+                    list.Add(avm);
+                }
+                getCountNum();
+                return PartialView("date_search", list);
             }
-            return PartialView("date_search", list);
+            catch (Exception)
+            {
+                throw;
+            }
         }
         public IActionResult search_dwm(int id,string search_dwm)//當日當週當月查詢
         {
@@ -440,7 +399,8 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                getCountNum();
+                return PartialView("Absence_table", list);
             }
             else if (search_dwm == "當週")
             {
@@ -465,7 +425,8 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                getCountNum();
+                return PartialView("Absence_table", list);
             }
             else//當月
             {
@@ -488,8 +449,48 @@ namespace MyHR_Web.Controllers
                     };
                     list.Add(avm);
                 }
-                return PartialView("date_search", list);
+                getCountNum();
+                return PartialView("Absence_table", list);
             }
+        }
+
+        public async Task<IActionResult> GeoExample()
+        {
+            JSONtoViewModel model = new JSONtoViewModel();
+            GeoHelper geoHelper = new GeoHelper();
+            var result = await geoHelper.GetGeoInfo();
+            model = JsonConvert.DeserializeObject<JSONtoViewModel>(result);
+            //TempData["GeoCode"] = result;
+            return PartialView("GeoExample", model);
+        }
+
+        public int getCountNum()
+        {
+            int userId = int.Parse(HttpContext.Session.GetString(CDictionary.CURRENT_LOGINED_USERID));
+
+            var t1 = db.TAbsences
+                .Where(a => a.CEmployeeId == userId &&
+                       a.CCountNum > 0 &&
+                       a.CCountNum < 3 &&
+                       a.CDate.Value.Month == Con.Month)
+                .ToList();
+            List<TAbsence> list1 = new List<TAbsence>();
+            foreach (var item in t1)
+            {
+                TAbsence avm1 = new TAbsence()
+                {
+                    CApplyNumber = item.CApplyNumber,
+                    CDate = item.CDate,
+                    COn = item.COn,
+                    COff = item.COff,
+                    CStatus = item.CStatus,
+                    CCountNum = item.CCountNum
+                };
+                list1.Add(avm1);
+            }
+            int total = list1.Sum(x => Convert.ToInt32(x.CCountNum));//本月補登總數
+            ViewBag.totalCountNum = total;//傳到view
+            return total;
         }
     }
 }

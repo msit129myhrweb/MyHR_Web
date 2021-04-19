@@ -117,6 +117,17 @@ namespace MyHR_Web.ViewModel
         //public virtual TCheckStatus CCheckStatusNavigation { get { return iv_Leave.CCheckStatusNavigation; } set { iv_Leave.CCheckStatusNavigation = value; } }
         public virtual TUser CEmployee { get { return iv_Leave.CEmployee; } set { iv_Leave.CEmployee = value; } }
         public virtual TLeave CLeaveCategoryNavigation { get { return iv_Leave.CLeaveCategoryNavigation; } set { iv_Leave.CLeaveCategoryNavigation = value; } }
+
+
+
+        public int Category { get; set; }
+
+        public int CategoryCount { get; set; }
+
+        public List<TLeaveApplicationViewModel> NONO { get; set; }
+
+        public int Leave_Specil { get; set; }
+
     }
 
 

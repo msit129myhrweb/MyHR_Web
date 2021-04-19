@@ -42,7 +42,6 @@
     <None Include="Views\Shared\_ValidationScriptsPartial.cshtml" />
     <None Include="Views\TravelExpense\Create.cshtml" />
     <None Include="Views\TravelExpense\List.cshtml" />
-    <None Include="Views\Travel_Expense_Application\Detail.cshtml" />
     <None Include="Views\Travel_Expense_Application\List.cshtml" />
     <None Include="Views\WuCha\WuChaList.cshtml" />
     <None Include="Views\WuCha\WuChaList2.cshtml" />
@@ -1945,6 +1944,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Views\Location\" />
     <Folder Include="wwwroot\ExcelFile\" />
     <Folder Include="wwwroot\js\group\" />
   </ItemGroup>

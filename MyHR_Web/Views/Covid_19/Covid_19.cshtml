@@ -25,7 +25,7 @@
     <section class="content" id="content">
 
         <!-- Default box -->
-        <div class="card">
+        <!--<div class="card">
             <div class="card-header">
                 <h3 class="card-title">資安公告</h3>
 
@@ -42,16 +42,16 @@
                 1.使用資訊設備請注意資訊安全，請勿點擊不明信件或網址。<br />
                 2.公司資訊請勿任意攜出或傳輸儲存設備或雲端服務。<br />
                 3.有任何資安疑慮或問題請洽 IT 人員。<br />
-            </div>
+            </div>-->
             <!-- /.card-body -->
-            <div class="card-footer">
+            <!--<div class="card-footer">
                 Footer
-            </div>
+            </div>-->
             <!-- /.card-footer-->
-        </div>
+        <!--</div>-->
         <!-- /.card -->
         <!-- Default box -->
-        <div class="card">
+        <!--<div class="card">
             <div class="card-header">
                 <h3 class="card-title">訊息公告</h3>
 
@@ -66,13 +66,13 @@
             </div>
             <div class="card-body">
                 目前尚無訊息...<br />
-            </div>
+            </div>-->
             <!-- /.card-body -->
-            <div class="card-footer">
+            <!--<div class="card-footer">
                 Footer
-            </div>
+            </div>-->
             <!-- /.card-footer-->
-        </div>
+        <!--</div>-->
         <!-- /.card -->
 
     </section>
@@ -90,12 +90,13 @@
         success: function (data) {
             var txt = "";
             var titles = data.getElementsByTagName("title");
+            var links = data.getElementsByTagName("link");
             var descriptions = data.getElementsByTagName("description");
             var updated = data.getElementsByTagName("a10:updated");
             for (let i = 1; i < 10; i++) {
                 txt += "<div class='card-yellow'>";
                 txt += '<div class="card-header">';
-                txt += '<h3 class="card-title">' + titles[i].firstChild.nodeValue + '</h3>';
+                txt += '<h3 class="card-title"><a href=' + links[i].firstChild.nodeValue +' target="_blank">' + titles[i].firstChild.nodeValue + '</a></h3>';
                 txt += '<div class="card-tools">';
                 txt += '<button type = "button" class="btn btn-tool" data-card-widget="collapse" title = "Collapse">';
                 txt += '<i class="fas fa-minus"></i>';

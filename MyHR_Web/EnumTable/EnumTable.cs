@@ -81,3 +81,9 @@ public enum eOnBoard
     在職中,
     離職
 }
+
+public enum eGender
+{ NONE,
+    男,
+    女
+}

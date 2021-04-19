@@ -37,8 +37,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
-                        <input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />
+                        <label id="name" class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
+                        <input type="text" id="txtName" name="txtName" placeholder="輸入姓名" autocomplete="off" />
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="col-lg-3 control-label">審核狀態&nbsp:&nbsp</label>
@@ -206,6 +206,10 @@
                 alert("error:" + msg);
             }
         })
+    });
+
+    $("#name").click(function () {
+        $("#txtName").val("鄭麗穎");
     });
 
 </script>

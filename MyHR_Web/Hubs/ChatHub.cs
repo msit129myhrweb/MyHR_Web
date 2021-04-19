@@ -8,7 +8,7 @@ namespace MyHR_Web.Hubs
     {
         public async Task SendMessage(string user, string message)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message +" "+DateTime.Now.ToString("HH:mm:ss"));
+            await Clients.All.SendAsync("ReceiveMessage", user,message +" [ "+DateTime.Now.ToString("HH:mm:ss")+" ] ");
         }
        
     }
