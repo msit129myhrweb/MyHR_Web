@@ -38,15 +38,19 @@
                     <div class="card-body">
                         <form method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label asp-for="CPhoto" class="control-label"></label><br/>
+                                <label asp-for="CPhoto" class="control-label"></label><br />
                                 <img class="profile-user-img img-fluid img-circle"
+                                     id="imgid"
                                      src="/Home/ViewPhoto?id=@ViewData["USERID"]"
                                      alt="@ViewData["CURRENT_LOGINED_USERNAME"]"
                                      style="width:200px;height:200px;" />
+                               
                                 <span asp-validation-for="CPhoto" class="text-danger"></span>
                             </div>
                             <div class="form-group">
-                                <input type="file" id="files" asp-for="CPhoto" />
+                                <input type="file" id="files" asp-for="CPhoto" onChange="load()" style="display:none"/>
+                                <label for="files" class="button-primary" style="color: #FFFFFF; border-style: outset; background-color: #b78080; padding: 5px; margin-left: 45px; border-radius: 10px;box-shadow:2px 2px 5px 6px">&nbsp;<i class="fas fa-images"></i>&nbsp;選擇照片&nbsp;</label>
+
                             </div>
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <input type="hidden" asp-for="CEmployeeId" />
@@ -176,3 +180,15 @@
 
     </div>
 
+<script>
+    function load(img) {
+
+        var r = new FileReader();
+        r.onload = function () {
+            var output = document.getElementById('imgid');
+            output.src = r.result;
+        }
+        r.readAsDataURL(event.target.files[0])
+    };
+    
+</script>

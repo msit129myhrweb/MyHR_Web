@@ -1,4 +1,4 @@
-﻿@model IEnumerable<MyHR_Web.ViewModel.TUserViewModel>
+﻿
 @using Microsoft.AspNetCore.Http;
 @{ 
     string userName = Context.Session.GetString("CURRENT_LOGINED_USERNAME");
@@ -19,8 +19,6 @@
             color: #FFFFFF;
             padding-left: 10px;
         }
-
-
 
         .msg_container_base {
             background: #e5e5e5;
@@ -63,8 +61,6 @@
         position: relative;
     }
 
-   
-
         .base_sent {
         justify-content: flex-end;
         align-items: flex-end;
@@ -84,7 +80,7 @@
        
     }
 
-    </style>
+</style>
 
 </head>
 <body>
@@ -94,62 +90,99 @@
         </section>
         @*官方signalr文件*@
         @*<div class="container">
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-2">使用者:</div>
-                <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
-            </div>
-            <div class="row">
-                <div class="col-2">訊息:</div>
-                <div class="col-4"><input type="text" id="messageInput" /></div>
-            </div>
-            <div class="row">&nbsp;</div>
-            <div class="row">
-                <div class="col-6">
-                    <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-2">使用者:</div>
+                    <div class="col-4"><input type="text" class="form-control-plaintext"  id="userInput" value="@userName" readonly="readonly" /></div>
+                </div>
+                <div class="row">
+                    <div class="col-2">訊息:</div>
+                    <div class="col-4"><input type="text" id="messageInput" /></div>
+                </div>
+                <div class="row">&nbsp;</div>
+                <div class="row">
+                    <div class="col-6">
+                        <input type="button" id="sendButton" class="btn btn-primary" value="送出" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <hr />
+            <div class="row">
+                <div class="col-12">
+                    <hr />
+                </div>
             </div>
-        </div>
-        <div class="row bg-white text-dark">
-            <div class="col-6">
-                <ul id="messagesList"></ul>
+            <div class="row bg-white text-dark">
+                <div class="col-6">
+                    <ul id="messagesList"></ul>
+                </div>
             </div>
-        </div>
-        <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>*@
+            <script src="~/js/signalr/dist/browser/signalr.js"></script>
+            <script src="~/js/chat.js"></script>*@
 
         <div class="container">
-            <div class="panel msg_container_base">
-                <div class="row msg_container base_sent">
-                    <div class="col-md-10 col-xs-10">
-                        <div class="messages msg_sent">
-                            <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
-                            <p id="messagesList"></p>
+                <div class="panel msg_container_base">
+                    <div class="row msg_container base_sent">
+                        <div class="col-md-10 col-xs-10">
+                            <div class="messages msg_sent">
+                                <div class="col-4"><input type="text" class="form-control-plaintext" id="userInput" value="@userName" readonly="readonly" style="display:none" /></div>
+                                <div  id="messagesList" style="">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2 col-xs-2 avatar">
+                            <img class="profile-user-img" src="/Home/ViewPhoto?id=@userID" alt="User profile picture" style="width:150px;height:150px;" />
                         </div>
                     </div>
-                    <div class="col-md-2 col-xs-2 avatar">
-                        <img class="profile-user-img" src="/Home/ViewPhoto?id=@userID" alt="User profile picture" style="width:150px;height:150px;" />
+                </div>
+                <div class="panel-footer">
+                    <div class="input-group">
+                        <input id="messageInput" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="panel-footer">
-                <div class="input-group">
-                    <input id="messageInput" type="text" class="form-control input-sm chat_input" placeholder="Write your message here..." />
-                    <span class="input-group-btn">
-                        <button class="btn btn-primary btn-sm" id="sendButton">送出</button>
-                    </span>
-                </div>
-            </div>
-        </div>
-        <script src="~/js/signalr/dist/browser/signalr.js"></script>
-        <script src="~/js/chat.js"></script>
-       
-       
-    </div>
+            <script src="~/js/signalr/dist/browser/signalr.js"></script>        
+</div>
 </body>
 
+<script>
+
+    var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+
+
+    document.getElementById("sendButton").disabled = true;
+
+    connection.on("ReceiveMessage", function (user, message) {
+        var userName = document.getElementById("userInput").value;
+        var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        var encodedMsg = user + "  says  " + msg;      //對話顯示樣式
+        var li = document.createElement("li");
+        li.textContent = encodedMsg;
+        if (userName === user) {                      //判斷user在左邊還是右邊
+            li.style = "text-align:right;";
+        }
+        else {
+            li.style = "text-align:left;";
+        }
+
+        document.getElementById("messagesList").appendChild(li);
+    });
+
+    connection.start().then(function () {
+        document.getElementById("sendButton").disabled = false;
+    }).catch(function (err) {
+        return console.error(err.toString());
+    });
+
+    document.getElementById("sendButton").addEventListener("click", function (event) {
+
+        var user = document.getElementById("userInput").value;                    
+        var message = document.getElementById("messageInput").value;
+        connection.invoke("SendMessage", user, message).catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });
+</script>

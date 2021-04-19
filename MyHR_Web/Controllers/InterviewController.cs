@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using Newtonsoft.Json;
+using prjCoreDemo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
 {
-    public class InterviewController : Controller
+    public class InterviewController : FilterController
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
         public IActionResult List()
@@ -18,6 +20,7 @@ namespace MyHR_Web.Controllers
             ViewBag.InterViewStatus = status;
             List<TUserDepartment> dept = getDept();
             ViewBag.Dept = dept;
+            ViewBag.Id = TempData["Id"];
 
             var table = myHR.TInterViews;
             List<CInterviewListViewModel> list = new List<CInterviewListViewModel>();
@@ -64,6 +67,8 @@ namespace MyHR_Web.Controllers
                     myHR.SaveChanges();
                 }
             }
+            TempData["Id"] = I.CInterVieweeId;
+            AddNoti(1, "123", "456");
             return RedirectToAction("List");
         }
 
@@ -142,11 +147,12 @@ namespace MyHR_Web.Controllers
             {
                 if (a != null)
                 {
-                    a.CProcessTime = DateTime.Now.ToString();
+                    a.CProcessTime = DateTime.Now.ToString("mm/dd/yyyy HH:mm:ss");
                     a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
                     myHR.TInterViewProcesses.Add(a);
                     myHR.SaveChanges();
                 }
+//                TempData["Id"] = I.CInterVieweeId;
                 return RedirectToAction("List");
             }
             catch
@@ -154,5 +160,6 @@ namespace MyHR_Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        
     }
 }

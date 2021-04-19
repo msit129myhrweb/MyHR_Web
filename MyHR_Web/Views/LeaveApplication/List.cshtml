@@ -38,8 +38,8 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 form-group">
-                        <label class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
-                        <input type="text" name="txtName" placeholder="輸入姓名" autocomplete="off" />
+                        <label id="name" class="col-lg-3 control-label">員工姓名&nbsp:&nbsp</label>
+                        <input type="text" id="txtName" name="txtName" placeholder="輸入姓名" autocomplete="off" />
                     </div>
                     <div class="col-md-6 form-group">
                         <label class="col-lg-3 control-label">審核狀態&nbsp:&nbsp</label>
@@ -197,10 +197,6 @@
         var Status = $("#leave_Status").val()
         var sDate = $("#sDate").val()
         var eDate = $("#eDate").val()
-        //console.log(Cate);
-        //console.log(Status);
-        //console.log(sDate);
-        //console.log(eDate);
 
         $.ajax({
             type: "get",
@@ -208,7 +204,6 @@
             url: "/LeaveApplication/date_search",
             data: { cate: Cate, status: Status, start: sDate, end: eDate },
             success: function (data) {
-                //console.log("test");
                 $("#Leave_table").html(data);
             },
             error: function (msg) {
@@ -216,4 +211,9 @@
             }
         })
     });
+
+    $("#name").click(function () {
+        $("#txtName").val("鄭麗穎");
+    });
+
 </script>

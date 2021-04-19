@@ -1,0 +1,118 @@
+﻿@model IEnumerable<MyHR_Web.ViewModel.CReairViewModel>
+
+@{ ViewData["Title"] = "RepairList";
+                List<TRepair> repairs = ViewBag.Statuses; }
+
+
+<div id="repair_table">
+    <div class="card">
+        <div class="card-header">
+            <table table class="table table-bordered table-hover">
+
+                <thead @*class="table-primary"*@>
+                    <tr style="text-align:center">
+                        <th>
+                            <input type="checkbox" name="CheckAll" value="核取方塊" id="CheckAll" />
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CRepairNumber)
+                        </th>
+                        <th>
+                            申請者
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CAppleDate)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CRepairCategory)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CLocation)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CContentofRepair)
+                        </th>
+                       
+                        <th>
+                            @Html.DisplayNameFor(model => model.CRepairStatus)
+                        </th>
+                        <th style="text-align:center">
+                            編輯|刪除
+                        </th>
+                        @if (ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
+                        {
+                            <th style="text-align:center">
+                                審核
+                            </th>
+                            }
+
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+
+                    <tr style="text-align:center">
+                        <td>
+                            @{ if (item.CRepairStatus == 0)
+                                {
+                    <input type="checkbox" name="Checkbox[]" value="@item.CRepairNumber" id="CheckboxGroup" />} }
+                        </td>
+                        <td>
+
+                            @Html.DisplayFor(modelItem => item.CRepairNumber)
+                        </td>
+                        <td style="display:none">
+                            @Html.DisplayFor(modelItem => item.CEmployeeId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CEmployeeName)
+                        </td>
+                        <td>
+                            @*(@Html.DisplayFor(modelItem => item.CAppleDate)*@
+                            @Convert.ToString(string.Format("{0:yyyy/MM/dd}", item.CAppleDate))
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CRepairCategory)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CLocation)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CContentofRepair)
+                        </td>
+                       
+                        <td>
+                            @Enum.GetName(typeof(eCheck), item.CRepairStatus)
+                        </td>
+                        <td>
+                            @{ if (item.CRepairStatus == 0)
+                                {
+                    @Html.ActionLink("修改", "RepairEdit", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                        @Html.ActionLink("刪除", "RepairDelete", new { id = item.CRepairNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
+                        </td>
+
+
+                        @if (ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
+                        {
+                            <td>
+                                @if (item.CRepairStatus == 0 && ViewBag.Session_USERJOBTITLEID == 2 && (ViewBag.Session_USERID_USERDEPARTMENTID == 4 || ViewBag.Session_USERID_USERDEPARTMENTID == 5))
+                                {
+                                    @Html.ActionLink("通過", "update", new { id = item.CRepairNumber }, new { @class = "btn btn-success", @style = "filter: grayscale(50%)" })
+                                }
+                            </td>
+
+                        }
+
+
+
+
+                    </tr>
+}
+                </tbody>
+            </table>
+        </div>
+     </div>
+    </div>
+

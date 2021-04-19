@@ -45,7 +45,9 @@
                                          src="/Home/ViewPhoto?id=@ViewData["USERID"]"
                                          alt="@ViewData["CURRENT_LOGINED_USERNAME"]"
                                          style="width:200px;height:200px;" />
-                                    <input type="file" id="files" asp-for="CPhoto" />
+                                    <input type="file" id="files" asp-for="CPhoto" onChange="load()" style="display:none" />
+                                    <label for="files"  style="color: #FFFFFF; border-style: outset; background-color: #b78080; padding: 5px; margin:20px; border-radius: 10px;box-shadow:2px 2px 5px 6px">&nbsp;<i class="fas fa-images"></i>&nbsp;選擇照片&nbsp;</label>
+
                                 </div>
 
                                 <h3 class="profile-username text-center">@ViewData["CURRENT_LOGINED_USERNAME"]</h3>
@@ -254,6 +256,17 @@
     </div>
     </form>
 
+<script>
+    function load(img) {
 
+        var r = new FileReader();
+        r.onload = function () {
+            var output = document.getElementById('imgid');
+            output.src = r.result;
+        }
+        r.readAsDataURL(event.target.files[0])
+    };
+
+</script>
 
 

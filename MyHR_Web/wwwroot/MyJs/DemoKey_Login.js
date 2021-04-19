@@ -39,4 +39,12 @@
         $("#txtAccount").val(14);
         $("#txtPassword").val(12354);
     }
+    else if (e.shiftKey && e.keyCode == 81) { //Shift + Q
+        $("#txtAccount").val(15);
+        $("#txtPassword").val(5768325);
+    }
+    else if (e.shiftKey && e.keyCode == 87) { //Shift + W
+        $("#txtAccount").val(17);
+        $("#txtPassword").val(54742);
+    }
 });

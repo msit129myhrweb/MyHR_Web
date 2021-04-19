@@ -254,7 +254,7 @@
                         success: function (data) {
                             if (data.status) {
                                 //Refresh the calender
-                                FetchEventAndRenderCalendar();
+                                //FetchEventAndRenderCalendar();
                                 $('#myModal').modal('hide');
                             }
                             setTimeout(() => {
@@ -340,7 +340,7 @@
                     SaveEvent(data);
                     setTimeout(() => {
                         window.location.assign(window.location.href)
-                    }, 100);
+                    }, 500);
                     ;                // call function for submit data to the server
                 })
                 function SaveEvent(data) {
@@ -351,7 +351,7 @@
                         success: function (data) {
                             if (data.status) {
                                 //Refresh the calender
-                                FetchEventAndRenderCalendar();
+                               // FetchEventAndRenderCalendar();
                                 $('#myModalSave').modal('hide');
                             }
                         },
