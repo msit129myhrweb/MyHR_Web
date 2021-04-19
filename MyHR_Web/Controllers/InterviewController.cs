@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using Newtonsoft.Json;
+using prjCoreDemo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
 {
-    public class InterviewController : Controller
+    public class InterviewController : FilterController
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
         public IActionResult List()
@@ -66,6 +68,7 @@ namespace MyHR_Web.Controllers
                 }
             }
             TempData["Id"] = I.CInterVieweeId;
+            AddNoti(1, "123", "456");
             return RedirectToAction("List");
         }
 
@@ -157,5 +160,6 @@ namespace MyHR_Web.Controllers
                 return RedirectToAction("Index", "Home");
             }
         }
+        
     }
 }
