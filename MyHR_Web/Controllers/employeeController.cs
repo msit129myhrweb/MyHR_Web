@@ -30,7 +30,7 @@ namespace MyHR_Web.Controllers
             ViewBag.CDepartmentId = db.TUserDepartments.ToList();
             ViewBag.CJobTitleId = db.TUserJobTitles.ToList();
             ViewBag.COnBoardStatusId = db.TUserOnBoardStatuses.ToList();
-           
+            ViewBag.Register = TempData.Get<TInterView>("Register");
             return View();
         }
 
@@ -42,6 +42,15 @@ namespace MyHR_Web.Controllers
             //新增員工
             db.TUsers.Add(_user.tuserVM);
             db.SaveChanges();
+
+            //給面試要報到的人employeeId
+            int id = db.TUsers.Where(n => n.CEmployeeName == _user.CEmployeeName).Select(n => n.CEmployeeId).FirstOrDefault();
+            TInterView table = db.TInterViews.Where(n => n.CEmployeeEnglishName == _user.CEmployeeEnglishName).FirstOrDefault();
+            if (table != null)
+            {                
+                table.CInterViewerEmployeeId = id;
+                db.SaveChanges();
+            }
 
             //開始寄信
             int userid = db.TUsers.OrderByDescending(n => n.CEmployeeId).Select(c => c.CEmployeeId).FirstOrDefault(); //撈取新註冊的員工ID

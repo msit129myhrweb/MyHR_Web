@@ -1,4 +1,8 @@
 ﻿@model MyHR_Web.ViewModel.CInterviewListViewModel
+@{ 
+    var status = ViewBag.Status;
+    var currentStatus = ViewBag.CurrentStatus;
+}
 
 <div class="row">
 
@@ -85,23 +89,44 @@
                     <span asp-validation-for="CJobTitleName" class="text-danger"></span>
                 </div>
 
-                <div class="form-group">
+                @*<div class="form-group">
                     <label asp-for="CInterViewStatusId" class="control-label"></label>
                     <input asp-for="CInterViewStatusId" class="form-control" />
                     <span asp-validation-for="CInterViewStatusId" class="text-danger"></span>
-                </div>
+                </div>*@
 
-                <div class="form-group">
-                    <label asp-for="CStatus" class="control-label"></label>
-                    <input asp-for="CStatus" class="form-control" />
-                    <span asp-validation-for="CStatus" class="text-danger"></span>
-                </div>
+            <div class="form-group">
+                <label asp-for="CStatus" class="control-label"></label>
+                @if (currentStatus != 6)
+                {
+                    <select asp-for="CStatus" class="form-control">
+                        @for (int i = 0; i < status.Count; i++)
+                        {
+
+                            if (status[i].InterViewStatusId == Model.CInterViewStatusId)
+                            {
+                                <option selected="selected" value="@status[i].InterViewStatusId">@status[i].InterViewStatus</option>
+                            }
+                            else
+                            {
+                                <option value="@status[i].InterViewStatusId">@status[i].InterViewStatus</option>
+                            }
+                        }
+                    </select>
+                }
+                else 
+                {
+                    <input disabled="disabled" asp-for="CStatus" class="form-control"> 
+                }
+                    
+                <span asp-validation-for="CStatus" class="text-danger"></span>
+            </div>
 
 
                 <div class="card-footer">
                     <input type="submit" value="取消修改" class="btn btn-default btn-lg" onclick="return(confirm('修改尚未完成，確定離開此頁?'))" asp-action="List" />
                     @*<input type="button" value="確認修改" class="btn btn-info btn-lg float-right" onclick="editSubmit('@(JsonSerializer.Serialize(Model))')" , style="filter: grayscale(50%)" />*@
-                    <input type="submit" value="確認修改" class="btn btn-info btn-lg float-right" onclick="return(confirm('確定修改?'))" style="filter: grayscale(50%)" />
+                    <input type="submit" value="確認修改" class="btn btn-info btn-lg float-right" onclick="return(confirm('確定修改?\n如果狀態修改為&quot;待報到&quot;將跳轉至員工註冊頁'))" style="filter: grayscale(50%)" />
                 </div>
             </form>       
         </div>

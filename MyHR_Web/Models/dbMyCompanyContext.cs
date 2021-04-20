@@ -305,7 +305,6 @@ namespace MyHR_Web.Models
                 entity.HasOne(d => d.CInterViewerEmployee)
                     .WithMany(p => p.TInterViews)
                     .HasForeignKey(d => d.CInterViewerEmployeeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_tInterView_tUser");
 
                 entity.HasOne(d => d.CJobTitleNavigation)
@@ -323,6 +322,8 @@ namespace MyHR_Web.Models
 
                 entity.Property(e => e.CInterViewProcessKey).HasColumnName("cInterViewProcessKey");
 
+                entity.Property(e => e.CEditor).HasColumnName("cEditor");
+
                 entity.Property(e => e.CInterViewProcess)
                     .IsRequired()
                     .HasColumnType("text")
@@ -334,6 +335,12 @@ namespace MyHR_Web.Models
                     .IsRequired()
                     .HasMaxLength(50)
                     .HasColumnName("cProcessTime");
+
+                entity.HasOne(d => d.CEditorNavigation)
+                    .WithMany(p => p.TInterViewProcesses)
+                    .HasForeignKey(d => d.CEditor)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_tInterViewProcess_tUser");
 
                 entity.HasOne(d => d.CInterViewProcessNavigation)
                     .WithMany(p => p.TInterViewProcesses)
