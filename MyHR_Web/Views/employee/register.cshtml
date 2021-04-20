@@ -5,6 +5,8 @@
     List<TUserDepartment> userDepartments = ViewBag.CDepartmentId;
     List<TUserJobTitle> userJobTitles = ViewBag.CJobTitleId;
     List<TUserOnBoardStatus> userOnBoardStatuses = ViewBag.COnBoardStatusId;
+    dbMyCompanyContext myHR = new dbMyCompanyContext();
+    TInterView register = ViewBag.Register;
 }
 
 <style>
@@ -41,17 +43,17 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-group">
                                 <label asp-for="CEmployeeName" class="control-label" id="labCEmployeeName"></label>
-                                <input asp-for="CEmployeeName" class="form-control" id="CEmployeeName" />
+                                <input asp-for="CEmployeeName" class="form-control" id="CEmployeeName" value="@{var name = (register != null) ? register.CInterVieweeName : "";}@name" />
                                 <span asp-validation-for="CEmployeeName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CEmployeeEnglishName" class="control-label"></label>
-                                <input asp-for="CEmployeeEnglishName" class="form-control" id="CEmployeeEnglishName" />
+                                <input asp-for="CEmployeeEnglishName" class="form-control" id="CEmployeeEnglishName" value="@{var engName = (register != null) ? register.CEmployeeEnglishName : "";}@engName"/>
                                 <span asp-validation-for="CEmployeeEnglishName" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPassWord" class="control-label"></label>
-                                <input asp-for="CPassWord" class="form-control" id="CPassWord" name="CPassWord" />
+                                <input asp-for="CPassWord" class="form-control" id="CPassWord" name="CPassWord" value="@{var password = (register != null) ? register.CBirthday : "";}@password"/>
                                 <span asp-validation-for="CPassWord" class="text-danger"></span>
                             </div>
                             <div class="form-group">
@@ -67,16 +69,30 @@
                             <div class="form-group">
                                 <label asp-for="CGender" class="control-label"></label>
                                 @*<input asp-for="CGender" class="form-control" />*@
-                                <select asp-for="CGender" class="form-control" id="CGender">
-                                    <option value="" style="display: none">請選擇</option>
+                            <select asp-for="CGender" class="form-control" id="CGender">
+                                <option value="" style="display: none">請選擇</option>
+                                @if (register != null && register.CInterVieweeGender == "男")
+                                {
+                                    <option value="女">女</option>
+                                    <option selected="selected" value="男">男</option>
+                                }
+                                else if (register != null && register.CInterVieweeGender == "女")
+                                {
+                                    <option selected="selected" value="女">女</option>
+                                    <option value="男">男</option>
+                                }
+                                else 
+                                {
                                     <option value="女">女</option>
                                     <option value="男">男</option>
-                                </select>
+                                }
+
+                            </select>
                                 <span asp-validation-for="CGender" class="text-danger"></span>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CEmail" class="control-label"></label>
-                                <input asp-for="CEmail" class="form-control" id="CEmail" name="CEmail" />
+                                <input asp-for="CEmail" class="form-control" id="CEmail" name="CEmail" value="@{var email = (register != null) ? register.CEmail : "";}@email"/>
                                 <span asp-validation-for="CEmail" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
@@ -88,9 +104,20 @@
                                 <label asp-for="CDepartmentId" class="control-label"></label>
                                 <select asp-for="CDepartmentId" class="form-control" id="CDepartmentId">
                                     <option value="" style="display: none">請選擇</option>
-                                    @foreach (var d in userDepartments)
+                                    @if (register != null)
                                     {
-                        <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>}
+                                        foreach (var d in userDepartments)
+                                        {
+                                            if (d.CDepartmentId == register.CDepartment)
+                                            {
+                                                <option selected="selected" value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
@@ -98,14 +125,25 @@
                                 <label asp-for="CJobTitleId" class="control-label"></label>
                                 <select asp-for="CJobTitleId" class="form-control" style="color:black" id="CJobTitleId">
                                     <option value="" style="display: none">請選擇</option>
-                                    @foreach (var j in userJobTitles)
+                                    @if (register != null)
                                     {
-                        <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>}
+                                        foreach (var j in userJobTitles)
+                                        {
+                                            if (j.CJobTitleId == register.CJobTitle)
+                                            {
+                                                <option selected="selected" value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label asp-for="CSupervisor" class="control-label"></label>
-                                <input asp-for="CSupervisor" class="form-control" id="CSupervisor" />
+                                <input asp-for="CSupervisor" class="form-control" id="CSupervisor" value="@{var supervisor = (register != null) ? myHR.TUsers.Where(n=>n.CDepartmentId == register.CDepartment && n.CJobTitleId == 2).Select(n=>n.CEmployeeId).ToString() : null;}@supervisor"/>
                                 <span asp-validation-for="CSupervisor" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">
@@ -115,7 +153,7 @@
                             </div>
                             <div class="form-group">
                                 <label asp-for="CPhone" class="control-label"></label>
-                                <input asp-for="CPhone" class="form-control" id="CPhone" />
+                                <input asp-for="CPhone" class="form-control" id="CPhone" value=@{var phone = (register != null) ? register.CPhone : "";}@phone/>
                                 <span asp-validation-for="CPhone" class="text-danger"></span>
                             </div>
                             <div class="form-group" style="display:none">

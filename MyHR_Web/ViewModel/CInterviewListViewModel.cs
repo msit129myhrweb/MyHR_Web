@@ -64,7 +64,7 @@ namespace MyHR_Web.ViewModel
             }
             set { CDepartmentName = value; }
         }
-        public int CInterViewerEmployeeId { get { return iv_interview.CInterViewerEmployeeId; } set { iv_interview.CInterViewerEmployeeId = value; } }
+        public int? CInterViewerEmployeeId { get { return iv_interview.CInterViewerEmployeeId; } set { iv_interview.CInterViewerEmployeeId = value; } }
         [DisplayName("建檔日")]
         public string CInterViewDate { get { return iv_interview.CInterViewDate; } set { iv_interview.CInterViewDate = value; } }        
         public int CInterViewStatusId { get { return iv_interview.CInterViewStatusId; } set { iv_interview.CInterViewStatusId = value; } }

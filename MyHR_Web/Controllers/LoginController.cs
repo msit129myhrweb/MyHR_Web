@@ -167,7 +167,7 @@ namespace MyHR_Web.Controllers
             {
                 using (dbMyCompanyContext db = new dbMyCompanyContext())
                 {
-                    var user = db.TUsers.Where(a => a.CEmployeeId == int.Parse(p.txtaccount1)).FirstOrDefault();
+                    var user = db.TUsers.Where(a => a.CEmployeeEnglishName == p.txtaccount1).FirstOrDefault();
 
                     if (user != null)
                     {
@@ -179,7 +179,13 @@ namespace MyHR_Web.Controllers
                         {
                             user.CAccountEnable = 1;
                             db.SaveChanges();
-                            Data = "報到成功，請重新登入";
+                            // interView 修改成已報到
+                            var id = db.TUsers.Where(n => n.CEmployeeEnglishName == p.txtaccount1).Select(n => n.CEmployeeId).FirstOrDefault();
+                            var interview = db.TInterViews.Where(n => n.CInterViewerEmployeeId == id).FirstOrDefault();
+                            if (interview != null)
+                                interview.CInterViewStatusId = 6;
+                            db.SaveChanges();
+                            Data = $"報到成功，您的員工帳號為\"{id}\"，請至登入頁面進入本系統。";
                         }
                     }
                     else
