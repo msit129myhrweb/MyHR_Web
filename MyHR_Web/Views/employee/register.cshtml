@@ -118,6 +118,13 @@
                                             }
                                         }
                                     }
+                                    else
+                                    {
+                                        foreach (var d in userDepartments)
+                                        {
+                                            <option value="@d.CDepartmentId" class="input">@d.CDepartment</option>
+                                        }
+                                    }
                                 </select>
                                 <span asp-validation-for="CDepartmentId" class="text-danger"></span>
                             </div>
@@ -137,6 +144,13 @@
                                             {
                                                 <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
                                             }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        foreach (var j in userJobTitles)
+                                        {
+                                            <option value="@j.CJobTitleId" class="input">@j.CJobTitle</option>
                                         }
                                     }
                                 </select>
