@@ -181,6 +181,7 @@ namespace MyHR_Web.Controllers
 
             return View(result);
         }
+
         [HttpPost]
         public ActionResult Edit(CPropertyViewModel pmodel)
         {
