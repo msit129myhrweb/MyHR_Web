@@ -43,6 +43,7 @@
                     <div class="col-md-6 form-group">
                         <label class="col-lg-3 control-label">審核狀態&nbsp:&nbsp</label>
                         <select class="travel_" id="travel_Status">
+                            <option value="" disabled selected>請選擇</option>
                             @for (int i = 0; i < Status.Count; i++)
                             {
                                 <option value="@Status[i].CCheckStatusId">@Status[i].CCheckStatus</option>
