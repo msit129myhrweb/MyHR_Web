@@ -317,5 +317,11 @@ namespace MyHR_Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public IActionResult updateNoti()
+        {
+            var user = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);
+            var table = db.ViewNotifications.Where(n => n.ToUserId == user.CEmployeeId).OrderByDescending(n => n.CreatedDate).ToList();
+            return PartialView("updateNoti", table);
+        }
     }
 }
