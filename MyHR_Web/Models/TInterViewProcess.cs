@@ -11,7 +11,9 @@ namespace MyHR_Web.Models
         public int CInterViewProcessId { get; set; }
         public string CInterViewProcess { get; set; }
         public string CProcessTime { get; set; }
+        public int CEditor { get; set; }
 
+        public virtual TUser CEditorNavigation { get; set; }
         public virtual TInterView CInterViewProcessNavigation { get; set; }
     }
 }

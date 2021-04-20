@@ -26,7 +26,7 @@ namespace MyHR_Web.Models
         public string CExperience { get; set; }
         public int CJobTitle { get; set; }
         public int CDepartment { get; set; }
-        public int CInterViewerEmployeeId { get; set; }
+        public int? CInterViewerEmployeeId { get; set; }
         public string CInterViewDate { get; set; }
         public int CInterViewStatusId { get; set; }
         public int? CInterViewProcessId { get; set; }
