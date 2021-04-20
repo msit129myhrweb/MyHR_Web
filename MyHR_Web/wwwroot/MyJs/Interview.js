@@ -56,10 +56,27 @@ if (index != 0) {
 }
 // 進編輯頁
 function fun(id) {
-    $("div").remove("#tabpage");
+    $("div").remove("#tabpage");    
     edit(id);
     detail(id);
+    //isOnboard(id);
     processCreate(id);
+}
+
+function isOnboard(id) {
+    $.ajax({
+        type: "POST",
+        url: '/Interview/isOnboard',
+        data: { id : id},
+        contentType: "application/json; charset=utf-8",
+        success: function (data) {
+            if (data == 6)
+                processCreate(id);
+        },
+        error: function (msg) {
+            alert("error:" + msg);
+        }
+    })
 }
 
 // 歷程區塊

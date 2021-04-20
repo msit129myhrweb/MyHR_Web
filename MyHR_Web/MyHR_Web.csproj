@@ -11,6 +11,7 @@
     <Content Remove="Views\Travel\_Delete.cshtml" />
     <Content Remove="Views\Travel\_Edit.cshtml" />
     <Content Remove="wwwroot\ExcelFile\活頁簿1.csv" />
+    <Content Remove="wwwroot\MyJs\DemoKey_InterviewProcess.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -176,6 +177,7 @@
     <None Include="wwwroot\lib\jquery\dist\jquery.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.js" />
     <None Include="wwwroot\lib\jquery\dist\jquery.min.map" />
+    <None Include="wwwroot\MyJs\DemoKey_InterviewProcess.js" />
     <None Include="wwwroot\MyJs\DemoKey_Login.js" />
     <None Include="wwwroot\scripts\build-assets.js" />
     <None Include="wwwroot\scripts\build-pug.js" />

@@ -30,7 +30,7 @@ namespace MyHR_Web.Controllers
             ViewBag.CDepartmentId = db.TUserDepartments.ToList();
             ViewBag.CJobTitleId = db.TUserJobTitles.ToList();
             ViewBag.COnBoardStatusId = db.TUserOnBoardStatuses.ToList();
-           
+            ViewBag.Register = TempData.Get<TInterView>("Register");
             return View();
         }
 
@@ -38,16 +38,28 @@ namespace MyHR_Web.Controllers
         [HttpPost]
         public IActionResult register(TUserViewModel _user)
         {
-           
+            ViewBag.CDepartmentId = db.TUserDepartments.ToList();
+            ViewBag.CJobTitleId = db.TUserJobTitles.ToList();
+
             //新增員工
             db.TUsers.Add(_user.tuserVM);
             db.SaveChanges();
+
+            //給面試要報到的人employeeId
+            int id = db.TUsers.Where(n => n.CEmployeeName == _user.CEmployeeName).Select(n => n.CEmployeeId).FirstOrDefault();
+            TInterView table = db.TInterViews.Where(n => n.CEmployeeEnglishName == _user.CEmployeeEnglishName).FirstOrDefault();
+            if (table != null)
+            {                
+                table.CInterViewerEmployeeId = id;
+                db.SaveChanges();
+            }
 
             //開始寄信
             int userid = db.TUsers.OrderByDescending(n => n.CEmployeeId).Select(c => c.CEmployeeId).FirstOrDefault(); //撈取新註冊的員工ID
             string name = db.TUsers.Where(n => n.CEmployeeId == userid).Select(c => c.CEmployeeName).FirstOrDefault(); //撈取新註冊的員工NAME
             string email = db.TUsers.Where(n => n.CEmployeeId==userid).Select(c => c.CEmail).FirstOrDefault(); //撈取新註冊的員工EMAIL
             string password = db.TUsers.Where(n => n.CEmployeeId == userid).Select(c => c.CPassWord).FirstOrDefault(); //撈取新註冊的員工PASSWORD
+            string english = db.TUsers.Where(n => n.CEmployeeId == userid).Select(c => c.CEmployeeEnglishName).FirstOrDefault(); //撈取新註冊的員工PASSWORD
             try
             {
                 System.Net.Mail.MailMessage msg = new System.Net.Mail.MailMessage();
@@ -62,7 +74,8 @@ namespace MyHR_Web.Controllers
                                                                 //郵件內容    
                 msg.Body = name + "  您好，" + Environment.NewLine;
                 msg.Body += "您已錄取本公司，請至公司官網報到啟用帳號。"+ Environment.NewLine;
-                msg.Body += "帳號:" + userid + Environment.NewLine;
+                msg.Body += "登入帳號:" + userid + Environment.NewLine;
+                msg.Body += "英文姓名:" + english + Environment.NewLine;
                 msg.Body += "密碼:" + password + Environment.NewLine;
                 //郵件內容
                 msg.BodyEncoding = System.Text.Encoding.UTF8;//郵件內容編碼 

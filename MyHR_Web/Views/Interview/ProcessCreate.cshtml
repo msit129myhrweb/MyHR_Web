@@ -10,13 +10,13 @@
 
                 <div class="form-group" style="display:none">
                     <label asp-for="CInterViewProcessId" class="control-label"></label>
-                    <input asp-for="CInterViewProcessId" value="@Model.CInterViewProcessId"class="form-control" readonly="readonly" />
+                    <input asp-for="CInterViewProcessId" value="@ViewBag.id"class="form-control" readonly="readonly" />
                     <span asp-validation-for="CInterViewProcessId" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="CInterViewProcess" class="control-label"></label>
-                    <textarea row="5" cols="50" asp-for="CInterViewProcess" class="form-control" />
+                    <textarea row="5" cols="50" asp-for="CInterViewProcess" id="idProcess" class="form-control" />
                     <span asp-validation-for="CInterViewProcess" class="text-danger"></span>
                 </div>                
 

@@ -44,7 +44,7 @@ namespace MyHR_Web.Controllers
                     (x, d) => new { X = x, D = d }
                     ).Select(s => new CInterviewDetailsViewModel
                     {
-                        name = s.X.I.CInterVieweeName,
+                        editor = s.X.I.CInterVieweeName,
                         process = s.X.P.CInterViewProcess,
                         departname = s.D.CDepartment,
                     }).ToList();

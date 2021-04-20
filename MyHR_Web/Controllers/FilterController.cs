@@ -13,6 +13,7 @@ namespace MyHR_Web.Controllers
     public class FilterController : Controller
     {
         dbMyCompanyContext myHR = new dbMyCompanyContext();
+        
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
             base.OnActionExecuting(filterContext);
