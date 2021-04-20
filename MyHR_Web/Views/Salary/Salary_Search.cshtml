@@ -95,10 +95,10 @@
                             <label class=" form_fontSize col-md-6 col-md-offset-3 control-label" style="text-align:center">年分 :</label>
 
                             <select class="form_fontSize Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_Year">
-                                <option>2021</option>
-                                <option>2020</option>
-                                <option>2019</option>
-                                <option>2018</option>
+                                <option name="this_year" value="2021">2021</option>
+                                <option name="this_year" value="2020">2020</option>
+                                <option name="this_year" value="2019">2019</option>
+                                <option name="this_year" value="2018">2018</option>
                             </select>
                         </div>
 
@@ -109,11 +109,9 @@
                         <div class="col-md-12 form-group">
                             <label class=" form_fontSize col-md-6 col-md-offset-3 control-label" style="text-align:center"> 月份 :</label>
                             <select class=" form_fontSize Salary_Distinguish col-md-2 col-md-offset-6" id="Salary_Month">
-              
-                              
 
-                                <option value="" disabled selected>請選擇</option>
-                                <option>1</option>
+                                <option id="replace_option" value="" disabled selected>請選擇</option>
+                                @*<option>1</option>
                                 <option>2</option>
                                 <option selected>3</option>
                                 <option>4</option>
@@ -124,7 +122,7 @@
                                 <option>9</option>
                                 <option>10</option>
                                 <option>11</option>
-                                <option>12</option>
+                                <option>12</option>*@
 
                             </select>
                         </div>
@@ -333,7 +331,28 @@
 
 
 <script src="~/theme/plugins/chart.js/Chart.min.js"></script>
+<script>
+    $("#Salary_Year").on('change', function () {
+        let thisyear = $('option[name="this_year"]:selected').val();
+        let datenow = new Date();
+        let showoption = "";
+        //console.log($('option[name="this_year"]:selected').val() + "FDSFSDF");
+        if (thisyear == 2021) {
+            for (let i = 1; i <= datenow.getMonth(); i++) {
+                showoption += `<option>${i}</option>`;
+            }
+        } else {
+            for (let i = 1; i <= 12; i++) {
+                showoption += `<option>${i}</option>`;
+            }
+        }
+        $("#Salary_Month").html(showoption);
+    })
 
+    $(function () {
+        $("#Salary_Year").change();
+    })
+</script>
 <script>
 
 
