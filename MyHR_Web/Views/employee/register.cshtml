@@ -155,7 +155,7 @@
                                     }
                                 </select>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="display:none">
                                 <label asp-for="CSupervisor" class="control-label"></label>
                                 <input asp-for="CSupervisor" class="form-control" id="CSupervisor" value="@{var supervisor = (register != null) ? myHR.TUsers.Where(n=>n.CDepartmentId == register.CDepartment && n.CJobTitleId == 2).Select(n=>n.CEmployeeId).ToString() : null;}@supervisor"/>
                                 <span asp-validation-for="CSupervisor" class="text-danger"></span>
@@ -220,7 +220,7 @@
     $("#labCEmployeeName").click(function () {
         $("#CEmployeeName").val('蔡依林');
         $("#CEmployeeEnglishName").val('Jolin');
-        $("#CPassWord").val(0910);
+        $("#CPassWord").val('1980-09-15');
         $("#CGender").val('女'); //select
         $("#CEmail").val('msit129hellowork@gmail.com');
         $("#CAddress").val('台北市大安區復興南路一段');
