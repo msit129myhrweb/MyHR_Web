@@ -72,6 +72,8 @@ namespace MyHR_Web
             app.UseRouting();
             app.UseSession();
             app.UseAuthorization();
+
+            
             
             app.UseEndpoints(endpoints =>
             {

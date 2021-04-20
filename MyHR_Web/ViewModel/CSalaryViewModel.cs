@@ -95,6 +95,7 @@ namespace MyHR_Web.ViewModel
 
         public int CSalary_Total { get; set; }
 
+        public int CSub_Total { get; set; }
         
 
         //[DisplayName("%")]

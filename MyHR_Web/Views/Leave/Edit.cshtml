@@ -68,9 +68,12 @@
                             <input asp-for="CEmployeeId" class="form-control" readonly="readonly" />
                             <span asp-validation-for="CEmployeeId" class="text-danger"></span>
                         </div>
+
+                        @*value="@Session_Today" readonly="readonly"*@
+
                         <div class="form-group">
                             <label asp-for="CApplyDate" class="control-label"></label>
-                            <input type="datetime" asp-for="CApplyDate" value="@Session_Today" class="form-control" readonly="readonly" />
+                            <input type="datetime" asp-for="CApplyDate" class="form-control" />
                             <span asp-validation-for="CApplyDate" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -80,8 +83,8 @@
                                 <option value="" disabled="disabled">請選擇要申請的假別</option>
                                 @for (int i = 0; i < Leave_Cate.Count; i++)
                                 {
-                    <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
-}
+                                    <option value="@Leave_Cate[i].CLeaveId">@Leave_Cate[i].CLeaveCategory</option>
+                                }
 
                             </select>
 

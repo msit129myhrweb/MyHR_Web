@@ -94,6 +94,15 @@
                             <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
 
                         </div>
+
+
+                        @*<div class="col-md-6 form-group">
+                            <input type="submit"  value="測試資料"  class="btn btn-success" style="filter: grayscale(50%)" />
+                        </div>*@
+
+
+                        <button class="col-md-6 form-group" id="texting">測試資料</button>
+
                     </div>
 
                 </form>
@@ -113,11 +122,6 @@
                                 </button>
                             </div>*@
                         </div>
-
-
-
-
-
 
                         <div class="card-body">
                             <div class="row">
@@ -165,16 +169,7 @@
 
 
                                     }
-
-
-
-
                                 }
-
-
-
-
-
 
 
                                 <!-- ./col -->
@@ -470,6 +465,30 @@
         })
     });
 
+
+    $("#texting").click(function () {
+
+        console.log("aa");
+        $.ajax({
+
+            type: "get",
+            dataType: "html",
+            url: "/Leave/newLeaveApply",
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (msg) {
+                alert("error:" + msg);
+            }
+
+
+
+
+
+        })
+
+
+    });
 
 
 

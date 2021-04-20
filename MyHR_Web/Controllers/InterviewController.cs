@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MyHR_Web.Models;
+using MyHR_Web.MyClass;
 using MyHR_Web.ViewModel;
 using Newtonsoft.Json;
+using prjCoreDemo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,12 @@ using System.Threading.Tasks;
 
 namespace MyHR_Web.Controllers
 {
-    public class InterviewController : Controller
+    public class InterviewController : FilterController
     {
-        dbMyCompanyContext myHR = new dbMyCompanyContext();
+        dbMyCompanyContext myHR = new dbMyCompanyContext();        
+
         public IActionResult List()
-        {
+        {            
             List<TInterViewStatus> status = getInterViewStatus();
             ViewBag.InterViewStatus = status;
             List<TUserDepartment> dept = getDept();
@@ -43,15 +46,33 @@ namespace MyHR_Web.Controllers
         {
             if (Id != null)
             {
+                List<TInterViewStatus> status = GetStatus();  //從資料庫抓下拉式選單
+                ViewBag.Status = status;
                 TInterView I = myHR.TInterViews.FirstOrDefault(n => n.CInterVieweeId == Id);
                 if (I != null)
                 {
+                    ViewBag.CurrentStatus = I.CInterViewStatusId;
                     return PartialView("Edit", new CInterviewListViewModel(I));
                 }
             }
             return RedirectToAction("List");
         }
 
+        private List<TInterViewStatus> GetStatus() //獲取狀態下拉式選單
+        {
+            try
+            {
+                List<TInterViewStatus> list = new List<TInterViewStatus>();
+                list = (from i in myHR.TInterViewStatuses
+                        select i).ToList();
+                return list;
+            }
+            catch (Exception ex)
+            {
+                string error = ex.ToString();
+                return null;
+            }
+        }
         [HttpPost]
         public IActionResult Edit(CInterviewEditViewModel I)
         {
@@ -61,11 +82,23 @@ namespace MyHR_Web.Controllers
                 if (table != null)
                 {
                     table.CInterVieweeName = I.CInterVieweeName;
-                    table.CInterViewStatusId = I.CInterViewStatusId;
+                    table.CInterViewStatusId = int.Parse(I.CStatus);
                     myHR.SaveChanges();
                 }
             }
+            
+            // 如果狀態為待報到 跳至新增帳號頁面
+            if (int.Parse(I.CStatus) == 3)
+            {
+                var interviewer = myHR.TInterViews.Where(n => n.CInterVieweeId == I.CInterVieweeId).FirstOrDefault();
+                //HttpContext.Session.SetObject<TInterView>(CDictionary.Register_User, interviewer);
+                TempData.Put("Register", interviewer); 
+                AddNoti(1, "123", "456");
+                return RedirectToAction("register", "employee");
+            }
+                
             TempData["Id"] = I.CInterVieweeId;
+            
             return RedirectToAction("List");
         }
 
@@ -98,11 +131,11 @@ namespace MyHR_Web.Controllers
                     myHR.TUserDepartments,
                     x => x.I.CDepartment,
                     d => d.CDepartmentId,
-                    (x, d) => new { X = x, D = d }
-                    ).Select(s => new CInterviewDetailsViewModel
+                    (x, d) => new { X = x, D = d })
+                    .Select(s => new CInterviewDetailsViewModel
                     {
                         processId = s.X.P.CInterViewProcessId,
-                        name = s.X.I.CInterVieweeName,
+                        editor = s.X.P.CEditorNavigation.CEmployeeName,
                         process = s.X.P.CInterViewProcess,
                         departname = s.D.CDepartment,
                         processDate = s.X.P.CProcessTime
@@ -132,7 +165,7 @@ namespace MyHR_Web.Controllers
             if (id != null)
             {
                 var table = new CInterviewCreateViewModel { CInterViewProcessId = id.GetValueOrDefault()};
-                ViewBag.id = id;
+                ViewBag.id = myHR.TInterViews.Where(n => n.CInterVieweeId == id).Select(n => n.CInterViewProcessId).FirstOrDefault();
                 return PartialView("ProcessCreate", table);
             }
             return RedirectToAction("List");
@@ -142,20 +175,29 @@ namespace MyHR_Web.Controllers
         {
             try
             {
+                TUser tuser = HttpContext.Session.GetObject<TUser>(CDictionary.Current_User);
                 if (a != null)
                 {
-                    a.CProcessTime = DateTime.Now.ToString("mm/dd/yyyy HH:mm:ss");
+                    a.CProcessTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
                     a.CInterViewProcess = a.CInterViewProcess.Replace(System.Environment.NewLine, "<br/>");
+                    a.CEditor = tuser.CEmployeeId;
                     myHR.TInterViewProcesses.Add(a);
                     myHR.SaveChanges();
                 }
-//                TempData["Id"] = I.CInterVieweeId;
+                TempData["Id"] = myHR.TInterViews.Where(n => n.CInterViewProcessId == a.CInterViewProcessId).Select(n => n.CInterVieweeId).FirstOrDefault();
                 return RedirectToAction("List");
             }
             catch
             {
                 return RedirectToAction("Index", "Home");
             }
+        }
+        
+        [HttpPost]
+        public JsonResult isOnboard(int id)
+        {      
+            string data = myHR.TInterViews.Where(n => n.CInterVieweeId == id).Select(n => n.CInterViewStatusId).FirstOrDefault().ToString();
+            return Json(data);
         }
     }
 }
