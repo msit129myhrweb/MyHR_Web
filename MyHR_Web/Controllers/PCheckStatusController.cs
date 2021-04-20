@@ -10,8 +10,7 @@ namespace MyHR_Web.Controllers
 {
     public class PCheckStatusController : BaseController
     {
-        dbMyCompanyContext db = new dbMyCompanyContext();
-        
+        dbMyCompanyContext db = new dbMyCompanyContext();    
         public IActionResult List(DateTime? startdate = null, DateTime? enddate = null)
         {
             ViewBag.stardate = startdate;
@@ -98,7 +97,6 @@ namespace MyHR_Web.Controllers
             }
 
             return Json(new { result = true, msg = "成功" });
-
         }
     }
 }
