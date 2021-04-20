@@ -192,7 +192,7 @@ namespace MyHR_Web.Controllers
             TAbsence abs = db.TAbsences.FirstOrDefault(a => a.CApplyNumber == applyNum);
             ViewBag.absence = applyNum;
 
-            if (applyNum != null  && abs != null && abs.COn == null ? true : abs.COn < LateTime && countNum < 3)
+            if ((applyNum != null ) &&( abs != null )&& (abs.COn == null ? true : abs.COn < LateTime) && (countNum < 3))
             {
                 CAbsenceViewModel obj = new CAbsenceViewModel()
                 {
