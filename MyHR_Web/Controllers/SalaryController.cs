@@ -18,6 +18,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
     public class SalaryController : Controller
     {
         dbMyCompanyContext MyHR = new dbMyCompanyContext();
+      
 
         public IActionResult ConfirmPassword()
         {
@@ -52,7 +53,12 @@ namespace MyCompany_.NetCore_Janna.Controllers
                             return RedirectToAction("SalaryList_supervisor");
                         }
 
-                        return RedirectToAction("SalaryList");
+                        else 
+                        { 
+                            return RedirectToAction("Salary_Search");
+                        }
+
+                      
                     }
                     else
                     {
@@ -810,7 +816,7 @@ namespace MyCompany_.NetCore_Janna.Controllers
                 Year = 2021;
             }
 
-            Month = 4;
+            Month = 7;
 
             MyHR.TUsers.ToList();
             MyHR.TUserDepartments.ToList();
