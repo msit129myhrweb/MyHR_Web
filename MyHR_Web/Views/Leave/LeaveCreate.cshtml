@@ -37,7 +37,7 @@
         @*<div class="card">*@
         @*<div class="card-header p-2">
             <div class="card-body">*@
-        <table>
+        <table style="display:none">
             <h4>請假規則</h4>
             <div>1，開始時間小於9點從9點開始</div>
             <div>2，結束時間大於18點算到18點</div>
@@ -121,13 +121,13 @@
 
 
                     <div class="form-group">
-                        <label asp-for="CReason" class="control-label"></label>
-                        <input asp-for="CReason" class="form-control" />
+                        <label asp-for="CReason" class="control-label" id="demo"></label>
+                        <input asp-for="CReason" class="form-control"  id="CReason"  />
                         <span asp-validation-for="CReason" class="text-danger"></span>
                     </div>
                     <div class="form-group" style="display:none">
-                        <label asp-for="CCheckStatus" class="control-label"></label>
-                        <input asp-for="CCheckStatus" value="1" class="form-control" />
+                        <label asp-for="CCheckStatus" class="control-label" ></label>
+                        <input asp-for="CCheckStatus" value="1" class="form-control"/>
                         <span asp-validation-for="CCheckStatus" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -162,6 +162,21 @@ picker.addEventListener('input', function(e){
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.js"></script>   @*moment.js*@
 
 <script>
+
+
+    $("#demo").click(function () {
+     
+        console.log("104");
+        $("#Leave-Category").val('3');
+        $("#CReason").val('月經來身體不舒適,想回家休息');
+
+        var dateControl = document.querySelector('input[type="datetime-local"]');
+        dateControl.value = '2021-04-23T07:00';
+    });
+
+
+
+
 
     function check_RestofLeave() {
     

@@ -34,6 +34,10 @@
                     color: #FFFFFF;
                     padding-left: 10px;
                 }
+                .button:hover .hover {
+                    display: block;
+                }
+
             </style>
         </header>
 
@@ -101,7 +105,7 @@
                         </div>*@
 
 
-                        <button class="col-md-6 form-group" id="texting">測試資料</button>
+                        <button class="col-md-6 form-group appear" id="texting">測試資料</button>
 
                     </div>
 
@@ -265,6 +269,7 @@
                                     {
                                         @if (item.CEmployeeId == ViewBag.Name)
                                         {
+                                            if (ViewBag.Name == 1 && item.CReason.Contains("測試") != true){
                                             <tr style="text-align:center">
                                                 @*<td>
                                                     @Html.DisplayFor(modelItem => item.CApplyNumber)
@@ -323,7 +328,8 @@
                                                 </td>
 
                                             </tr>
-                                        }}
+                                                            }
+                                                        }}
 
 
                                     <tr style="display:none">
