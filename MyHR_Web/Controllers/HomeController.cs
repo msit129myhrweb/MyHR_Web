@@ -162,7 +162,7 @@ namespace MyHR_Web.Controllers
                     u.CGender = user_vm.CGender;
                     u.CEmail = user_vm.CEmail;
                     u.CAddress = user_vm.CAddress;
-                    u.CBirthday = (DateTime)user_vm.CBirthday;
+                    u.CBirthday = (user_vm.CBirthday != null) ? (DateTime)user_vm.CBirthday : null;
                     u.CPhone = user_vm.CPhone;
                     u.CEmergencyPerson = user_vm.CEmergencyPerson;
                     u.CEmergencyContact = user_vm.CEmergencyContact;

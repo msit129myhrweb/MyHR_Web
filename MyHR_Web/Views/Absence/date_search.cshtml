@@ -79,7 +79,7 @@
                             {
                                 if (item.COn > LateTime && item.COff <= CoffTime)
                                 {
-                                    <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "LeaveCreate", new { }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
+                                    <td id="status" name="status">@Html.ActionLink($"{item.CStatus}", "LeaveCreate", "Leave", new { }, new { @class = "btn btn-danger", @style = "filter: grayscale(50%)", @type = "button" })</td>
                                 }
                                 else
                                 {
