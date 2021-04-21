@@ -1,5 +1,5 @@
 ﻿$(document).keyup(function (e) {
-    if (e.shiftKey && e.keyCode == 49 ) { //Shift + 1
+    if (e.shiftKey && e.keyCode == 49) { //Shift + 1
         $("#idProcess").val("電訪個性外向，專業技能OK，已通知主管二次電訪。");
     }
     else if (e.shiftKey && e.keyCode == 50) { //Shift + 2
@@ -8,7 +8,7 @@
     else if (e.shiftKey && e.keyCode == 51) { //Shift + 3
         $("#idProcess").val("現場面試通過，主管已同意，待 HR 談妥薪資。");
     }
-    else  if (e.shiftKey && e.keyCode == 52) { //Shift + 4
+    else if (e.shiftKey && e.keyCode == 52) { //Shift + 4
         $("#idProcess").val("該員薪資需求 38K-43k，我方告知願以 41K 聘任，待該員考慮後回覆。");
     }
     else if (e.shiftKey && e.keyCode == 53) { //Shift + 5
