@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MyHR_Web.Models.ViewNotification>
+
+
+    <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+            <i class="far fa-comments"></i>
+            <span class="badge badge-danger navbar-badge">@Model.Count()</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            @foreach (var item in Model)
+            {
+                <a href="#" class="dropdown-item">
+                    <!-- Message Start -->
+                    <div class="media">
+                        <img src="~/theme/dist/img/瑪麗亞.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <div class="media-body">
+                            <h3 class="dropdown-item-title">
+                                @item.FromUserName&nbsp;&nbsp;&nbsp;[@item.NotiHeader]
+                                <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
+                            </h3>
+                            <p class="text-sm">@item.NotiBody</p>
+                            <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i>@item.CreatedDate</p>
+                        </div>
+                    </div>
+                    <!-- Message End -->
+                </a>
+            }
+            <!--<div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item">-->
+            <!-- Message Start -->
+            <!--<div class="media">
+                <img src="~/theme/dist/img/肥嘟嘟左衛門.png" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                <div class="media-body">
+                    <h3 class="dropdown-item-title">
+                        肥嘟嘟左衛門
+                        <span class="float-right text-sm text-muted"><i class="fas fa-star"></i></span>
+                    </h3>
+                    <p class="text-sm">Hey bro...Can u lend me some money, plz...QQ </p>
+                    <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
+                </div>
+            </div>-->
+            <!-- Message End -->
+            <!--</a>-->
+
+            <div class="dropdown-divider"></div>
+            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+        </div>
+    </li>    

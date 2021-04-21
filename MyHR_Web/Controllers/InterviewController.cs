@@ -93,7 +93,7 @@ namespace MyHR_Web.Controllers
                 var interviewer = myHR.TInterViews.Where(n => n.CInterVieweeId == I.CInterVieweeId).FirstOrDefault();
                 //HttpContext.Session.SetObject<TInterView>(CDictionary.Register_User, interviewer);
                 TempData.Put("Register", interviewer); 
-                AddNoti(1, "123", "456");
+                AddNoti(1, "新人報到通知", $"貴部門 {interviewer.CInterVieweeName} 確認報到，已發送報到通知。");
                 return RedirectToAction("register", "employee");
             }
                 
