@@ -153,19 +153,19 @@
                                 </p>
                             </a>
                             @*<ul class="nav nav-treeview">
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>註冊新員工</p>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
-                                            <i class="far fa-circle nav-icon"></i>
-                                            <p>員工清單</p>
-                                        </a>
-                                    </li>
-                                </ul>*@
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="employee" asp-action="register" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>註冊新員工</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="" asp-controller="employee" asp-action="employeeList" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>員工清單</p>
+                    </a>
+                </li>
+            </ul>*@
                         </li>
                     } @*打卡*@
                         <li class="nav-item">
@@ -252,18 +252,13 @@
                 </li>
             </ul>*@
                         </li>
-                        <li class="nav-item">
-                            <a asp-area="" asp-controller="Interview" asp-action="List" class="nav-link">
-                                <i class="far fa-address-card"></i>
-                                <p>面試資料</p>
-                            </a>
-                        </li>
+                        
                         @*薪資*@
-                    
+
                         <li class="nav-item">
                             <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                 <i class="fas fa-money-bill-alt"></i>
-                                <p>薪資查詢系統</p>
+                                <p>個人薪資查詢</p>
                             </a>
                         </li>
 
@@ -274,7 +269,7 @@
                                 @: <li class="nav-item">
                                     <a asp-area="" asp-controller="Salary" asp-action="ConfirmPassword" class="nav-link">
                                         <i class="fas fa-money-bill-alt"></i>
-                                        <p>薪資系統/FOR總務主管</p>
+                                        <p>薪資管理系統</p>
                                     </a> } }
 
                         @*差旅*@
@@ -292,17 +287,17 @@
                         <a href="#" class="nav-link">
                             <i class="fas fa-hand-holding-heart"></i>
                             <p>
-                                員工福利專區
+                                失物招領系統
                                 <i class="right fas fa-angle-left"></i>
                             </p>
                         </a>
                         <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a asp-area="" asp-controller="WuCha" asp-action="WuChaList2" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>WuCha</p>
-                                </a>
-                            </li>
+                            @*<li class="nav-item">
+                <a asp-area="" asp-controller="WuCha" asp-action="WuChaList2" class="nav-link">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>WuCha</p>
+                </a>
+            </li>*@
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Property" asp-action="List" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
@@ -320,6 +315,12 @@
                                 </li>
                             }
                         </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a asp-area="" asp-controller="Interview" asp-action="List" class="nav-link">
+                            <i class="far fa-address-card"></i>
+                            <p>面試系統</p>
+                        </a>
                     </li>
                     @*powerbi*@
 

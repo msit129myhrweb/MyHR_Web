@@ -473,7 +473,7 @@ namespace MyHR_Web.Controllers
             //};
             int[] categoryBox = new int[]
             {
-               1,2,3,4,5,1
+               1,2,3,4,1
             };
             string[] dateBox = new string[]
             {
@@ -507,7 +507,7 @@ namespace MyHR_Web.Controllers
 
             int[] hoursBox = new int[]
             {
-              2,3,4,5,2
+              2,3,4,5,1
             };
 
             Random random = new Random();
@@ -517,8 +517,8 @@ namespace MyHR_Web.Controllers
             {
                 TLeaveApplication order = new TLeaveApplication()
                 {
-                   CDepartmentId = 2,
-                   CEmployeeId = 17,
+                   CDepartmentId = 1,
+                   CEmployeeId = 30,
                    CApplyDate = dateBox[random.Next(0, dateBox.Count())],
                    CLeaveCategory= categoryBox[random.Next(0, 5)],
                    CLeaveStartTime = dateBox[random.Next(0, dateBox.Count())],
