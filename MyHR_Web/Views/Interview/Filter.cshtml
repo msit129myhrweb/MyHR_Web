@@ -22,7 +22,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.CEmail)
                 </th>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.CAddress)
                 </th>
                 <th>
@@ -30,10 +30,7 @@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.CAge)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CPhoto)
-                </th>
+                </th>*@                
                 <th>
                     @Html.DisplayNameFor(model => model.CEducation)
                 </th>
@@ -74,7 +71,7 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.CEmail)
                     </td>
-                    <td>
+                    @*<td>
                         @Html.DisplayFor(modelItem => item.CAddress)
                     </td>
                     <td>
@@ -82,10 +79,7 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.CAge)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.CPhoto)
-                    </td>
+                    </td>*@
                     <td>
                         @Html.DisplayFor(modelItem => item.CEducation)
                     </td>
@@ -105,8 +99,7 @@
                     <td>
                         @*<a class="btn btn-success" onclick="showModal(@item.CInterVieweeId)">Edit</a>*@
                         @*<a href="#edit" class="btn btn-success" data-toggle="modal" data-orderId="@item.CInterVieweeId">Edit</a>*@
-                        <a asp-action="Edit" asp-route-id="@item.CInterVieweeId" class="btn btn-success">編輯</a>
-                        <a asp-action="Details" asp-route-id="@item.CInterVieweeId" class="btn btn-secondary">歷程</a>
+                        <a class="btn btn-success" onclick="fun(@item.CInterVieweeId)">編輯/歷程</a>                        
                         <a asp-action="Delete" asp-route-id="@item.CInterVieweeId" class="btn btn-danger" onclick="return (confirm('確認刪除?'))">刪除</a>
                     </td>
                 </tr>
