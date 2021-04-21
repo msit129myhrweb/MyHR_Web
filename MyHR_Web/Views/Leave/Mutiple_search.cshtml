@@ -50,6 +50,8 @@
                 {
     @if (item.CEmployeeId == ViewBag.UserId)
     {
+        if (item.CReason.Contains("測試") != true)
+        {
                 <tr style="text-align:center">
                     @*<td>
             @Html.DisplayFor(modelItem => item.CApplyNumber)
@@ -97,7 +99,10 @@
                 @Html.ActionLink("修改", "Edit", new { id = item.CApplyNumber }, new { @class = "btn btn-success" }) @:&nbsp;&nbsp;&nbsp;
                 @Html.ActionLink("刪除", "Delete", new { id = item.CApplyNumber }, new { @class = "btn btn-danger", onclick = "return(confirm('確定要刪除此申請單嗎'))", style = "filter: grayscale(50%)", }) } }
                     </td>
-                </tr>}}
+                </tr>}
+                                }
+                                }
+                            
             </tbody>
         </table>
     </div>

@@ -49,8 +49,8 @@
                         <div class="sign-up-form">
                             @*<form asp-action="AccEnable">*@
                                 <form>
-                                    <div class="group"> <label for="username" class="label">名稱</label> <input placeholder="請輸入英文名稱" asp-for="CEmployeeId" id="txtAccount1" name="txtAccount1" type="text" class="input"> </div>
-                                    <div class="group"> <label for="pass" class="label">密碼</label> <input placeholder="預設密碼為生日" asp-for="CPassWord" id="txtPassword1" name="txtPassword1" type="password" class="input" data-type="password"> </div>
+                                    <div class="group"> <label for="username" class="label">英文名稱</label> <input asp-for="CEmployeeId" id="txtAccount1" name="txtAccount1" type="text" class="input"> </div>
+                                    <div class="group"> <label for="pass" class="label">密碼</label> <input asp-for="CPassWord" id="txtPassword1" name="txtPassword1" type="password" class="input" data-type="password"> </div>
 
                                     <div class="group" style="display:none"> <label for="cAccountEnable" class="label">帳號狀態</label> <input asp-for="CAccountEnable" id="AccountEnable" type="text" class="input" value="1"> </div>
                                     <div class="group"><input type="button" class="button" style="filter: grayscale(50%)" value="員工報到" id="btnOnboard" name="btnOnboard" @*onclick="return (confirm('報到成功，請重新登入。'))"*@></div>
