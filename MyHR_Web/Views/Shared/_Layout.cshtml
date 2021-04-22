@@ -252,7 +252,7 @@
                 </li>
             </ul>*@
                         </li>
-                        
+
                         @*薪資*@
 
                         <li class="nav-item">
@@ -316,14 +316,16 @@
                             }
                         </ul>
                     </li>
-                    <li class="nav-item">
-                        <a asp-area="" asp-controller="Interview" asp-action="List" class="nav-link">
-                            <i class="far fa-address-card"></i>
-                            <p>面試系統</p>
-                        </a>
-                    </li>
-                    @*powerbi*@
-
+                    @if (login_ureid == 1) 
+                    { 
+                        <li class="nav-item">
+                            <a asp-area="" asp-controller="Interview" asp-action="List" class="nav-link">
+                                <i class="far fa-address-card"></i>
+                                <p>面試系統</p>
+                            </a>
+                        </li>
+                        @*powerbi*@
+                    }
                     @if (jobTitle == 1)
                     {
                         <li class="nav-item">
