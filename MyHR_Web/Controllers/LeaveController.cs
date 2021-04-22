@@ -517,7 +517,7 @@ namespace MyHR_Web.Controllers
             {
                 TLeaveApplication order = new TLeaveApplication()
                 {
-                   CDepartmentId = 1,
+                   CDepartmentId = 2,
                    CEmployeeId = 30,
                    CApplyDate = dateBox[random.Next(0, dateBox.Count())],
                    CLeaveCategory= categoryBox[random.Next(0, 5)],
