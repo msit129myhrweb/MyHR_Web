@@ -54,15 +54,12 @@
         </div>
         
         <div class="row" style="padding:20px">
-            <div id="tab-user" style="width:50%"></div>
+            <div id="tab-user" style="width:50%;background-color:red"></div>
             <div style="width:50%">
                 <div id="tab-processCreate"></div>
                 <div id="tab-process"></div>
             </div>            
-            <div id="tabpage">
-                <div>
-                    <a class="btn btn-primary" href="/Service/ExcelInterview" style="filter: grayscale(50%)" type="button">匯出EXCEL</a>
-                </div>
+            <div id="tabpage" style="width:100%">
                 @*<p>
                     <a asp-action="Create">Create New</a>
                 </p>*@
@@ -71,15 +68,15 @@
                     <h3>查詢條件</h3>
                     <form method="post">
                         @*<div class="row">
-                            <div class="col-md-6 form-group">
-                                <label class="col-lg-3 control-label">請假日期(起) :</label>
-                                <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label class="col-lg-3 control-label">請假日期(迄) :</label>
-                                <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
-                            </div>
-                        </div>*@
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假日期(起) :</label>
+                        <input type="date" class="Leave_Distinguish" id="Leave_Startday" />
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label class="col-lg-3 control-label">請假日期(迄) :</label>
+                        <input type="date" class="Leave_Distinguish" id="Leave_Endday" />
+                    </div>
+                </div>*@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label class="col-lg-3 control-label">狀態:</label>
@@ -105,13 +102,13 @@
 
                             <div class="col-md-6 form-group">
                                 <input type="submit" name="Leave_Search" value="重新查詢" onclick="btn_LeaveSearsh" class="btn btn-success" style="filter: grayscale(50%)" />
-
+                                <a class="btn btn-primary" href="/Service/ExcelInterview" style="filter: grayscale(50%)" type="button">匯出EXCEL</a>
                             </div>
                         </div>
 
                     </form>
                 </div>
-
+                <br />
                 <div id="idInterview">
                     <div class="card">
                         <table class="table table-bordered table-hover">
@@ -136,14 +133,14 @@
                                         @Html.DisplayNameFor(model => model.CEmail)
                                     </th>
                                     @*<th>
-                                        @Html.DisplayNameFor(model => model.CAddress)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CBirthday)
-                                    </th>
-                                    <th>
-                                        @Html.DisplayNameFor(model => model.CAge)
-                                    </th>*@
+                                @Html.DisplayNameFor(model => model.CAddress)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CBirthday)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CAge)
+                            </th>*@
                                     <th>
                                         @Html.DisplayNameFor(model => model.CEducation)
                                     </th>
@@ -185,14 +182,14 @@
                                             @Html.DisplayFor(modelItem => item.CEmail)
                                         </td>
                                         @*<td>
-                                            @Html.DisplayFor(modelItem => item.CAddress)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CBirthday)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.CAge)
-                                        </td>*@
+                                    @Html.DisplayFor(modelItem => item.CAddress)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CBirthday)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.CAge)
+                                </td>*@
                                         <td>
                                             @Html.DisplayFor(modelItem => item.CEducation)
                                         </td>

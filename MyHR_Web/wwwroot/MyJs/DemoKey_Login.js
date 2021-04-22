@@ -44,7 +44,7 @@
         $("#txtPassword").val(5768325);
     }
     else if (e.shiftKey && e.keyCode == 87) { //Shift + W
-        $("#txtAccount").val(17);
-        $("#txtPassword").val(54742);
+        $("#txtAccount").val(30);
+        $("#txtPassword").val("1980-09-15");
     }
 });
