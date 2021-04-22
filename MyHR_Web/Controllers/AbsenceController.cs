@@ -266,28 +266,31 @@ namespace MyHR_Web.Controllers
 
             TAbsence ab = db.TAbsences.FirstOrDefault(a => a.CEmployeeId == userId && a.CDate.Value.Date== ysd);//尋找昨天的打卡紀錄
             var day = ysd.DayOfWeek;//星期
-
-            if (ab == null)
+            TUser u = db.TUsers.FirstOrDefault(u => u.COnBoardDay != DateTime.Today && u.CEmployeeId == userId);
+            if (u != null)
             {
-                if (day != DayOfWeek.Sunday && day != DayOfWeek.Saturday)//判斷昨天是否為六日
+                if (ab == null)
                 {
-                    TAbsence absence = new TAbsence()
+                    if (day != DayOfWeek.Sunday && day != DayOfWeek.Saturday)//判斷昨天是否為六日
                     {
-                        CEmployeeId = userId,
-                        CDate = ysd,
-                        CStatus = "異常"
-                    };
-                    db.Add(absence);
-                    db.SaveChanges();
+                        TAbsence absence = new TAbsence()
+                        {
+                            CEmployeeId = userId,
+                            CDate = ysd,
+                            CStatus = "異常"
+                        };
+                        db.Add(absence);
+                        db.SaveChanges();
+                    }
                 }
-            }
-            else if (ab != null)//昨天有打上班卡，但未打下班卡
-            {
-                if (ab.COff == null)
+                else if (ab != null)//昨天有打上班卡，但未打下班卡
                 {
-                    ab.CStatus = "異常";
-                    db.Update(ab);
-                    db.SaveChanges();
+                    if (ab.COff == null)
+                    {
+                        ab.CStatus = "異常";
+                        db.Update(ab);
+                        db.SaveChanges();
+                    }
                 }
             }
             DateTime dtMonday = DateTime.Now.AddDays(1 - Convert.ToInt16(DateTime.Now.DayOfWeek)); //當週週一
